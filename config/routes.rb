@@ -7,4 +7,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "homes#index"
+
+  resources :users, only: %i[new create show]
 end
