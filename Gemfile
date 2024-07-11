@@ -64,4 +64,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem "simple_form"
 gem "tailwindcss-rails"
