@@ -46,15 +46,7 @@
     @apply mb-4;
   }
 
-  .input.string,
-  .input.password,
-  .input.select,
-  .input.numeric,
-  .input.date,
-  .input.datetime,
-  .input.text,
-  .trix-editor,
-  .field input {
+  .input input {
     @apply block shadow rounded border-2 border-gray-400 outline-none px-3 py-2 w-full;
   }
 
