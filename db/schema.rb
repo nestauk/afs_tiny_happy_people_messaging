@@ -10,18 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_11_105121) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_11_141910) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "interests", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_interests_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "phone_number", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "child_age", null: false
-    t.jsonb "interests", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "interests", "users"
 end

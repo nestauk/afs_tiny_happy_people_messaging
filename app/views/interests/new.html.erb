@@ -1,0 +1,17 @@
+<h1>
+  Fun, free language-boosting activities to try with your child
+</h1>
+<h2>
+  Get bite-sized activities delivered to your phone, every week
+</h2>
+
+<%= simple_form_for @interest do |form| %>
+  <h3 class="mb-2">
+    What brings you here today?
+  </h3>
+  <%= form.input :title, as: :check_boxes, label: false, collection: Interest::TITLES, wrapper_html: { class: "flex flex-col gap-3" } %>
+
+  <%= form.input :other_title, label: "Something else", required: false, wrapper_html: { class: "w-1/2 mt-3" } %>
+
+  <%= form.submit "Sign Up", class: "btn btn-primary mt-4 bg-indigo-600 text-white" %>
+<% end %>

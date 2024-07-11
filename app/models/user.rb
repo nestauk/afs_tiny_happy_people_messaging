@@ -1,3 +1,4 @@
 class User < ApplicationRecord
-  validates :phone_number, :first_name, :last_name, presence: true
+  has_many :interests
+  validates :phone_number, :first_name, :last_name, :child_age, presence: true
 end
