@@ -4,13 +4,11 @@ class InterestsController < ApplicationController
   end
 
   def create
-    @interests = interest_params[:title].compact_blank.map do |title|
-      Interest.create(title:)
-    end
+    array = interest_params[:title].compact_blank.map { |title| { title:} }
 
-    if interest_params[:other_title].present?
-      @interests << Interest.create(title: interest_params[:other_title])
-    end
+    array << { title: interest_params[:other_title]} if interest_params[:other_title].present?
+      
+    @interests = Interest.create(array)
 
     redirect_to new_user_path(interest_ids: @interests.map(&:id).join(","))
   end
