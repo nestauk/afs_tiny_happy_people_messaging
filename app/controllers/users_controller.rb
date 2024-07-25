@@ -11,13 +11,10 @@ class UsersController < ApplicationController
         @user.interests << Interest.find(interest_id)
       end
 
-      redirect_to user_path(@user)
+      redirect_to root_path, notice: "Thank you for registering an interest, we will be in touch with an update soon."
     else
       render :new
     end
-  end
-
-  def show
   end
 
   private

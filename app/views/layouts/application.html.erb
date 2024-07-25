@@ -14,6 +14,13 @@
   <body>
     <%= render "layouts/navbar" %>
     <main>
+      <% if flash[:notice] %>
+        <div class="bg-red-200 w-full border-b border-red-200 pt-5">
+          <p class="bg-red-400 w-fit ml-28 px-4 py-2 rounded-lg">
+            <%= flash[:notice] %>
+          </p>
+        </div>
+      <% end %>
       <%= yield %>
     </main>
   </body>

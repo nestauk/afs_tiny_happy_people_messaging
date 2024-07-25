@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "interests#new"
 
-  resources :users, only: %i[new create show]
+  resources :users, only: %i[new create]
   resources :interests, only: %i[new create]
 end
