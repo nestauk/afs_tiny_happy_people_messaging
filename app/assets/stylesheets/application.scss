@@ -19,14 +19,14 @@
 
  @font-face {
   font-family: 'ReithSans';
-  src: url('/assets/fonts/ReithSans.woff2') format('woff2');
+  src: font-url('ReithSans.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'ReithSansBold';
-  src: url('/assets/fonts/ReithSansBold.woff2') format('woff2');
+  src: font-url('ReithSansBold.woff2') format('woff2');
   font-weight: bold;
   font-style: normal;
 }
