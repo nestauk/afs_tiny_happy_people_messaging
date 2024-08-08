@@ -57,21 +57,17 @@
   </div>
 </div> 
 
-<div class="bg-zinc-50 flex">
-  <div class="px-5 py-8 md:py-24 md:px-28 md:w-1/2" id="interests">
+<div class="bg-zinc-50 flex justify-around">
+  <div class="py-8 px-8 md:py-24 md:w-5/12 w-full" id="interests">
     <%= simple_form_for @interest do |form| %>
       <h2 class="mb-2 md:text-4xl">
         What brings you here today?
       </h2>
-      <div class="flex justify-around">
-        <%= form.input :title, as: :check_boxes, label: false, collection: Interest::TITLES, wrapper_html: { class: "flex flex-col gap-6 md:text-xl mr-0 mt-6" } %>
-      </div>  
-      <%= form.input :other_title, label: "Something else?", required: false, wrapper_html: { class: "w-full md:w-5/6 mt-6" } %>
+      <%= form.input :title, as: :check_boxes, label: false, collection: Interest::TITLES, wrapper_html: { class: "flex flex-col gap-6 md:text-xl mt-6" } %>
+      
+      <%= form.input :other_title, label: "Something else?", required: false, wrapper_html: { class: "w-full mt-6" } %>
 
-      <%= form.submit "Save", class: "btn btn-primary mt-8 bg-purple-600 text-white w-full md:w-1/2" %>
+      <%= form.submit "Save", class: "btn btn-primary mt-8 bg-purple-600 text-white w-full" %>
     <% end %>
-  </div>
-  <div class="w-1/2 hidden md:block">
-    <%= image_tag "baby.jpg", class: "h-full" %>
   </div>
 </div>

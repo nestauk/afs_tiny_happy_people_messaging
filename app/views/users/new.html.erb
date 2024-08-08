@@ -1,5 +1,5 @@
-<div class="flex">  
-  <div class="w-full md:w-1/2 px-5 py-6 md:py-16 md:px-28 bg-zinc-50">    
+<div class="flex justify-around bg-zinc-50">  
+  <div class="w-5/12 px-5 py-6 md:py-16">    
     <h1 class="text-purple-900 md:text-4xl text-2xl">
       Be first in line for our free happiness-boosting activities
     </h1>
@@ -8,27 +8,26 @@
     </h2>
     <div class="md:mt-8 w-full">
       <%= simple_form_for @user do |form| %>
-        <div class="md:w-2/3 mt-3">
+        <div class="mt-3">
           <%= form.input :first_name%>
         </div>
 
-        <div class="md:w-2/3 mt-3">
+        <div class="mt-3">
           <%= form.input :last_name %>
         </div>
 
-        <div class="md:w-2/3 mt-3">
+        <div class="mt-3">
           <%= form.input :phone_number %>
         </div>
 
-        <div class="md:w-2/3 mt-3">
+        <div class="mt-3">
           <%= form.input :child_age, label: "Your child's age in months" %>
         </div>
 
         <%= form.input :interest_ids, as: :hidden, input_html: { value: params["interest_ids"] } %>
 
-        <%= form.submit "Sign Up", class: "btn btn-primary mt-5 bg-purple-600 text-white w-full md:w-2/3" %>
+        <%= form.submit "Sign Up", class: "btn btn-primary mt-5 bg-purple-600 text-white w-full" %>
       <% end %>
     </div>
   </div>
-  <%= image_tag "mother_baby.jpg", class: "hidden md:block w-1/2 max-h-screen" %>
 </div>
