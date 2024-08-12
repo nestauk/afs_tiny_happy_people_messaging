@@ -67,3 +67,4 @@ end
 gem "sassc-rails"
 gem "simple_form"
 gem "tailwindcss-rails"
+gem 'twilio-ruby'
