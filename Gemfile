@@ -64,7 +64,8 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem "delayed_job_active_record"
 gem "sassc-rails"
 gem "simple_form"
 gem "tailwindcss-rails"
-gem 'twilio-ruby'
+gem "twilio-ruby"
