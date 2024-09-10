@@ -18,7 +18,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     if @message.save
-      Delayed::Job.enqueue SendMesssageJob.new(user)
+      SendMessageJob.perform_later(@message.user)
 
       redirect_to user_messages_path(@message.user), notice: "Message sent!"
     else
