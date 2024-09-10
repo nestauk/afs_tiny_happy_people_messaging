@@ -65,6 +65,7 @@ group :test do
 end
 
 gem "delayed_job_active_record"
+gem "devise"
 gem "sassc-rails"
 gem "simple_form"
 gem "tailwindcss-rails"

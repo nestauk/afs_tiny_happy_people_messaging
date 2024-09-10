@@ -1,12 +1,25 @@
 class MessagesController < ApplicationController
+  before_action :authenticate_admin!, except: [:status, :incoming]
+  skip_before_action :verify_authenticity_token, only: [:status, :incoming]
+
   def index
     @messages = Message.all
   end
 
-  def ping
-    body = params['Body']
+  def status
+    if valid_twilio_request?(request)
+      message_sid = params['MessageSid']
+      status = params['MessageStatus']
 
-    Message.create(user: User.last, body:)
+      Message.find_by(message_sid:).update(status:)
+    end
+  end
+
+  def incoming
+    if valid_twilio_request?(request)
+      user = User.find_by(phone_number: params['From'])
+      Message.create(user:, body: params['Body'], message_sid: params["MessageSid"], status: "received")
+    end
   end
 
   def new
@@ -20,7 +33,7 @@ class MessagesController < ApplicationController
     if @message.save
       SendMessageJob.perform_later(@message.user)
 
-      redirect_to user_messages_path(@message.user), notice: "Message sent!"
+      redirect_to user_path(@message.user), notice: "Message sent!"
     else
       render :new
     end
@@ -30,5 +43,19 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:user_id, :body)
+  end
+
+  def valid_twilio_request?(request)
+    validator = Twilio::Security::RequestValidator.new(ENV['TWILIO_AUTH_TOKEN'])
+    url = request.url # Full URL of the incoming request
+    
+    # Collect request parameters, which may be in POST body or query string
+    params = request.POST.to_h
+    
+    # Get the X-Twilio-Signature header
+    twilio_signature = request.headers['X-Twilio-Signature']
+
+    # Validate the request using the Twilio helper
+    validator.validate(url, params, twilio_signature)
   end
 end
