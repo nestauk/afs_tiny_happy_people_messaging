@@ -9,7 +9,7 @@ class SendMessageJob < ApplicationJob
     @client = Twilio::REST::Client.new(account_sid, auth_token)
 
     message_body = if body.blank?
-      Content.find_by(lower_age: user.child_age).body
+      Content.find_by(lower_age: user.calculated_child_age).body
     else
       body
     end

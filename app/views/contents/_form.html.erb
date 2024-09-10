@@ -11,5 +11,5 @@
     <%= form.input :upper_age %>
   </div>
 
-  <%= form.submit "Update", class: "btn btn-primary mt-5 bg-purple-600 text-white w-full" %>
+  <%= form.submit (action_name == "edit" ? "Update" : "Create"), class: "btn btn-primary mt-5 bg-purple-600 text-white w-full" %>
 <% end %>

@@ -1,4 +1,6 @@
 class ContentsController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     @contents = Content.all
   end

@@ -1,9 +1,16 @@
-<div class="p-28 bg-zinc-50">
-  <%= link_to "Send message", new_user_message_path(@user) %>
-  <table class="table-auto">
+<div class="p-20 bg-zinc-50">
+  <div class="bg-white px-4 py-4">
+    <div class="flex justify-between items-center">
+      <h1><%= @user.first_name %> <%= @user.last_name %></h1>
+      <%= link_to "Send message", new_user_message_path(@user), class: "btn btn-primary bg-purple-600 text-white" %>
+    </div>
+    <p><%= @user.phone_number %></p>
+    <p><%= @user.calculated_child_age %> month old child</p>
+  </div>
+  <table class="table-auto mt-5">
     <thead>
-      <tr>
-        <th class="px-4 py-4 bg-purple-300">Message</th>
+      <tr class="bg-purple-300">
+        <th class="px-4 py-4 text-left">Messages</th>
       </tr>
     </thead>
     <tbody>
