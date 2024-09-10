@@ -1,0 +1,25 @@
+
+<div class="p-20 bg-zinc-50">
+  <div class="flex justify-between items-center">
+    <h1>Messages</h1>
+    <%= link_to "Create message content", new_content_path, class: "btn btn-primary bg-purple-600 text-white" %>
+  </div>
+  <table class="table-auto mt-5">
+    <thead>
+      <tr class="px-4 py-4 bg-purple-300 text-left">
+        <th class="p-4 w-3/4">Body</th>
+        <th class="p-4 w-1/5">Ages</th>
+        <th>&nbsp</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white">
+      <% @contents.each do |content| %>
+        <tr class="border-b-2">
+          <td class="p-4"><%= content.body %></td>
+          <td class="p-4"><%= content.lower_age %> - <%= content.upper_age %> months</td>
+          <td class="p-4"><%= link_to "Edit", edit_content_path(content), class: "underline hover:no-underline" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,15 @@
+<%= simple_form_for @content do |form| %>
+  <div class="mt-3">
+    <%= form.input :body, as: :text, input_html: { class: "w-full", rows: 5 } %>
+  </div>
+
+  <div class="mt-3 w-1/2">
+    <%= form.input :lower_age %>
+  </div>
+
+  <div class="mt-3 w-1/2">
+    <%= form.input :upper_age %>
+  </div>
+
+  <%= form.submit "Update", class: "btn btn-primary mt-5 bg-purple-600 text-white w-full" %>
+<% end %>

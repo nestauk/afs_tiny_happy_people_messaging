@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     resources :messages
   end
 
+  resources :contents
+
   resources :interests, only: %i[new create]  
 
   get "examples" => "examples#index"
