@@ -8,9 +8,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "interests#new"
 
-  resources :users, only: %i[new create]
-  resources :interests, only: %i[new create]
-  resources :messages
+  resources :users, only: %i[new create index show] do
+    resources :messages do
+      post :ping, on: :collection
+    end
+  end
+
+  resources :interests, only: %i[new create]  
 
   get "examples" => "examples#index"
 end

@@ -1,0 +1,17 @@
+<div class="p-28 bg-zinc-50">
+  <%= link_to "Send message", new_user_message_path(@user) %>
+  <table class="table-auto">
+    <thead>
+      <tr>
+        <th class="px-4 py-4 bg-purple-300">Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user.messages.each do |message| %>
+        <tr class="border-b-2">
+          <td class="px-4 py-4 bg-white"><%= message.body %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
