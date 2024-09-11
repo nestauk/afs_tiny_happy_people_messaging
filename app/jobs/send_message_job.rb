@@ -18,9 +18,9 @@ class SendMessageJob < ApplicationJob
       .messages
       .create(
         body: message_body,
-        from: '+447830364524',
+        from: ENV.fetch('TWILIO_PHONE_NUMBER'),
         to: user.phone_number,
-        status_callback: 'https://c815-167-98-16-36.ngrok-free.app/messages/status'
+        status_callback: "#{ENV.fetch("CALLBACK_URL")}/messages/status"
       )
 
     Message.create(user:, body: message.body, message_sid: message.sid, status: message.status, content: Content.find_by(lower_age: user.child_age))
