@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post "messages/incoming" => "messages#incoming"
 
   resources :users, only: %i[new create index show] do
+    get "dashboard", on: :collection
     resources :messages
   end
 

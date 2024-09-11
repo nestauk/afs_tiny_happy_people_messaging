@@ -12,4 +12,8 @@ class User < ApplicationRecord
   def calculated_child_age
     child_age + ((Time.now.to_date.year * 12 + Time.now.to_date.month) - (created_at.to_date.year * 12 + created_at.to_date.month))
   end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end
