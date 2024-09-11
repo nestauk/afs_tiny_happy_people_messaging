@@ -13,7 +13,7 @@ class ContentsController < ApplicationController
     @content = Content.new(content_params)
 
     if @content.save
-      redirect_to contents_path, notice: "Content created!"
+      redirect_to contents_path, notice: "Content for message was successfully created"
     else
       render :new, status: :unprocessable_entity
     end

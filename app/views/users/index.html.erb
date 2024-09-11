@@ -1,27 +1,30 @@
-<div class="p-20 bg-zinc-50">
-  <h1 class="text-3xl">Users</h1>
-  <table class="table-auto w-full">
-    <thead>
-      <tr class="bg-purple-300 text-left">
-        <th class="px-4 py-4">Name</th>
-        <th class="px-4 py-4">Phone number</th>
-        <th class="px-4 py-4">Child's age</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
-        <tr class="border-b-2">
-          <td class="px-4 py-4 bg-white">
-            <%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %>
-          </td>
-          <td class="px-4 py-4 bg-white">
-            <%= user.phone_number %>
-          </td>
-          <td class="px-4 py-4 bg-white">
-            <%= user.calculated_child_age + ((Time.now.to_date.year * 12 + Time.now.to_date.month) - (user.created_at.to_date.year * 12 + user.created_at.to_date.month)) %>
-          </td>
+
+<div class="p-20 bg-zinc-50 flex justify-around">
+  <div class="w-3/4">
+    <h1 class="text-3xl">Users</h1>
+    <table class="table-auto w-full">
+      <thead>
+        <tr class="bg-purple-300 text-left">
+          <th class="px-4 py-4">Name</th>
+          <th class="px-4 py-4">Phone number</th>
+          <th class="px-4 py-4">Child's age</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr class="border-b-2">
+            <td class="px-4 py-4 bg-white">
+              <%= link_to "#{user.first_name} #{user.last_name}", user_path(user), class: "underline hover:no-underline" %>
+            </td>
+            <td class="px-4 py-4 bg-white">
+              <%= user.phone_number %>
+            </td>
+            <td class="px-4 py-4 bg-white">
+              <%= user.calculated_child_age + ((Time.now.to_date.year * 12 + Time.now.to_date.month) - (user.created_at.to_date.year * 12 + user.created_at.to_date.month)) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

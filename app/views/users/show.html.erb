@@ -1,24 +1,32 @@
-<div class="p-20 bg-zinc-50">
-  <div class="bg-white px-4 py-4">
-    <div class="flex justify-between items-center">
-      <h1><%= @user.first_name %> <%= @user.last_name %></h1>
-      <%= link_to "Send message", new_user_message_path(@user), class: "btn btn-primary bg-purple-600 text-white" %>
+<div class="p-20 bg-zinc-50 flex justify-around">
+  <div class="w-3/4">
+    <div class="bg-white px-4 py-4">
+      <div class="flex justify-between items-center">
+        <h1><%= @user.first_name %> <%= @user.last_name %></h1>
+        <%= link_to "Send message", new_user_message_path(@user), class: "btn btn-primary bg-purple-600 text-white" %>
+      </div>
+      <p><%= @user.phone_number %></p>
+      <p><%= @user.calculated_child_age %> month old child</p>
     </div>
-    <p><%= @user.phone_number %></p>
-    <p><%= @user.calculated_child_age %> month old child</p>
-  </div>
-  <table class="table-auto mt-5">
-    <thead>
-      <tr class="bg-purple-300">
-        <th class="px-4 py-4 text-left">Messages</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @user.messages.each do |message| %>
-        <tr class="border-b-2">
-          <td class="px-4 py-4 bg-white"><%= message.body %></td>
+    <table class="table-auto mt-5 w-full">
+      <thead>
+        <tr class="bg-purple-300">
+          <th class="px-4 py-4 text-left">Messages</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% if @user.messages.any? %>
+          <% @user.messages.each do |message| %>
+            <tr class="border-b-2">
+              <td class="px-4 py-4 bg-white"><%= message.body %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr class="border-b-2">
+            <td class="px-4 py-4 bg-white">No messages sent or received yet</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

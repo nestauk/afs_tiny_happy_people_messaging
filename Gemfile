@@ -61,7 +61,9 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
+  gem "mocha"
   gem "selenium-webdriver"
+  gem "webmock"
 end
 
 gem "delayed_job_active_record"
