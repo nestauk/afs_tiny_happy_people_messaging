@@ -16,7 +16,7 @@ module RailsTemplate
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    config.assets.paths << Rails.root.join("app","assets","fonts")
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
     config.active_job.queue_adapter = :delayed_job
 

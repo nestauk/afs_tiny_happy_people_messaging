@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   resources :contents
 
-  resources :interests, only: %i[new create]  
+  resources :interests, only: %i[new create]
 
   get "examples" => "examples#index"
 end

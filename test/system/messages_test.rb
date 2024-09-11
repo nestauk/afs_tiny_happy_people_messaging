@@ -14,7 +14,7 @@ class MessagesTest < ApplicationSystemTestCase
 
     click_on "Send message"
     fill_in "Body", with: "Hello, user!"
-    
+
     stub_successful_twilio_call("Hello, user!", @user)
     click_on "Send message"
 
@@ -26,9 +26,9 @@ class MessagesTest < ApplicationSystemTestCase
 
   def sign_in
     visit new_admin_session_path
-    fill_in 'Email', with: @admin.email
-    fill_in 'Password', with: @admin.password
-    click_on 'Log in'
+    fill_in "Email", with: @admin.email
+    fill_in "Password", with: @admin.password
+    click_on "Log in"
     assert_text "Signed in successfully."
   end
 end

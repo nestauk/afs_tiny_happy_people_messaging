@@ -8,7 +8,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     content = create(:content, lower_age: user.calculated_child_age)
 
     stub_successful_twilio_call(content.body, user)
-    
+
     SendMessageJob.new.perform(user:)
 
     assert_equal 1, Message.count
@@ -22,7 +22,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
 
   test "#perform sends messages with content if body present" do
     user = create(:user)
-  
+
     stub_successful_twilio_call("Custom Body", user)
 
     SendMessageJob.perform_now(user:, body: "Custom Body")

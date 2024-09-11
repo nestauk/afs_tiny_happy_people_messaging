@@ -2,7 +2,7 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "mocha/minitest"
-require 'webmock/minitest'
+require "webmock/minitest"
 
 module ActiveSupport
   class TestCase
@@ -21,11 +21,11 @@ module ActiveSupport
     end
 
     def stub_successful_twilio_call(message, user)
-      stub_request(:post, "https://api.twilio.com/2010-04-01/Accounts/#{ENV.fetch('TWILIO_ACCOUNT_SID')}/Messages.json")
+      stub_request(:post, "https://api.twilio.com/2010-04-01/Accounts/#{ENV.fetch("TWILIO_ACCOUNT_SID")}/Messages.json")
         .with(
-          body: {"Body"=>"#{message}", "From"=>"#{ENV.fetch('TWILIO_PHONE_NUMBER')}", "StatusCallback"=>"/messages/status", "To"=>"#{user.phone_number}"},
+          body: {"Body" => message, "From" => ENV.fetch("TWILIO_PHONE_NUMBER"), "StatusCallback" => "/messages/status", "To" => user.phone_number}
         )
-        .to_return(status: 200, body: {'body'=>"#{message}"}.to_json)
+        .to_return(status: 200, body: {"body" => message}.to_json)
     end
   end
 end

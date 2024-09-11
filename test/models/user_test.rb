@@ -1,6 +1,6 @@
 # FILEPATH: /Users/celia.collins/Code/afs_tiny_happy_people/test/models/user_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   setup { @subject = create(:user) }
@@ -24,14 +24,14 @@ class UserTest < ActiveSupport::TestCase
   test("last_name required") { assert_present(:last_name) }
   test("child_age required") { assert_present(:child_age) }
 
-  test 'should have a contactable scope' do
+  test "should have a contactable scope" do
     create(:user, contactable: false)
 
     assert_equal User.contactable.size, 1
     assert_equal User.contactable, [@subject]
   end
 
-  test 'calculated_child_age method' do
+  test "calculated_child_age method" do
     user = create(:user, child_age: 5)
 
     assert_equal user.calculated_child_age, 5

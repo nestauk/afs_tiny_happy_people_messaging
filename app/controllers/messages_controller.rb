@@ -8,8 +8,8 @@ class MessagesController < ApplicationController
 
   def status
     if valid_twilio_request?(request)
-      message_sid = params['MessageSid']
-      status = params['MessageStatus']
+      message_sid = params["MessageSid"]
+      status = params["MessageStatus"]
 
       Message.find_by(message_sid:).update(status:)
     end
@@ -17,8 +17,8 @@ class MessagesController < ApplicationController
 
   def incoming
     if valid_twilio_request?(request)
-      user = User.find_by(phone_number: params['From'])
-      Message.create(user:, body: params['Body'], message_sid: params["MessageSid"], status: "received")
+      user = User.find_by(phone_number: params["From"])
+      Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
     end
   end
 
@@ -46,14 +46,14 @@ class MessagesController < ApplicationController
   end
 
   def valid_twilio_request?(request)
-    validator = Twilio::Security::RequestValidator.new(ENV['TWILIO_AUTH_TOKEN'])
+    validator = Twilio::Security::RequestValidator.new(ENV["TWILIO_AUTH_TOKEN"])
     url = request.url # Full URL of the incoming request
-    
+
     # Collect request parameters, which may be in POST body or query string
     params = request.POST.to_h
-    
+
     # Get the X-Twilio-Signature header
-    twilio_signature = request.headers['X-Twilio-Signature']
+    twilio_signature = request.headers["X-Twilio-Signature"]
 
     # Validate the request using the Twilio helper
     validator.validate(url, params, twilio_signature)
