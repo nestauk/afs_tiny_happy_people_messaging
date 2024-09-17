@@ -23,8 +23,6 @@ class User < ApplicationRecord
       (Content.where(upper_age: calculated_child_age) - contents).first
     elsif Content.where(lower_age: calculated_child_age).any?
       (Content.where(lower_age: calculated_child_age) - contents).first
-    else
-      return
     end
   end
 end

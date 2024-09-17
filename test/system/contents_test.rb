@@ -46,5 +46,6 @@ class ContentsTest < ApplicationSystemTestCase
     fill_in "Email", with: @admin.email
     fill_in "Password", with: @admin.password
     click_on "Log in"
+    assert_text "Signed in successfully."
   end
 end
