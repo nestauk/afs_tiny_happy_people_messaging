@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_admin!, except: [:status, :incoming]
+  before_action :authenticate_admin!, except: [:status, :incoming, :next]
   skip_before_action :verify_authenticity_token, only: [:status, :incoming]
 
   def index
@@ -20,6 +20,15 @@ class MessagesController < ApplicationController
       user = User.find_by(phone_number: params["From"])
       Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
     end
+  end
+
+  def next
+    @user = User.find(params[:user_id])
+    @message = @user.messages.with_content.last
+
+    @message.update(clicked_on: true)
+
+    redirect_to @message.content.link, allow_other_host: true 
   end
 
   def new

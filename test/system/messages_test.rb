@@ -22,6 +22,17 @@ class MessagesTest < ApplicationSystemTestCase
     assert_text "Hello, user!"
   end
 
+  test "can track whether a user has clicked on the link" do
+    sign_in
+
+    content = create(:content, link: root_path)
+    message = create(:message, user: @user, content: content)
+
+    visit next_user_messages_path(@user)
+
+    assert_equal true, message.reload.clicked_on
+  end
+
   private
 
   def sign_in

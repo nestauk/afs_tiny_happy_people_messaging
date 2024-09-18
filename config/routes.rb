@@ -14,7 +14,9 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[new create index show] do
     get "dashboard", on: :collection
-    resources :messages
+    resources :messages do
+      get :next, on: :collection
+    end
   end
 
   resources :contents
