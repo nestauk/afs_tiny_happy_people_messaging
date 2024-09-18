@@ -1,6 +1,6 @@
 class Content < ApplicationRecord
-  validates_presence_of :body, :upper_age, :lower_age
+  belongs_to :content_group
   has_many :messages
 
-  default_scope { order(lower_age: :asc) }
+  validates_presence_of :body
 end
