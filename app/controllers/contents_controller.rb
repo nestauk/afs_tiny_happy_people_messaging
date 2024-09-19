@@ -6,14 +6,16 @@ class ContentsController < ApplicationController
   end
 
   def new
-    @content = Content.new
+    @group = Group.find_by(id: params[:group_id])
+    @content = @group.contents.new
   end
 
   def create
-    @content = Content.new(content_params)
+    @group = Group.find_by(id: params[:group_id])
+    @content = @group.contents.new(content_params)
 
     if @content.save
-      redirect_to contents_path, notice: "Content for message was successfully created"
+      redirect_to group_path(@content.group), notice: 'Content for message was successfully created'
     else
       render :new, status: :unprocessable_entity
     end
@@ -27,15 +29,21 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
 
     if @content.update(content_params)
-      redirect_to contents_path, notice: "Content updated!"
+      redirect_to group_path(@content.group), notice: 'Content updated!'
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
+  def update_position
+    @content = Content.find(params[:id])
+    @content.update(position: params[:position])
+    head :no_content
+  end
+
   private
 
   def content_params
-    params.require(:content).permit(:body, :lower_age, :upper_age, :link)
+    params.require(:content).permit(:body, :link, :position)
   end
 end

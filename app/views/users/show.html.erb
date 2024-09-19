@@ -6,7 +6,7 @@
         <%= link_to "Send message", new_user_message_path(@user), class: "btn btn-primary bg-purple-600 text-white" %>
       </div>
       <p><%= @user.phone_number %></p>
-      <p><%= @user.calculated_child_age %> month old child</p>
+      <p><%= @user.child_age_in_months_today %> month old child</p>
     </div>
     <table class="table-auto mt-5 w-full">
       <thead>

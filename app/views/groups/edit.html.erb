@@ -1,13 +1,13 @@
 <div class="flex justify-around bg-zinc-50">
   <div class="w-full md:w-5/12 px-5 py-6 md:py-16">
     <div class="mb-2">
-      <%= link_to '< Back', group_path(@content.group), class: 'underline hover:no-underline' %>
+      <%= link_to '< Back', groups_path, class: 'underline hover:no-underline' %>
     </div>
     <h1 class="md:text-4xl text-2xl">
-      Update message content
+      Edit content group
     </h1>
     <div class="md:mt-8 w-full">
-      <%= render "form", path: group_content_path(@content.group, @content) %>
+      <%= render "form" %>
     </div>
   </div>
 </div>

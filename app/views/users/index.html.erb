@@ -7,7 +7,7 @@
         <tr class="bg-purple-300 text-left">
           <th class="px-4 py-4">Name</th>
           <th class="px-4 py-4">Phone number</th>
-          <th class="px-4 py-4">Child's age</th>
+          <th class="px-4 py-4">Child's current age</th>
         </tr>
       </thead>
       <tbody>
@@ -20,7 +20,7 @@
               <%= user.phone_number %>
             </td>
             <td class="px-4 py-4 bg-white">
-              <%= user.calculated_child_age + ((Time.now.to_date.year * 12 + Time.now.to_date.month) - (user.created_at.to_date.year * 12 + user.created_at.to_date.month)) %>
+              <%= user.child_age_in_months_today + ((Time.now.to_date.year * 12 + Time.now.to_date.month) - (user.created_at.to_date.year * 12 + user.created_at.to_date.month)) %> months
             </td>
           </tr>
         <% end %>

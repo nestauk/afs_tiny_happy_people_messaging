@@ -20,9 +20,9 @@ class User < ApplicationRecord
 
   def next_content
     # find relevant content group
-    content_group = ContentGroup.find_by(age_in_months: child_age_in_months_today)
+    group = Group.find_by(age_in_months: child_age_in_months_today)
 
     # find lowest ranked content minus any they have already seen
-    (content_group.contents - contents).min_by(&:position)
+    (group.contents - contents).min_by(&:position)
   end
 end
