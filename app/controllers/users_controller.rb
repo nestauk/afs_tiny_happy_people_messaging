@@ -1,4 +1,18 @@
 class UsersController < ApplicationController
+  before_action :authenticate_admin!, only: [:index, :show, :dashboard]
+
+  def index
+    @users = User.all
+  end
+
+  def dashboard
+    @messages = Message.where(status: "received")
+  end
+
+  def show
+    @user = User.find(params[:id])
+  end
+
   def new
     @user = User.new
   end

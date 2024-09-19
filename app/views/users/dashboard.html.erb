@@ -1,0 +1,30 @@
+
+<div class="flex justify-around">
+  <div class="w-3/4">
+    <h1 class="text-3xl">Messages received</h1>
+    <table class="table-auto w-full">
+      <thead>
+        <tr class="bg-purple-300 text-left">
+          <th class="px-4 py-4">Name</th>
+          <th class="px-4 py-4">Message</th>
+          <th class="px-4 py-4">Received</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @messages.each do |message| %>
+          <tr class="border-b-2">
+            <td class="px-4 py-4 bg-white">
+              <%= link_to "#{message.user.first_name} #{message.user.last_name}", user_path(message.user), class: "underline hover:no-underline" %>
+            </td>
+            <td class="px-4 py-4 bg-white">
+              <%= message.body %>
+            </td>
+            <td class="px-4 py-4 bg-white">
+              <%= message.created_at.strftime("%d/%m/%y") %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

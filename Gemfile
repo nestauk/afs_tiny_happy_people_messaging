@@ -53,17 +53,24 @@ group :development, :test do
 end
 
 group :development do
-  gem "web-console"
-  gem "hotwire-livereload", "~> 1.2"
   gem "faker"
+  gem "hotwire-livereload", "~> 1.2"
+  gem "web-console"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
+  gem "mocha"
   gem "selenium-webdriver"
+  gem "webmock"
 end
 
+gem "delayed_job_active_record"
+gem "devise"
+gem "phony_rails"
+gem "positioning"
 gem "sassc-rails"
 gem "simple_form"
 gem "tailwindcss-rails"
+gem "twilio-ruby"

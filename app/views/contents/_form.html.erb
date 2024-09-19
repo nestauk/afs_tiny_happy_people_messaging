@@ -1,0 +1,11 @@
+<%= simple_form_for @content, url: path do |form| %>
+  <div class="mt-3">
+    <%= form.input :body, as: :text, input_html: { class: "w-full", rows: 5 } %>
+  </div>
+
+  <div class="mt-3">
+    <%= form.input :link %>
+  </div>
+
+  <%= form.submit (action_name == "edit" ? "Update" : "Create"), class: "btn btn-primary mt-5 bg-purple-600 text-white w-full" %>
+<% end %>

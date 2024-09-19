@@ -6,7 +6,7 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module RailsTemplate
+module AfsTinyHappyPeople
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
@@ -16,7 +16,9 @@ module RailsTemplate
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    config.assets.paths << Rails.root.join("app","assets","fonts")
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
+
+    config.active_job.queue_adapter = :delayed_job
 
     # Configuration for the application, engines, and railties goes here.
     #

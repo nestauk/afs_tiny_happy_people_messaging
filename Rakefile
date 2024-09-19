@@ -4,3 +4,12 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+unless Rails.env.production?
+  require "standard/rake"
+  Rake::Task["test"].enhance(%i[standard])
+end
+
+Rake::Task["test"].enhance do
+  Rake::Task["test:system"].invoke
+end
