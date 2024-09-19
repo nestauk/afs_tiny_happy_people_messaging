@@ -40,7 +40,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     if @message.save
-      SendMessageJob.perform_later(user: @message.user, body: @message.body)
+      SendCustomMessageJob.perform_later(user: @message.user, body: @message.body)
 
       redirect_to user_path(@message.user), notice: "Message sent!"
     else

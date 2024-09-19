@@ -7,7 +7,7 @@ namespace :scheduler do
       next unless group
 
       users.each do |user|
-        SendMessageJob.perform_later(user:, group:)
+        SendMessageJob.perform_later(user, group)
       end
     end
   end
