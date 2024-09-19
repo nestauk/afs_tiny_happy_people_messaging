@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   resources :groups do
-    resources :contents
+    resources :contents, except: %i[index]
   end
 
   patch '/update_position/:id/', to: 'contents#update_position', as: 'update_position'

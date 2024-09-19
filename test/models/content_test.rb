@@ -14,13 +14,8 @@ class ContentTest < ActiveSupport::TestCase
     assert_not @content.valid?
   end
 
-  test "upper_age should be present" do
-    @content.upper_age = nil
-    assert_not @content.valid?
-  end
-
-  test "lower_age should be present" do
-    @content.lower_age = nil
+  test "link should be present" do
+    @content.link = ""
     assert_not @content.valid?
   end
 end

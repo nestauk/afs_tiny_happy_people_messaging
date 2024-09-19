@@ -5,7 +5,8 @@ class SchedulerNotifyTest < ActiveSupport::TestCase
 
   setup do
     @user = create(:user)
-    @content = create(:content, lower_age: @user.child_age_in_months_today)
+    @group = create(:group, age_in_months: @user.child_age_in_months_today)
+    @content = create(:content, group: @group)
 
     AfsTinyHappyPeople::Application.load_tasks
     Rake::Task['scheduler:send_message'].execute

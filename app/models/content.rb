@@ -4,5 +4,5 @@ class Content < ApplicationRecord
 
   has_many :messages
 
-  validates_presence_of :body
+  validates_presence_of :body, :link
 end

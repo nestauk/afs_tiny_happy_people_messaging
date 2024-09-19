@@ -5,18 +5,19 @@ class SendMessageJobTest < ActiveSupport::TestCase
 
   test '#perform sends messages with default content if no body present' do
     user = create(:user)
-    content = create(:content, lower_age: user.child_age_in_months_today)
+    group = create(:group, age_in_months: user.child_age_in_months_today)
+    content = create(:content, group:)
 
     stub_successful_twilio_call(content.body, user)
 
-    SendMessageJob.new.perform(user:)
+    SendMessageJob.new.perform(user:, group:)
 
     assert_equal 1, Message.count
     assert_equal content.body, Message.last.body
   end
 
   test '#perform does not send message if no appropriate content available' do
-    SendMessageJob.new.perform(user: create(:user))
+    SendMessageJob.new.perform(user: create(:user), group: create(:group))
     assert_equal 0, Message.count
   end
 

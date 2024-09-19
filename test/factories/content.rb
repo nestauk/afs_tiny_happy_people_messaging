@@ -1,7 +1,9 @@
 FactoryBot.define do
   factory :content do
     body { "Sample Body" }
-    upper_age { 19 }
-    lower_age { 18 }
+    link { "www.example.com" }
+    sequence(:position) { |n| n }
+
+    group
   end
 end

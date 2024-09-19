@@ -3,19 +3,19 @@ require "application_system_test_case"
 class ContentsTest < ApplicationSystemTestCase
   setup do
     @admin = create(:admin)
+    @group = create(:group)
   end
 
   test "creating new content" do
     sign_in
-    visit contents_path
+    visit group_path(@group)
 
-    assert_text "Messages"
+    assert_text @group.name
 
-    click_on "Create message content"
+    click_on "Add new message"
 
     fill_in "Body", with: "New content"
-    fill_in "Lower age", with: "18"
-    fill_in "Upper age", with: "19"
+    fill_in "Link", with: "www.example.com"
     click_on "Create"
 
     assert_text "Content for message was successfully created"
@@ -23,12 +23,12 @@ class ContentsTest < ApplicationSystemTestCase
   end
 
   test "updating a content" do
-    create(:content, body: "Old Content")
+    create(:content, body: "Old Content", group: @group)
 
     sign_in
-    visit contents_path
+    visit group_path(@group)
 
-    assert_text "Messages"
+    assert_text "Old Content"
 
     click_on "Edit", match: :first
 

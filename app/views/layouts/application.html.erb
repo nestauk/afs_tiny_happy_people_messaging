@@ -13,10 +13,10 @@
 
   <body>
     <%= render "layouts/navbar" %>
-    <main>
+    <main class="py-20 w-full <%= @full_width ? '' : 'xl:container' %> mx-auto flex-1 <%= @disable_layout_padding ? '' : 'p-4' %>">
       <% if flash[:notice] %>
-        <div class="bg-red-200 w-full border-b border-red-200 pt-5">
-          <p class="bg-red-400 w-fit ml-28 px-4 py-2 rounded-lg">
+        <div class="w-full pt-5">
+          <p class="w-fit ml-28 px-4 py-2">
             <%= flash[:notice] %>
           </p>
         </div>
