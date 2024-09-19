@@ -1,8 +1,8 @@
-return unless Rails.env == 'development'
+return unless Rails.env == "development"
 
-Admin.create!(email: 'admin@example.com', password: 'password')
+Admin.create!(email: "admin@example.com", password: "password")
 
-group = Group.create!(name: '17 months (default order)', age_in_months: 17)
+group = Group.create!(name: "17 months (default order)", age_in_months: 17)
 
 3.times do |i|
   Content.create!(

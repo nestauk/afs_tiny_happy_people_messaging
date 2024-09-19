@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class SchedulerNotifyTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
@@ -9,10 +9,10 @@ class SchedulerNotifyTest < ActiveSupport::TestCase
     @content = create(:content, group: @group)
 
     AfsTinyHappyPeople::Application.load_tasks
-    Rake::Task['scheduler:send_message'].execute
+    Rake::Task["scheduler:send_message"].execute
   end
 
-  test 'message sent to user' do
+  test "message sent to user" do
     assert_enqueued_jobs 1
 
     stub_successful_twilio_call(@content.body, @user)

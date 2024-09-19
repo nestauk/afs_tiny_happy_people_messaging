@@ -11,7 +11,7 @@ class ContentsController < ApplicationController
     @content = @group.contents.new(content_params)
 
     if @content.save
-      redirect_to group_path(@content.group), notice: 'Content for message was successfully created'
+      redirect_to group_path(@content.group), notice: "Content for message was successfully created"
     else
       render :new, status: :unprocessable_entity
     end
@@ -25,7 +25,7 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
 
     if @content.update(content_params)
-      redirect_to group_path(@content.group), notice: 'Content updated!'
+      redirect_to group_path(@content.group), notice: "Content updated!"
     else
       render :edit, status: :unprocessable_entity
     end

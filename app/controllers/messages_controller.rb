@@ -28,7 +28,7 @@ class MessagesController < ApplicationController
 
     @message.update(clicked_on: true)
 
-    redirect_to @message.content.link, allow_other_host: true 
+    redirect_to @message.content.link, allow_other_host: true
   end
 
   def new
