@@ -22,7 +22,21 @@ class ContentsTest < ApplicationSystemTestCase
     assert_text "New content"
   end
 
-  test "updating a content" do
+  test "shows errors" do
+    create(:content, body: "Old Content", group: @group)
+
+    sign_in
+    visit group_path(@group)
+
+    click_on "Add new message"
+
+    click_on "Create"
+
+    assert_field_has_errors("Body")
+    assert_field_has_errors("Link")
+  end
+
+  test "updating content" do
     create(:content, body: "Old Content", group: @group)
 
     sign_in
@@ -37,15 +51,5 @@ class ContentsTest < ApplicationSystemTestCase
 
     assert_text "Content updated!"
     assert_text "Updated Content"
-  end
-
-  private
-
-  def sign_in
-    visit new_admin_session_path
-    fill_in "Email", with: @admin.email
-    fill_in "Password", with: @admin.password
-    click_on "Log in"
-    assert_text "Signed in successfully."
   end
 end

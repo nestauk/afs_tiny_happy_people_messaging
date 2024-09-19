@@ -36,4 +36,23 @@ class UserTest < ActiveSupport::TestCase
 
     assert_equal user.child_age_in_months_today, 5
   end
+
+  test "#next_content method returns next ranked content for age group" do
+    group = create(:group, age_in_months: @subject.child_age_in_months_today)
+    content1 = create(:content, group:, position: 1)
+    content2 = create(:content, group:, position: 2)
+    create(:message, content: content1, user: @subject)
+
+    assert_equal @subject.next_content(group), content2
+  end
+
+  test "#next_content method returns nothing if no appropriate content" do
+    group = create(:group, age_in_months: @subject.child_age_in_months_today)
+    content1 = create(:content, group:, position: 1)
+    content2 = create(:content, group:, position: 2)
+    create(:message, content: content1, user: @subject)
+    create(:message, content: content2, user: @subject)
+
+    assert_nil @subject.next_content(group)
+  end
 end

@@ -32,14 +32,4 @@ class MessagesTest < ApplicationSystemTestCase
 
     assert_equal true, message.reload.clicked_on
   end
-
-  private
-
-  def sign_in
-    visit new_admin_session_path
-    fill_in "Email", with: @admin.email
-    fill_in "Password", with: @admin.password
-    click_on "Log in"
-    assert_text "Signed in successfully."
-  end
 end
