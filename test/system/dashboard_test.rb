@@ -18,14 +18,4 @@ class DashboardTest < ApplicationSystemTestCase
     refute_text message2.user.full_name
     refute_text message2.body
   end
-
-  private
-
-  def sign_in
-    visit new_admin_session_path
-    fill_in "Email", with: @admin.email
-    fill_in "Password", with: @admin.password
-    click_on "Log in"
-    assert_text "Signed in successfully."
-  end
 end
