@@ -1,6 +1,6 @@
 <%= simple_form_for @content, url: path do |form| %>
   <div class="mt-3">
-    <%= form.input :body, as: :text, input_html: { class: "w-full", rows: 5 } %>
+    <%= form.input :body, as: :text, input_html: { class: "w-full", rows: 5 }, hint: "To put the link in the message body, use {{link}}" %>
   </div>
 
   <div class="mt-3">

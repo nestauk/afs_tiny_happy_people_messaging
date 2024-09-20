@@ -11,12 +11,11 @@ Rails.application.routes.draw do
 
   post "messages/status" => "messages#status"
   post "messages/incoming" => "messages#incoming"
+  get "messages/next" => "messages#next"
 
   resources :users, only: %i[new create index show] do
     get "dashboard", on: :collection
-    resources :messages do
-      get :next, on: :collection
-    end
+    resources :messages
   end
 
   resources :groups do

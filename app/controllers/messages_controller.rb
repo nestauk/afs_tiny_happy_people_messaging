@@ -23,7 +23,7 @@ class MessagesController < ApplicationController
   end
 
   def next
-    @user = User.find(params[:user_id])
+    @user = User.find_by(token: params[:token])
     @message = @user.messages.with_content.last
 
     @message.update(clicked_on: true)
