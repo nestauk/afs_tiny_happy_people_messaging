@@ -22,7 +22,7 @@ class UserTest < ActiveSupport::TestCase
   test("phone_number required") { assert_present(:phone_number) }
   test("first_name required") { assert_present(:first_name) }
   test("last_name required") { assert_present(:last_name) }
-  test("child_age required") { assert_present(:child_age) }
+  test("child_birthday required") { assert_present(:child_birthday) }
 
   test "should have a contactable scope" do
     create(:user, contactable: false)
@@ -32,7 +32,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "child_age_in_months_today method" do
-    user = create(:user, child_age: 5)
+    user = create(:user, child_birthday: Time.now - 5.months)
 
     assert_equal user.child_age_in_months_today, 5
   end
