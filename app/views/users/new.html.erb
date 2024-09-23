@@ -21,7 +21,7 @@
         </div>
 
         <div class="mt-3">
-          <%= form.input :child_age, label: "Your child's age in months" %>
+          <%= form.input :child_birthday, label: "Your child's age in months", as: :date, order: [:day, :month, :year]  %>
         </div>
 
         <%= form.input :interest_ids, as: :hidden, input_html: { value: params["interest_ids"] } %>
