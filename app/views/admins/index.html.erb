@@ -1,0 +1,31 @@
+
+<div class="flex justify-around">
+  <div class="w-3/4">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl">Admins</h1>
+      <%= link_to "Create admin", new_admin_path, class: "btn bg-purple-600 text-white" %>
+    </div>
+    <table class="table-auto w-full">
+      <thead>
+        <tr class="bg-purple-300 text-left">
+          <th class="px-4 py-4">Email</th>
+          <th class="px-4 py-4">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @admins.each do |admin| %>
+          <tr class="border-b-2">
+            <td class="px-4 py-4 bg-white">
+              <%= admin.email %>
+            </td>
+            <td class="px-4 py-4 bg-white">
+              <% if admin == current_admin %>
+                <%= link_to "Edit", edit_admin_path(admin), class: "underline hover:no-underline" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
