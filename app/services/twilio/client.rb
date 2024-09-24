@@ -16,7 +16,9 @@ module Twilio
           status_callback: "#{ENV.fetch("CALLBACK_URL")}/messages/status"
         )
 
-      message.update(status: sms.status, message_sid: sms.sid)
+        message.update(status: sms.status, message_sid: sms.sid)
+    rescue Twilio::REST::RestError
+      message.update(status: "failed")
     end
   end
 end

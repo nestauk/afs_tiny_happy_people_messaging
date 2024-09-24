@@ -25,7 +25,15 @@ module ActiveSupport
         .with(
           body: {"Body" => message, "From" => ENV.fetch("TWILIO_PHONE_NUMBER"), "StatusCallback" => "/messages/status", "To" => user.phone_number}
         )
-        .to_return(status: 200, body: {"body" => message}.to_json)
+        .to_return(status: 200, body: {"body" => message, "status" => "delivered"}.to_json)
+    end
+
+    def stub_unsuccessful_twilio_call(message, user)
+      stub_request(:post, "https://api.twilio.com/2010-04-01/Accounts/#{ENV.fetch("TWILIO_ACCOUNT_SID")}/Messages.json")
+        .with(
+          body: {"Body" => message, "From" => ENV.fetch("TWILIO_PHONE_NUMBER"), "StatusCallback" => "/messages/status", "To" => user.phone_number}
+        )
+        .to_return(status: 500, body: {}.to_json)
     end
   end
 end
