@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  authenticate :admin do
+    mount Blazer::Engine, at: "admin"
+  end
+
   devise_for :admins, skip: :registrations
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
