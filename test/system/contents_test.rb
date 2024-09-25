@@ -52,4 +52,23 @@ class ContentsTest < ApplicationSystemTestCase
     assert_text "Content updated!"
     assert_text "Updated Content"
   end
+
+  test "deleting content" do
+    content = create(:content, body: "Content to delete", group: @group)
+    message = create(:message, user: create(:user), content: content)
+
+    sign_in
+    visit group_path(@group)
+
+    assert_text "Content to delete"
+
+    accept_confirm do
+      click_on "Delete", match: :first
+    end
+
+    assert_text "Content deleted"
+    refute_text "Content to delete"
+
+    assert_nil message.reload.content
+  end
 end

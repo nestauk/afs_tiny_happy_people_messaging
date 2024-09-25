@@ -25,7 +25,10 @@
             </td>
             <td class="p-4"><%= content.body %></td>
             <td class="p-4"><%= content.link %></td>
-            <td class="p-4"><%= link_to "Edit", edit_group_content_path(@group, content), class: "underline hover:no-underline" %></td>
+            <td class="p-4">
+              <%= link_to "Edit", edit_group_content_path(@group, content), class: "underline hover:no-underline" %>
+              <%= link_to "Delete", group_content_path(@group, content), class: "underline hover:no-underline", data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+            </td>
           </tr>
         <% end %>
       </tbody>
