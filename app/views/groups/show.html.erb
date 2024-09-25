@@ -12,7 +12,7 @@
       <thead>
         <tr class="px-4 py-4 bg-purple-300 text-left">
           <th class="p-4"></th>
-          <th class="p-4 w-3/5">Body</th>
+          <th class="p-4 w-3/5">Preview</th>
           <th class="p-4 w-2/5">Link</th>
           <th>&nbsp</th>
         </tr>
@@ -23,7 +23,9 @@
             <td class="p-4">
               <svg class="cursor-grab" width="20px" height="20px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#ccc"><path d="M3 5H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 12H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 19H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             </td>
-            <td class="p-4"><%= content.body %></td>
+            <td class="p-4">
+              <%= content.body %> <%= track_link_url(Message.new.send(:generate_token)) %>
+            </td>
             <td class="p-4"><%= content.link %></td>
             <td class="p-4">
               <%= link_to "Edit", edit_group_content_path(@group, content), class: "underline hover:no-underline" %>

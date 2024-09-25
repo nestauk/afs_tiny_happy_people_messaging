@@ -1,10 +1,14 @@
 class User < ApplicationRecord
+  scope :contactable, -> { where(contactable: true) }
+
   has_many :interests
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
-  validates :phone_number, :first_name, :last_name, :child_birthday, presence: true
+  has_many :field_test_memberships, class_name: 'FieldTest::Membership', as: :participant
+
+  validates :phone_number, :first_name, :last_name, :child_age, presence: true
   validates_uniqueness_of :phone_number
-  phony_normalize :phone_number, default_country_code: "UK"
+  phony_normalize :phone_number, default_country_code: 'UK'
 
   accepts_nested_attributes_for :interests
 
@@ -24,8 +28,16 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def next_content(group)
-    return unless group.present?
+  def next_content
+    experiment = FieldTest::Experiment.find(:shorter_msgs)
+
+    group = if experiment.variant(self) == 'treatment'
+              # TODO: risk of no group being found
+              Group.find_by(age_in_months: child_age_in_months_today, experiment_name: 'shorter_msgs')
+            else
+              Group.find_by(age_in_months: child_age_in_months_today, experiment_name: nil)
+            end
+
     # find lowest ranked content minus any they have already seen
     (group.contents - contents).min_by(&:position)
   end

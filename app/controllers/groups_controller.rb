@@ -17,7 +17,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     if @group.save
-      redirect_to groups_path, notice: "Content group successfully created"
+      redirect_to groups_path, notice: 'Content group successfully created'
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
 
     if @group.update(group_params)
-      redirect_to groups_path, notice: "Content group updated"
+      redirect_to groups_path, notice: 'Content group updated'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -46,6 +46,6 @@ class GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:name, :age_in_months)
+    params.require(:group).permit(:name, :age_in_months, :experiment_name)
   end
 end

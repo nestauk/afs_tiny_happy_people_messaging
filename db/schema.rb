@@ -108,11 +108,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_25_100121) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "field_test_memberships", force: :cascade do |t|
+    t.string "participant_type"
+    t.string "participant_id"
+    t.string "experiment"
+    t.string "variant"
+    t.datetime "created_at"
+    t.boolean "converted", default: false
+    t.index ["experiment", "created_at"], name: "index_field_test_memberships_on_experiment_and_created_at"
+    t.index ["participant_type", "participant_id", "experiment"], name: "index_field_test_memberships_on_participant", unique: true
+  end
+
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.integer "age_in_months", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "experiment_name"
   end
 
   create_table "interests", force: :cascade do |t|
@@ -132,8 +144,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_25_100121) do
     t.string "message_sid"
     t.string "status"
     t.datetime "sent_at"
-    t.boolean "clicked_on", default: false
+    t.string "token", null: false
+    t.datetime "clicked_at"
     t.index ["content_id"], name: "index_messages_on_content_id"
+    t.index ["token"], name: "index_messages_on_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|

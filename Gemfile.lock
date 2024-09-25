@@ -90,6 +90,7 @@ GEM
       safely_block (>= 0.4)
     bootsnap (1.18.3)
       msgpack (~> 1.2)
+    browser (6.0.0)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -144,6 +145,11 @@ GEM
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
+    field_test (0.6.1)
+      activerecord (>= 6.1)
+      browser (>= 2)
+      railties (>= 6.1)
+      rice (>= 4.0.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.1.1)
@@ -282,6 +288,7 @@ GEM
       railties (>= 5.2)
     rexml (3.3.6)
       strscan
+    rice (4.3.1)
     rubocop (1.64.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -399,6 +406,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.8)
   factory_bot_rails
   faker
+  field_test (~> 0.6.1)
   hotwire-livereload (~> 1.2)
   importmap-rails
   jbuilder

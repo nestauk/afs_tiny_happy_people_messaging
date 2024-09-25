@@ -3,10 +3,8 @@ class SendMessageJob < ApplicationJob
 
   queue_as :default
 
-  def perform(user, group)
-    return unless group.present?
-
-    content = user.next_content(group)
+  def perform(user)
+    content = user.next_content&.body
 
     return unless content.present?
 

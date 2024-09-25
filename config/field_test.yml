@@ -1,0 +1,14 @@
+experiments:
+  shorter_msgs:
+    name: shorter_msgs
+    description: Testing shorter message contents
+    started_at: Mon 23, 2024 10 am BST
+    variants:
+      - control
+      - treatment
+    # winner: control
+
+exclude:
+  bots: true
+
+cookies: false
