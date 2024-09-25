@@ -37,6 +37,12 @@ class ContentsController < ApplicationController
     head :no_content
   end
 
+  def destroy
+    @content = Content.find(params[:id])
+    @content.destroy
+    redirect_to group_path(@content.group), notice: "Content deleted"
+  end
+
   private
 
   def content_params

@@ -47,4 +47,21 @@ class GroupsTest < ApplicationSystemTestCase
     assert_text "Content group updated"
     assert_text "New group name"
   end
+
+  test "deleting a group" do
+    group = create(:group, name: "Group to delete")
+    create(:message, user: create(:user), content: group.contents.first)
+
+    sign_in
+    visit groups_path
+
+    assert_text "Group to delete"
+
+    accept_confirm do
+      click_on "Delete", match: :first
+    end
+
+    assert_text "Content group deleted"
+    refute_text "Group to delete"
+  end
 end

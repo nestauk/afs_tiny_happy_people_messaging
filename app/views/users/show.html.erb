@@ -12,6 +12,7 @@
       <thead>
         <tr class="bg-purple-300">
           <th class="px-4 py-4 text-left">Messages</th>
+          <th class="px-4 py-4 text-left">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +20,7 @@
           <% @user.messages.each do |message| %>
             <tr class="border-b-2">
               <td class="px-4 py-4 bg-white"><%= message.body %></td>
+              <td class="px-4 py-4 bg-white"><%= message.admin_status %></td>
             </tr>
           <% end %>
         <% else %>
