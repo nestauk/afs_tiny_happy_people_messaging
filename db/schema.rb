@@ -87,6 +87,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_23_131205) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "contactable", default: true
+    t.string "token", null: false
     t.date "child_birthday", null: false
   end
 

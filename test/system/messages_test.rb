@@ -28,7 +28,7 @@ class MessagesTest < ApplicationSystemTestCase
     content = create(:content, link: root_path)
     message = create(:message, user: @user, content: content)
 
-    visit next_user_messages_path(@user)
+    visit messages_next_path(token: @user.token)
 
     assert_equal true, message.reload.clicked_on
   end

@@ -10,6 +10,12 @@ class User < ApplicationRecord
 
   scope :contactable, -> { where(contactable: true) }
 
+  before_create :generate_token
+
+  def generate_token
+    self.token = SecureRandom.hex(10)
+  end
+
   def child_age_in_months_today
     (Time.now.year * 12 + Time.now.month) - (child_birthday.year * 12 + child_birthday.month)
   end
