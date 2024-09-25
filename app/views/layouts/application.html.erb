@@ -13,14 +13,14 @@
 
   <body>
     <%= render "layouts/navbar" %>
+    <% if flash[:notice] %>
+      <div class="md:px-28 px-3 py-5">
+        <p class="">
+          <%= flash[:notice] %>
+        </p>
+      </div>
+    <% end %>
     <main class="py-20 w-full <%= @full_width ? '' : 'xl:container' %> mx-auto flex-1 <%= @disable_layout_padding ? '' : 'p-4' %>">
-      <% if flash[:notice] %>
-        <div class="w-full pt-5">
-          <p class="w-fit ml-28 px-4 py-2">
-            <%= flash[:notice] %>
-          </p>
-        </div>
-      <% end %>
       <%= yield %>
     </main>
   </body>

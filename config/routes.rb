@@ -28,6 +28,4 @@ Rails.application.routes.draw do
   patch "/update_position/:id/", to: "contents#update_position", as: "update_position"
 
   resources :interests, only: %i[new create]
-
-  get "examples" => "examples#index"
 end

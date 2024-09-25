@@ -25,7 +25,7 @@ class UsersController < ApplicationController
         @user.interests << Interest.find(interest_id)
       end
 
-      redirect_to root_path, notice: "Thank you for registering an interest, we will be in touch with an update soon."
+      redirect_to root_path, notice: "You have signed up. Your first text will be sent soon."
     else
       render :new
     end
