@@ -26,10 +26,10 @@ class MessagesTest < ApplicationSystemTestCase
     sign_in
 
     content = create(:content, link: root_path)
-    message = create(:message, user: @user, content: content)
+    message = create(:message, user: @user, content: content, link: root_path)
 
-    visit messages_next_path(token: @user.token)
+    visit track_link_path(message.token)
 
-    assert_equal true, message.reload.clicked_on
+    refute_nil message.reload.clicked_at
   end
 end

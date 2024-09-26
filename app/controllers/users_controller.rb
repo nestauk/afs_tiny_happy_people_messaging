@@ -25,9 +25,11 @@ class UsersController < ApplicationController
         @user.interests << Interest.find(interest_id)
       end
 
+      SendWelcomeMessageJob.perform_now(@user)
+
       redirect_to root_path, notice: "You have signed up. Your first text will be sent soon."
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

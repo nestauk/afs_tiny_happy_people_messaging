@@ -10,11 +10,13 @@ class SendMessageJob < ApplicationJob
 
     return unless content.present?
 
-    message = Message.create(
-      user:,
-      body: content.body.gsub("{{link}}", messages_next_url(token: user.token)),
-      content:
-    )
+    message = Message.create do |m|
+      m.token = m.send(:generate_token)
+      m.link = content.link
+      m.user = user
+      m.body = content.body.gsub("{{link}}", track_link_url(m.token))
+      m.content = content
+    end
 
     Twilio::Client.new.send_message(message)
   end

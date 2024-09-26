@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_25_100121) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_26_122719) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -132,8 +132,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_25_100121) do
     t.string "message_sid"
     t.string "status"
     t.datetime "sent_at"
-    t.boolean "clicked_on", default: false
+    t.string "token", null: false
+    t.string "link"
+    t.datetime "clicked_at"
     t.index ["content_id"], name: "index_messages_on_content_id"
+    t.index ["token"], name: "index_messages_on_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -143,7 +146,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_25_100121) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "contactable", default: true
-    t.string "token", null: false
     t.date "child_birthday", null: false
   end
 
