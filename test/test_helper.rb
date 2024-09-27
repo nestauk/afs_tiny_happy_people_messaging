@@ -16,6 +16,10 @@ module ActiveSupport
       assert_error(key, msg)
     end
 
+    def assert_field_has_errors(label_text)
+      find_field(label_text).assert_ancestor(".input_wrapper.field_with_errors")
+    end
+
     def assert_error(key, msg, subject: @subject)
       assert_includes(subject.errors[key], msg)
     end

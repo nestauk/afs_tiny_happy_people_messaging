@@ -23,12 +23,11 @@ class MessagesController < ApplicationController
   end
 
   def next
-    @user = User.find_by(token: params[:token])
-    @message = @user.messages.with_content.last
+    @message = Message.find_by(token: params[:token])
 
-    @message.update(clicked_on: true)
+    @message.update(clicked_at: Time.now)
 
-    redirect_to @message.content.link, allow_other_host: true
+    redirect_to @message.link, allow_other_host: true
   end
 
   def new
