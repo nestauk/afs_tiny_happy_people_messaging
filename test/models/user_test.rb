@@ -24,11 +24,53 @@ class UserTest < ActiveSupport::TestCase
   test("last_name required") { assert_present(:last_name) }
   test("child_birthday required") { assert_present(:child_birthday) }
 
-  test "should have a contactable scope" do
+  test "contactable scope" do
     create(:user, contactable: false)
 
     assert_equal User.contactable.size, 1
     assert_equal User.contactable, [@subject]
+  end
+
+  test "wants_morning_message scope" do
+    create(:user, timing: "afternoon")
+    create(:user, timing: "evening")
+    create(:user, timing: "no_preference")
+    morning_user = create(:user, timing: "morning")
+
+    assert_equal User.wants_morning_message.size, 1
+    assert_equal User.wants_morning_message, [morning_user]
+  end
+
+  test "wants_afternoon_message scope" do
+    create(:user, timing: "morning")
+    create(:user, timing: "evening")
+    create(:user, timing: "no_preference")
+    afternoon_user = create(:user, timing: "afternoon")
+
+    assert_equal User.wants_afternoon_message.size, 1
+    assert_equal User.wants_afternoon_message, [afternoon_user]
+  end
+
+  test "wants_evening_message scope" do
+    create(:user, timing: "afternoon")
+    create(:user, timing: "morning")
+    create(:user, timing: "no_preference")
+    evening_user = create(:user, timing: "evening")
+
+    assert_equal User.wants_evening_message.size, 1
+    assert_equal User.wants_evening_message, [evening_user]
+  end
+
+  test "no_preference_message scope" do
+    create(:user, timing: "afternoon")
+    create(:user, timing: "evening")
+    create(:user, timing: "morning")
+    no_preference = create(:user, timing: "no_preference")
+
+    # This includes the subject user set up
+    assert_equal User.no_preference_message.size, 2
+    assert_includes User.no_preference_message, @subject
+    assert_includes User.no_preference_message, no_preference
   end
 
   test "child_age_in_months_today method" do
