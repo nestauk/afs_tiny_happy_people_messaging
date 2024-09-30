@@ -4,5 +4,6 @@ FactoryBot.define do
     last_name { "Smith" }
     sequence(:phone_number) { |n| "07#{n}23456789" }
     child_birthday { Time.now - 18.months }
+    terms_agreed_at { Time.now }
   end
 end

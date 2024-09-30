@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_26_122719) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_27_130855) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -147,6 +147,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_26_122719) do
     t.datetime "updated_at", null: false
     t.boolean "contactable", default: true
     t.date "child_birthday", null: false
+    t.string "postcode"
+    t.string "timing"
+    t.boolean "community_sign_up"
+    t.boolean "family_support"
+    t.datetime "terms_agreed_at", null: false
   end
 
   add_foreign_key "interests", "users"
