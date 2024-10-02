@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <% if @user.messages.any? %>
-          <% @user.messages.each do |message| %>
+          <% @user.messages.order(created_at: :asc).each do |message| %>
             <tr class="border-b-2">
               <td class="px-4 py-4 bg-white"><%= message.body %></td>
               <td class="px-4 py-4 bg-white"><%= message.admin_status %></td>
