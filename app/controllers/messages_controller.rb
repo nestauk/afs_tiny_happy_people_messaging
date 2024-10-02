@@ -18,7 +18,20 @@ class MessagesController < ApplicationController
   def incoming
     if valid_twilio_request?(request)
       user = User.find_by(phone_number: params["From"])
-      Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
+      message = Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
+
+      case message.body.downcase
+      when "stop"
+        user.update(contactable: false)
+        SendCustomMessageJob.perform_later(user, "You have been unsubscribed from messages. Text 'start' to resubscribe.")
+      when "start"
+        user.update(contactable: true)
+        SendCustomMessageJob.perform_later(user, "You have been resubscribed to messages. Text 'stop' to unsubscribe.")
+      when "pause"
+        user.update(contactable: false)
+        SendCustomMessageJob.perform_later(user, "You have been paused from messages. You will start receiving them again in 3 months time.")
+        RestartMessagesJob.set(wait_until: 3.months.from_now.noon).perform_later(user)
+      end
     end
   end
 
