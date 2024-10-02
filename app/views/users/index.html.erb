@@ -19,7 +19,7 @@
               <%= user.phone_number %>
             </td>
             <td class="px-4 py-4 bg-white">
-              <%= user.child_age_in_months_today + ((Time.now.to_date.year * 12 + Time.now.to_date.month) - (user.created_at.to_date.year * 12 + user.created_at.to_date.month)) %> months
+              <%= user.child_age_in_months_today %> months
             </td>
           </tr>
         <% end %>
