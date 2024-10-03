@@ -13,6 +13,21 @@ class User < ApplicationRecord
   scope :wants_afternoon_message, -> { where(timing: "afternoon") }
   scope :wants_evening_message, -> { where(timing: "evening") }
   scope :no_preference_message, -> { where(timing: ["no_preference", nil]) }
+  scope :not_clicked_last_two_messages, -> {
+    joins(:messages)
+      .where(
+        messages: {
+          id: Message
+            .select(:id)
+            .where("messages.user_id = users.id")
+            .where.not(content_id: nil)
+            .order(created_at: :desc)
+            .limit(2)
+        }
+      )
+      .group("users.id")
+      .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = 2")
+  }
 
   enum timing: {
     morning: "morning",

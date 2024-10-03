@@ -73,6 +73,31 @@ class UserTest < ActiveSupport::TestCase
     assert_includes User.no_preference_message, no_preference
   end
 
+  test "not_clicked_last_two_messages scope" do
+    content = create(:content)
+    user1 = create(:user)
+    create(:message, user: user1, content:)
+    create(:message, user: user1, content:)
+
+    user2 = create(:user)
+    create(:message, user: user2, content:)
+    create(:message, user: user2, content:)
+    create(:message, user: user2, clicked_at: Time.now, content:)
+    create(:message, user: user2, clicked_at: Time.now, content:)
+
+    user3 = create(:user)
+    create(:message, user: user3, content:)
+    create(:message, user: user3, content:, clicked_at: Time.now)
+    create(:message, user: user3, content:)
+
+    user4 = create(:user)
+    create(:message, user: user4)
+    create(:message, user: user4)
+
+    assert_equal User.not_clicked_last_two_messages.to_a.size, 1
+    assert_equal User.not_clicked_last_two_messages, [user1]
+  end
+
   test "child_age_in_months_today method" do
     user = create(:user, child_birthday: Time.now - 5.months)
 
