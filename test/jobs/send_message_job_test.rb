@@ -21,7 +21,32 @@ class SendMessageJobTest < ActiveSupport::TestCase
   end
 
   test "#perform does not send message if no appropriate content available" do
-    SendMessageJob.new.perform(create(:user), create(:group))
-    assert_equal 0, Message.count
+    assert_no_changes -> { Message.count } do
+      SendMessageJob.new.perform(create(:user), create(:group))
+    end
+  end
+
+  test "#perform does not send message if user already has the same message" do
+    user = create(:user)
+    group = create(:group, age_in_months: user.child_age_in_months_today)
+    content = create(:content, group: group)
+
+    create(:message, user: user, content: content)
+
+    assert_no_changes -> { Message.count } do
+      SendMessageJob.new.perform(user, group)
+    end
+  end
+
+  test "#perform does not send message if user has had a message this week" do
+    user = create(:user)
+    group = create(:group, age_in_months: user.child_age_in_months_today)
+    content = create(:content, group: group)
+
+    create(:message, user: user, content: content, created_at: 1.day.ago)
+
+    assert_no_changes -> { Message.count } do
+      SendMessageJob.new.perform(user, group)
+    end
   end
 end

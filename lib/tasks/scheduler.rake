@@ -6,9 +6,7 @@ namespace :scheduler do
 
       next unless group
 
-      users.each do |user|
-        SendMessageJob.perform_later(user, group)
-      end
+      SendBulkMessageJob.perform_later(users, group)
     end
   end
 
@@ -19,9 +17,7 @@ namespace :scheduler do
 
       next unless group
 
-      users.each do |user|
-        SendMessageJob.perform_later(user, group)
-      end
+      SendBulkMessageJob.perform_later(users, group)
     end
   end
 
@@ -32,9 +28,7 @@ namespace :scheduler do
 
       next unless group
 
-      users.each do |user|
-        SendMessageJob.perform_later(user, group)
-      end
+      SendBulkMessageJob.perform_later(users, group)
     end
   end
 
@@ -45,9 +39,7 @@ namespace :scheduler do
 
       next unless group
 
-      users.each do |user|
-        SendMessageJob.perform_later(user, group)
-      end
+      SendBulkMessageJob.perform_later(users, group)
     end
   end
 end
