@@ -43,7 +43,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   test "should handle incoming message with stop" do
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
-    post messages_incoming_url, params: {From: @user.phone_number, Body: "Stop", MessageSid: "new_sid"}
+    post messages_incoming_url, params: {From: @user.phone_number, Body: "Stop now", MessageSid: "new_sid"}
     assert_response :success
     @user.reload
     assert_equal @user.contactable, false
@@ -52,7 +52,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   test "should handle incoming message with pause" do
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
-    post messages_incoming_url, params: {From: @user.phone_number, Body: "pause", MessageSid: "new_sid"}
+    post messages_incoming_url, params: {From: @user.phone_number, Body: "pause please", MessageSid: "new_sid"}
     assert_response :success
     @user.reload
     assert_equal @user.contactable, false
@@ -63,7 +63,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     @user.update(contactable: false)
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
-    post messages_incoming_url, params: {From: @user.phone_number, Body: "start", MessageSid: "new_sid"}
+    post messages_incoming_url, params: {From: @user.phone_number, Body: "start  ", MessageSid: "new_sid"}
     assert_response :success
     @user.reload
     assert_equal @user.contactable, true

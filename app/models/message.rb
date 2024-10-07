@@ -7,6 +7,9 @@ class Message < ApplicationRecord
 
   before_validation :set_token
 
+  STOP_WORDS = %w[stop stopall unsubscribe cancel end quit].freeze
+  START_WORDS = %w[start yes unstop].freeze
+
   def admin_status
     if status == "delivered"
       clicked_at ? "Clicked" : "Delivered"

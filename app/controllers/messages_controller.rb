@@ -20,14 +20,14 @@ class MessagesController < ApplicationController
       user = User.find_by(phone_number: params["From"])
       message = Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
 
-      case message.body.downcase
-      when "stop"
+      incoming_message = message.body.downcase
+      if Message::STOP_WORDS.any? { |word| incoming_message.include?(word) }
         # Twilio handles sending a stop message, configured in the Twilio dashboard
         user.update(contactable: false)
-      when "start"
+      elsif Message::START_WORDS.any? { |word| incoming_message.include?(word) }
         # Twilio handles sending a start message, configured in the Twilio dashboard
         user.update(contactable: true)
-      when "pause"
+      elsif incoming_message.include? "pause"
         user.update(contactable: false, restart_at: 3.months.from_now.noon)
         message = Message.create(user:, body: "You have paused Tiny Happy People. You will get messages again in 3 months.")
         SendCustomMessageJob.perform_later(message)
