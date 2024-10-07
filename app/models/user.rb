@@ -6,8 +6,6 @@ class User < ApplicationRecord
   validates_uniqueness_of :phone_number
   phony_normalize :phone_number, default_country_code: "UK"
 
-  accepts_nested_attributes_for :interests
-
   scope :contactable, -> { where(contactable: true) }
   scope :wants_morning_message, -> { where(timing: "morning") }
   scope :wants_afternoon_message, -> { where(timing: "afternoon") }
