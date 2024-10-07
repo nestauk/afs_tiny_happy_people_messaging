@@ -28,10 +28,9 @@ class MessagesController < ApplicationController
         # Twilio handles sending a start message, configured in the Twilio dashboard
         user.update(contactable: true)
       when "pause"
-        user.update(contactable: false)
+        user.update(contactable: false, restart_at: 3.months.from_now.noon)
         message = Message.create(user:, body: "You have paused Tiny Happy People. You will get messages again in 3 months.")
         SendCustomMessageJob.perform_later(message)
-        RestartMessagesJob.set(wait_until: 3.months.from_now.noon).perform_later(user)
       end
     end
   end

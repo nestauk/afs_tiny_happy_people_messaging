@@ -42,4 +42,12 @@ namespace :scheduler do
       SendBulkMessageJob.perform_later(users, group)
     end
   end
+
+  desc "Restart users who paused"
+  task restart_users: :environment do
+    User.where(contactable: false).where("restart_at < ?", Time.now).each do |user|
+      user.update(contactable: true, restart_at: nil)
+      RestartMessagesJob.perform_later(user)
+    end
+  end
 end
