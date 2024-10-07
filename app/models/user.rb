@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_many :interests
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
-  validates :phone_number, :first_name, :last_name, :child_birthday, presence: true
+  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, presence: true
   validates_uniqueness_of :phone_number
   phony_normalize :phone_number, default_country_code: "UK"
 

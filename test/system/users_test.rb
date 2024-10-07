@@ -13,6 +13,7 @@ class UsersTest < ApplicationSystemTestCase
     select "Morning"
     check "Do you have family support in bringing up your child(ren)?"
     check "Would you like to be added to a Slack channel with other parents to discuss the programme?"
+    check "I accept the terms of service and privacy policy"
 
     Message.any_instance.stubs(:generate_token).returns("123")
     message = "Hi Jo, welcome to Tiny Happy People. Here's a video to get you started: http://localhost:3000/m/123"
@@ -44,5 +45,6 @@ class UsersTest < ApplicationSystemTestCase
     assert_field_has_errors("First name")
     assert_field_has_errors("Last name")
     assert_field_has_errors("Phone number")
+    assert_field_has_errors("I accept the terms of service and privacy policy")
   end
 end

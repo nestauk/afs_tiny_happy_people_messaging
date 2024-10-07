@@ -54,3 +54,9 @@ body {
 .form-checkbox {
   margin-right: .5rem !important;
 }
+
+.boolean.field_with_errors {
+  .error {
+    display: block;
+  }
+}
