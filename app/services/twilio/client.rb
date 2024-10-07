@@ -11,12 +11,14 @@ module Twilio
         .messages
         .create(
           body: message.body,
-          from: ENV.fetch("TWILIO_PHONE_NUMBER"),
+          messaging_service_sid: ENV.fetch("TWILIO_MESSAGING_SERVICE_SID"),
           to: message.user.phone_number,
           status_callback: "#{ENV.fetch("CALLBACK_URL")}/messages/status"
         )
 
       message.update(status: sms.status, message_sid: sms.sid)
+    rescue Twilio::REST::RestError
+      message.update(status: "failed")
     end
   end
 end

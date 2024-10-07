@@ -22,15 +22,15 @@ class MessagesController < ApplicationController
 
       case message.body.downcase
       when "stop"
+        # Twilio handles sending a stop message, configured in the Twilio dashboard
         user.update(contactable: false)
-        SendCustomMessageJob.perform_later(user, "You have been unsubscribed from messages. Text 'start' to resubscribe.")
       when "start"
+        # Twilio handles sending a start message, configured in the Twilio dashboard
         user.update(contactable: true)
-        SendCustomMessageJob.perform_later(user, "You have been resubscribed to messages. Text 'stop' to unsubscribe.")
       when "pause"
-        user.update(contactable: false)
-        SendCustomMessageJob.perform_later(user, "You have been paused from messages. You will start receiving them again in 3 months time.")
-        RestartMessagesJob.set(wait_until: 3.months.from_now.noon).perform_later(user)
+        user.update(contactable: false, restart_at: 3.months.from_now.noon)
+        message = Message.create(user:, body: "You have paused Tiny Happy People. You will get messages again in 3 months.")
+        SendCustomMessageJob.perform_later(message)
       end
     end
   end
@@ -52,7 +52,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     if @message.save
-      SendCustomMessageJob.perform_later(@message.user, @message.body)
+      SendCustomMessageJob.perform_later(@message)
 
       redirect_to user_path(@message.user), notice: "Message sent!"
     else

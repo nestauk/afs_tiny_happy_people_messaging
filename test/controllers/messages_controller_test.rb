@@ -56,7 +56,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     @user.reload
     assert_equal @user.contactable, false
-    assert_enqueued_with(job: RestartMessagesJob, args: [@user], at: 3.months.from_now.noon)
+    refute_nil @user.restart_at
   end
 
   test "should handle incoming message with start" do
