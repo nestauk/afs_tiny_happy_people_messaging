@@ -7,6 +7,8 @@ class SendMessageJob < ApplicationJob
     content = user.next_content(group)
 
     return unless content.present?
+    # If BulkMessage fails and reruns this job, don't send them the next message
+    return if user.had_content_this_week?
 
     message = Message.build do |m|
       m.token = m.send(:generate_token)
