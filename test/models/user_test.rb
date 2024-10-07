@@ -122,4 +122,18 @@ class UserTest < ActiveSupport::TestCase
 
     assert_nil @subject.next_content(group)
   end
+
+  test "#had_content_this_week? method returns true if user has had content" do
+    user = create(:user)
+    content = create(:content)
+    create(:message, user: user, content: content, created_at: Time.now - 1.day)
+
+    assert_equal true, user.had_content_this_week?
+  end
+
+  test "#had_content_this_week? method returns false if user has not had content" do
+    user = create(:user)
+
+    assert_equal false, user.had_content_this_week?
+  end
 end

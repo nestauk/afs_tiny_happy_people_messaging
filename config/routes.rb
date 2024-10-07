@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", :as => :rails_health_check
 
   # Defines the root path route ("/")
-  root "users#new"
+  root "interests#new"
 
   post "messages/status" => "messages#status"
   post "messages/incoming" => "messages#incoming"
@@ -29,4 +29,6 @@ Rails.application.routes.draw do
   resources :admins, except: %i[show destroy]
 
   patch "/update_position/:id/", to: "contents#update_position", as: "update_position"
+
+  resources :interests, only: %i[new create]
 end

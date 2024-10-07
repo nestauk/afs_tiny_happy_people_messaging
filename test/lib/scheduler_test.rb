@@ -13,7 +13,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content, group:)
     create(:user, timing: "morning")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_morning_message"].execute
     end
   end
@@ -23,7 +23,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content, group:)
     create(:user, timing: "afternoon")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_afternoon_message"].execute
     end
   end
@@ -33,7 +33,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content, group:)
     create(:user, timing: "evening")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_evening_message"].execute
     end
   end
@@ -43,7 +43,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content, group:)
     create(:user, timing: "no_preference")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_no_timing_preference_message"].execute
     end
   end
@@ -53,7 +53,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content, group:)
     create(:user, timing: nil)
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_no_timing_preference_message"].execute
     end
   end
