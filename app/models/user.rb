@@ -49,8 +49,4 @@ class User < ApplicationRecord
     # find lowest ranked content minus any they have already seen
     (group.contents - contents).min_by(&:position)
   end
-
-  def had_content_this_week?
-    messages.where("created_at > ?", 6.days.ago).where.not(content: nil).exists?
-  end
 end
