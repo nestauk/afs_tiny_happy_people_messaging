@@ -50,4 +50,12 @@ namespace :scheduler do
       RestartMessagesJob.perform_later(user)
     end
   end
+
+  desc "Check for disengaged users"
+  task check_for_disengaged_users: :environment do
+    User.contactable.not_clicked_last_two_messages.each do |user|
+      message = Message.create(user:, body: "Hey are you ok?")
+      SendCustomMessageJob.perform_later(message)
+    end
+  end
 end

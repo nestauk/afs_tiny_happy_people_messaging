@@ -102,4 +102,21 @@ class SchedulerTest < ActiveSupport::TestCase
     assert user3.contactable
     assert_nil user3.restart_at
   end
+
+  test "check_for_disengaged_users" do
+    user = create(:user)
+    content = create(:content)
+    create(:message, user:, clicked_at: nil, content:)
+    create(:message, user:, clicked_at: nil, content:)
+
+    user2 = create(:user)
+    create(:message, user: user2, clicked_at: nil, content:)
+    create(:message, user: user2, clicked_at: Time.now, content:)
+
+    assert_enqueued_with(job: SendCustomMessageJob) do
+      Rake::Task["scheduler:check_for_disengaged_users"].execute
+    end
+
+    assert_equal 1, Message.where(body: "Hey are you ok?").count
+  end
 end
