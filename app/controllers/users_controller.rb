@@ -20,6 +20,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params.except(:interest_ids))
 
+    @user.terms_agreed_at = Time.now if user_params[:terms_agreed_at] == "1"
+
     if @user.save
       user_params[:interest_ids].split(",").each do |interest_id|
         @user.interests << Interest.find(interest_id)
