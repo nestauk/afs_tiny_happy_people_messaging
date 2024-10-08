@@ -1,7 +1,7 @@
 namespace :scheduler do
   desc "Send morning text message"
   task send_morning_message: :environment do
-    User.contactable.wants_morning_message.group_by(&:child_age_in_months_today).each do |age, users|
+    User.contactable.wants_morning_message.group_by(&:adjusted_child_age_in_months_today).each do |age, users|
       group = Group.find_by(age_in_months: age)
 
       next unless group
@@ -12,7 +12,7 @@ namespace :scheduler do
 
   desc "Send afternoon text message"
   task send_afternoon_message: :environment do
-    User.contactable.wants_afternoon_message.group_by(&:child_age_in_months_today).each do |age, users|
+    User.contactable.wants_afternoon_message.group_by(&:adjusted_child_age_in_months_today).each do |age, users|
       group = Group.find_by(age_in_months: age)
 
       next unless group
@@ -23,7 +23,7 @@ namespace :scheduler do
 
   desc "Send evening text message"
   task send_evening_message: :environment do
-    User.contactable.wants_evening_message.group_by(&:child_age_in_months_today).each do |age, users|
+    User.contactable.wants_evening_message.group_by(&:adjusted_child_age_in_months_today).each do |age, users|
       group = Group.find_by(age_in_months: age)
 
       next unless group
@@ -34,7 +34,7 @@ namespace :scheduler do
 
   desc "Send no timing preference text message"
   task send_no_timing_preference_message: :environment do
-    User.contactable.no_preference_message.group_by(&:child_age_in_months_today).each do |age, users|
+    User.contactable.no_preference_message.group_by(&:adjusted_child_age_in_months_today).each do |age, users|
       group = Group.find_by(age_in_months: age)
 
       next unless group
@@ -54,6 +54,7 @@ namespace :scheduler do
   desc "Check for disengaged users"
   task check_for_disengaged_users: :environment do
     User.contactable.not_clicked_last_two_messages.each do |user|
+      #  Don't send this every week
       message = Message.create(user:, body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break, 'ADJUST' for different content, or 'STOP' to stop them entirely.")
       SendCustomMessageJob.perform_later(message)
     end

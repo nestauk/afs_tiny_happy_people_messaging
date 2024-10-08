@@ -50,4 +50,14 @@ class MessageTest < ActiveSupport::TestCase
     message = create(:message, body: "3 months", status: "received")
     assert_equal message.user.restart_at, 3.months.from_now.noon
   end
+
+  test "generate_reply when user texts adjust" do
+    user = create(:user)
+    message = create(:message, user:, body: " adjust please", status: "received")
+    assert_equal message.user.adjust_amount, -1
+
+    message = create(:message, user:, body: "ADJUST AGAIN", status: "received")
+
+    assert_equal message.user.adjust_amount, -2
+  end
 end
