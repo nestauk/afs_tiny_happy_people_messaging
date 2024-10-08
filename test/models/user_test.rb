@@ -31,6 +31,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.contactable, [@subject]
   end
 
+  test "opted_out scope" do
+    user = create(:user, contactable: false)
+
+    assert_equal User.opted_out.size, 1
+    assert_equal User.opted_out, [user]
+  end
+
   test "wants_morning_message scope" do
     create(:user, timing: "afternoon")
     create(:user, timing: "evening")

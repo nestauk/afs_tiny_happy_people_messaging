@@ -7,6 +7,7 @@ class User < ApplicationRecord
   phony_normalize :phone_number, default_country_code: "UK"
 
   scope :contactable, -> { where(contactable: true) }
+  scope :opted_out, -> { where(contactable: false) }
   scope :wants_morning_message, -> { where(timing: "morning") }
   scope :wants_afternoon_message, -> { where(timing: "afternoon") }
   scope :wants_evening_message, -> { where(timing: "evening") }

@@ -45,7 +45,7 @@ namespace :scheduler do
 
   desc "Restart users who paused"
   task restart_users: :environment do
-    User.where(contactable: false).where("restart_at < ?", Time.now).each do |user|
+    User.opted_out.where("restart_at < ?", Time.now).each do |user|
       user.update(contactable: true, restart_at: nil)
       RestartMessagesJob.perform_later(user)
     end
