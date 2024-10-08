@@ -11,6 +11,7 @@ class User < ApplicationRecord
   scope :wants_afternoon_message, -> { where(timing: "afternoon") }
   scope :wants_evening_message, -> { where(timing: "evening") }
   scope :no_preference_message, -> { where(timing: ["no_preference", nil]) }
+  scope :not_nudged, -> { where(nudged_at: nil) }
   scope :not_clicked_last_two_messages, -> {
     joins(:messages)
       .where(
