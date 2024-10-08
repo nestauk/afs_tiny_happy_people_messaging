@@ -53,10 +53,10 @@ namespace :scheduler do
 
   desc "Check for disengaged users"
   task check_for_disengaged_users: :environment do
-    User.contactable.not_clicked_last_two_messages.each do |user|
-      #  Don't send this every week
+    User.contactable.not_nudged.not_clicked_last_two_messages.each do |user|
       message = Message.create(user:, body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break, 'ADJUST' for different content, or 'STOP' to stop them entirely.")
       SendCustomMessageJob.perform_later(message)
+      user.update(nudged_at: Time.now)
     end
   end
 end

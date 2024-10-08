@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_08_123706) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_08_151359) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -154,6 +154,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_08_123706) do
     t.datetime "terms_agreed_at", null: false
     t.datetime "restart_at"
     t.integer "adjust_amount", default: 0
+    t.datetime "nudged_at"
   end
 
   add_foreign_key "interests", "users"
