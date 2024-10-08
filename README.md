@@ -1,24 +1,35 @@
-# README
+# Tiny Happy People text messaging service
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Texts video content from BBC's Tiny Happy People to parents
 
-Things you may want to cover:
+## Getting started
 
-* Ruby version
+These instructions will get a copy of the project up and running on your local machine for
+development and testing purposes.
 
-* System dependencies
+### Prerequisites
 
-* Configuration
+Ruby (see .ruby-version) and PostgreSQL.
 
-* Database creation
+### Local setup
 
-* Database initialization
+1. Clone the repo
+2. Navigate to the root directory of the project.
+3. `bundle install` to install Ruby dependencies.
+4. `rails db:create db:schema:load` to set up the database.
+5. `bin/dev` to start a local development server.
 
-* How to run the test suite
+Most features should work locally though for some you may need to add the appropriate credentials - see the `.env.test` for an example. You may need to set up accounts for the relevant services or contact a maintainer for the keys.
 
-* Services (job queues, cache servers, search engines, etc.)
+### Running tests
 
-* Deployment instructions
+- `rails test` to run unit tests.
+- `rails test:system` to run system/end-to-end tests.
 
-* ...
+## Deployment
+
+We currently use Heroku to host and deploy this app.
+
+### Heroku Scheduler
+
+The tasks to send messages to parents are set up using Heroku scheduler. See `scheduler.rake` for those tasks.
