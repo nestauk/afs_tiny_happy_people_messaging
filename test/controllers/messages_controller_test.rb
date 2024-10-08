@@ -76,4 +76,13 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     message.reload
     assert_not_nil message.clicked_at
   end
+
+  test "users can customise pause duration" do
+    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
+
+    post messages_incoming_url, params: {From: @user.phone_number, Body: "2 weeks", MessageSid: "new_sid"}
+    assert_response :success
+    @user.reload
+    assert_equal 2.weeks.from_now.noon, @user.restart_at
+  end
 end
