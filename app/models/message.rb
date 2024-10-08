@@ -49,15 +49,21 @@ class Message < ApplicationRecord
       # Twilio handles sending a start message, configured in the Twilio dashboard
       user.update(contactable: true)
     elsif incoming_message.include? "pause"
-      user.update(contactable: false, restart_at: 2.weeks.from_now.noon)
-      message = Message.create(user:, body: "Thanks, you've paused for 2 weeks. To change how long for text: 1. 1 month - text '1MONTH' 2. 3 months - text '3MONTHS'")
-      SendCustomMessageJob.perform_later(message)
+      if user.update(contactable: false, restart_at: 2.weeks.from_now.noon)
+        message = Message.create(user:, body: "Thanks, you've paused for 2 weeks. To change how long for text: 1. 1 month - text '1MONTH' 2. 3 months - text '3MONTHS'")
+        SendCustomMessageJob.perform_later(message)
+      end
     elsif incoming_message.include?("2") && incoming_message.include?("week")
       user.update(restart_at: 2.weeks.from_now.noon)
     elsif incoming_message.include?("1") && incoming_message.include?("month")
       user.update(restart_at: 1.month.from_now.noon)
     elsif incoming_message.include?("3") && incoming_message.include?("month")
       user.update(restart_at: 3.months.from_now.noon)
+    elsif incoming_message.include?("adjust")
+      if user.adjust_age
+        message = Message.create(user:, body: "Thanks, we'll send you different content from now on.")
+        SendCustomMessageJob.perform_later(message)
+      end
     end
   end
 end
