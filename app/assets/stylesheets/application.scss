@@ -60,3 +60,13 @@ body {
     display: block;
   }
 }
+
+.hero-banner {
+  height: 80svh;
+}
+
+@media screen and (max-width: 768px) {
+  .hero-banner {
+    height: 58svh;
+  }
+}
