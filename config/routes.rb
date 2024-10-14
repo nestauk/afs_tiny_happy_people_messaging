@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   post "messages/incoming" => "messages#incoming"
   get "/m/:token/", to: "messages#next", as: "track_link"
 
+  get "/privacy_policy", to: "pages#privacy_policy"
+  get "/terms", to: "pages#terms"
+
   resources :users, only: %i[new create index show] do
     get "dashboard", on: :collection
     resources :messages

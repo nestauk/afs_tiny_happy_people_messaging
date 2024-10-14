@@ -20,14 +20,14 @@
  @font-face {
   font-family: 'ReithSans';
   src: font-url('ReithSans.woff2') format('woff2');
-  font-weight: normal;
+  font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'ReithSansBold';
   src: font-url('ReithSansBold.woff2') format('woff2');
-  font-weight: bold;
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -69,4 +69,8 @@ body {
   .hero-banner {
     height: fit-content;
   }
+}
+
+.font-bold {
+  font-family: 'ReithSansBold';
 }

@@ -40,7 +40,7 @@
       <%= form.input :community_sign_up, label: "Would you like to be added to a Slack channel with other parents to discuss the programme?", input_html: { class: "form-checkbox" } %>
     </div>
 
-    <%= form.input :terms_agreed_at, as: :boolean, label: "I accept the terms of service and privacy policy", input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-5" }  %>
+    <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: "I accept the #{link_to("terms of service", terms_path, class: "underline hover:no-underline", target: "_blank")} and #{link_to("privacy policy", privacy_policy_path, class: "underline hover:no-underline", target: "_blank")}".html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-5" }  %>
 
     <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-purple-600 text-white w-full" %>
   <% end %>
