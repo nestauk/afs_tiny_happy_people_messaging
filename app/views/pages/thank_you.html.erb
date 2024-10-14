@@ -1,0 +1,22 @@
+<div class="absolute left-0 w-full bg-purple-900 h-full" style="top: 72px;">
+  <div class="relative overflow-hidden">
+    <div class="absolute left-0 top-0 w-full hidden md:block" style="background-image: url(<%= image_url('grandchild.jpg') %>); background-size: cover; height: 100svh; opacity: .9">
+    </div>
+    <div class="md:bg-transparent p-5 relative md:px-24 md:justify-around md:h-screen md:pt-16">
+      <div class="md:w-1/2 md:bg-purple-900 md:p-6 xl:p-8 flex flex-col justify-between h-fit">
+        <h1 class="text-3xl lg:text-5xl text-yellow-200">
+          Thank you for signing up!
+        </h1>
+        <h2 class="text-2xl lg:text-3xl text-pink-200 mb-5">
+          You will receive your first text very soon
+        </h2>
+        <p class="text-md text-lg l:text-xl text-white xl:w-5/6">
+          If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <%= link_to "resources page", resources_path, class: "underline hover:no-underline" %> to know where you might find UK-based support.
+        </p>
+      </div>
+    </div>
+    <div class="block md:hidden">
+      <%= image_tag "grandchild.jpg" %>
+    </div>
+  </div>
+</div>

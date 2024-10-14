@@ -25,16 +25,10 @@ class UsersController < ApplicationController
     if @user.save
       SendWelcomeMessageJob.perform_now(@user)
 
-      redirect_to thank_you_users_path
+      redirect_to thank_you_path
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def thank_you
-  end
-
-  def resources
   end
 
   private

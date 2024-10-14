@@ -21,7 +21,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_on "Sign up"
 
-    assert_text "You have signed up. Your first text will be sent soon."
+    assert_text "Thank you for signing up!"
 
     assert_equal 1, Message.count
 
