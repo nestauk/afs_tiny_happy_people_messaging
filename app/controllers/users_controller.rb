@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     if @user.save
       SendWelcomeMessageJob.perform_now(@user)
 
-      redirect_to root_path, notice: "You have signed up. Your first text will be sent soon."
+      redirect_to thank_you_path
     else
       render :new, status: :unprocessable_entity
     end

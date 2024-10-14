@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   get "/privacy_policy", to: "pages#privacy_policy"
   get "/terms", to: "pages#terms"
+  get "/thank_you", to: "pages#thank_you"
+  get "/resources", to: "pages#resources"
 
   resources :users, only: %i[new create index show] do
     get "dashboard", on: :collection

@@ -4,4 +4,10 @@ class PagesController < ApplicationController
 
   def terms
   end
+
+  def thank_you
+  end
+
+  def resources
+  end
 end
