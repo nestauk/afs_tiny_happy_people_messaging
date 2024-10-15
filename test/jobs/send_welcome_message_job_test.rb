@@ -9,7 +9,7 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
 
     Message.any_instance.stubs(:generate_token).returns("123")
 
-    message = "Hi #{user.first_name}, welcome to Tiny Happy People. Here's a video to get you started: #{track_link_url(123)}"
+    message = "Welcome to our programme of weekly texts with fun activities! Here's a video to get you started: #{track_link_url(123)}"
 
     stub_successful_twilio_call(message, user)
 
@@ -17,6 +17,6 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
 
     assert_equal 1, Message.count
     assert_match(/m\/123/, Message.last.body)
-    assert_equal "https://www.youtube.com/watch?v=3p6h9f1qk8k", Message.last.link
+    assert_equal "https://www.bbc.co.uk/tiny-happy-people/shopping-game-18-24/zbhyf4j", Message.last.link
   end
 end

@@ -10,7 +10,7 @@ class SendWelcomeMessageJob < ApplicationJob
     20 => "",
     21 => "https://www.bbc.co.uk/tiny-happy-people/puppet-play-18-24/zj2ht39",
     22 => "https://www.bbc.co.uk/tiny-happy-people/lets-play-chefs/z762mfr",
-    23 => "https://www.bbc.co.uk/tiny-happy-people/mealtime-challenge/zp3wcmn",
+    23 => "https://www.bbc.co.uk/tiny-happy-people/mealtime-challenge/zp3wcmn"
   }
 
   def perform(user)
