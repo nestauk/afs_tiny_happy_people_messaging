@@ -11,5 +11,6 @@ class PagesController < ApplicationController
   end
 
   def resources
+    Page.find_by(name: "resources").clicks.create if Rails.env.production?
   end
 end
