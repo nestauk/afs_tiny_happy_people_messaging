@@ -4,14 +4,13 @@ class SendWelcomeMessageJob < ApplicationJob
   queue_as :default
 
   WELCOME_VIDEOS = {
-    17 => "https://www.youtube.com/watch?v=3p6h9f1qk8k",
-    18 => "https://www.youtube.com/watch?v=3p6h9f1qk8k",
-    19 => "https://www.youtube.com/watch?v=3p6h9f1qk8k",
-    20 => "https://www.youtube.com/watch?v=3p6h9f1qk8k",
-    21 => "https://www.youtube.com/watch?v=3p6h9f1qk8k",
-    22 => "https://www.youtube.com/watch?v=3p6h9f1qk8k",
-    23 => "https://www.youtube.com/watch?v=3p6h9f1qk8k",
-    24 => "https://www.youtube.com/watch?v=3p6h9f1qk8k"
+    17 => "https://www.bbc.co.uk/tiny-happy-people/tools-for-talking-18-24-months/zxdfp4j",
+    18 => "https://www.bbc.co.uk/tiny-happy-people/shopping-game-18-24/zbhyf4j",
+    19 => "https://www.bbc.co.uk/tiny-happy-people/how-to-make-a-ball-run/z4kk8xs",
+    20 => "",
+    21 => "https://www.bbc.co.uk/tiny-happy-people/puppet-play-18-24/zj2ht39",
+    22 => "https://www.bbc.co.uk/tiny-happy-people/lets-play-chefs/z762mfr",
+    23 => "https://www.bbc.co.uk/tiny-happy-people/mealtime-challenge/zp3wcmn",
   }
 
   def perform(user)
@@ -19,7 +18,7 @@ class SendWelcomeMessageJob < ApplicationJob
       m.token = m.send(:generate_token)
       m.link = WELCOME_VIDEOS[user.child_age_in_months_today]
       m.user = user
-      m.body = "Hi #{user.first_name}, welcome to Tiny Happy People. Here's a video to get you started: #{track_link_url(m.token)}"
+      m.body = "Welcome to our programme of weekly texts with fun activities! Here's a video to get you started: #{track_link_url(m.token)}"
     end
 
     Twilio::Client.new.send_message(message)
