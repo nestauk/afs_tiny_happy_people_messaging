@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_admin!, except: [:status, :incoming, :next]
+  skip_before_action :authenticate_admin!, only: [:status, :incoming, :next]
   skip_before_action :verify_authenticity_token, only: [:status, :incoming]
 
   def index

@@ -1,6 +1,4 @@
 class ContentsController < ApplicationController
-  before_action :authenticate_admin!
-
   def new
     @group = Group.find_by(id: params[:group_id])
     @content = @group.contents.new

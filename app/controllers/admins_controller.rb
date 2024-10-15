@@ -1,5 +1,4 @@
 class AdminsController < ApplicationController
-  before_action :authenticate_admin!
   before_action :set_admin, only: [:edit, :update]
 
   # GET /admins
@@ -30,6 +29,8 @@ class AdminsController < ApplicationController
   # PATCH/PUT /admins/1
   def update
     if @admin.update(admin_params)
+      bypass_sign_in(@admin) if @admin == current_admin
+
       redirect_to admins_path, notice: "Admin was successfully updated."
     else
       render :edit, status: :unprocessable_entity
