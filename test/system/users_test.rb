@@ -16,7 +16,7 @@ class UsersTest < ApplicationSystemTestCase
     check "I accept the terms of service and privacy policy"
 
     Message.any_instance.stubs(:generate_token).returns("123")
-    message = "Hi Jo, welcome to Tiny Happy People. Here's a video to get you started: http://localhost:3000/m/123"
+    message = "Welcome to our programme of weekly texts with fun activities! Here's a video to get you started: http://localhost:3000/m/123"
     stub_successful_twilio_call(message, User.new(phone_number: "+447444930200"))
 
     click_on "Sign up"
@@ -34,7 +34,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "ABC123"
     assert_text "Does have family support"
     assert_text "On Slack"
-    assert_text "Hi Jo, welcome to Tiny Happy People."
+    assert_text "Welcome to our programme of weekly texts with fun activities!"
   end
 
   test "form shows errors" do
