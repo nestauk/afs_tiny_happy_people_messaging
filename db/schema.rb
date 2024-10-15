@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_08_151359) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_15_142541) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -82,6 +82,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_08_151359) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "clicks", force: :cascade do |t|
+    t.bigint "page_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_clicks_on_page_id"
+  end
+
   create_table "contents", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -139,6 +146,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_08_151359) do
     t.index ["token"], name: "index_messages_on_token", unique: true
   end
 
+  create_table "pages", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "phone_number", null: false
     t.string "first_name", null: false
@@ -157,6 +170,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_08_151359) do
     t.datetime "nudged_at"
   end
 
+  add_foreign_key "clicks", "pages"
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
 end

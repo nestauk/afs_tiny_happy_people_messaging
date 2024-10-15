@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    Page.find_by(name: "users/new").clicks.create if Rails.env.production?
   end
 
   def create
