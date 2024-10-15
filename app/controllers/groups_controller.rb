@@ -1,6 +1,4 @@
 class GroupsController < ApplicationController
-  before_action :authenticate_admin!
-
   def index
     @groups = Group.order(:age_in_months)
   end
