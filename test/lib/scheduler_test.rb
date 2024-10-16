@@ -5,6 +5,11 @@ class SchedulerTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   setup do
+    ENV["WEEKLY_MESSAGE_DAY"] = "1"
+    ENV["WEEKLY_NUDGE_DAY"] = "1"
+    ENV["SET_WEEKLY"] = "true"
+
+    travel_to_monday
     AfsTinyHappyPeople::Application.load_tasks if Rake::Task.tasks.empty?
   end
 
@@ -122,5 +127,52 @@ class SchedulerTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, Message.where(body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break, 'ADJUST' for different content, or 'STOP' to stop them entirely.").count
+  end
+
+  test "doesn't run unless it's the right day" do
+    travel_to_tuesday
+
+    group = create(:group, age_in_months: 18)
+    create(:content, group:)
+    create(:user, timing: "morning")
+
+    assert_no_enqueued_jobs do
+      Rake::Task["scheduler:send_morning_message"].execute
+    end
+  end
+
+  test "does run on the wrong day if set_weekly isn't set" do
+    ENV["SET_WEEKLY"] = "false"
+    travel_to_tuesday
+
+    group = create(:group, age_in_months: 18)
+    create(:content, group:)
+    create(:user, timing: "morning")
+
+    assert_enqueued_with(job: SendBulkMessageJob) do
+      Rake::Task["scheduler:send_morning_message"].execute
+    end
+  end
+
+  private
+
+  def travel_to_monday
+    current_day = Time.current.wday
+
+    # Calculate how many days until the nearest Tuesday (2 = Tuesday)
+    days_until_monday = (1 - current_day) % 7
+    days_until_monday = 7 if days_until_monday.zero?
+
+    travel_to Time.current + days_until_monday.days
+  end
+
+  def travel_to_tuesday
+    current_day = Time.current.wday
+
+    # Calculate how many days until the nearest Tuesday (2 = Tuesday)
+    days_until_tuesday = (2 - current_day) % 7
+    days_until_tuesday = 7 if days_until_tuesday.zero?
+
+    travel_to Time.current + days_until_tuesday.days
   end
 end
