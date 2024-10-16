@@ -19,7 +19,9 @@ class UsersTest < ApplicationSystemTestCase
     message = "Welcome to our programme of weekly texts with fun activities! Here's a video to get you started: http://localhost:3000/m/123"
     stub_successful_twilio_call(message, User.new(phone_number: "+447444930200"))
 
-    click_on "Sign up"
+    within("#sign-up-form") do
+      click_on "Sign up"
+    end
 
     assert_text "Thank you for signing up!"
 
@@ -40,7 +42,9 @@ class UsersTest < ApplicationSystemTestCase
   test "form shows errors" do
     visit new_user_path
 
-    click_on "Sign up"
+    within("#sign-up-form") do
+      click_on "Sign up"
+    end
 
     assert_field_has_errors("First name")
     assert_field_has_errors("Last name")
