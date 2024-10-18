@@ -14,11 +14,19 @@ class SendWelcomeMessageJob < ApplicationJob
   }
 
   def perform(user)
-    message = Message.create do |m|
-      m.token = m.send(:generate_token)
-      m.link = WELCOME_VIDEOS[user.child_age_in_months_today]
-      m.user = user
-      m.body = "Welcome to our programme of weekly texts with fun activities! Here's a video to get you started: #{track_link_url(m.token)}"
+    message = if WELCOME_VIDEOS[user.child_age_in_months_today]
+      Message.create do |m|
+        m.token = m.send(:generate_token)
+        m.link = WELCOME_VIDEOS[user.child_age_in_months_today]
+        m.user = user
+        m.body = "Welcome to Tiny Happy People, a programme of weekly texts with fun activities! Here's a video to get you started: #{track_link_url(m.token)}"
+      end
+    else
+      Message.create do |m|
+        m.token = m.send(:generate_token)
+        m.user = user
+        m.body = "Welcome to Tiny Happy People, a programme of weekly texts with fun activities! You'll receive your first activity soon."
+      end
     end
 
     Twilio::Client.new.send_message(message)
