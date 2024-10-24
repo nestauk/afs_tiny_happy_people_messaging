@@ -15,8 +15,7 @@ class UsersTest < ApplicationSystemTestCase
     check "Would you like to be added to a Slack channel with other parents to discuss the programme?"
     check "I accept the terms of service and privacy policy"
 
-    Message.any_instance.stubs(:generate_token).returns("123")
-    message = "Welcome to Tiny Happy People, a programme of weekly texts with fun activities! Here's a video to get you started: http://localhost:3000/m/123"
+    message = "Welcome to Tiny Happy People, a programme of weekly texts with fun activities! You'll receive your first activity soon."
     stub_successful_twilio_call(message, User.new(phone_number: "+447444930200"))
 
     within("#sign-up-form") do
