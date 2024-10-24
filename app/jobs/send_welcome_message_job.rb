@@ -3,27 +3,15 @@ class SendWelcomeMessageJob < ApplicationJob
 
   queue_as :default
 
-  WELCOME_VIDEOS = {
-    9 => "https://www.bbc.co.uk/tiny-happy-people/articles/z74hxbk",
-    10 => "https://www.bbc.co.uk/tiny-happy-people/articles/z74hxbk",
-    11 => "https://www.bbc.co.uk/tiny-happy-people/articles/z74hxbk",
-    14 => "https://www.bbc.co.uk/tiny-happy-people/articles/z3hkcmn",
-    17 => "https://www.bbc.co.uk/tiny-happy-people/tools-for-talking-18-24-months/zxdfp4j",
-    18 => "https://www.bbc.co.uk/tiny-happy-people/shopping-game-18-24/zbhyf4j",
-    19 => "https://www.bbc.co.uk/tiny-happy-people/how-to-make-a-ball-run/z4kk8xs",
-    20 => "https://www.bbc.co.uk/tiny-happy-people/articles/znqqqp3",
-    21 => "https://www.bbc.co.uk/tiny-happy-people/puppet-play-18-24/zj2ht39",
-    22 => "https://www.bbc.co.uk/tiny-happy-people/lets-play-chefs/z762mfr",
-    23 => "https://www.bbc.co.uk/tiny-happy-people/mealtime-challenge/zp3wcmn"
-  }
-
   def perform(user)
-    message = if WELCOME_VIDEOS[user.child_age_in_months_today]
+    group = Group.find_by(age_in_months: user.child_age_in_months_today)
+
+    message = if group.present? && group.welcome_message.present?
       Message.create do |m|
         m.token = m.send(:generate_token)
-        m.link = WELCOME_VIDEOS[user.child_age_in_months_today]
+        m.link = group.welcome_message.link
         m.user = user
-        m.body = "Welcome to Tiny Happy People, a programme of weekly texts with fun activities! Here's a video to get you started: #{track_link_url(m.token)}"
+        m.body = group.welcome_message.body.gsub("{{link}}", track_link_url(m.token))
       end
     else
       Message.create do |m|

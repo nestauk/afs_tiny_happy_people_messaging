@@ -127,6 +127,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content method returns next ranked content for age group" do
     group = create(:group, age_in_months: @subject.child_age_in_months_today)
+    create(:content, group:, welcome_message: true)
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
     create(:message, content: content1, user: @subject)
@@ -136,6 +137,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content method returns nothing if no appropriate content" do
     group = create(:group, age_in_months: @subject.child_age_in_months_today)
+    create(:content, group:, welcome_message: true)
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
     create(:message, content: content1, user: @subject)

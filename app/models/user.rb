@@ -59,7 +59,7 @@ class User < ApplicationRecord
   def next_content(group)
     return unless group.present?
     # find lowest ranked content minus any they have already seen
-    (group.contents - contents).min_by(&:position)
+    (group.weekly_content - contents).min_by(&:position)
   end
 
   def had_content_this_week?
