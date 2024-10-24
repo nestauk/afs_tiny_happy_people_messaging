@@ -24,6 +24,14 @@ class UserTest < ActiveSupport::TestCase
   test("last_name required") { assert_present(:last_name) }
   test("child_birthday required") { assert_present(:child_birthday) }
 
+  test "child_birthday is within the last 5 years" do
+    @subject.child_birthday = Time.now - 6.years
+    assert_not @subject.valid?
+
+    @subject.child_birthday = Time.now + 1.month
+    assert_not @subject.valid?
+  end
+
   test "contactable scope" do
     create(:user, contactable: false)
 
