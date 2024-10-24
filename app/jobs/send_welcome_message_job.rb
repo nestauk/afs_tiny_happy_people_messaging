@@ -4,6 +4,10 @@ class SendWelcomeMessageJob < ApplicationJob
   queue_as :default
 
   WELCOME_VIDEOS = {
+    9 => "https://www.bbc.co.uk/tiny-happy-people/articles/z74hxbk",
+    10 => "https://www.bbc.co.uk/tiny-happy-people/articles/z74hxbk",
+    11 => "https://www.bbc.co.uk/tiny-happy-people/articles/z74hxbk",
+    14 => "https://www.bbc.co.uk/tiny-happy-people/articles/z3hkcmn",
     17 => "https://www.bbc.co.uk/tiny-happy-people/tools-for-talking-18-24-months/zxdfp4j",
     18 => "https://www.bbc.co.uk/tiny-happy-people/shopping-game-18-24/zbhyf4j",
     19 => "https://www.bbc.co.uk/tiny-happy-people/how-to-make-a-ball-run/z4kk8xs",
