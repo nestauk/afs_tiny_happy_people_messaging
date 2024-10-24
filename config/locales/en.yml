@@ -28,4 +28,10 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  activerecord:
+    errors: 
+      models:
+        user:
+          attributes:
+            child_birthday:
+              inclusion: "Your child must be between 0 and 5 years old"

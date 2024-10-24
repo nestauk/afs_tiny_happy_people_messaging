@@ -2,8 +2,11 @@ class User < ApplicationRecord
   has_many :interests
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
+
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, presence: true
   validates_uniqueness_of :phone_number
+  validates :child_birthday, inclusion: {in: ((Date.today - 5.years)...Date.today)}
+
   phony_normalize :phone_number, default_country_code: "UK"
 
   scope :contactable, -> { where(contactable: true) }
