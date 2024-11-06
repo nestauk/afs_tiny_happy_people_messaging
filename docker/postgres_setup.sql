@@ -1,0 +1,3 @@
+CREATE DATABASE afs_tiny_happy_people_development;
+CREATE DATABASE afs_tiny_happy_people_test;
+CREATE DATABASE afs_tiny_happy_people_production;
