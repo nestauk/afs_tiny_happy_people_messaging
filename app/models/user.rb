@@ -32,12 +32,11 @@ class User < ApplicationRecord
       .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = 2")
   }
 
-  enum timing: {
+  enum :timing,
     morning: "morning",
     afternoon: "afternoon",
     evening: "evening",
     no_preference: "no_preference"
-  }
 
   def child_age_in_months_today
     (Time.now.year * 12 + Time.now.month) - (child_birthday.year * 12 + child_birthday.month)
