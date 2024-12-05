@@ -55,13 +55,38 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def next_content(group)
-    return unless group.present?
-    # find lowest ranked content minus any they have already seen
-    (group.weekly_content - contents).min_by(&:position)
+  def next_content
+    if had_any_content_before?
+      find_next_unseen_content
+    else
+      Content.where(age_in_months: child_age_in_months_today, welcome_message: false).min_by(&:position)
+    end
   end
 
   def had_content_this_week?
     messages.where("created_at > ?", 6.days.ago).where.not(content: nil).exists?
+  end
+
+  private
+
+  def had_any_content_before?
+    last_content_id.present?
+  end
+
+  def not_seen_content?(content)
+    messages.where(content_id: content.id).none?
+  end
+
+  def find_next_unseen_content
+    i = Content.find(last_content_id).position + 1
+
+    loop do
+      content = Content.find_by(position: i)
+      # Last message in series
+      return nil if content.nil?
+      # Next message
+      return content if not_seen_content?(content)
+      i += 1
+    end
   end
 end

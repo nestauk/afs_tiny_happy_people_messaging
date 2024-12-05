@@ -16,6 +16,7 @@ class ContentsTest < ApplicationSystemTestCase
 
     fill_in "Body", with: "New content"
     fill_in "Link", with: "www.example.com"
+    fill_in "Age in months", with: "18"
     click_on "Create"
 
     assert_text "Content for message was successfully created"
@@ -32,6 +33,7 @@ class ContentsTest < ApplicationSystemTestCase
 
     fill_in "Body", with: "New content"
     fill_in "Link", with: "www.example.com"
+    fill_in "Age in months", with: "18"
     check "This is the welcome message"
     click_on "Create"
 
@@ -52,6 +54,7 @@ class ContentsTest < ApplicationSystemTestCase
 
     assert_field_has_errors("Body")
     assert_field_has_errors("Link")
+    assert_field_has_errors("Age in months")
   end
 
   test "updating content" do

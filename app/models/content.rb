@@ -4,5 +4,5 @@ class Content < ApplicationRecord
 
   has_many :messages, dependent: :nullify
 
-  validates_presence_of :body, :link
+  validates_presence_of :body, :link, :age_in_months
 end

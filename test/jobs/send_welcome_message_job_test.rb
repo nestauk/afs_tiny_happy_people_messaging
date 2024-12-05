@@ -6,7 +6,7 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
 
   test "#perform sends message with default content" do
     user = create(:user, child_birthday: 18.months.ago)
-    group = create(:group, age_in_months: 18)
+    group = create(:group)
     content = create(:content, group:, welcome_message: true, link: "https://example.com", body: "Hi, {{link}}")
     create(:content, group:, welcome_message: false, link: "https://example.com")
 
@@ -38,7 +38,7 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
 
   test "#perform sends message with no link if there isn't a welcome message" do
     user = create(:user, child_birthday: 18.months.ago)
-    group = create(:group, age_in_months: 18)
+    group = create(:group)
     create(:content, group:, welcome_message: false, link: "https://example.com")
 
     Message.any_instance.stubs(:generate_token).returns("123")

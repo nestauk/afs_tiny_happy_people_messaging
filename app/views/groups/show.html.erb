@@ -12,8 +12,9 @@
       <thead>
         <tr class="px-4 py-4 bg-purple-300 text-left">
           <th class="p-4"></th>
-          <th class="p-4 w-3/5">Body</th>
-          <th class="p-4 w-2/5">Link</th>
+          <th class="p-4 w-6/12">Body</th>
+          <th class="p-4 w-1/12">Age</th>
+          <th class="p-4 w-5/12">Link</th>
           <th>&nbsp</th>
         </tr>
       </thead>
@@ -30,6 +31,9 @@
                 <span class="text-sm text-gray-500">Welcome message</span><br>
               <% end %>
               <%= content.body %>
+            </td>
+            <td class="p-4">
+              <%= content.age_in_months %>
             </td>
             <td class="p-4"><%= content.link %></td>
             <td class="p-4">
