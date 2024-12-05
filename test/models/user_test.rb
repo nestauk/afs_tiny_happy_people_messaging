@@ -176,6 +176,16 @@ class UserTest < ActiveSupport::TestCase
     assert_equal @subject.next_content, content3
   end
 
+  test "#next_content does not return welcome messages" do
+    group = create(:group)
+    content1 = create(:content, group:, position: 1)
+    create(:content, group:, position: 2, welcome_message: true)
+    content3 = create(:content, group:, position: 3)
+    @subject.update(last_content_id: content1.id)
+
+    assert_equal @subject.next_content, content3
+  end
+
   test "#had_content_this_week? method returns true if user has had content" do
     user = create(:user)
     content = create(:content)

@@ -84,8 +84,8 @@ class User < ApplicationRecord
       content = Content.find_by(position: i)
       # Last message in series
       return nil if content.nil?
-      # Next message
-      return content if not_seen_content?(content)
+      # Next message that's not a welcome message
+      return content if not_seen_content?(content) && !content.welcome_message?
       i += 1
     end
   end

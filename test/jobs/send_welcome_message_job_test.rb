@@ -19,6 +19,7 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
     assert_equal 1, Message.count
     assert_match(/m\/123/, Message.last.body)
     assert_equal "https://example.com", Message.last.link
+    assert_equal user.reload.last_content_id, content.id
   end
 
   test "#perform sends message with no link if there isn't appropriate content" do
@@ -34,6 +35,7 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
 
     assert_equal 1, Message.count
     assert_nil Message.last.link
+    assert_nil user.reload.last_content_id
   end
 
   test "#perform sends message with no link if there isn't a welcome message" do
@@ -51,5 +53,6 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
 
     assert_equal 1, Message.count
     assert_nil Message.last.link
+    assert_nil user.reload.last_content_id
   end
 end
