@@ -10,11 +10,4 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test("name required") { assert_present(:name) }
-
-  test "#weekly_content" do
-    weekly_content = create(:content, group: @subject)
-    create(:content, group: @subject, welcome_message: true)
-
-    assert_equal [weekly_content], @subject.weekly_content
-  end
 end

@@ -127,7 +127,6 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content method returns next ranked content for age group" do
     group = create(:group)
-    create(:content, group:, welcome_message: true)
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
     create(:content, group:, position: 3)
@@ -149,17 +148,7 @@ class UserTest < ActiveSupport::TestCase
     group = create(:group)
     content = create(:content, group:, position: 1, age_in_months: 18)
     create(:content, group:, position: 2, age_in_months: 18)
-    create(:content, group:, position: 3, age_in_months: 18)
-
-    assert_equal @subject.next_content, content
-  end
-
-  test "#next_content does not return the welcome message if user has not had content before" do
-    group = create(:group)
-    create(:content, group:, position: 1, welcome_message: true)
-    content = create(:content, group:, position: 2, age_in_months: 18)
-    create(:content, group:, position: 3, age_in_months: 18)
-    create(:content, group:, position: 4, age_in_months: 18)
+    create(:content, group:, position: 3, age_in_months: 19)
 
     assert_equal @subject.next_content, content
   end
@@ -171,16 +160,6 @@ class UserTest < ActiveSupport::TestCase
     content2 = create(:content, group:, position: 2)
     content3 = create(:content, group:, position: 3)
     create(:message, user: @subject, content: content2)
-    @subject.update(last_content_id: content1.id)
-
-    assert_equal @subject.next_content, content3
-  end
-
-  test "#next_content does not return welcome messages" do
-    group = create(:group)
-    content1 = create(:content, group:, position: 1)
-    create(:content, group:, position: 2, welcome_message: true)
-    content3 = create(:content, group:, position: 3)
     @subject.update(last_content_id: content1.id)
 
     assert_equal @subject.next_content, content3

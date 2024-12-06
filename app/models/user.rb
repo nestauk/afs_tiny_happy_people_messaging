@@ -59,7 +59,7 @@ class User < ApplicationRecord
     if had_any_content_before?
       find_next_unseen_content
     else
-      Content.where(age_in_months: child_age_in_months_today, welcome_message: false).min_by(&:position)
+      Content.where(age_in_months: child_age_in_months_today).min_by(&:position)
     end
   end
 
@@ -84,8 +84,8 @@ class User < ApplicationRecord
       content = Content.find_by(position: i)
       # Last message in series
       return nil if content.nil?
-      # Next message that's not a welcome message
-      return content if not_seen_content?(content) && !content.welcome_message?
+      # Next message
+      return content if not_seen_content?(content)
       i += 1
     end
   end

@@ -11,9 +11,5 @@
     <%= form.input :link %>
   </div>
 
-  <div class="mt-3">
-    <%= form.input :welcome_message, label: "This is the welcome message", input_html: { class: "form-checkbox" } %>
-  </div>
-
   <%= form.submit (action_name == "edit" ? "Update" : "Create"), class: "btn btn-primary mt-5 bg-purple-600 text-white w-full" %>
 <% end %>
