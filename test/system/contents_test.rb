@@ -16,28 +16,11 @@ class ContentsTest < ApplicationSystemTestCase
 
     fill_in "Body", with: "New content"
     fill_in "Link", with: "www.example.com"
+    fill_in "Age in months", with: "18"
     click_on "Create"
 
     assert_text "Content for message was successfully created"
     assert_text "New content"
-  end
-
-  test "creating new content with welcome message" do
-    sign_in
-    visit group_path(@group)
-
-    assert_text @group.name
-
-    click_on "Add new message"
-
-    fill_in "Body", with: "New content"
-    fill_in "Link", with: "www.example.com"
-    check "This is the welcome message"
-    click_on "Create"
-
-    within("tr", text: "New content") do
-      assert_text "Welcome message"
-    end
   end
 
   test "shows errors" do
@@ -52,6 +35,7 @@ class ContentsTest < ApplicationSystemTestCase
 
     assert_field_has_errors("Body")
     assert_field_has_errors("Link")
+    assert_field_has_errors("Age in months")
   end
 
   test "updating content" do

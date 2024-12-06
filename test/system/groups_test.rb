@@ -12,7 +12,6 @@ class GroupsTest < ApplicationSystemTestCase
     click_on "Create content group"
 
     fill_in "Name", with: "Default content"
-    fill_in "Age in months", with: "17"
     click_on "Create"
 
     assert_text "Content group successfully created"
@@ -28,7 +27,6 @@ class GroupsTest < ApplicationSystemTestCase
     click_on "Create"
 
     assert_field_has_errors("Name")
-    assert_field_has_errors("Age in months")
   end
 
   test "updating a group" do

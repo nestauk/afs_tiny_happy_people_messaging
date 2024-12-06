@@ -9,7 +9,6 @@
       <thead>
         <tr class="px-4 py-4 bg-purple-300 text-left">
           <th class="p-4 w-3/4">Content group name</th>
-          <th class="p-4 w-3/4">Child age</th>
           <th class="p-4 w-1/5">No. of messages</th>
           <th>&nbsp</th>
         </tr>
@@ -18,7 +17,6 @@
         <% @groups.each do |group| %>
           <tr class="border-b-2">
             <td class="p-4"><%= link_to group.name, group, class: "underline hover:no-underline" %></td>
-            <td class="p-4"><%= group.age_in_months %> months</td>
             <td class="p-4"><%= group.contents.size %></td>
             <td class="p-4">
               <%= link_to "Edit", edit_group_path(group), class: "underline hover:no-underline" %>

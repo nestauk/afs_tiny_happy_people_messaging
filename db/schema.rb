@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_05_140053) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_06_110738) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -96,7 +96,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_140053) do
     t.string "link"
     t.bigint "group_id"
     t.integer "position", null: false
-    t.boolean "welcome_message", default: false
+    t.integer "age_in_months", null: false
     t.index ["group_id", "position"], name: "index_contents_on_group_id_and_position", unique: true
     t.index ["group_id"], name: "index_contents_on_group_id"
   end
@@ -118,7 +118,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_140053) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "age_in_months", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -169,9 +168,12 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_05_140053) do
     t.datetime "restart_at"
     t.integer "adjust_amount", default: 0
     t.datetime "nudged_at"
+    t.bigint "last_content_id"
+    t.index ["last_content_id"], name: "index_users_on_last_content_id"
   end
 
   add_foreign_key "clicks", "pages"
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
+  add_foreign_key "users", "contents", column: "last_content_id"
 end

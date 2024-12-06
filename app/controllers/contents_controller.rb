@@ -44,6 +44,6 @@ class ContentsController < ApplicationController
   private
 
   def content_params
-    params.require(:content).permit(:body, :link, :position, :welcome_message)
+    params.require(:content).permit(:body, :link, :position, :age_in_months)
   end
 end
