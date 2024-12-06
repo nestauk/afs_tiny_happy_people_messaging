@@ -32,7 +32,7 @@ class User < ApplicationRecord
       .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = 2")
   }
 
-  enum :timing,
+  attribute :timing,
     morning: "morning",
     afternoon: "afternoon",
     evening: "evening",
