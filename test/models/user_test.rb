@@ -126,24 +126,43 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#next_content method returns next ranked content for age group" do
-    group = create(:group, age_in_months: @subject.child_age_in_months_today)
-    create(:content, group:, welcome_message: true)
+    group = create(:group)
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
-    create(:message, content: content1, user: @subject)
+    create(:content, group:, position: 3)
+    @subject.update(last_content_id: content1.id)
 
-    assert_equal @subject.next_content(group), content2
+    assert_equal @subject.next_content, content2
   end
 
   test "#next_content method returns nothing if no appropriate content" do
-    group = create(:group, age_in_months: @subject.child_age_in_months_today)
-    create(:content, group:, welcome_message: true)
+    group = create(:group)
+    create(:content, group:, position: 1)
+    content2 = create(:content, group:, position: 2)
+    @subject.update(last_content_id: content2.id)
+
+    assert_nil @subject.next_content
+  end
+
+  test "#next_content finds appropriate content if user has not had content before" do
+    group = create(:group)
+    content = create(:content, group:, position: 1, age_in_months: 18)
+    create(:content, group:, position: 2, age_in_months: 18)
+    create(:content, group:, position: 3, age_in_months: 19)
+
+    assert_equal @subject.next_content, content
+  end
+
+  test "#next_content does not return content that the user has already seen" do
+    # This is in case the content order has been switched around by the admins
+    group = create(:group)
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
-    create(:message, content: content1, user: @subject)
-    create(:message, content: content2, user: @subject)
+    content3 = create(:content, group:, position: 3)
+    create(:message, user: @subject, content: content2)
+    @subject.update(last_content_id: content1.id)
 
-    assert_nil @subject.next_content(group)
+    assert_equal @subject.next_content, content3
   end
 
   test "#had_content_this_week? method returns true if user has had content" do

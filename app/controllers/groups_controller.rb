@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   def index
-    @groups = Group.order(:age_in_months)
+    @groups = Group.all
   end
 
   def show
@@ -44,6 +44,6 @@ class GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:name, :age_in_months)
+    params.require(:group).permit(:name)
   end
 end

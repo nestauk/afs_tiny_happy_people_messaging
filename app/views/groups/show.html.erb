@@ -12,8 +12,9 @@
       <thead>
         <tr class="px-4 py-4 bg-purple-300 text-left">
           <th class="p-4"></th>
-          <th class="p-4 w-3/5">Body</th>
-          <th class="p-4 w-2/5">Link</th>
+          <th class="p-4 w-6/12">Body</th>
+          <th class="p-4 w-1/12">Age</th>
+          <th class="p-4 w-5/12">Link</th>
           <th>&nbsp</th>
         </tr>
       </thead>
@@ -21,15 +22,13 @@
         <% @group.contents.order(:position).each do |content| %>
           <tr class="border-b-2" data-sortable-update-url="<%= update_position_path(content) %>">
             <td class="p-4">
-              <% unless content.welcome_message? %>
-                <svg class="cursor-grab" width="20px" height="20px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#ccc"><path d="M3 5H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 12H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 19H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-              <% end %>
+              <svg class="cursor-grab" width="20px" height="20px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#ccc"><path d="M3 5H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 12H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 19H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             </td>
             <td class="p-4">
-              <% if content.welcome_message? %>
-                <span class="text-sm text-gray-500">Welcome message</span><br>
-              <% end %>
               <%= content.body %>
+            </td>
+            <td class="p-4">
+              <%= content.age_in_months %>
             </td>
             <td class="p-4"><%= content.link %></td>
             <td class="p-4">

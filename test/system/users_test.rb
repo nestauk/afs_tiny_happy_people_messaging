@@ -15,8 +15,7 @@ class UsersTest < ApplicationSystemTestCase
     check "Would you like to be added to a Slack channel with other parents to discuss the programme?"
     check "I accept the terms of service and privacy policy"
 
-    message = "Welcome to Tiny Happy People, a programme of weekly texts with fun activities! You'll receive your first activity soon."
-    stub_successful_twilio_call(message, User.new(phone_number: "+447444930200"))
+    stub_successful_twilio_call(Content::WELCOME_MESSAGE, User.new(phone_number: "+447444930200"))
 
     within("#sign-up-form") do
       click_on "Sign up"
@@ -35,7 +34,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "ABC123"
     assert_text "Does have family support"
     assert_text "On Slack"
-    assert_text "Welcome to Tiny Happy People, a programme of weekly texts with fun activities!"
+    assert_text Content::WELCOME_MESSAGE
   end
 
   test "form shows errors" do

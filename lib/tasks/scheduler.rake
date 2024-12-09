@@ -3,12 +3,8 @@ namespace :scheduler do
   task send_morning_message: :environment do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
-    User.contactable.wants_morning_message.group_by(&:adjusted_child_age_in_months_today).each do |age, users|
-      group = Group.find_by(age_in_months: age)
-
-      next unless group
-
-      SendBulkMessageJob.perform_later(users, group)
+    User.contactable.wants_morning_message.find_in_batches do |users|
+      SendBulkMessageJob.perform_later(users)
     end
   end
 
@@ -16,12 +12,8 @@ namespace :scheduler do
   task send_afternoon_message: :environment do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
-    User.contactable.wants_afternoon_message.group_by(&:adjusted_child_age_in_months_today).each do |age, users|
-      group = Group.find_by(age_in_months: age)
-
-      next unless group
-
-      SendBulkMessageJob.perform_later(users, group)
+    User.contactable.wants_afternoon_message.find_in_batches do |users|
+      SendBulkMessageJob.perform_later(users)
     end
   end
 
@@ -29,12 +21,8 @@ namespace :scheduler do
   task send_evening_message: :environment do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
-    User.contactable.wants_evening_message.group_by(&:adjusted_child_age_in_months_today).each do |age, users|
-      group = Group.find_by(age_in_months: age)
-
-      next unless group
-
-      SendBulkMessageJob.perform_later(users, group)
+    User.contactable.wants_evening_message.find_in_batches do |users|
+      SendBulkMessageJob.perform_later(users)
     end
   end
 
@@ -42,12 +30,8 @@ namespace :scheduler do
   task send_no_timing_preference_message: :environment do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
-    User.contactable.no_preference_message.group_by(&:adjusted_child_age_in_months_today).each do |age, users|
-      group = Group.find_by(age_in_months: age)
-
-      next unless group
-
-      SendBulkMessageJob.perform_later(users, group)
+    User.contactable.no_preference_message.find_in_batches do |users|
+      SendBulkMessageJob.perform_later(users)
     end
   end
 
