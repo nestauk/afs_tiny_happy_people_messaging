@@ -4,7 +4,7 @@ namespace :scheduler do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
     User.contactable.wants_morning_message.find_in_batches do |users|
-      SendBulkMessageJob.perform_later(users)
+      SendBulkMessageJob.perform_later(users.to_a)
     end
   end
 
@@ -13,7 +13,7 @@ namespace :scheduler do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
     User.contactable.wants_afternoon_message.find_in_batches do |users|
-      SendBulkMessageJob.perform_later(users)
+      SendBulkMessageJob.perform_later(users.to_a)
     end
   end
 
@@ -22,7 +22,7 @@ namespace :scheduler do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
     User.contactable.wants_evening_message.find_in_batches do |users|
-      SendBulkMessageJob.perform_later(users)
+      SendBulkMessageJob.perform_later(users.to_a)
     end
   end
 
@@ -31,7 +31,7 @@ namespace :scheduler do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
     User.contactable.no_preference_message.find_in_batches do |users|
-      SendBulkMessageJob.perform_later(users)
+      SendBulkMessageJob.perform_later(users.to_a)
     end
   end
 
