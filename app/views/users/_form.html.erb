@@ -1,46 +1,57 @@
 <div class="md:mt-8 w-full">
   <%= simple_form_for @user do |form| %>
-    <div class="mt-3">
-      <%= form.input :first_name%>
-    </div>
+    <section class="border-t border-gray-500 my-6 py-6">
+      <h3 class="text-2xl mb-3">
+        About you
+      </h3>
+      <div class="flex justify-between gap-4">
+        <%= form.input :first_name, wrapper_html: { class: "w-1/2" } %>
 
-    <div class="mt-3">
-      <%= form.input :last_name %>
-    </div>
+        <%= form.input :last_name, wrapper_html: { class: "w-1/2" } %>
+      </div>
 
-    <div class="mt-3">
-      <%= form.input :phone_number %>
-    </div>
+      <%= form.input :phone_number, wrapper_html: { class: "mt-3" } %>
 
-    <div class="mt-3">
-      <%= form.input :postcode, wrapper_html: { class: "w-1/2" } %>
-    </div>
+      <%= form.input :postcode, wrapper_html: { class: "md:w-1/2 mt-3" }, hint: "We need this information to " %>
+    </section>
 
-    <div class="mt-3">
+    <section class="border-t border-gray-500 my-6 py-6">
+      <h3 class="text-2xl mb-3">
+        About your child and family
+      </h3>
+      
       <%= 
         form.input :child_birthday,
         label: "Your child's birthday",
         hint: "We need to know your child's birthday to send you activities that are suitable for their age.",
         as: :date,
         order: [:month, :year],
-        wrapper_html: { class: "" },
-        input_html: { class: "md:w-1/2 mt-3 flex" } 
+        wrapper_html: { class: "mt-3" },
+        input_html: { class: "md:w-1/4 mt-3" } 
       %>
-    </div>
 
-    <div class="mt-3">
-      <%= form.input :timing, label: "What time of day would you like to receive the texts?", as: :select, collection: [["Morning", "morning"], ["Afternoon", "afternoon"], ["Evening", "evening"], ["No preference", "no_preference"]], wrapper_html: { class: "flex flex-col" }, input_html: { class: "md:w-1/3 mt-3" } %>
-    </div>
+      <%= form.input :child_name, label: "What is your child's name?", hint: "This is to personalize the texts we send, but it is optional", wrapper_html: { class: "mt-3 md:w-1/2" } %>
 
-    <div class="mt-3">
-      <%= form.input :family_support, label: "Do you have family support in bringing up your child(ren)?", input_html: { class: "form-checkbox" } %>
-    </div>
+      <%= form.input :number_of_children, label: "How many children do you have?", wrapper_html: { class: "mt-3 md:w-1/2" } %>
+    
+      <%= form.input :children_ages, label: "What age are they? Write the ages with comma separation", wrapper_html: { class: "mt-3 md:w-2/3" } %>
+    </section>
 
-    <div class="mt-3">
-      <%= form.input :community_sign_up, label: "Would you like to be added to a Slack channel with other parents to discuss the programme?", input_html: { class: "form-checkbox" } %>
-    </div>
+    <section class="border-t border-gray-500 my-6 py-6">
+      <h3 class="text-2xl mb-3">
+        Your preferences
+      </h3>
 
-    <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: "I accept the #{link_to("terms of service", terms_path, class: "underline hover:no-underline", target: "_blank")} and #{link_to("privacy policy", privacy_policy_path, class: "underline hover:no-underline", target: "_blank")}".html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-5" }  %>
+      <div class="md:flex justify-between gap-4 mt-3 items-end">
+        <%= form.input :day_preference, label: "What day would you like to get the texts?", as: :select, collection: [["Monday", 1], ["Tuesday", 2], ["Wednesday", 3], ["Thursday", 4], ["Friday", 5], ["Saturday", 6], ["Sunday", 0], ["No preference", 1]], wrapper_html: { class: "flex flex-col md:w-1/2" } %>
+
+        <%= form.input :hour_preference, label: "What time of day would you like to get the texts?", as: :select, collection: [["Morning", "morning"], ["Afternoon", "afternoon"], ["Evening", "evening"], ["No preference", "no_preference"]], wrapper_html: { class: "flex flex-col md:w-1/2 mt-3 md:mt-0" } %>
+      </div>
+
+      <%= form.input :diary_study, inline_label: "Would you like to be part of a diary study?", label: false, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-3" } %>
+    </section>
+
+    <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: "I accept the #{link_to("terms of service", terms_path, class: "underline hover:no-underline", target: "_blank")} and #{link_to("privacy policy", privacy_policy_path, class: "underline hover:no-underline", target: "_blank")}".html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-4 md:mt-8" }  %>
 
     <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-purple-600 text-white w-full" %>
   <% end %>

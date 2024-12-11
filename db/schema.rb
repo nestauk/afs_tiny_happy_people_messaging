@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_06_110738) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_11_140027) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -160,15 +160,18 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_06_110738) do
     t.datetime "updated_at", null: false
     t.boolean "contactable", default: true
     t.date "child_birthday", null: false
-    t.string "postcode"
-    t.string "timing"
-    t.boolean "community_sign_up"
-    t.boolean "family_support"
+    t.string "postcode", null: false
+    t.string "hour_preference"
     t.datetime "terms_agreed_at", null: false
     t.datetime "restart_at"
     t.integer "adjust_amount", default: 0
     t.datetime "nudged_at"
     t.bigint "last_content_id"
+    t.string "child_name"
+    t.boolean "diary_study", default: false
+    t.integer "day_preference", default: 1, null: false
+    t.integer "number_of_children"
+    t.string "children_ages"
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
   end
 
