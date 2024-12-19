@@ -2,7 +2,7 @@ require "test_helper"
 require "rake"
 
 class SchedulerTest < ActiveSupport::TestCase
-  # include ActiveJob::QueueAdapters::DelayedJobAdapter
+  include ActiveJob::TestHelper
 
   setup do
     ENV["WEEKLY_MESSAGE_DAY"] = "1"
@@ -17,7 +17,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content)
     create(:user, timing: "morning")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_morning_message"].execute
     end
   end
@@ -26,7 +26,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content)
     create(:user, timing: "afternoon")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_afternoon_message"].execute
     end
   end
@@ -35,7 +35,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content)
     create(:user, timing: "evening")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_evening_message"].execute
     end
   end
@@ -44,7 +44,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content)
     create(:user, timing: "no_preference")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_no_timing_preference_message"].execute
     end
   end
@@ -53,7 +53,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content)
     create(:user, timing: nil)
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_no_timing_preference_message"].execute
     end
   end
@@ -71,12 +71,9 @@ class SchedulerTest < ActiveSupport::TestCase
     user2 = create(:user, contactable: false, restart_at: Time.now + 1.day)
     user3 = create(:user, contactable: true)
 
-    stub_successful_twilio_call(
-      "Welcome back to Tiny Happy People! Text 'stop' to unsubscribe at any time.",
-      user
-    )
-
-    Rake::Task["scheduler:restart_users"].execute
+    assert_enqueued_with(job: RestartMessagesJob) do
+      Rake::Task["scheduler:restart_users"].execute
+    end
 
     user.reload
     assert user.contactable
@@ -105,12 +102,9 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:message, user: user3, clicked_at: nil, content:)
     create(:message, user: user3, clicked_at: nil, content:)
 
-    stub_successful_twilio_call(
-      "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break, 'ADJUST' for different content, or 'STOP' to stop them entirely.",
-      user1
-    )
-
-    Rake::Task["scheduler:check_for_disengaged_users"].execute
+    assert_enqueued_with(job: SendCustomMessageJob) do
+      Rake::Task["scheduler:check_for_disengaged_users"].execute
+    end
 
     assert_equal 1, Message.where(body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break, 'ADJUST' for different content, or 'STOP' to stop them entirely.").count
   end
@@ -133,7 +127,7 @@ class SchedulerTest < ActiveSupport::TestCase
     create(:content)
     create(:user, timing: "morning")
 
-    assert_enqueued_with(job: SendMessageJob) do
+    assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_morning_message"].execute
     end
   end
