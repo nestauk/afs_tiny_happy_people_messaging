@@ -2,7 +2,7 @@ require "test_helper"
 require "rake"
 
 class SchedulerTest < ActiveSupport::TestCase
-  include ActiveJob::TestHelper
+  # include ActiveJob::QueueAdapters::DelayedJobAdapter
 
   setup do
     ENV["WEEKLY_MESSAGE_DAY"] = "1"
