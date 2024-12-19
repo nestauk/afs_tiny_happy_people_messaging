@@ -4,6 +4,8 @@ class SendBulkMessageJob < ApplicationJob
   def perform(users)
     message_jobs = users.map { |user| SendMessageJob.new(user) }
 
-    ActiveJob.perform_all_later(message_jobs)
+    message_jobs.each do |job|
+      job.perform_now
+    end
   end
 end
