@@ -1,0 +1,24 @@
+{
+  "name": "Tiny Happy People text messaging service",
+  "website": "https://thp-text.uk/",
+  "repository": "https://github.com/nestauk/afs_tiny_happy_people_messaging",
+  "stack": "heroku-22",
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "addons": [
+    "heroku-postgresql",
+    "scheduler",
+    "rollbar"
+  ],
+  "env": {
+    "PRODUCTION_DOMAIN": {
+      "description": "production domain",
+      "value": "replace-me"
+    }
+  },
+  "environments": {
+  }
+}
