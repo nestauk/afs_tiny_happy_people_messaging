@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   phony_normalize :phone_number, default_country_code: "UK"
 
+  accepts_nested_attributes_for :interests
+
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
   scope :wants_morning_message, -> { where(hour_preference: "morning") }
@@ -37,6 +39,8 @@ class User < ApplicationRecord
     afternoon: "afternoon",
     evening: "evening",
     no_preference: "no_preference"
+
+  before_validation :set_uuid
 
   def child_age_in_months_today
     (Time.now.year * 12 + Time.now.month) - (child_birthday.year * 12 + child_birthday.month)
@@ -88,5 +92,19 @@ class User < ApplicationRecord
       return content if not_seen_content?(content)
       i += 1
     end
+  end
+
+  def set_uuid
+    return unless new_record? && uuid.nil?
+
+    uuid = generate_uuid
+
+    while User.exists?(uuid:)
+      generate_uuid
+    end
+  end
+
+  def generate_uuid
+    self.uuid = SecureRandom.uuid
   end
 end

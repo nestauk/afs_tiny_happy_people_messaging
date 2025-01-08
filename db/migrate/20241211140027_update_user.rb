@@ -6,12 +6,15 @@ class UpdateUser < ActiveRecord::Migration[8.0]
       t.string :child_name
       t.boolean :diary_study, default: false
       t.integer :day_preference, default: 1, null: false
-      t.integer :number_of_children
-      t.string :children_ages
+      t.string :referral_source
+      t.string :diary_study_contact_method
+      t.string :email
+      t.uuid :uuid
     end
 
     rename_column :users, :timing, :hour_preference
     change_column_null :users, :postcode, false
+    add_index :users, :uuid, unique: true
   end
 
   def down
@@ -21,8 +24,10 @@ class UpdateUser < ActiveRecord::Migration[8.0]
       t.remove :child_name
       t.remove :diary_study, default: false
       t.remove :day_preference, default: 1, null: false
-      t.remove :number_of_children
-      t.remove :children_ages
+      t.remove :referral_source
+      t.remove :diary_study_contact_method
+      t.remove :email
+      t.remove :uuid
     end
 
     rename_column :users, :hour_preference, :timing

@@ -15,7 +15,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_morning_message" do
     create(:content)
-    create(:user, timing: "morning")
+    create(:user, hour_preference: "morning")
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_morning_message"].execute
@@ -24,7 +24,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_afternoon_message" do
     create(:content)
-    create(:user, timing: "afternoon")
+    create(:user, hour_preference: "afternoon")
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_afternoon_message"].execute
@@ -33,7 +33,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_evening_message" do
     create(:content)
-    create(:user, timing: "evening")
+    create(:user, hour_preference: "evening")
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_evening_message"].execute
@@ -42,7 +42,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_no_timing_preference_message" do
     create(:content)
-    create(:user, timing: "no_preference")
+    create(:user, hour_preference: "no_preference")
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_no_timing_preference_message"].execute
@@ -51,7 +51,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_no_timing_preference_message for users with no timing set" do
     create(:content)
-    create(:user, timing: nil)
+    create(:user, hour_preference: nil)
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_no_timing_preference_message"].execute
@@ -59,7 +59,7 @@ class SchedulerTest < ActiveSupport::TestCase
   end
 
   test "no job enqueued if user is not contactable" do
-    create(:user, contactable: false, timing: "morning")
+    create(:user, contactable: false, hour_preference: "morning")
 
     assert_no_enqueued_jobs do
       Rake::Task["scheduler:send_morning_message"].execute
@@ -113,7 +113,7 @@ class SchedulerTest < ActiveSupport::TestCase
     travel_to_tuesday
 
     create(:content)
-    create(:user, timing: "morning")
+    create(:user, hour_preference: "morning")
 
     assert_no_enqueued_jobs do
       Rake::Task["scheduler:send_morning_message"].execute
@@ -125,7 +125,7 @@ class SchedulerTest < ActiveSupport::TestCase
     travel_to_tuesday
 
     create(:content)
-    create(:user, timing: "morning")
+    create(:user, hour_preference: "morning")
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_morning_message"].execute

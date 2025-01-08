@@ -7,10 +7,7 @@ class PagesController < ApplicationController
   def terms
   end
 
-  def thank_you
-  end
-
   def resources
-    Page.find_by(name: "resources").clicks.create if Rails.env.production?
+    Page.find_or_create_by(name: "resources").clicks.create if Rails.env.production?
   end
 end

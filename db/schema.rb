@@ -170,9 +170,12 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_140027) do
     t.string "child_name"
     t.boolean "diary_study", default: false
     t.integer "day_preference", default: 1, null: false
-    t.integer "number_of_children"
-    t.string "children_ages"
+    t.string "referral_source"
+    t.string "diary_study_contact_method"
+    t.string "email"
+    t.uuid "uuid"
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
+    t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 
   add_foreign_key "clicks", "pages"

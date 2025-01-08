@@ -47,40 +47,40 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "wants_morning_message scope" do
-    create(:user, timing: "afternoon")
-    create(:user, timing: "evening")
-    create(:user, timing: "no_preference")
-    morning_user = create(:user, timing: "morning")
+    create(:user, hour_preference: "afternoon")
+    create(:user, hour_preference: "evening")
+    create(:user, hour_preference: "no_preference")
+    morning_user = create(:user, hour_preference: "morning")
 
     assert_equal User.wants_morning_message.size, 1
     assert_equal User.wants_morning_message, [morning_user]
   end
 
   test "wants_afternoon_message scope" do
-    create(:user, timing: "morning")
-    create(:user, timing: "evening")
-    create(:user, timing: "no_preference")
-    afternoon_user = create(:user, timing: "afternoon")
+    create(:user, hour_preference: "morning")
+    create(:user, hour_preference: "evening")
+    create(:user, hour_preference: "no_preference")
+    afternoon_user = create(:user, hour_preference: "afternoon")
 
     assert_equal User.wants_afternoon_message.size, 1
     assert_equal User.wants_afternoon_message, [afternoon_user]
   end
 
   test "wants_evening_message scope" do
-    create(:user, timing: "afternoon")
-    create(:user, timing: "morning")
-    create(:user, timing: "no_preference")
-    evening_user = create(:user, timing: "evening")
+    create(:user, hour_preference: "afternoon")
+    create(:user, hour_preference: "morning")
+    create(:user, hour_preference: "no_preference")
+    evening_user = create(:user, hour_preference: "evening")
 
     assert_equal User.wants_evening_message.size, 1
     assert_equal User.wants_evening_message, [evening_user]
   end
 
   test "no_preference_message scope" do
-    create(:user, timing: "afternoon")
-    create(:user, timing: "evening")
-    create(:user, timing: "morning")
-    no_preference = create(:user, timing: "no_preference")
+    create(:user, hour_preference: "afternoon")
+    create(:user, hour_preference: "evening")
+    create(:user, hour_preference: "morning")
+    no_preference = create(:user, hour_preference: "no_preference")
 
     # This includes the subject user set up
     assert_equal User.no_preference_message.size, 2

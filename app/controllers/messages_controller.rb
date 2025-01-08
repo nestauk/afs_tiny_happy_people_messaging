@@ -31,7 +31,7 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @user = User.find(params[:user_id])
+    @user = User.find_by(uuid: params[:user_uuid])
     @message = Message.new
   end
 
