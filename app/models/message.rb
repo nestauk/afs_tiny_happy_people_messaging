@@ -4,6 +4,7 @@ class Message < ApplicationRecord
   validates :body, presence: true
 
   scope :with_content, -> { where.not(content: nil) }
+  scope :clicked, -> { with_content.where.not(clicked_at: nil) }
 
   before_validation :set_token
   after_create :generate_reply, if: :received?
