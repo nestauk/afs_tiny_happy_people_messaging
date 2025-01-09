@@ -126,6 +126,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-passwordless (1.0.3)
+      devise
+      globalid
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
@@ -306,6 +309,7 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    ruby_http_client (3.5.5)
     rubyzip (2.3.2)
     safely_block (0.4.1)
     sassc (2.4.0)
@@ -326,6 +330,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sendgrid-ruby (6.7.0)
+      ruby_http_client (~> 3.4)
     simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
@@ -407,6 +413,7 @@ DEPENDENCIES
   debug
   delayed_job_active_record
   devise
+  devise-passwordless
   dotenv-rails (~> 2.8)
   factory_bot_rails
   faker
@@ -425,6 +432,7 @@ DEPENDENCIES
   sassc-rails
   scenic
   selenium-webdriver
+  sendgrid-ruby
   simple_form
   sprockets-rails
   standard

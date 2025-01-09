@@ -13,8 +13,6 @@ class AdminsTest < ApplicationSystemTestCase
     click_on "Create admin"
 
     fill_in "Email", with: "newadmin@example.com"
-    fill_in "Password", with: "password"
-    fill_in "Password confirmation", with: "password"
     click_button "Create admin"
 
     assert_text "Admin was successfully created"
@@ -37,8 +35,6 @@ class AdminsTest < ApplicationSystemTestCase
     end
 
     fill_in "Email", with: "updatedadmin@example.com"
-    fill_in "Password", with: "newpassword"
-    fill_in "Password confirmation", with: "newpassword"
     click_on "Update"
 
     assert_text "Admin was successfully updated"
