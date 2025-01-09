@@ -39,5 +39,17 @@ module ActiveSupport
         )
         .to_return(status: 500, body: {"body" => message, "status" => "failed", "sid" => "123"}.to_json)
     end
+
+    def mock_geocoding_success!
+      geocode_payload = Geokit::GeoLoc.new(district: "Islington")
+      geocode_payload.success = true
+      Geokit::Geocoders::MultiGeocoder.expects(:geocode).returns(geocode_payload)
+    end
+
+    def mock_geocoding_failure!
+      geocode_payload = Geokit::GeoLoc.new
+      geocode_payload.success = false
+      Geokit::Geocoders::MultiGeocoder.expects(:geocode).returns(geocode_payload)
+    end
   end
 end

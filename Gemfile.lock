@@ -142,6 +142,10 @@ GEM
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
+    geokit (1.14.0)
+    geokit-rails (2.5.0)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.1.1)
@@ -397,6 +401,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.8)
   factory_bot_rails
   faker
+  geokit-rails
   hotwire-livereload (~> 1.2)
   importmap-rails
   jbuilder

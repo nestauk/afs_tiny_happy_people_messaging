@@ -1,7 +1,10 @@
+require "location_geocoder"
+
 class User < ApplicationRecord
   has_many :interests
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
+  belongs_to :local_authority, optional: true
 
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
   validates_uniqueness_of :phone_number
@@ -61,6 +64,12 @@ class User < ApplicationRecord
 
   def had_content_this_week?
     messages.where("created_at > ?", 6.days.ago).where.not(content: nil).exists?
+  end
+
+  def update_local_authority
+    location = LocationGeocoder.new(postcode).geocode
+    local_authority = LocalAuthority.find_or_create_by(name: location.district)
+    local_authority.users << self
   end
 
   private

@@ -35,6 +35,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "Jack", User.last.child_name
     assert_equal 2, User.last.day_preference
     assert_equal "morning", User.last.hour_preference
+    assert_equal "Islingon", User.last.local_authority.name
   end
 
   test "user can sign up and take part in the diary study" do
@@ -218,6 +219,9 @@ class UsersTest < ApplicationSystemTestCase
     select "November"
     select "2022"
     check "I accept the terms of service and privacy policy"
+
+    mock_geocoding_success!
+
     click_button "Sign up"
   end
 end

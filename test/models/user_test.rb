@@ -182,4 +182,14 @@ class UserTest < ActiveSupport::TestCase
 
     assert_equal false, user.had_content_this_week?
   end
+
+  test "#update_local_authority method" do
+    user = create(:user, postcode: "SW1A 1AA")
+
+    mock_geocoding_success!
+
+    user.update_local_authority
+
+    assert_equal "Islington", user.local_authority.name
+  end
 end
