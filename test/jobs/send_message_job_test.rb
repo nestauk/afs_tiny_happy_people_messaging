@@ -5,20 +5,40 @@ class SendMessageJobTest < ActiveSupport::TestCase
   include Rails.application.routes.url_helpers
 
   test "#perform sends messages with default content" do
-    content = create(:content, body: "here is a link: {{link}}")
-    content2 = create(:content, group: content.group, body: "here is a link: {{link}}")
-    user = create(:user, last_content_id: content.id)
+    content = create(:content, body: "Hi {{parent_name}}, here is a link for {{child_name}}: {{link}}")
+    content2 = create(:content, group: content.group, body: "Hi {{parent_name}}, here is a link for {{child_name}}: {{link}}")
+    user = create(:user, last_content_id: content.id, first_name: "John", child_name: "Billy")
 
     Message.any_instance.stubs(:generate_token).returns("123")
 
-    stub_successful_twilio_call(content2.body.gsub("{{link}}", track_link_url("123")), user)
+    stub_successful_twilio_call("Hi John, here is a link for Billy: {{link}}".gsub("{{link}}", track_link_url("123")), user)
 
     SendMessageJob.new.perform(user)
 
     assert_equal 1, Message.count
     assert_equal content2, Message.last.content
     assert_match(/m\/123/, Message.last.body)
+    assert_match(/John/, Message.last.body)
+    assert_match(/Billy/, Message.last.body)
     assert_equal content2.id, user.reload.last_content_id
+  end
+
+  test "#perform sends message if child name is missing" do
+    content = create(:content, body: "Hi {{parent_name}}, here is a link for {{child_name}}: {{link}}")
+    user = create(:user, first_name: "John")
+
+    Message.any_instance.stubs(:generate_token).returns("123")
+
+    stub_successful_twilio_call("Hi John, here is a link for your child: {{link}}".gsub("{{link}}", track_link_url("123")), user)
+
+    SendMessageJob.new.perform(user)
+
+    assert_equal 1, Message.count
+    assert_equal content, Message.last.content
+    assert_match(/m\/123/, Message.last.body)
+    assert_match(/John/, Message.last.body)
+    assert_match(/your child/, Message.last.body)
+    assert_equal content.id, user.reload.last_content_id
   end
 
   test "#perform does not send message if no appropriate content available" do

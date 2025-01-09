@@ -12,6 +12,8 @@ class UpdateUser < ActiveRecord::Migration[8.0]
       t.uuid :uuid
     end
 
+    User.where(postcode: nil).update_all(postcode: "N/A")
+
     rename_column :users, :timing, :hour_preference
     change_column_null :users, :postcode, false
     add_index :users, :uuid, unique: true
