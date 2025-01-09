@@ -41,7 +41,7 @@ namespace :scheduler do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_NUDGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
     User.contactable.not_nudged.not_clicked_last_two_messages.each do |user|
-      message = Message.create(user:, body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break, 'ADJUST' for different content, or 'STOP' to stop them entirely.")
+      message = Message.create(user:, body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break or 'STOP' to stop them entirely.")
       SendCustomMessageJob.perform_later(message)
       user.update(nudged_at: Time.now)
     end

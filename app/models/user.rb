@@ -47,15 +47,6 @@ class User < ApplicationRecord
     (Time.now.year * 12 + Time.now.month) - (child_birthday.year * 12 + child_birthday.month)
   end
 
-  def adjusted_child_age_in_months_today
-    child_age_in_months_today + adjust_amount
-  end
-
-  def adjust_age
-    new_amount = self.adjust_amount -= 1
-    update(adjust_amount: new_amount)
-  end
-
   def full_name
     "#{first_name} #{last_name}"
   end
