@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_11_140027) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_09_111418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -164,7 +164,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_140027) do
     t.string "hour_preference"
     t.datetime "terms_agreed_at", null: false
     t.datetime "restart_at"
-    t.integer "adjust_amount", default: 0
     t.datetime "nudged_at"
     t.bigint "last_content_id"
     t.string "child_name"

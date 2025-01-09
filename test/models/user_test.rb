@@ -129,12 +129,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user.child_age_in_months_today, 5
   end
 
-  test "adjusted_child_age_in_months_today method" do
-    user = create(:user, child_birthday: Time.now - 5.months, adjust_amount: -1)
-
-    assert_equal user.adjusted_child_age_in_months_today, 4
-  end
-
   test "#next_content method returns next ranked content for age group" do
     group = create(:group)
     content1 = create(:content, group:, position: 1)
@@ -187,12 +181,5 @@ class UserTest < ActiveSupport::TestCase
     user = create(:user)
 
     assert_equal false, user.had_content_this_week?
-  end
-
-  test "#adjust_age method decreases adjust_amount by 1" do
-    user = create(:user, adjust_amount: -2)
-    user.adjust_age
-
-    assert_equal user.adjust_amount, -3
   end
 end
