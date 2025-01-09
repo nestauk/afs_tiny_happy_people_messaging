@@ -1,0 +1,26 @@
+<%= f.input :child_name, as: :hidden %>
+<%= f.input :hour_preference, as: :hidden %>
+<%= f.input :day_preference, as: :hidden %>
+<%= f.input :diary_study, as: :hidden %>
+
+<div class="bg-purple-900 p-5 md:p-10">
+  <h1 class="text-4xl text-yellow-200">
+    You're almost done
+  </h1>
+
+  <h2 class="font-normal text-lg text-white">
+    Tell us how you found out about our service, and what you are interested in
+  </h2>
+</div>
+
+
+<div class="mt-8 w-full p-2">
+  <%= f.input :referral_source, required: false, label: "How did you find out about us?", as: :select, collection: ["Social media", "Referral by a professional", "Flyer", "Other"], input_html: { class: "w-full" } %>
+  
+  <%= f.input :interests, as: :check_boxes, collection: Interest::TITLES, wrapper_html: { class: "mt-5 flex flex-col gap-2" }, label: "What are you interested in?", required: false %>
+
+  <div class="mt-5">
+    <%= f.button :submit, "Next", class: 'btn bg-purple-600 text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
+    <%= f.button :submit, "Skip", class: 'btn bg-purple-600 text-white w-full mt-5', data: { turbo_submits_with: 'Skipping...' } %>
+  </div>
+</div>

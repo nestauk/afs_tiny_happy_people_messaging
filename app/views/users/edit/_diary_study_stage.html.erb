@@ -1,0 +1,30 @@
+<%= f.input :child_name, as: :hidden %>
+<%= f.input :hour_preference, as: :hidden %>
+<%= f.input :day_preference, as: :hidden %>
+<%= f.input :diary_study, as: :hidden %>
+<%= f.input :referral_source, as: :hidden %>
+<%= f.input :interests, as: :hidden %>
+
+<div class="bg-purple-900 p-5 md:p-10">
+  <h1 class="text-4xl text-yellow-200">
+  Thanks for expressing interest in our diary study!
+  </h1>
+
+  <p class="mb-5 text-white">
+    Choosing to take part in our diary study would involve keeping a simple log of your experience with the service. It takes roughly 2 minutes every day for 6 weeks, and you would receive £100 once you'd finished.
+  </p>
+
+  <p class="mb-5">
+    <a href="#" class="text-white underline hover:no-underline">Read more about what's involved</a>
+  </p>
+</div>
+
+<div class="mt-8 w-full p-2">
+  <%= f.input :diary_study_contact_method, as: :select, collection: ["Phone call", "Email"], label: "What's the best way to get in contact to explain more and get you started?", wrapper_html: { "data-action": "change->users#showForm" }, input_html: { class: "w-full" } %>
+  <%= f.input :email, wrapper_html: { class: "hidden mt-5" }, input_html: { class: "w-full" } %>
+  
+  <div class="mt-5">
+    <%= f.submit "Save", class: 'btn bg-purple-600 text-white w-full' %>
+    <%= f.submit "I'm not interested", class: 'btn bg-purple-600 text-white w-full mt-5' %>
+  </div>
+</div>

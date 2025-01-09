@@ -3,17 +3,11 @@
     <div class="bg-white px-4 py-4">
       <div class="flex justify-between items-center mb-4">
         <h1 class="mb-0"><%= @user.full_name %></h1>
-        <%= link_to "Send message", new_user_message_path(@user), class: "btn btn-primary bg-purple-600 text-white" %>
+        <%= link_to "Send message", new_user_message_path(user_uuid: @user.uuid), class: "btn btn-primary bg-purple-600 text-white" %>
       </div>
       <p><%= @user.postcode %></p>
       <p><%= @user.phone_number %></p>
       <p><%= @user.child_age_in_months_today %> month old child</p>
-      <% unless @user.family_support.nil? %>
-        <p><%= @user.family_support? ? "Does have family support" : "Does not have family support" %></p>
-      <% end %>
-      <% unless @user.community_sign_up.nil? %>
-        <p><%= @user.community_sign_up? ? "On Slack" : "Not on Slack" %></p>
-      <% end %>
     </div>
     <table class="table-auto mt-5 w-full">
       <thead>

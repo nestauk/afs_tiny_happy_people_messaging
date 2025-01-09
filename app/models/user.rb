@@ -3,18 +3,20 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
 
-  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, presence: true
+  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
   validates_uniqueness_of :phone_number
   validates :child_birthday, inclusion: {in: ((Date.today - 5.years)...Date.today)}
 
   phony_normalize :phone_number, default_country_code: "UK"
 
+  accepts_nested_attributes_for :interests
+
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
-  scope :wants_morning_message, -> { where(timing: "morning") }
-  scope :wants_afternoon_message, -> { where(timing: "afternoon") }
-  scope :wants_evening_message, -> { where(timing: "evening") }
-  scope :no_preference_message, -> { where(timing: ["no_preference", nil]) }
+  scope :wants_morning_message, -> { where(hour_preference: "morning") }
+  scope :wants_afternoon_message, -> { where(hour_preference: "afternoon") }
+  scope :wants_evening_message, -> { where(hour_preference: "evening") }
+  scope :no_preference_message, -> { where(hour_preference: ["no_preference", nil]) }
   scope :not_nudged, -> { where(nudged_at: nil) }
   scope :not_clicked_last_two_messages, -> {
     joins(:messages)
@@ -32,11 +34,13 @@ class User < ApplicationRecord
       .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = 2")
   }
 
-  attribute :timing,
+  attribute :hour_preference,
     morning: "morning",
     afternoon: "afternoon",
     evening: "evening",
     no_preference: "no_preference"
+
+  before_validation :set_uuid
 
   def child_age_in_months_today
     (Time.now.year * 12 + Time.now.month) - (child_birthday.year * 12 + child_birthday.month)
@@ -88,5 +92,19 @@ class User < ApplicationRecord
       return content if not_seen_content?(content)
       i += 1
     end
+  end
+
+  def set_uuid
+    return unless new_record? && uuid.nil?
+
+    uuid = generate_uuid
+
+    while User.exists?(uuid:)
+      generate_uuid
+    end
+  end
+
+  def generate_uuid
+    self.uuid = SecureRandom.uuid
   end
 end

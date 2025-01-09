@@ -10,6 +10,11 @@
         <h2 class="text-2xl lg:text-3xl text-pink-200 mb-5">
           You will receive your first text very soon
         </h2>
+        <% if @user.diary_study && @user.diary_study_contact_method.present? %>
+          <p class="text-md text-lg l:text-xl text-white xl:w-5/6 mb-5">
+            We will be in touch within 3 working days to explain more about the diary study and get you started.
+          </p>
+        <% end %>
         <p class="text-md text-lg l:text-xl text-white xl:w-5/6">
           If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <%= link_to "resources page", resources_path, class: "underline hover:no-underline" %> to know where you might find UK-based support.
         </p>
