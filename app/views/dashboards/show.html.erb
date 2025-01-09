@@ -1,0 +1,40 @@
+<h2>
+  For all LAs
+</h2>
+
+<div>
+  <h3>Total number of sign ups</h3>
+  <p>
+    <%= User.all.count %>
+  </p>
+</div>
+
+<div>
+  <h3>Sign ups this month</h3>
+  <p>
+    <%= User.where("created_at >= ?", Date.today.beginning_of_month).count %>
+  </p>
+</div>
+
+<div>
+  <h3>Sign ups this year</h3>
+  <p>
+    <%= User.where("created_at >= ?", Date.today.beginning_of_year).count %>
+  </p>
+</div>
+
+<div>
+  <h3>Average click through rate</h3>
+  <p>
+    <%= (Message.clicked.count / Message.with_content.count) * 100 %> 
+  </p>
+</div>
+
+<div>
+  <h3>Average click through rates this month</h3>
+  <p>
+    <%= (Message.clicked.where("created_at >= ?", Date.today.beginning_of_month).count / Message.with_content.where("created_at >= ?", Date.today.beginning_of_month).count) * 100 %> 
+  </p>
+</div>
+
+<h2>Top 5 LAs with the highest sign up rate</h2>
