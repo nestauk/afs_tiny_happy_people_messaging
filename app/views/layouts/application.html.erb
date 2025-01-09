@@ -21,8 +21,27 @@
         </p>
       </div>
     <% end %>
-    <main class="py-10 lg:py-20 w-full <%= @full_width ? '' : 'xl:container' %> mx-auto flex-1 <%= @disable_layout_padding ? '' : 'p-4' %>">
+    <main class="<%= @no_padding ? "" : "mx-auto p-4 py-10 lg:py-20" %> w-full">
       <%= yield %>
     </main>
+    <footer class="bg-gray-500 text-white text-sm sm:text-base">
+      <div class="w-full xl:container mx-auto my-3 px-8">
+        <div class="flex flex-wrap pt-6 lg:py-8 md:justify-around">
+          <div class="w-full md:w-6/12 pr-0 md:pr-4 mb-4">
+            <h2 class="text-lg sm:text-xl mb-5">Tiny Happy People Text Messaging</h2>
+            <p>
+              Tiny Happy People Text Messaging is a pilot service run by Nesta, the UK's innovation agency for social good. Nesta's fairer start mission aims to ensure that by 2030, every child in the UK will have the same chance of developing to their full potential in the early years.
+            </p>
+          </div>
+          <div class="w-full md:w-4/12 mb-4 border-l-none md:border-l border-white pl-0 md:pl-4">
+            <div class="flex flex-col gap-4">
+              <%= link_to 'About us', '#', class: 'link', target: '_blank', rel: 'noopener' %>
+              <%= link_to 'Terms of use', terms_path, class: 'link', target: '_blank', rel: 'noopener' %>
+              <%= link_to 'Privacy policy', privacy_policy_path, class: 'link', target: '_blank', rel: 'noopener' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
