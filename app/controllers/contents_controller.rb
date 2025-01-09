@@ -1,4 +1,6 @@
 class ContentsController < ApplicationController
+  before_action :check_admin_role
+
   def new
     @group = Group.find_by(id: params[:group_id])
     @content = @group.contents.new
@@ -45,5 +47,9 @@ class ContentsController < ApplicationController
 
   def content_params
     params.require(:content).permit(:body, :link, :position, :age_in_months)
+  end
+
+  def check_admin_role
+    redirect_to root_path unless current_admin.role == "admin"
   end
 end

@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  before_action :check_admin_role
+
   def index
     @groups = Group.all
   end
@@ -45,5 +47,9 @@ class GroupsController < ApplicationController
 
   def group_params
     params.require(:group).permit(:name)
+  end
+
+  def check_admin_role
+    redirect_to root_path unless current_admin.role == "admin"
   end
 end

@@ -1,5 +1,6 @@
 class AdminsController < ApplicationController
   before_action :set_admin, only: [:edit, :update]
+  before_action :check_admin_role
 
   # GET /admins
   def index
@@ -47,5 +48,9 @@ class AdminsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def admin_params
     params.require(:admin).permit(:email, :password, :password_confirmation)
+  end
+
+  def check_admin_role
+    redirect_to root_path unless current_admin.role == "admin"
   end
 end

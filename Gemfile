@@ -69,6 +69,8 @@ end
 gem "blazer"
 gem "delayed_job_active_record"
 gem "devise"
+gem "devise-passwordless"
+gem "sendgrid-ruby"
 gem "phony_rails"
 gem "positioning"
 gem "rollbar"
