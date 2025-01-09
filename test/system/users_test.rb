@@ -4,15 +4,7 @@ class UsersTest < ApplicationSystemTestCase
   test "user can sign up" do
     visit new_user_path
 
-    fill_in "First name", with: "Jo"
-    fill_in "Last name", with: "Smith"
-    fill_in "Phone number", with: "07444930200"
-    fill_in "Postcode", with: "ABC123"
-    select "November"
-    select "2022"
-    check "I accept the terms of service and privacy policy"
-    stub_successful_twilio_call(Content::WELCOME_MESSAGE, User.new(phone_number: "+447444930200"))
-    click_button "Sign up"
+    sign_up
 
     assert_text "Thanks for signing up!"
     fill_in "Your child's name, or nickname", with: "Jack"
@@ -23,6 +15,8 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "You're almost done"
     select "Social media"
     check "I want to share special moments with my child"
+
+    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.new(phone_number: "+447444930200"))
 
     click_button "Next"
 
@@ -37,7 +31,7 @@ class UsersTest < ApplicationSystemTestCase
     click_on "Jo Smith"
     assert_text "+447444930200"
     assert_text "ABC123"
-    assert_text Content::WELCOME_MESSAGE
+    assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development."
     assert_equal "Jack", User.last.child_name
     assert_equal 2, User.last.day_preference
     assert_equal "morning", User.last.hour_preference
@@ -46,15 +40,7 @@ class UsersTest < ApplicationSystemTestCase
   test "user can sign up and take part in the diary study" do
     visit new_user_path
 
-    fill_in "First name", with: "Jo"
-    fill_in "Last name", with: "Smith"
-    fill_in "Phone number", with: "07444930200"
-    fill_in "Postcode", with: "ABC123"
-    select "November"
-    select "2022"
-    check "I accept the terms of service and privacy policy"
-    stub_successful_twilio_call(Content::WELCOME_MESSAGE, User.new(phone_number: "+447444930200"))
-    click_button "Sign up"
+    sign_up
 
     assert_text "Thanks for signing up!"
     fill_in "Your child's name, or nickname", with: "Jack"
@@ -72,6 +58,9 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "Thanks for expressing interest in our diary study!"
     select "Email"
     fill_in "Email", with: "email@example.com"
+
+    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.last)
+
     click_button "Save"
 
     assert_text "Thank you for signing up!"
@@ -86,7 +75,7 @@ class UsersTest < ApplicationSystemTestCase
     click_on "Jo Smith"
     assert_text "+447444930200"
     assert_text "ABC123"
-    assert_text Content::WELCOME_MESSAGE
+    assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development."
     assert_equal "Jack", User.last.child_name
     assert_equal 2, User.last.day_preference
     assert_equal "morning", User.last.hour_preference
@@ -98,15 +87,7 @@ class UsersTest < ApplicationSystemTestCase
   test "user can sign up and decide not to take part in the diary study" do
     visit new_user_path
 
-    fill_in "First name", with: "Jo"
-    fill_in "Last name", with: "Smith"
-    fill_in "Phone number", with: "07444930200"
-    fill_in "Postcode", with: "ABC123"
-    select "November"
-    select "2022"
-    check "I accept the terms of service and privacy policy"
-    stub_successful_twilio_call(Content::WELCOME_MESSAGE, User.new(phone_number: "+447444930200"))
-    click_button "Sign up"
+    sign_up
 
     assert_text "Thanks for signing up!"
     check "I'm interested in participating in a diary study (you'll keep a simple log of your experience, and receive compensation for your time)"
@@ -116,6 +97,9 @@ class UsersTest < ApplicationSystemTestCase
     click_button "Next"
 
     assert_text "Thanks for expressing interest in our diary study!"
+
+    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one!", User.last)
+
     click_button "I'm not interested"
 
     assert_text "Thank you for signing up!"
@@ -129,20 +113,15 @@ class UsersTest < ApplicationSystemTestCase
   test "user can sign up and skip non essential form fields" do
     visit new_user_path
 
-    fill_in "First name", with: "Jo"
-    fill_in "Last name", with: "Smith"
-    fill_in "Phone number", with: "07444930200"
-    fill_in "Postcode", with: "ABC123"
-    select "November"
-    select "2022"
-    check "I accept the terms of service and privacy policy"
-    stub_successful_twilio_call(Content::WELCOME_MESSAGE, User.new(phone_number: "+447444930200"))
-    click_button "Sign up"
+    sign_up
 
     assert_text "Thanks for signing up!"
     click_button "Skip"
 
     assert_text "You're almost done"
+
+    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one!", User.last)
+
     click_button "Skip"
 
     assert_text "Thank you for signing up!"
@@ -156,7 +135,7 @@ class UsersTest < ApplicationSystemTestCase
     click_on "Jo Smith"
     assert_text "+447444930200"
     assert_text "ABC123"
-    assert_text Content::WELCOME_MESSAGE
+    assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development."
     assert_equal "", User.last.child_name
     assert_equal 2, User.last.day_preference
     assert_equal "no_preference", User.last.hour_preference
@@ -189,5 +168,18 @@ class UsersTest < ApplicationSystemTestCase
 
     click_on "> Users who have stopped the service (1)"
     assert_text "Jane Doe"
+  end
+
+  private
+
+  def sign_up
+    fill_in "First name", with: "Jo"
+    fill_in "Last name", with: "Smith"
+    fill_in "Phone number", with: "07444930200"
+    fill_in "Postcode", with: "ABC123"
+    select "November"
+    select "2022"
+    check "I accept the terms of service and privacy policy"
+    click_button "Sign up"
   end
 end
