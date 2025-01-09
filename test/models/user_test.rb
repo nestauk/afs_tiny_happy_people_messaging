@@ -76,16 +76,26 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.wants_evening_message, [evening_user]
   end
 
-  test "no_preference_message scope" do
+  test "no_hour_preference_message scope" do
     create(:user, hour_preference: "afternoon")
     create(:user, hour_preference: "evening")
     create(:user, hour_preference: "morning")
     no_preference = create(:user, hour_preference: "no_preference")
 
     # This includes the subject user set up
-    assert_equal User.no_preference_message.size, 2
-    assert_includes User.no_preference_message, @subject
-    assert_includes User.no_preference_message, no_preference
+    assert_equal User.no_hour_preference_message.size, 2
+    assert_includes User.no_hour_preference_message, @subject
+    assert_includes User.no_hour_preference_message, no_preference
+  end
+
+  test "with_preference_for_day scope" do
+    create(:user, day_preference: 1)
+    create(:user, day_preference: 2)
+    create(:user, day_preference: 3)
+    user = create(:user, day_preference: 4)
+
+    assert_equal User.with_preference_for_day(4).size, 1
+    assert_equal User.with_preference_for_day(4), [user]
   end
 
   test "not_clicked_last_two_messages scope" do

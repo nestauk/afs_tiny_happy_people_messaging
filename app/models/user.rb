@@ -13,10 +13,11 @@ class User < ApplicationRecord
 
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
+  scope :with_preference_for_day, ->(day) { where(day_preference: day) }
   scope :wants_morning_message, -> { where(hour_preference: "morning") }
   scope :wants_afternoon_message, -> { where(hour_preference: "afternoon") }
   scope :wants_evening_message, -> { where(hour_preference: "evening") }
-  scope :no_preference_message, -> { where(hour_preference: ["no_preference", nil]) }
+  scope :no_hour_preference_message, -> { where(hour_preference: ["no_preference", nil]) }
   scope :not_nudged, -> { where(nudged_at: nil) }
   scope :not_clicked_last_two_messages, -> {
     joins(:messages)

@@ -5,7 +5,6 @@ class SchedulerTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   setup do
-    ENV["WEEKLY_MESSAGE_DAY"] = "1"
     ENV["WEEKLY_NUDGE_DAY"] = "1"
     ENV["SET_WEEKLY"] = "true"
 
@@ -15,7 +14,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_morning_message" do
     create(:content)
-    create(:user, hour_preference: "morning")
+    create(:user, hour_preference: "morning", day_preference: 1)
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_morning_message"].execute
@@ -24,7 +23,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_afternoon_message" do
     create(:content)
-    create(:user, hour_preference: "afternoon")
+    create(:user, hour_preference: "afternoon", day_preference: 1)
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_afternoon_message"].execute
@@ -33,7 +32,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_evening_message" do
     create(:content)
-    create(:user, hour_preference: "evening")
+    create(:user, hour_preference: "evening", day_preference: 1)
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_evening_message"].execute
@@ -42,7 +41,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_no_timing_preference_message" do
     create(:content)
-    create(:user, hour_preference: "no_preference")
+    create(:user, hour_preference: "no_preference", day_preference: 1)
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_no_timing_preference_message"].execute
@@ -51,7 +50,7 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "send_no_timing_preference_message for users with no timing set" do
     create(:content)
-    create(:user, hour_preference: nil)
+    create(:user, hour_preference: nil, day_preference: 1)
 
     assert_enqueued_with(job: SendBulkMessageJob) do
       Rake::Task["scheduler:send_no_timing_preference_message"].execute
@@ -59,7 +58,15 @@ class SchedulerTest < ActiveSupport::TestCase
   end
 
   test "no job enqueued if user is not contactable" do
-    create(:user, contactable: false, hour_preference: "morning")
+    create(:user, contactable: false, hour_preference: "morning", day_preference: 1)
+
+    assert_no_enqueued_jobs do
+      Rake::Task["scheduler:send_morning_message"].execute
+    end
+  end
+
+  test "no job enqueued if user's day_preference doesn't match today" do
+    create(:user, contactable: true, hour_preference: "morning", day_preference: 2)
 
     assert_no_enqueued_jobs do
       Rake::Task["scheduler:send_morning_message"].execute
@@ -109,29 +116,6 @@ class SchedulerTest < ActiveSupport::TestCase
     assert_equal 1, Message.where(body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break, 'ADJUST' for different content, or 'STOP' to stop them entirely.").count
   end
 
-  test "doesn't run unless it's the right day" do
-    travel_to_tuesday
-
-    create(:content)
-    create(:user, hour_preference: "morning")
-
-    assert_no_enqueued_jobs do
-      Rake::Task["scheduler:send_morning_message"].execute
-    end
-  end
-
-  test "does run on the wrong day if set_weekly isn't set" do
-    ENV["SET_WEEKLY"] = "false"
-    travel_to_tuesday
-
-    create(:content)
-    create(:user, hour_preference: "morning")
-
-    assert_enqueued_with(job: SendBulkMessageJob) do
-      Rake::Task["scheduler:send_morning_message"].execute
-    end
-  end
-
   private
 
   def travel_to_monday
@@ -142,15 +126,5 @@ class SchedulerTest < ActiveSupport::TestCase
     days_until_monday = 7 if days_until_monday.zero?
 
     travel_to Time.current + days_until_monday.days
-  end
-
-  def travel_to_tuesday
-    current_day = Time.current.wday
-
-    # Calculate how many days until the nearest Tuesday (2 = Tuesday)
-    days_until_tuesday = (2 - current_day) % 7
-    days_until_tuesday = 7 if days_until_tuesday.zero?
-
-    travel_to Time.current + days_until_tuesday.days
   end
 end

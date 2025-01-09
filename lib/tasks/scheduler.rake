@@ -1,36 +1,29 @@
 namespace :scheduler do
   desc "Send morning text message"
   task send_morning_message: :environment do
-    (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
-
-    User.contactable.wants_morning_message.find_in_batches do |users|
+    User.contactable.with_preference_for_day(Date.today.wday).wants_morning_message.find_in_batches do |users|
       SendBulkMessageJob.perform_later(users.to_a)
     end
   end
 
   desc "Send afternoon text message"
   task send_afternoon_message: :environment do
-    (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
-
-    User.contactable.wants_afternoon_message.find_in_batches do |users|
+    User.contactable.with_preference_for_day(Date.today.wday).wants_afternoon_message.find_in_batches do |users|
       SendBulkMessageJob.perform_later(users.to_a)
     end
   end
 
   desc "Send evening text message"
   task send_evening_message: :environment do
-    (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
-
-    User.contactable.wants_evening_message.find_in_batches do |users|
+    User.contactable.with_preference_for_day(Date.today.wday).wants_evening_message.find_in_batches do |users|
       SendBulkMessageJob.perform_later(users.to_a)
     end
   end
 
   desc "Send no timing preference text message"
   task send_no_timing_preference_message: :environment do
-    (next unless Date.today.wday == ENV.fetch("WEEKLY_MESSAGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
-
-    User.contactable.no_preference_message.find_in_batches do |users|
+    # Users with no day preference get automatically set to Tuesdays
+    User.contactable.with_preference_for_day(Date.today.wday).no_hour_preference_message.find_in_batches do |users|
       SendBulkMessageJob.perform_later(users.to_a)
     end
   end
