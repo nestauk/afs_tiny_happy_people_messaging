@@ -4,11 +4,14 @@
   </h1>
 
   <h2 class="font-normal text-lg text-white">
-    Let us know a bit more about your preferences so we can customize your experience and help you get the most out of the service
+    Let us know a bit more about your preferences so we can personalise your experience and help you get the most out of the service
   </h2>
+
+  <%= f.button :submit, "Skip this section", class: 'btn bg-purple-600 text-white w-full', data: { turbo_submits_with: 'Skipping...' } %>
 </div>
 
 <div class="mt-6 w-full p-2">
+
   <%= f.input :child_name, label: "Your child's name, or nickname", hint: "We use your child's name to personalize the texts we send you. We take your privacy seriously and only use this information for personalization.", required: false %>
   
   <%= f.input :day_preference, label: "What day would you like to get the texts?", as: :select, collection: [["Monday", 1], ["Tuesday", 2], ["Wednesday", 3], ["Thursday", 4], ["Friday", 5], ["Saturday", 6], ["Sunday", 0], ["No preference", 2]], wrapper_html: { class: "flex flex-col mt-5" }, required: false %>
@@ -19,6 +22,5 @@
 
   <div class="mt-5">
     <%= f.button :submit, "Next", class: 'btn bg-purple-600 text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
-    <%= f.button :submit, "Skip", class: 'btn bg-purple-600 text-white w-full mt-5', data: { turbo_submits_with: 'Skipping...' } %>
   </div>
 </div>

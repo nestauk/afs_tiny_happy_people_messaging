@@ -14,7 +14,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "You're almost done"
     select "Social media"
-    check "I want to share special moments with my child"
+    check "Building a better routine with my child"
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.new(phone_number: "+447444930200"))
 
@@ -51,7 +51,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "You're almost done"
     select "Social media"
-    check "I want to share special moments with my child"
+    check "Building a better routine with my child"
 
     click_button "Next"
 
@@ -110,19 +110,20 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "", User.last.diary_study_contact_method
   end
 
-  test "user can sign up and skip non essential form fields" do
+  test "user can skip non-essential form fields" do
     visit new_user_path
 
     sign_up
 
     assert_text "Thanks for signing up!"
-    click_button "Skip"
+
+    click_button "Skip this section"
 
     assert_text "You're almost done"
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one!", User.last)
 
-    click_button "Skip"
+    click_button "Skip this section"
 
     assert_text "Thank you for signing up!"
 
@@ -137,6 +138,43 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "ABC123"
     assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development."
     assert_equal "", User.last.child_name
+    assert_equal 2, User.last.day_preference
+    assert_equal "no_preference", User.last.hour_preference
+  end
+
+  test "user can skip second page and still get directed to the diary study if they've signed up" do
+    visit new_user_path
+
+    sign_up
+
+    assert_text "Thanks for signing up!"
+    fill_in "Your child's name, or nickname", with: "Jack"
+    check "I'm interested in participating in a diary study (you'll keep a simple log of your experience, and receive compensation for your time)"
+    click_button "Next"
+
+    assert_text "You're almost done"
+
+    click_button "Skip this section"
+
+    assert_text "Thanks for expressing interest in our diary study!"
+
+    select "Phone call"
+
+    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.last)
+
+    click_button "Save"
+
+    @admin = create(:admin)
+    sign_in
+
+    assert_equal 1, Message.count
+
+    visit users_path
+    click_on "Jo Smith"
+    assert_text "+447444930200"
+    assert_text "ABC123"
+    assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development."
+    assert_equal "Jack", User.last.child_name
     assert_equal 2, User.last.day_preference
     assert_equal "no_preference", User.last.hour_preference
   end

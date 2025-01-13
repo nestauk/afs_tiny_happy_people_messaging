@@ -6,9 +6,10 @@ class Interest < ApplicationRecord
   attr_accessor :other_title
 
   TITLES = [
-    "I want to share special moments with my child",
-    "I'm looking to build my confidence as a parent",
-    "I need to feel more supported through parenting ups and downs",
-    "I want to discover helpful parenting tips and advice"
+    "Building a better routine with my child",
+    "Sharing special moments together",
+    "Finding fresh ideas for activities with my child",
+    "Feeling supported through parenting ups and downs",
+    "Building on my existing parenting skills"
   ]
 end
