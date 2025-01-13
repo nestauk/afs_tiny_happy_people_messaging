@@ -3,7 +3,7 @@
 <%= f.input :day_preference, as: :hidden %>
 <%= f.input :diary_study, as: :hidden %>
 
-<div class="bg-purple-900 p-5 md:p-10">
+<div class="bg-purple-900 p-5 md:p-10 mx-2">
   <h1 class="text-4xl text-yellow-200">
     You're almost done
   </h1>
@@ -15,8 +15,7 @@
   <%= f.button :submit, "Skip this section", class: 'link text-white', data: { turbo_submits_with: 'Skipping...' } %>
 </div>
 
-
-<div class="mt-8 w-full p-2">
+<div class="mt-8 w-full px-5">
   <%= f.input :referral_source, required: false, label: "How did you find out about us?", as: :select, include_blank: false, collection: ["Social media", "Referral by a professional", "Flyer/Poster", "Other"], input_html: { class: "w-full" } %>
   
   <%= f.input :interests, as: :check_boxes, collection: Interest::TITLES, wrapper_html: { class: "mt-5 flex flex-col gap-2" }, label: "What are you interested in?", required: false %>
