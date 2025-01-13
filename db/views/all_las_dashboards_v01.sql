@@ -13,7 +13,7 @@ new_users_this_year AS (
   WHERE DATE_TRUNC('year', created_at)::DATE >= DATE_TRUNC('year', CURRENT_DATE)::DATE
 ),
 average_overall_clickthrough_rates AS (
-  SELECT (COUNT(clicked_at)::numeric / COUNT(*)::numeric) * 100 AS average_overall_clickthrough_rates
+  SELECT (COUNT(clicked_at)::numeric / NULLIF(COUNT(*)::numeric, 0)) * 100 AS average_overall_clickthrough_rates
   FROM messages
   WHERE content_id IS NOT NULL
 ),
