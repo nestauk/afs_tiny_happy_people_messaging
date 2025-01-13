@@ -68,8 +68,10 @@ class User < ApplicationRecord
 
   def update_local_authority
     location = LocationGeocoder.new(postcode).geocode
-    local_authority = LocalAuthority.find_or_create_by(name: location.district)
+    local_authority = LocalAuthority.find_or_create_by(name: location.state)
     local_authority.users << self
+  rescue Geokit::Geocoders::GeocodeError
+    nil
   end
 
   private

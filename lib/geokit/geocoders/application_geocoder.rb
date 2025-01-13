@@ -18,10 +18,7 @@ module Geokit
 
       def self.extract_geoloc(result_json)
         loc = new_loc
-        loc.district = result_json["properties"]["context"]["locality"]["name"]
-        set_address_components(result_json, loc)
-        set_precision(loc)
-        set_bounds(result_json["properties"]["bbox"], loc)
+        loc.state = result_json["properties"]["context"]["locality"]["name"]
         loc.success = true
         loc
       end
