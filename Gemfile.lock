@@ -311,6 +311,9 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    scenic (1.8.0)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
     securerandom (0.4.0)
     selenium-webdriver (4.22.0)
       base64 (~> 0.2)
@@ -414,6 +417,7 @@ DEPENDENCIES
   redis (>= 4.0.1)
   rollbar
   sassc-rails
+  scenic
   selenium-webdriver
   simple_form
   sprockets-rails
