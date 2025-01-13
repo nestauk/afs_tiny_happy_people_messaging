@@ -69,6 +69,7 @@ end
 gem "blazer"
 gem "delayed_job_active_record"
 gem "devise"
+gem "geokit-rails"
 gem "phony_rails"
 gem "positioning"
 gem "rollbar"

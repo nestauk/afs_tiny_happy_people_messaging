@@ -24,6 +24,8 @@ class UsersController < ApplicationController
     @user.terms_agreed_at = Time.now if user_params[:terms_agreed_at] == "1"
 
     if @user.save
+      @user.update_local_authority
+
       redirect_to edit_user_path(@user.uuid)
     else
       render :new, status: :unprocessable_entity

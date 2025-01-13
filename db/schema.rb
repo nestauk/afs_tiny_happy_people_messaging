@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_09_111418) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_09_173555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,6 +22,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_111418) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "admin", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
@@ -130,6 +131,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_111418) do
     t.index ["user_id"], name: "index_interests_on_user_id"
   end
 
+  create_table "local_authorities", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id"
@@ -173,7 +180,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_111418) do
     t.string "diary_study_contact_method"
     t.string "email"
     t.uuid "uuid"
+    t.bigint "local_authority_id"
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
+    t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 
@@ -181,4 +190,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_111418) do
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
   add_foreign_key "users", "contents", column: "last_content_id"
+  add_foreign_key "users", "local_authorities"
 end
