@@ -5,7 +5,7 @@
 <%= f.input :referral_source, as: :hidden %>
 <%= f.input :interests, as: :hidden %>
 
-<div class="bg-purple-900 p-5 md:p-10">
+<div class="bg-purple-900 p-5 md:p-10 mx-2">
   <h1 class="text-4xl text-yellow-200">
   Thanks for expressing interest in our diary study!
   </h1>
@@ -19,12 +19,12 @@
   </p>
 </div>
 
-<div class="mt-8 w-full p-2">
+<div class="mt-8 w-full px-5">
   <%= f.input :diary_study_contact_method, as: :select, collection: ["Phone call", "Email"], label: "What's the best way to get in contact to explain more and get you started?", wrapper_html: { "data-action": "change->users#showForm" }, input_html: { class: "w-full" } %>
   <%= f.input :email, wrapper_html: { class: "hidden mt-5" }, input_html: { class: "w-full" } %>
   
   <div class="mt-5">
     <%= f.submit "Save", class: 'btn bg-purple-600 text-white w-full' %>
-    <%= f.submit "I'm not interested", class: 'btn bg-yellow-400 text-black w-full mt-5' %>
+    <%= f.submit "I'm not interested", class: 'btn bg-gray-300 text-black w-full mt-5' %>
   </div>
 </div>
