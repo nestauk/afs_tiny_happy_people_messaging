@@ -5,36 +5,41 @@
 <div>
   <h3>Total number of sign ups</h3>
   <p>
-    <%= User.all.count %>
+    <%= @all_las_dashboard.total_user_count %>
   </p>
 </div>
 
 <div>
   <h3>Sign ups this month</h3>
   <p>
-    <%= User.where("created_at >= ?", Date.today.beginning_of_month).count %>
+    <%= @all_las_dashboard.new_users_this_month_count %>
   </p>
 </div>
 
 <div>
   <h3>Sign ups this year</h3>
   <p>
-    <%= User.where("created_at >= ?", Date.today.beginning_of_year).count %>
+    <%= @all_las_dashboard.new_users_this_year_count %>
   </p>
 </div>
 
 <div>
   <h3>Average click through rate</h3>
   <p>
-    <%= (Message.clicked.count / Message.with_content.count) * 100 %> 
+    <%= @all_las_dashboard.average_overall_clickthrough_rates %> 
   </p>
 </div>
 
 <div>
   <h3>Average click through rates this month</h3>
   <p>
-    <%= (Message.clicked.where("created_at >= ?", Date.today.beginning_of_month).count / Message.with_content.where("created_at >= ?", Date.today.beginning_of_month).count) * 100 %> 
+    <%= @all_las_dashboard.average_this_month_clickthrough_rates %>
   </p>
 </div>
 
 <h2>Top 5 LAs with the highest sign up rate</h2>
+<ol>
+  <% User.all.where.not(local_authority: nil).group_by(&:local_authority).each do |group| %>
+    <li><%= group.first.name %></li>
+  <% end %>
+</ol>
