@@ -9,7 +9,7 @@ class UserProfile
     :email, :hour_preference, :day_preference, :referral_source, :id,
     :diary_study, :diary_study_contact_method, :child_name, interests: []
   ]
-  PERMITTED_PARAMS = [:stage, :move_back, :move_next, :skip, user_profile: USER_PARAMS]
+  PERMITTED_PARAMS = [:stage, :move_back, :move_next, user_profile: USER_PARAMS]
 
   attr_reader :params, :errors, :user
 
@@ -113,10 +113,6 @@ class UserProfile
 
   def moving_backwards?
     params.key?(:move_back)
-  end
-
-  def skip?
-    params.key?(:skip)
   end
 
   def stage_index
