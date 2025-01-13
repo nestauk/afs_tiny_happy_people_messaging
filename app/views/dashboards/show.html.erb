@@ -1,45 +1,134 @@
-<h2>
-  For all LAs
-</h2>
+<div class="px-10">
+  <h1 class="text-4xl">
+    Data dashboard
+  </h1>
 
-<div>
-  <h3>Total number of sign ups</h3>
-  <p>
-    <%= @all_las_dashboard.total_user_count %>
-  </p>
+  <section>
+    <h2 class="text-3xl text-purple-700">
+      For all local authorities
+    </h2>
+
+    <div class="flex justify-between mt-5">
+      <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+        <h3 class="text-large font-bold mb-4">Total number of sign ups</h3>
+        <p class="text-4xl">
+          <%= @all_las_dashboard.total_user_count.nil? ? "No data" : @all_las_dashboard.total_user_count %>
+        </p>
+      </div>
+
+      <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+        <h3 class="text-large font-bold mb-4">Sign ups this month</h3>
+        <p class="text-4xl">
+          <%= @all_las_dashboard.new_users_this_month_count.nil? ? "No data" : @all_las_dashboard.new_users_this_month_count %>
+        </p>
+      </div>
+
+      <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+        <h3 class="text-large font-bold mb-4">Sign ups this year</h3>
+        <p class="text-4xl">
+          <%= @all_las_dashboard.new_users_this_year_count.nil? ? "No data" : @all_las_dashboard.new_users_this_year_count %>
+        </p>
+      </div>
+
+      <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+        <h3 class="text-large font-bold mb-4">Average click through rate</h3>
+        <p class="text-4xl">
+          <% if @all_las_dashboard.average_overall_clickthrough_rates.nil? %>
+            No data
+          <% else %>
+            <%= @all_las_dashboard.average_overall_clickthrough_rates.round %>%
+          <% end %>
+        </p>
+      </div>
+
+      <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+        <h3 class="text-large font-bold mb-4">Average click through rates this month</h3>
+        <p class="text-4xl">
+          <% if @all_las_dashboard.average_this_month_clickthrough_rates.nil? %>
+            No data
+          <% else %>
+            <%= @all_las_dashboard.average_this_month_clickthrough_rates.round %>%
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="text-3xl text-purple-700">
+      Top 5 LAs with the highest sign up rate
+    </h2>
+    <ol class="px-5">
+      <% LocalAuthority.most_users_order.limit(5).each do |la| %>
+        <li class="text-lg"><%= la.name %></li>
+      <% end %>
+    </ol>
+  </section>
+
+  <section class="mt-16"  data-controller="dashboards">
+    <h2 class="text-3xl text-purple-700">
+      Filter by LA
+    </h2>
+    <form id="filterForm">
+      <label for="category">Choose a local authority:</label>
+      <select id="category" data-action="change->dashboards#toggle">
+        <option value="" selected disabled>-- Local authority --</option>
+        <% LocalAuthority.all.order(:name).each do |la| %>
+          <option value="<%= la.name %>"><%= la.name %></option>
+        <% end %>
+      </select>
+    </form>
+    <% @specific_la_dashboards.each do |dashboard| %>
+      <div id="<%= dashboard.la_name %>_dashboard" class="hidden dashboard mt-8">
+        <h3 class="text-2xl">
+          LA summary - <%= dashboard.la_name %>
+        </h3>
+
+        <div class="flex justify-between mt-5">
+          <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+            <h3 class="text-large font-bold mb-4">Total number of sign ups</h3>
+            <p class="text-4xl">
+              <%= dashboard.total_user_count.nil? ? "No data" : dashboard.total_user_count %>
+            </p>
+          </div>
+
+          <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+            <h3 class="text-large font-bold mb-4">Sign ups this month</h3>
+            <p class="text-4xl">
+              <%= dashboard.new_users_this_month_count.nil? ? "No data" : dashboard.new_users_this_month_count %>
+            </p>
+          </div>
+
+          <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+            <h3 class="text-large font-bold mb-4">Sign ups this year</h3>
+            <p class="text-4xl">
+              <%= dashboard.new_users_this_year_count.nil? ? "No data" : dashboard.new_users_this_year_count %>
+            </p>
+          </div>
+
+          <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+            <h3 class="text-large font-bold mb-4">Average click through rate</h3>
+            <p class="text-4xl">
+              <% if dashboard.average_overall_clickthrough_rates.nil? %>
+                No data
+              <% else %>
+                <%= dashboard.average_overall_clickthrough_rates.round %>%
+              <% end %>
+            </p>
+          </div>
+
+          <div class="p-5 border-2 border-purple-500 rounded-lg text-center bg-white">
+            <h3 class="text-large font-bold mb-4">Average click through rates this month</h3>
+            <p class="text-4xl">
+              <% if dashboard.average_this_month_clickthrough_rates.nil? %>
+                No data
+              <% else %>
+                <%= dashboard.average_this_month_clickthrough_rates.round %>%
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </section>
 </div>
-
-<div>
-  <h3>Sign ups this month</h3>
-  <p>
-    <%= @all_las_dashboard.new_users_this_month_count %>
-  </p>
-</div>
-
-<div>
-  <h3>Sign ups this year</h3>
-  <p>
-    <%= @all_las_dashboard.new_users_this_year_count %>
-  </p>
-</div>
-
-<div>
-  <h3>Average click through rate</h3>
-  <p>
-    <%= @all_las_dashboard.average_overall_clickthrough_rates %> 
-  </p>
-</div>
-
-<div>
-  <h3>Average click through rates this month</h3>
-  <p>
-    <%= @all_las_dashboard.average_this_month_clickthrough_rates %>
-  </p>
-</div>
-
-<h2>Top 5 LAs with the highest sign up rate</h2>
-<ol>
-  <% User.all.where.not(local_authority: nil).group_by(&:local_authority).each do |group| %>
-    <li><%= group.first.name %></li>
-  <% end %>
-</ol>

@@ -46,4 +46,10 @@ namespace :scheduler do
       user.update(nudged_at: Time.now)
     end
   end
+
+  desc "Update local authority data"
+  task update_local_authority_data: :environment do
+    AllLasDashboard.refresh
+    LaSpecificDashboard.refresh
+  end
 end
