@@ -10,4 +10,7 @@ class PagesController < ApplicationController
   def resources
     Page.find_or_create_by(name: "resources").clicks.create if Rails.env.production?
   end
+
+  def diary_study
+  end
 end

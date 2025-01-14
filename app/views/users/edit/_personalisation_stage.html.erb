@@ -17,7 +17,10 @@
   
   <%= f.input :hour_preference, label: "What time of day would you like to get the texts?", as: :select, collection: [["Morning, 8am", "morning"], ["Afternoon, 12pm", "afternoon"], ["Evening, 8pm", "evening"], ["No preference", "no_preference"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false %>
   
-  <%= f.input :diary_study, as: :boolean, inline_label: "I'm interested in participating in a diary study (you'll keep a simple log of your experience, and receive compensation for your time)", label: false, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-5" } %>
+  <p class="mt-8">
+    🎁 <span class="font-bold">Get a £100 voucher with just 2 minutes of your time each day!</span> Join our diary study to share your daily reflections on our programme and receive a <span class="font-bold">£100 voucher</span> as a thank-you for your participation.
+  </p>
+  <%= f.input :diary_study, as: :boolean, inline_label: "Yes, I'm interested in joining the diary study and earning a £100 voucher!", label: false, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-1" } %>
 
   <div class="mt-5">
     <%= f.button :submit, "Next", class: 'btn bg-purple-600 text-white w-full', data: { turbo_submits_with: 'Saving...' } %>

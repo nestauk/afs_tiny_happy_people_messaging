@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get "/privacy_policy", to: "pages#privacy_policy"
   get "/terms", to: "pages#terms"
   get "/resources", to: "pages#resources"
+  get "/diary_study", to: "pages#diary_study"
 
   resources :users, only: %i[new create index show edit update], param: :uuid do
     get "dashboard", on: :collection

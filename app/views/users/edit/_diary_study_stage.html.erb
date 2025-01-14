@@ -7,20 +7,43 @@
 
 <div class="bg-purple-900 p-5 md:p-10 mx-2">
   <h1 class="text-4xl text-yellow-200">
-  Thanks for expressing interest in our diary study!
+    Thank you for your interest in our diary study
   </h1>
 
+  <h2 class="mb-3 text-white text-2xl">
+    What will you be doing?
+  </h2>
+
+  <ul class="mb-5 text-white list-disc pl-3">
+    <li>
+      Spend just <span class="font-bold">2 minutes a day</span> jotting down how the programme has worked for you and your little one 
+    </li>
+    <li>
+      At the end of each week, take <span class="font-bold">5–10 minutes</span> to reflect on your experience and send us your diary 
+    </li>
+    <li>
+      Receive a thank-you £100 voucher at the end of 4 weeks 
+    </li>
+  </ul>
+
+  <h2 class="mb-3 text-white text-2xl">
+    Why is this important?
+  </h2>
+
   <p class="mb-5 text-white">
-    Choosing to take part in our diary study would involve keeping a simple log of your experience with the service. It takes roughly 2 minutes every day for 6 weeks, and you would receive £100 once you'd finished.
+    Your reflections will help us understand parents’ preferences and improve the programme for families across the UK. 
   </p>
 
   <p class="md:mb-5">
-    <a href="#" class="text-white underline hover:no-underline">Read more about what's involved</a>
+    <%= link_to "Read more about what's involved", diary_study_path, class: "link text-white", target: "_blank" %>
   </p>
 </div>
 
 <div class="mt-8 w-full px-5">
-  <%= f.input :diary_study_contact_method, as: :select, collection: ["Phone call", "Email"], label: "What's the best way to get in contact to explain more and get you started?", wrapper_html: { "data-action": "change->users#showForm" }, input_html: { class: "w-full" } %>
+  <h2>
+    What's next?
+  </h2>
+  <%= f.input :diary_study_contact_method, as: :select, collection: ["Phone call", "Email"], label: "If you are happy to take part, please let us know how you we can best contact you regarding the next steps:", wrapper_html: { "data-action": "change->users#showForm" }, input_html: { class: "w-full" } %>
   <%= f.input :email, wrapper_html: { class: "hidden mt-5" }, input_html: { class: "w-full" } %>
   
   <div class="mt-5">
