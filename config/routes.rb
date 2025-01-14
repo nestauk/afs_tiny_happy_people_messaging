@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     resources :messages
   end
 
+  get "dashboard", to: "dashboards#show"
+
   resources :groups do
     resources :contents, except: %i[index]
   end
