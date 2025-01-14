@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   end
 
   def new
+    @no_padding = true
     @user = User.new
     Page.find_or_create_by(name: "users/new").clicks.create if Rails.env.production?
   end

@@ -21,8 +21,9 @@
         </p>
       </div>
     <% end %>
-    <main class="py-10 lg:py-20 w-full container mx-auto flex-1">
+    <main class="<%= @no_padding ? "" : "mx-auto py-10 lg:py-20 container" %> w-full">
       <%= yield %>
     </main>
+    <%= render "layouts/footer" %>
   </body>
 </html>
