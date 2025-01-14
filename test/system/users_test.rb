@@ -47,7 +47,7 @@ class UsersTest < ApplicationSystemTestCase
     fill_in "Your child's name, or nickname", with: "Jack"
     select "No preference", from: "What day would you like to get the texts?"
     select "Morning"
-    check "I'm interested in participating in a diary study (you'll keep a simple log of your experience, and receive compensation for your time)"
+    check "Yes, I'm interested in joining the diary study and earning a £100 voucher!"
     click_button "Next"
 
     assert_text "You're almost done"
@@ -56,7 +56,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Next"
 
-    assert_text "Thanks for expressing interest in our diary study!"
+    assert_text "Thank you for your interest in our diary study"
     select "Email"
     fill_in "Email", with: "email@example.com"
 
@@ -65,7 +65,7 @@ class UsersTest < ApplicationSystemTestCase
     click_button "Save"
 
     assert_text "Thank you for signing up!"
-    assert_text "We will be in touch within 3 working days to explain more about the diary study and get you started."
+    assert_text "We'll be in touch within 5 working days to explain more about the diary study and get you started."
 
     assert_equal 1, Message.count
 
@@ -91,13 +91,13 @@ class UsersTest < ApplicationSystemTestCase
     sign_up
 
     assert_text "Thanks for signing up!"
-    check "I'm interested in participating in a diary study (you'll keep a simple log of your experience, and receive compensation for your time)"
+    check "Yes, I'm interested in joining the diary study and earning a £100 voucher!"
     click_button "Next"
 
     assert_text "You're almost done"
     click_button "Next"
 
-    assert_text "Thanks for expressing interest in our diary study!"
+    assert_text "Thank you for your interest in our diary study"
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one!", User.last)
 
@@ -150,14 +150,14 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "Thanks for signing up!"
     fill_in "Your child's name, or nickname", with: "Jack"
-    check "I'm interested in participating in a diary study (you'll keep a simple log of your experience, and receive compensation for your time)"
+    check "Yes, I'm interested in joining the diary study and earning a £100 voucher!"
     click_button "Next"
 
     assert_text "You're almost done"
 
     click_button "Skip this section"
 
-    assert_text "Thanks for expressing interest in our diary study!"
+    assert_text "Thank you for your interest in our diary study"
 
     select "Phone call"
 
