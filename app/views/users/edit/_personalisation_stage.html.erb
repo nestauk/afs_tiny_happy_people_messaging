@@ -1,21 +1,23 @@
+<%= f.input :referral_source, as: :hidden %>
+
 <div class="bg-purple-900 p-5 md:p-10 mx-2">
   <h1 class="text-4xl text-yellow-200">
     Thanks for signing up!
   </h1>
 
   <h2 class="font-normal text-lg text-white">
-    Let us know a bit more about your preferences so we can personalise your experience and help you get the most out of the service
+    Tell us about your preferences for a better experience
   </h2>
 
   <%= f.button :submit, "Skip this section", class: 'link text-white', data: { turbo_submits_with: 'Skipping...' } %>
 </div>
 
 <div class="mt-6 w-full px-5">
-  <%= f.input :child_name, label: "Your child's name, or nickname", hint: "We use your child's name to personalize the texts we send you. We take your privacy seriously and only use this information for personalization.", required: false %>
+  <%= f.input :child_name, label: "Your child's name, or nickname (optional)", hint: "We use your child's name to personalize the texts we send you. We take your privacy seriously and only use this information for personalization.", required: false %>
   
-  <%= f.input :day_preference, label: "What day would you like to get the texts?", as: :select, collection: [["Monday", 1], ["Tuesday", 2], ["Wednesday", 3], ["Thursday", 4], ["Friday", 5], ["Saturday", 6], ["Sunday", 0], ["No preference", 2]], wrapper_html: { class: "flex flex-col mt-5" }, required: false %>
+  <%= f.input :day_preference, label: "What day would you like to get the texts each week? (optional)", as: :select, collection: [["Monday", 1], ["Tuesday", 2], ["Wednesday", 3], ["Thursday", 4], ["Friday", 5], ["Saturday", 6], ["Sunday", 0], ["No preference, send them any day", 2]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false %>
   
-  <%= f.input :hour_preference, label: "What time of day would you like to get the texts?", as: :select, collection: [["Morning, 8am", "morning"], ["Afternoon, 12pm", "afternoon"], ["Evening, 8pm", "evening"], ["No preference", "no_preference"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false %>
+  <%= f.input :hour_preference, label: "What time of day would you like to get the texts? (optional)", as: :select, collection: [["Morning, 8am", "morning"], ["Afternoon, 12pm", "afternoon"], ["Evening, 8pm", "evening"], ["No preference, send them any time", "no_preference"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false %>
   
   <p class="mt-8">
     🎁 <span class="font-bold">Get a £100 voucher with just 2 minutes of your time each day!</span> Join our diary study to share your daily reflections on our programme and receive a <span class="font-bold">£100 voucher</span> as a thank-you for your participation.

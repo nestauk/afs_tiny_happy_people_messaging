@@ -52,6 +52,7 @@ class UsersController < ApplicationController
   end
 
   def thank_you
+    @no_padding = true
     @user = User.find_by(uuid: params[:uuid])
   end
 
