@@ -6,15 +6,17 @@
 <%= f.input :interests, as: :hidden %>
 
 <div class="bg-purple-900 p-5 md:p-10 mx-2">
-  <h1 class="text-4xl text-yellow-200">
+  <h1 class="text-4xl text-yellow-200 mb-0">
     Thank you for your interest in our diary study
   </h1>
+</div>
 
-  <h2 class="mb-3 text-white text-2xl">
+<div class="mt-8 w-full px-5">
+  <h2 class="mb-3 text-xl">
     What will you be doing?
   </h2>
 
-  <ul class="mb-5 text-white list-disc pl-3">
+  <ul class="mb-8 list-disc pl-3">
     <li>
       Spend just <span class="font-bold">2 minutes a day</span> jotting down how the programme has worked for you and your little one 
     </li>
@@ -26,20 +28,18 @@
     </li>
   </ul>
 
-  <h2 class="mb-3 text-white text-2xl">
+  <h2 class="mb-3 text-xl">
     Why is this important?
   </h2>
 
-  <p class="mb-5 text-white">
+  <p class="mb-3">
     Your reflections will help us understand parents’ preferences and improve the programme for families across the UK. 
   </p>
 
-  <p class="md:mb-5">
-    <%= link_to "Read more about what's involved", diary_study_path, class: "link text-white", target: "_blank" %>
+  <p class="mb-8">
+    <%= link_to "Read more about what's involved", diary_study_path, class: "link", target: "_blank" %>
   </p>
-</div>
 
-<div class="mt-8 w-full px-5">
   <h2>
     What's next?
   </h2>
