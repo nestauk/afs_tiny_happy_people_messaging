@@ -128,9 +128,12 @@
             </p>
           </div>
         </div>
+        <canvas
+          data-controller="chartjs"
+          data-chartjs-data-value="<%= @chart_data.to_json %>"
+          data-chartjs-options-value="<%= @chart_options.to_json %>"
+        ></canvas>
       </div>
-
-      <canvas id="myChart" width="400" height="400"></canvas>
     <% end %>
   </section>
 </div>
