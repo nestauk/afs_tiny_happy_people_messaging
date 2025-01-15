@@ -66,6 +66,7 @@ group :test do
   gem "webmock"
 end
 
+gem "ahoy_matey"
 gem "blazer"
 gem "delayed_job_active_record"
 gem "devise"

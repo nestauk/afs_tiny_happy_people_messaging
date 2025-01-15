@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_13_163706) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_15_135620) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,6 +25,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_13_163706) do
     t.string "role", default: "admin", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "ahoy_events", force: :cascade do |t|
+    t.bigint "visit_id"
+    t.uuid "user_id"
+    t.string "name"
+    t.jsonb "properties"
+    t.datetime "time"
+    t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
+    t.index ["properties"], name: "index_ahoy_events_on_properties", opclass: :jsonb_path_ops, using: :gin
+    t.index ["user_id"], name: "index_ahoy_events_on_user_id"
+    t.index ["visit_id"], name: "index_ahoy_events_on_visit_id"
+  end
+
+  create_table "ahoy_visits", force: :cascade do |t|
+    t.string "visit_token"
+    t.string "visitor_token"
+    t.uuid "user_id"
+    t.text "user_agent"
+    t.text "referrer"
+    t.string "referring_domain"
+    t.text "landing_page"
+    t.string "browser"
+    t.string "os"
+    t.string "device_type"
+    t.datetime "started_at"
+    t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
+    t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
+    t.index ["visitor_token", "started_at"], name: "index_ahoy_visits_on_visitor_token_and_started_at"
   end
 
   create_table "blazer_audits", force: :cascade do |t|
@@ -81,13 +110,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_13_163706) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
-  end
-
-  create_table "clicks", force: :cascade do |t|
-    t.bigint "page_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["page_id"], name: "index_clicks_on_page_id"
   end
 
   create_table "contents", force: :cascade do |t|
@@ -153,12 +175,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_13_163706) do
     t.index ["token"], name: "index_messages_on_token", unique: true
   end
 
-  create_table "pages", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "phone_number", null: false
     t.string "first_name", null: false
@@ -186,7 +202,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_13_163706) do
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 
-  add_foreign_key "clicks", "pages"
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
   add_foreign_key "users", "contents", column: "last_content_id"

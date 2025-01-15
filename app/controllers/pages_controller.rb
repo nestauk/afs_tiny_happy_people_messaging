@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_admin!
+  after_action :track_action
 
   def privacy_policy
   end
@@ -11,9 +12,14 @@ class PagesController < ApplicationController
   end
 
   def resources
-    Page.find_or_create_by(name: "resources").clicks.create if Rails.env.production?
   end
 
   def diary_study
+  end
+
+  private
+
+  def track_action
+    ahoy.track request.path_parameters[:action], request.path_parameters
   end
 end

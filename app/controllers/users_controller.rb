@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_admin!, except: [:index, :show, :dashboard]
+  after_action :track_action, only: [:new, :edit, :create, :thank_you]
 
   def index
     @users = User.all
@@ -16,7 +17,6 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
-    Page.find_or_create_by(name: "users/new").clicks.create if Rails.env.production?
   end
 
   def create
@@ -41,6 +41,7 @@ class UsersController < ApplicationController
   def update
     user = User.find_by(uuid: params[:uuid])
     @user = UserProfile.new(user, params)
+    ahoy.track @user.stage, request.path_parameters
 
     if @user.save
       SendWelcomeMessageJob.perform_now(@user.user)
@@ -64,5 +65,9 @@ class UsersController < ApplicationController
       :postcode, :hour_preference, :day_preference, :referral_source, :child_name,
       :diary_study_contact_method, :terms_agreed_at, :diary_study, interests: []
     )
+  end
+
+  def track_action
+    ahoy.track request.path_parameters[:action], request.path_parameters
   end
 end
