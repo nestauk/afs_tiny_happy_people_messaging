@@ -45,7 +45,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "Thanks for signing up!"
     fill_in "Your child's name, or nickname", with: "Jack"
-    select "No preference", from: "What day would you like to get the texts?"
+    select "No preference", from: "What day would you like to get the texts each week?"
     select "Morning"
     check "Yes, I'm interested in joining the diary study and earning a £100 voucher!"
     click_button "Next"
