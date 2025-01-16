@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
   validates_uniqueness_of :phone_number
-  validates :child_birthday, inclusion: {in: ((Date.today - 5.years)...Date.today)}
+  validates :child_birthday, inclusion: {in: ((Date.today - 24.months)...(Date.today - 6.months))}
 
   phony_normalize :phone_number, default_country_code: "UK"
 

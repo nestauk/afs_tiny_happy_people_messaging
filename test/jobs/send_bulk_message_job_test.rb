@@ -4,7 +4,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   test "#perform creates jobs to send messages to users" do
-    users = create_list(:user, 3, child_birthday: 3.months.ago)
+    users = create_list(:user, 3, child_birthday: 7.months.ago)
     group = create(:group)
     create(:content, group:)
 

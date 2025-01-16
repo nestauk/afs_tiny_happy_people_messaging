@@ -190,6 +190,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_field_has_errors("First name")
     assert_field_has_errors("Last name")
     assert_field_has_errors("Phone number")
+    assert_field_has_errors("Your child's birthday")
     assert_field_has_errors("I accept the terms of service and privacy policy")
   end
 
@@ -212,12 +213,14 @@ class UsersTest < ApplicationSystemTestCase
   private
 
   def sign_up
+    month = 7.months.ago.strftime("%B")
+    year = 7.months.ago.strftime("%Y")
     fill_in "First name", with: "Jo"
     fill_in "Last name", with: "Smith"
     fill_in "Phone number", with: "07444930200"
     fill_in "Postcode", with: "ABC123"
-    select "November"
-    select "2022"
+    select month
+    select year
     check "I accept the terms of service and privacy policy"
 
     geocode_payload = Geokit::GeoLoc.new(state: "Islington")

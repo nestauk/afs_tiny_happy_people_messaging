@@ -29,6 +29,7 @@ class UsersController < ApplicationController
 
       redirect_to edit_user_path(@user.uuid)
     else
+      @no_padding = true
       render :new, status: :unprocessable_entity
     end
   end
