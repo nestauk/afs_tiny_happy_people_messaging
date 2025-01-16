@@ -3,23 +3,25 @@ class DashboardsController < ApplicationController
     @q = LocalAuthority.all
     @all_las_dashboard = AllLasDashboard.first
     @specific_la_dashboards = LaSpecificDashboard.all
+  end
 
-    @chart_data = {
-      labels: %w[January February March April May June July],
-      datasets: [{
-        label: 'My First dataset',
-        backgroundColor: 'transparent',
-        borderColor: '#3B82F6',
-        data: [37, 83, 78, 54, 12, 5, 99]
-      }]
-    }
+  def fetch_data
+    local_authority = LocalAuthority.find_by(name: params[:q].capitalize)
 
-    @chart_options = {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
+    users = User.joins(:local_authority).where(local_authority: {name: local_authority.name})
+        .select("DATE_TRUNC('month', users.created_at) as month, COUNT(*) as count")
+        .group("DATE_TRUNC('month', users.created_at)")
+        .order("month ASC")
+        .map { |user| { "#{user.month.strftime("%B %Y")}": user.count } }
+    render json: {
+      data: {
+        labels: users.map(&:keys).flatten,
+        datasets: [{
+          label: 'Sign ups over the year',
+          data: users.map(&:values).flatten,
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
         }]
       }
     }
