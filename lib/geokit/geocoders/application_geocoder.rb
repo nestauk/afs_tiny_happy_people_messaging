@@ -18,7 +18,12 @@ module Geokit
 
       def self.extract_geoloc(result_json)
         loc = new_loc
-        loc.state = result_json["properties"]["context"]["locality"]["name"]
+        loc.state = if result_json["properties"]["context"]["district"]["name"] == "Greater London"
+          result_json["properties"]["context"]["locality"]["name"]
+        else
+          result_json["properties"]["context"]["district"]["name"]
+        end
+
         loc.success = true
         loc
       end
