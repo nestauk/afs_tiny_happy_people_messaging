@@ -165,6 +165,8 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Save"
 
+    assert_text "Thank you for signing up!"
+
     @admin = create(:admin)
     sign_in
 
