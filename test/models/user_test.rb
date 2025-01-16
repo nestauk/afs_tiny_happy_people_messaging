@@ -22,11 +22,16 @@ class UserTest < ActiveSupport::TestCase
   test("last_name required") { assert_present(:last_name) }
   test("child_birthday required") { assert_present(:child_birthday) }
 
-  test "child_birthday is within the last 5 years" do
-    @subject.child_birthday = Time.now - 6.years
+  test "child_birthday is within the last 24 months" do
+    @subject.child_birthday = Time.now - 25.months
     assert_not @subject.valid?
 
     @subject.child_birthday = Time.now + 1.month
+    assert_not @subject.valid?
+  end
+
+  test "child_birthday is not less than 6 months" do
+    @subject.child_birthday = Time.now - 5.months
     assert_not @subject.valid?
   end
 
@@ -122,9 +127,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "child_age_in_months_today method" do
-    user = create(:user, child_birthday: Time.now - 5.months)
+    user = create(:user, child_birthday: Time.now - 7.months)
 
-    assert_equal user.child_age_in_months_today, 5
+    assert_equal user.child_age_in_months_today, 7
   end
 
   test "#next_content method returns next ranked content for age group" do
