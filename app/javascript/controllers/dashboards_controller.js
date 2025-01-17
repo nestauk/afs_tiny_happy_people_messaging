@@ -8,12 +8,12 @@ export default class extends Controller {
     document.querySelectorAll(".dashboard").forEach(dashboard => {
       dashboard.classList.add("hidden")
     })
-    this.loadData(event)
+    this.createChart(event)
     document.getElementById(`${event.target.value}_dashboard`).classList.toggle("hidden")
   }
 
-  loadData(event) {
-    fetch(`/dashboards/fetch_data?q=${event.target.value}`)
+  loadData(event, target) {
+    fetch(`/dashboards/fetch_${target}_data?q=${event.target.value}`)
     .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -21,20 +21,27 @@ export default class extends Controller {
         return response.json()
       })
       .then((data) => {
-        this.buildChart(data.data, event);
+        this.buildChart(data.data, `${event.target.value.toLowerCase()}-${target}`);
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
       });
   }
 
-  buildChart(data, event) {
+  buildChart(data, target) {
     new Chart(
-      document.getElementById(`${event.target.value.toLowerCase()}`),
+      document.getElementById(`${target}`),
       {
-        type: 'bar',
+        type: 'line',
         data: data
       }
     )
+  }
+
+  createChart(event) {
+    const targets = [ "sign_up", "click_through" ]
+    for (var i = 0; i < targets.length; i++) {
+      this.loadData(event, targets[i])
+    }
   }
 }
