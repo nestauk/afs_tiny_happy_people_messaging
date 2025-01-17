@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   skip_before_action :authenticate_admin!, only: [:status, :incoming, :next]
   skip_before_action :verify_authenticity_token, only: [:status, :incoming]
+  before_action :check_admin_role, only: [:index, :new, :create]
 
   def index
     @messages = Message.all
@@ -65,5 +66,9 @@ class MessagesController < ApplicationController
 
     # Validate the request using the Twilio helper
     validator.validate(url, params, twilio_signature)
+  end
+
+  def check_admin_role
+    redirect_to root_path unless current_admin.role == "admin"
   end
 end

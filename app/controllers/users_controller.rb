@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_admin!, except: [:index, :show, :dashboard]
   before_action :show_footer, only: [:new, :edit, :thank_you]
+  before_action :check_admin_role, only: [:index, :dashboard, :show]
   after_action :track_action, only: [:new, :edit, :create, :thank_you]
 
   def index
@@ -75,5 +76,9 @@ class UsersController < ApplicationController
 
   def show_footer
     @show_footer = true
+  end
+
+  def check_admin_role
+    redirect_to root_path unless current_admin.role == "admin"
   end
 end
