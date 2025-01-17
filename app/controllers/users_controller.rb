@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_admin!, except: [:index, :show, :dashboard]
+  before_action :show_footer, only: [:new, :edit, :thank_you]
   after_action :track_action, only: [:new, :edit, :create, :thank_you]
 
   def index
@@ -70,5 +71,9 @@ class UsersController < ApplicationController
 
   def track_action
     ahoy.track request.path_parameters[:action], request.path_parameters
+  end
+
+  def show_footer
+    @show_footer = true
   end
 end
