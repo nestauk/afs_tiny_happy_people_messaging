@@ -6,7 +6,7 @@
   </h1>
 
   <h2 class="font-normal text-lg text-white">
-    Tell us about your preferences for a better experience
+    Tell us about your preferences for a better and more meaningful experience
   </h2>
 
   <%= f.button :submit, "Skip this section", class: 'link text-white', data: { turbo_submits_with: 'Skipping...' } %>
@@ -20,7 +20,7 @@
   <%= f.input :hour_preference, label: "What time of day would you like to get the texts? (optional)", as: :select, collection: [["Morning, 8am", "morning"], ["Afternoon, 12pm", "afternoon"], ["Evening, 8pm", "evening"], ["No preference, send them any time", "no_preference"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false %>
   
   <p class="mt-8">
-    🎁 <span class="font-bold">Get a £100 voucher with just 2 minutes of your time each day!</span> Join our diary study to share your daily reflections on our programme and receive a <span class="font-bold">£100 voucher</span> as a thank-you for your participation.
+    🎁 <span class="font-bold">Get up to a £100 voucher with just 2 minutes of your time each day!</span> Join our 4-week diary study to share your daily reflections on our programme and receive a <span class="font-bold">£100 voucher</span> at the end as a thank-you for your participation.
   </p>
   <%= f.input :diary_study, as: :boolean, inline_label: "Yes, I'm interested in joining the diary study and earning a £100 voucher!", label: false, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-1" } %>
 
