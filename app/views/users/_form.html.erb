@@ -1,27 +1,29 @@
 <div class="md:mt-8 w-full">
-  <%= simple_form_for @user, remote: true do |form| %>
-    <div class="flex justify-between gap-4">
-      <%= form.input :first_name, wrapper_html: { class: "w-1/2" } %>
+  <%= turbo_frame_tag "form" do %>
+    <%= simple_form_for @user, anchor: "sign-up-form"  do |form| %>
+      <div class="flex justify-between gap-4">
+        <%= form.input :first_name, wrapper_html: { class: "w-1/2" } %>
 
-      <%= form.input :last_name, wrapper_html: { class: "w-1/2" } %>
-    </div>
+        <%= form.input :last_name, wrapper_html: { class: "w-1/2" } %>
+      </div>
 
-    <%= form.input :phone_number, wrapper_html: { class: "mt-3" } %>
+      <%= form.input :phone_number, wrapper_html: { class: "mt-3" } %>
 
-    <%= form.input :postcode, wrapper_html: { class: "md:w-1/2 mt-3" }, hint: "We use this to identify your local authority who will cover the cost of this service." %>
+      <%= form.input :postcode, wrapper_html: { class: "md:w-1/2 mt-3" }, hint: "We use this to identify your local authority who will cover the cost of this service." %>
 
-    <%= 
-      form.input :child_birthday,
-      label: "Your child's birthday",
-      hint: "We use this to send you activities that are suitable for their age.",
-      as: :date,
-      order: [:month, :year],
-      wrapper_html: { class: "mt-3" },
-      input_html: { class: "md:w-1/4 mt-3" } 
-    %>
+      <%= 
+        form.input :child_birthday,
+        label: "Your child's birthday",
+        hint: "We use this to send you activities that are suitable for their age.",
+        as: :date,
+        order: [:month, :year],
+        wrapper_html: { class: "mt-3" },
+        input_html: { class: "md:w-1/4 mt-3" } 
+      %>
 
-    <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: "I accept the #{link_to("terms of service", terms_path, class: "underline hover:no-underline", target: "_blank")} and #{link_to("privacy policy", privacy_policy_path, class: "underline hover:no-underline", target: "_blank")}".html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-4 mb-2 md:mt-8 text-xs md:text-base" }  %>
+      <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: "I accept the #{link_to("terms of service", terms_path, class: "underline hover:no-underline", target: "_blank")} and #{link_to("privacy policy", privacy_policy_path, class: "underline hover:no-underline", target: "_blank")}".html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-4 mb-2 md:mt-8 text-xs md:text-base" }  %>
 
-    <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-purple-600 text-white w-full" %>
+      <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-purple-600 text-white w-full", "data-turbolinks": "false" %>
+    <% end %>
   <% end %>
 </div>
