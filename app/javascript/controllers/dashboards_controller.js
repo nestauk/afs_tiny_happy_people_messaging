@@ -21,7 +21,7 @@ export default class extends Controller {
         return response.json()
       })
       .then((data) => {
-        this.buildChart(data.data, `${event.target.value.toLowerCase()}-${target}`);
+        this.buildChart(data, `${event.target.value.toLowerCase()}-${target}`);
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -31,10 +31,7 @@ export default class extends Controller {
   buildChart(data, target) {
     new Chart(
       document.getElementById(`${target}`),
-      {
-        type: 'line',
-        data: data
-      }
+      data
     )
   }
 

@@ -128,11 +128,13 @@
             </p>
           </div>
         </div>
-        <div class="w-1/2">
-          <canvas id="<%= dashboard.la_name.downcase %>-click_through" data-chart-target="clickThrough"></canvas>
-        </div>
-        <div class="w-1/2">
-          <canvas id="<%= dashboard.la_name.downcase %>-sign_up" data-chart-target="signUps"></canvas>
+        <div class="flex mt-8 justify-between">
+          <div class="w-1/2">
+            <canvas id="<%= dashboard.la_name.downcase %>-click_through" data-chart-target="clickThrough"></canvas>
+          </div>
+          <div class="w-1/2">
+            <canvas id="<%= dashboard.la_name.downcase %>-sign_up" data-chart-target="signUps"></canvas>
+          </div>
         </div>
       </div>
     <% end %>
