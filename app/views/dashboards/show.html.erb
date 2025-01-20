@@ -74,12 +74,12 @@
       <select id="category" data-action="change->dashboards#toggle">
         <option value="" selected disabled>-- Local authority --</option>
         <% LocalAuthority.all.order(:name).each do |la| %>
-          <option value="<%= la.name %>"><%= la.name %></option>
+          <option value="<%= la.name.downcase.gsub(" ", "_") %>"><%= la.name %></option>
         <% end %>
       </select>
     </form>
     <% @specific_la_dashboards.each do |dashboard| %>
-      <div id="<%= dashboard.la_name %>_dashboard" class="hidden dashboard mt-8">
+      <div id="<%= dashboard.la_name.downcase.gsub(" ", "_") %>_dashboard" class="hidden dashboard mt-8">
         <h3 class="text-2xl">
           LA summary - <%= dashboard.la_name %>
         </h3>
@@ -128,14 +128,22 @@
             </p>
           </div>
         </div>
-        <div class="flex mt-8 justify-between">
-          <div class="w-1/2">
-            <canvas id="<%= dashboard.la_name.downcase %>-click_through" data-chart-target="clickThrough"></canvas>
+        <section class="mt-8">
+          <label for="timeframe">Choose a timeframe:</label>
+          <select name="timeframe" id="timeframe" data-action="change->dashboards#filter">
+            <option value="week">Week</option>
+            <option value="month">Last 30 days</option>
+            <option value="year" selected>Year</option>
+          </select>
+          <div class="flex mt-8 justify-between">
+            <div class="w-1/2">
+              <canvas id="<%= dashboard.la_name.downcase.gsub(" ", "_") %>-click_through" data-chart-target="clickThrough"></canvas>
+            </div>
+            <div class="w-1/2">
+              <canvas id="<%= dashboard.la_name.downcase.gsub(" ", "_") %>-sign_up" data-chart-target="signUps"></canvas>
+            </div>
           </div>
-          <div class="w-1/2">
-            <canvas id="<%= dashboard.la_name.downcase %>-sign_up" data-chart-target="signUps"></canvas>
-          </div>
-        </div>
+        </section>
       </div>
     <% end %>
   </section>
