@@ -9,26 +9,16 @@ class DashboardsController < ApplicationController
   end
 
   def fetch_sign_up_data
-    grouped_users = @local_authority.users
-      .group_by { |user| user.created_at.strftime(timeframe) }
-      .transform_values { |values| values.count }
+    grouped_users = @local_authority.count_users_by_created_at(timeframe)
 
-    data = create_labels.map { |label| [label, (grouped_users[label].nil? ? 0 : grouped_users[label])] }
-
-    render_bar_chart(data)
+    render_bar_chart(create_data(grouped_users))
   end
 
   def fetch_click_through_data
-    grouped_users = @local_authority.messages.where.not(messages: {content_id: nil})
-      .group_by { |message| message.created_at.strftime(timeframe) }
-      .transform_values { |values| ((values.select { |m| !m.clicked_at.nil? }).count.to_f / values.count.to_f) * 100 }
+    grouped_percentage = @local_authority.percentage_messages_clicked_by_created_at(timeframe)
+    grouped_count = @local_authority.count_messages_by_created_at(timeframe)
 
-    click_through = create_labels.map { |label| [label, (grouped_users[label].nil? ? 0 : grouped_users[label])] }
-
-    grouped_number = @local_authority.messages.where.not(messages: {content_id: nil}).group_by { |message| message.created_at.strftime(timeframe) }.transform_values { |values| values.count }
-    overall_number = create_labels.map { |label| [label, (grouped_number[label].nil? ? 0 : grouped_number[label])] }
-
-    render_line_chart(click_through, overall_number)
+    render_line_chart(create_data(grouped_percentage), create_data(grouped_count))
   end
 
   private
@@ -36,19 +26,23 @@ class DashboardsController < ApplicationController
   def create_labels
     if @timeframe == "year"
       current_month = Date.today.month
-      current_year = Date.today.year
 
-      (current_month..12).map { |month| Date.new(current_year - 1, month, 1).strftime(timeframe) } +
-        (1..current_month).map { |month| Date.new(current_year, month, 1).strftime(timeframe) }
+      ((current_month + 1)..12).map { |month| create_date(1.year.ago.year, month, 1) } +
+        (1..current_month).map { |month| create_date(Date.today.year, month, 1) }
     elsif @timeframe == "month"
       current_day = Date.today.day
 
-      (1.month.ago.day..1.month.ago.end_of_month.day).map { |day| Date.new(Date.today.year, 1.month.ago.month, day).strftime(timeframe) } +
-        (1..current_day).map { |day| Date.new(Date.today.year, Date.today.month, day).strftime(timeframe) }
+      ((1.month.ago.day + 1)..1.month.ago.end_of_month.day).map { |day| create_date(1.month.ago.year, 1.month.ago.month, day) } +
+        (1..current_day).map { |day| create_date(Date.today.year, Date.today.month, day) }
     elsif @timeframe == "week"
       current_day = Date.today.day
 
-      ((current_day - 7)..current_day).map { |day| Date.new(Date.today.year, Date.today.month, day).strftime(timeframe) }
+      if current_day <= 7
+        ((1.week.ago.day + 1)..1.week.ago.end_of_month.day).map { |day| create_date(1.week.ago.year, 1.week.ago.month, day) } +
+          (1..current_day).map { |day| create_date(Date.today.year, Date.today.month, day) }
+      else
+        ((current_day - 6)..current_day).map { |day| create_date(Date.today.year, Date.today.month, day) }
+      end
     end
   end
 
@@ -65,6 +59,21 @@ class DashboardsController < ApplicationController
           borderColor: "#3B82F6",
           tension: 0.1
         }]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: "Number of sign ups"
+          }
+        },
+        scales: {
+          y: {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        }
       }
     }
   end
@@ -80,36 +89,42 @@ class DashboardsController < ApplicationController
           fill: false,
           borderColor: "rgb(75, 192, 192)",
           backgroundColor: "rgb(75, 192, 192)",
-          tension: 0.1
+          yAxisID: "y"
         },
           {
             label: "Number of messages",
             data: overall_number.map(&:second),
             fill: false,
             borderColor: "rgb(255, 99, 132)",
-            backgroundColor: "rgb(255, 99, 132)"
-          }],
-        options: {
-          responsive: true,
-          interaction: {
-            mode: "index",
-            intersect: false
+            backgroundColor: "rgb(255, 99, 132)",
+            yAxisID: "y1"
+          }]
+      },
+      options: {
+        responsive: true,
+        interaction: {
+          mode: "index",
+          intersect: false
+        },
+        stacked: false,
+        plugins: {
+          title: {
+            display: true,
+            text: "Percentage of messages clicked"
+          }
+        },
+        scales: {
+          y: {
+            type: "linear",
+            display: true,
+            position: "left",
+            min: 0
           },
-          stacked: false,
-          scales: {
-            y: {
-              type: "linear",
-              display: true,
-              position: "left"
-            },
-            y1: {
-              type: "linear",
-              display: true,
-              position: "right",
-              grid: {
-                drawOnChartArea: false
-              }
-            }
+          y1: {
+            type: "linear",
+            display: true,
+            position: "right",
+            min: 0
           }
         }
       }
@@ -117,7 +132,7 @@ class DashboardsController < ApplicationController
   end
 
   def set_local_authority
-    @local_authority = LocalAuthority.find_by(name: params[:q].gsub("_", " ").titleize)
+    @local_authority = LocalAuthority.find_by(name: params[:q].tr("_", " ").titleize)
   end
 
   def set_timeframe
@@ -126,9 +141,17 @@ class DashboardsController < ApplicationController
 
   def timeframe
     if @timeframe == "week" || @timeframe == "month"
-      "%d %B"
+      "%d %B %Y"
     elsif @timeframe == "year"
       "%B %Y"
     end
+  end
+
+  def create_data(dataset)
+    create_labels.map { |label| [label, (dataset[label].nil? ? 0 : dataset[label])] }
+  end
+
+  def create_date(year, month, day)
+    Date.new(year, month, day).strftime(timeframe)
   end
 end
