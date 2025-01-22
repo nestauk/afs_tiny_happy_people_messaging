@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:uuid])
+    @user = User.find_by(uuid: params[:uuid])
   end
 
   def new

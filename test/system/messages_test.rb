@@ -10,6 +10,7 @@ class MessagesTest < ApplicationSystemTestCase
     sign_in
 
     visit users_path
+    assert_text @user.first_name
     click_on "#{@user.first_name} #{@user.last_name}"
 
     click_on "Send message"
