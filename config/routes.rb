@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   end
 
   get "dashboard", to: "dashboards#show"
+  get "dashboards/fetch_sign_up_data", to: "dashboards#fetch_sign_up_data"
+  get "dashboards/fetch_click_through_data", to: "dashboards#fetch_click_through_data"
 
   resources :groups do
     resources :contents, except: %i[index]
