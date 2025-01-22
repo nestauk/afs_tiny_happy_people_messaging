@@ -40,8 +40,8 @@ namespace :scheduler do
   task check_for_disengaged_users: :environment do
     (next unless Date.today.wday == ENV.fetch("WEEKLY_NUDGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
 
-    User.contactable.not_nudged.not_clicked_last_two_messages.each do |user|
-      message = Message.create(user:, body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break or 'STOP' to stop them entirely.")
+    User.contactable.not_nudged.not_clicked_last_x_messages(3).each do |user|
+      message = Message.create(user:, body: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'STOP' to stop them entirely.")
       SendCustomMessageJob.perform_later(message)
       user.update(nudged_at: Time.now)
     end
@@ -51,5 +51,14 @@ namespace :scheduler do
   task update_local_authority_data: :environment do
     AllLasDashboard.refresh
     LaSpecificDashboard.refresh
+  end
+
+  desc "Get user feedback"
+  task get_user_feedback: :environment do
+    (next unless Date.today.wday == ENV.fetch("WEEKLY_NUDGE_DAY").to_i) if ENV.fetch("SET_WEEKLY") == "true"
+
+    User.contactable.received_two_messages.find_in_batches do |user|
+      SendFeedbackMessageJob.perform_later(user)
+    end
   end
 end

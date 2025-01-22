@@ -54,6 +54,12 @@ class Message < ApplicationRecord
         message = Message.create(user:, body: "Thanks, you've paused for 4 weeks.")
         SendCustomMessageJob.perform_later(message)
       end
+    elsif incoming_message == "yes" && message.user.received_two_messages?
+      message = Message.create(user:, body: "That's great to hear, thanks for letting us know!")
+      SendCustomMessageJob.perform_later(message)
+    elsif incoming_message == "no" && message.user.received_two_messages?
+      message = Message.create(user:, body: "We can adjust the activities we send. Respond 1 if they are too simple or 2 if they are too advanced.")
+      SendCustomMessageJob.perform_later(message)
     end
   end
 end
