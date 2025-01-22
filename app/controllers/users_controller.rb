@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_admin!, except: [:index, :show, :dashboard]
   before_action :show_footer, only: [:new, :edit, :thank_you]
   before_action :check_admin_role, only: [:index, :dashboard, :show]
-  after_action :track_action, only: [:new, :edit, :create, :thank_you]
+  after_action :track_action, only: [:edit, :create, :thank_you]
 
   def index
     @users = User.all
@@ -19,6 +19,8 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
+
+    ahoy.track "#{request.path_parameters[:action]} - #{params[:q].blank? ? "no-referrer" : params[:q]}", request.path_parameters
   end
 
   def create
