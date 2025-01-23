@@ -13,7 +13,7 @@
         <% @messages.each do |message| %>
           <tr class="border-b-2">
             <td class="px-4 py-4 bg-white">
-              <%= link_to "#{message.user.first_name} #{message.user.last_name}", user_path(message.user), class: "underline hover:no-underline" %>
+              <%= link_to "#{message.user.first_name} #{message.user.last_name}", user_path(message.user.uuid), class: "underline hover:no-underline" %>
             </td>
             <td class="px-4 py-4 bg-white">
               <%= message.body %>

@@ -15,7 +15,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_enqueued_jobs 1
 
-    assert_redirected_to user_path(@user)
+    assert_redirected_to user_path(@user.uuid)
   end
 
   test "should update message status" do
