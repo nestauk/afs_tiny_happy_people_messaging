@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
       message_sid = params["MessageSid"]
       status = params["MessageStatus"]
 
-      Message.find_by(message_sid:).update(status:)
+      Message.find_by(message_sid:).update(status:, sent_at: Time.now)
     end
   end
 
@@ -42,7 +42,7 @@ class MessagesController < ApplicationController
     if @message.save
       SendCustomMessageJob.perform_later(@message)
 
-      redirect_to user_path(@message.user), notice: "Message sent!"
+      redirect_to user_path(@message.user.uuid), notice: "Message sent!"
     else
       render :new
     end

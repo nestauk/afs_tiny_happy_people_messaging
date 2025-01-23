@@ -9,8 +9,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     visit admin_magic_link_url(
       admin: {
         email: @admin.email,
-        token:,
-        remember_me: true
+        token:
       }
     )
 

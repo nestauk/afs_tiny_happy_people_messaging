@@ -13,6 +13,7 @@
       <thead>
         <tr class="bg-purple-300">
           <th class="px-4 py-4 text-left">Messages</th>
+          <th class="px-4 py-4 text-left w-1/6">Sent at</th>
           <th class="px-4 py-4 text-left">Status</th>
         </tr>
       </thead>
@@ -21,6 +22,7 @@
           <% @user.messages.order(created_at: :asc).each do |message| %>
             <tr class="border-b-2">
               <td class="px-4 py-4 bg-white"><%= message.body %></td>
+              <td class="px-4 py-4 bg-white"><%= message.sent_at&.strftime("%H:%M %d/%m/%y") %></td>
               <td class="px-4 py-4 bg-white"><%= message.admin_status %></td>
             </tr>
           <% end %>
