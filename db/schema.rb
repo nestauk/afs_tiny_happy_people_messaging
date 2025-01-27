@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_15_135620) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_27_113309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -207,38 +207,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_135620) do
   add_foreign_key "users", "contents", column: "last_content_id"
   add_foreign_key "users", "local_authorities"
 
-  create_view "all_las_dashboards", materialized: true, sql_definition: <<-SQL
-      WITH total_users AS (
-           SELECT count(*) AS total_user_count
-             FROM users
-          ), new_users_this_month AS (
-           SELECT count(*) AS new_users_this_month_count
-             FROM users
-            WHERE ((date_trunc('month'::text, users.created_at))::date >= (date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))::date)
-          ), new_users_this_year AS (
-           SELECT count(*) AS new_users_this_year_count
-             FROM users
-            WHERE ((date_trunc('year'::text, users.created_at))::date >= (date_trunc('year'::text, (CURRENT_DATE)::timestamp with time zone))::date)
-          ), average_overall_clickthrough_rates AS (
-           SELECT (((count(messages.clicked_at))::numeric / NULLIF((count(*))::numeric, (0)::numeric)) * (100)::numeric) AS average_overall_clickthrough_rates
-             FROM messages
-            WHERE (messages.content_id IS NOT NULL)
-          ), average_month_clickthrough_rates AS (
-           SELECT (((count(messages.clicked_at))::numeric / NULLIF((count(*))::numeric, (0)::numeric)) * (100)::numeric) AS average_this_month_clickthrough_rates
-             FROM messages
-            WHERE ((messages.content_id IS NOT NULL) AND ((date_trunc('month'::text, messages.created_at))::date >= (date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))::date))
-          )
-   SELECT total_users.total_user_count,
-      new_users_this_month.new_users_this_month_count,
-      new_users_this_year.new_users_this_year_count,
-      average_overall_clickthrough_rates.average_overall_clickthrough_rates,
-      average_month_clickthrough_rates.average_this_month_clickthrough_rates
-     FROM total_users,
-      new_users_this_month,
-      new_users_this_year,
-      average_overall_clickthrough_rates,
-      average_month_clickthrough_rates;
-  SQL
   create_view "la_specific_dashboards", materialized: true, sql_definition: <<-SQL
       WITH la AS (
            SELECT local_authorities.id,
@@ -288,5 +256,40 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_135620) do
        LEFT JOIN new_users_this_year ON ((la.id = new_users_this_year.local_authority_id)))
        LEFT JOIN average_overall_clickthrough_rates ON ((la.id = average_overall_clickthrough_rates.local_authority_id)))
        LEFT JOIN average_month_clickthrough_rates ON ((la.id = average_month_clickthrough_rates.local_authority_id)));
+  SQL
+  create_view "all_las_dashboards", materialized: true, sql_definition: <<-SQL
+      WITH total_users AS (
+           SELECT count(*) AS total_user_count
+             FROM users
+            WHERE (users.contactable = true)
+          ), new_users_this_month AS (
+           SELECT count(*) AS new_users_this_month_count
+             FROM users
+            WHERE (((date_trunc('month'::text, users.created_at))::date >= (date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))::date) AND (users.contactable = true))
+          ), new_users_this_year AS (
+           SELECT count(*) AS new_users_this_year_count
+             FROM users
+            WHERE ((users.contactable = true) AND ((date_trunc('year'::text, users.created_at))::date >= (date_trunc('year'::text, (CURRENT_DATE)::timestamp with time zone))::date))
+          ), average_overall_clickthrough_rates AS (
+           SELECT (((count(messages.clicked_at))::numeric / NULLIF((count(*))::numeric, (0)::numeric)) * (100)::numeric) AS average_overall_clickthrough_rates
+             FROM (messages
+               JOIN users ON ((messages.user_id = users.id)))
+            WHERE ((messages.content_id IS NOT NULL) AND (users.contactable = true))
+          ), average_month_clickthrough_rates AS (
+           SELECT (((count(messages.clicked_at))::numeric / NULLIF((count(*))::numeric, (0)::numeric)) * (100)::numeric) AS average_this_month_clickthrough_rates
+             FROM (messages
+               JOIN users ON ((messages.user_id = users.id)))
+            WHERE ((messages.content_id IS NOT NULL) AND ((date_trunc('month'::text, messages.created_at))::date >= (date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))::date) AND (users.contactable = true))
+          )
+   SELECT total_users.total_user_count,
+      new_users_this_month.new_users_this_month_count,
+      new_users_this_year.new_users_this_year_count,
+      average_overall_clickthrough_rates.average_overall_clickthrough_rates,
+      average_month_clickthrough_rates.average_this_month_clickthrough_rates
+     FROM total_users,
+      new_users_this_month,
+      new_users_this_year,
+      average_overall_clickthrough_rates,
+      average_month_clickthrough_rates;
   SQL
 end
