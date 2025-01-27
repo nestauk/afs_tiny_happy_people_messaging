@@ -261,23 +261,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_113309) do
       WITH total_users AS (
            SELECT count(*) AS total_user_count
              FROM users
-            WHERE (users.created_at > '2025-01-25 00:00:00'::timestamp without time zone)
+            WHERE (users.contactable = true)
           ), new_users_this_month AS (
            SELECT count(*) AS new_users_this_month_count
              FROM users
-            WHERE (((date_trunc('month'::text, users.created_at))::date >= (date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))::date) AND (users.created_at > '2025-01-25 00:00:00'::timestamp without time zone))
+            WHERE (((date_trunc('month'::text, users.created_at))::date >= (date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))::date) AND (users.contactable = true))
           ), new_users_this_year AS (
            SELECT count(*) AS new_users_this_year_count
              FROM users
-            WHERE ((users.created_at > '2025-01-25 00:00:00'::timestamp without time zone) AND ((date_trunc('year'::text, users.created_at))::date >= (date_trunc('year'::text, (CURRENT_DATE)::timestamp with time zone))::date))
+            WHERE ((users.contactable = true) AND ((date_trunc('year'::text, users.created_at))::date >= (date_trunc('year'::text, (CURRENT_DATE)::timestamp with time zone))::date))
           ), average_overall_clickthrough_rates AS (
            SELECT (((count(messages.clicked_at))::numeric / NULLIF((count(*))::numeric, (0)::numeric)) * (100)::numeric) AS average_overall_clickthrough_rates
-             FROM messages
-            WHERE ((messages.content_id IS NOT NULL) AND (messages.created_at > '2025-01-25 00:00:00'::timestamp without time zone))
+             FROM (messages
+               JOIN users ON ((messages.user_id = users.id)))
+            WHERE ((messages.content_id IS NOT NULL) AND (users.contactable = true))
           ), average_month_clickthrough_rates AS (
            SELECT (((count(messages.clicked_at))::numeric / NULLIF((count(*))::numeric, (0)::numeric)) * (100)::numeric) AS average_this_month_clickthrough_rates
-             FROM messages
-            WHERE ((messages.content_id IS NOT NULL) AND ((date_trunc('month'::text, messages.created_at))::date >= (date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))::date) AND (messages.created_at > '2025-01-25 00:00:00'::timestamp without time zone))
+             FROM (messages
+               JOIN users ON ((messages.user_id = users.id)))
+            WHERE ((messages.content_id IS NOT NULL) AND ((date_trunc('month'::text, messages.created_at))::date >= (date_trunc('month'::text, (CURRENT_DATE)::timestamp with time zone))::date) AND (users.contactable = true))
           )
    SELECT total_users.total_user_count,
       new_users_this_month.new_users_this_month_count,
