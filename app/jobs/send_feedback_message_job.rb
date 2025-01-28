@@ -8,6 +8,9 @@ class SendFeedbackMessageJob < ApplicationJob
       m.body = "Are the activities we send you suitable for your child? Respond Yes or No to let us know."
     end
 
-    Twilio::Client.new.send_message(message) if message.save
+    if message.save
+      Twilio::Client.new.send_message(message)
+      user.update(asked_for_feedback: true)
+    end
   end
 end
