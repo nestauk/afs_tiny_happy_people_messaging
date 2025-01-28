@@ -113,7 +113,26 @@ class SchedulerTest < ActiveSupport::TestCase
       Rake::Task["scheduler:check_for_disengaged_users"].execute
     end
 
-    assert_equal 1, Message.where(body: "You've not interacted with any videos lately. Want to continue receiving them? You can text 'PAUSE' for a break or 'STOP' to stop them entirely.").count
+    assert_equal 1, Message.where(body: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'STOP' to stop them entirely.").count
+  end
+
+  test "get_user_feedback" do
+    content = create(:content)
+    user1 = create(:user)
+    create(:message, user: user1, content:)
+    create(:message, user: user1, content:)
+
+    user2 = create(:user)
+    create(:message, user: user2, content:)
+    create(:message, user: user2)
+
+    user3 = create(:user, contactable: false)
+    create(:message, user: user3, content:)
+    create(:message, user: user3, content:)
+
+    assert_enqueued_with(job: SendBulkMessageJob) do
+      Rake::Task["scheduler:get_user_feedback"].execute
+    end
   end
 
   private

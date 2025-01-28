@@ -101,7 +101,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.with_preference_for_day(4), [user]
   end
 
-  test "not_clicked_last_two_messages scope" do
+  test "not_clicked_last_x_messages scope" do
     content = create(:content)
     user1 = create(:user)
     create(:message, user: user1, content:)
@@ -122,8 +122,33 @@ class UserTest < ActiveSupport::TestCase
     create(:message, user: user4)
     create(:message, user: user4)
 
-    assert_equal User.not_clicked_last_two_messages.to_a.size, 1
-    assert_equal User.not_clicked_last_two_messages, [user1]
+    assert_equal User.not_clicked_last_x_messages(2).to_a.size, 1
+    assert_equal User.not_clicked_last_x_messages(2), [user1]
+  end
+
+  test "received_two_messages scope" do
+    content = create(:content)
+
+    user1 = create(:user)
+    create(:message, user: user1, content:)
+    create(:message, user: user1, content:)
+
+    user2 = create(:user)
+    create(:message, user: user2, content:)
+    create(:message, user: user2)
+
+    user3 = create(:user)
+    create(:message, user: user3)
+    create(:message, user: user3)
+
+    assert_equal User.received_two_messages.to_a.size, 1
+    assert_equal User.received_two_messages, [user1]
+  end
+
+  test "full_name method" do
+    user = create(:user, first_name: "John", last_name: "Doe")
+
+    assert_equal user.full_name, "John Doe"
   end
 
   test "child_age_in_months_today method" do
