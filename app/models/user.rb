@@ -87,10 +87,6 @@ class User < ApplicationRecord
     nil
   end
 
-  def received_two_messages?
-    messages.where.not(content: nil).count == 2
-  end
-
   private
 
   def had_any_content_before?

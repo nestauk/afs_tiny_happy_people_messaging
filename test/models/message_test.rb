@@ -17,22 +17,28 @@ class MessageTest < ActiveSupport::TestCase
   test "generate_reply only runs if message status is received" do
     user = create(:user)
     message = create(:message, status: "delivered", user:, body: "stop")
-    assert_equal message.user.contactable, true
+
+    assert message.user.contactable
   end
 
   test "generate_reply when user texts stop" do
+    create(:auto_response, trigger_phrase: "stop", update_user: "{\"contactable\": false}")
     message = create(:message, body: "stop", status: "received")
-    assert_equal message.user.contactable, false
+
+    refute message.user.contactable
   end
 
   test "generate_reply when user texts start" do
+    create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
     message = create(:message, body: "start", status: "received")
-    assert_equal message.user.contactable, true
+
+    assert message.user.contactable
   end
 
-  test "generate_reply when user texts pause" do
-    message = create(:message, body: "pause", status: "received")
-    assert_equal message.user.contactable, false
-    assert_not_nil message.user.restart_at
+  test "generate_reply when user texts anything else" do
+    message = build(:message, body: "blah", status: "received")
+
+    ResponseMatcherService.expects(:new).with(message).returns(stub(match_response: true))
+    message.save
   end
 end
