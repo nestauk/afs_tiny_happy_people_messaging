@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_27_113309) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_28_130903) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,6 +54,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_113309) do
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
     t.index ["visitor_token", "started_at"], name: "index_ahoy_visits_on_visitor_token_and_started_at"
+  end
+
+  create_table "auto_responses", force: :cascade do |t|
+    t.string "trigger_phrase", null: false
+    t.string "response"
+    t.jsonb "update_user", default: {}
+    t.jsonb "conditions", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "blazer_audits", force: :cascade do |t|
@@ -197,6 +206,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_113309) do
     t.string "email"
     t.uuid "uuid"
     t.bigint "local_authority_id"
+    t.boolean "asked_for_feedback", default: false
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["uuid"], name: "index_users_on_uuid", unique: true

@@ -22,7 +22,7 @@ class User < ApplicationRecord
   scope :wants_evening_message, -> { where(hour_preference: "evening") }
   scope :no_hour_preference_message, -> { where(hour_preference: ["no_preference", nil]) }
   scope :not_nudged, -> { where(nudged_at: nil) }
-  scope :not_clicked_last_two_messages, -> {
+  scope :not_clicked_last_x_messages, ->(x) {
     joins(:messages)
       .where(
         messages: {
@@ -31,11 +31,24 @@ class User < ApplicationRecord
             .where("messages.user_id = users.id")
             .where.not(content_id: nil)
             .order(created_at: :desc)
-            .limit(2)
+            .limit(x)
         }
       )
       .group("users.id")
       .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = 2")
+  }
+  scope :received_two_messages, -> {
+    joins(:messages)
+      .where(
+        messages: {
+          id: Message
+            .select(:id)
+            .where("messages.user_id = users.id")
+            .where.not(content_id: nil)
+        }
+      )
+      .group("users.id")
+      .having("COUNT(*) = 2")
   }
 
   attribute :hour_preference,

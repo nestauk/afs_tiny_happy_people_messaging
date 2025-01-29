@@ -40,25 +40,28 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle incoming message with stop" do
+    create(:auto_response, trigger_phrase: "stop", update_user: "{\"contactable\": false}")
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
-    post messages_incoming_url, params: {From: @user.phone_number, Body: "Stop now", MessageSid: "new_sid"}
+    post messages_incoming_url, params: {From: @user.phone_number, Body: "STOP", MessageSid: "new_sid"}
     assert_response :success
     @user.reload
     assert_equal @user.contactable, false
   end
 
   test "should handle incoming message with pause" do
+    create(:auto_response, trigger_phrase: "pause", response: "Thanks, you've paused for 4 weeks.", update_user: '{"contactable": false, "restart_at": "4.weeks.from_now.noon"}')
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
-    post messages_incoming_url, params: {From: @user.phone_number, Body: "pause please", MessageSid: "new_sid"}
+    post messages_incoming_url, params: {From: @user.phone_number, Body: "Pause ", MessageSid: "new_sid"}
     assert_response :success
     @user.reload
-    assert_equal @user.contactable, false
+    refute @user.contactable
     refute_nil @user.restart_at
   end
 
   test "should handle incoming message with start" do
+    create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
     @user.update(contactable: false)
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
