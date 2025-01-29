@@ -7,8 +7,8 @@ class CreateAutoResponses < ActiveRecord::Migration[8.0]
     create_table :auto_responses do |t|
       t.string :trigger_phrase, null: false
       t.string :response
-      t.jsonb :update_user, default: {}
-      t.jsonb :conditions, default: {}
+      t.jsonb :update_user, default: "{}"
+      t.jsonb :conditions, default: "{}"
       t.timestamps
     end
 

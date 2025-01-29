@@ -59,8 +59,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_130903) do
   create_table "auto_responses", force: :cascade do |t|
     t.string "trigger_phrase", null: false
     t.string "response"
-    t.jsonb "update_user", default: {}
-    t.jsonb "conditions", default: {}
+    t.jsonb "update_user", default: "{}"
+    t.jsonb "conditions", default: "{}"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
