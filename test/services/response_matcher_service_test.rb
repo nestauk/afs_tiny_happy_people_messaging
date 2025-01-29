@@ -33,6 +33,18 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     refute user.contactable
   end
 
+  test "should match response to 'stop' on weekends" do
+    travel_to Time.current.end_of_week
+    user = create(:user, contactable: true)
+    message = build(:message, body: "stop", status: "received", user:)
+
+    assert_no_changes Message.count do
+      ResponseMatcherService.new(message).match_response
+    end
+
+    refute user.contactable
+  end
+
   test "should match response to 'start'" do
     user = create(:user, contactable: true)
     message = build(:message, body: "start", status: "received", user:)
@@ -79,7 +91,8 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     assert_equal user.asked_for_feedback, false
   end
 
-  test "should not match response to unexpected message" do
+  test "should not match response to unexpected messages on weekdays" do
+    travel_to Time.current.beginning_of_week
     message = build(:message, body: "Hi there", status: "received")
 
     ResponseMatcherService.new(message).match_response
@@ -91,6 +104,17 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     assert_no_changes message.user do
       ResponseMatcherService.new(message).match_response
     end
+  end
+
+  test "should match response to unexpected messages on weekends" do
+    travel_to Time.current.end_of_week
+    message = build(:message, body: "Hi there", status: "received")
+
+    assert_enqueued_with(job: SendCustomMessageJob) do
+      ResponseMatcherService.new(message).match_response
+    end
+
+    assert_equal message.user.messages.last.body, "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
   end
 
   test "doesn't fall over if updates aren't possible" do
