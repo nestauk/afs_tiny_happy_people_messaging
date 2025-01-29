@@ -8,17 +8,21 @@ class ResponseMatcherService
     response = AutoResponse.find_by(trigger_phrase: @message.body.downcase.strip)
 
     if response && conditions_met?(response.conditions)
-      if response.response.present?
-        reply = Message.new(user: @user, body: response.response)
-
-        SendCustomMessageJob.perform_later(reply) if reply.save
-      end
+      send_message(response.response) if response.response.present?
 
       apply_user_updates(response.update_user)
+    elsif Time.current.wday == 6 || Time.current.wday == 0
+      # Send a out of office message on weekends
+      send_message("The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can.")
     end
   end
 
   private
+
+  def send_message(body)
+    reply = Message.new(user: @user, body:)
+    SendCustomMessageJob.perform_later(reply) if reply.save
+  end
 
   def conditions_met?(conditions)
     conditions = JSON.parse(conditions)

@@ -31,12 +31,23 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle incoming message" do
+    travel_to Time.current.beginning_of_week
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
     post messages_incoming_url, params: {From: @user.phone_number, Body: "Hi", MessageSid: "new_sid"}
     assert_response :success
 
     assert_equal "Hi", @user.messages.last.body
+  end
+
+  test "should send out of office on weekends" do
+    travel_to Time.current.end_of_week
+    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
+
+    post messages_incoming_url, params: {From: @user.phone_number, Body: "Hi", MessageSid: "new_sid"}
+    assert_response :success
+
+    assert_equal "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can.", @user.messages.last.body
   end
 
   test "should handle incoming message with stop" do
