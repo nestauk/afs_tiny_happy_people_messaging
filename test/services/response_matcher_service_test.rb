@@ -6,7 +6,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
   setup do
     create(:auto_response, trigger_phrase: "pause", response: "Thanks, you've paused for 4 weeks.", update_user: '{"contactable": false, "restart_at": "4.weeks.from_now.noon"}')
     create(:auto_response, trigger_phrase: "yes", response: "That's great to hear, thanks for letting us know!", update_user: "{\"asked_for_feedback\": false}", conditions: "{\"asked_for_feedback\": true}")
-    create(:auto_response, trigger_phrase: "no", response: "We can adjust the activities we send. Respond 1 if they are too simple or 2 if they are too advanced.", update_user: "{\"asked_for_feedback\": false}", conditions: "{\"asked_for_feedback\": true}")
+    create(:auto_response, trigger_phrase: "no", response: "We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if your child is not yet saying words, 2 if they are saying single words, 3 if they are saying whole sentences.", update_user: "{\"asked_for_feedback\": false}", conditions: "{\"asked_for_feedback\": true}")
     create(:auto_response, trigger_phrase: "stop", update_user: "{\"contactable\": false}")
     create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
   end
@@ -77,7 +77,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     end
 
     assert_equal user.asked_for_feedback, false
-    assert_equal user.messages.last.body, "We can adjust the activities we send. Respond 1 if they are too simple or 2 if they are too advanced."
+    assert_equal user.messages.last.body, "We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if your child is not yet saying words, 2 if they are saying single words, 3 if they are saying whole sentences."
   end
 
   test "should not match response to feedback if user has not received feedback message" do

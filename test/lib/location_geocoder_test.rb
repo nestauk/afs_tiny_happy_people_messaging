@@ -1,5 +1,4 @@
 require "test_helper"
-require "location_geocoder"
 
 class LocationGeocoderTest < ActiveSupport::TestCase
   test "uses geokit to geocode the location" do

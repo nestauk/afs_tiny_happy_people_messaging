@@ -1,5 +1,3 @@
-require "location_geocoder"
-
 class User < ApplicationRecord
   has_many :interests
   has_many :messages, dependent: :destroy

@@ -1,6 +1,5 @@
 require "test_helper"
 require "webmock/minitest"
-require "geokit/geocoders/application_geocoder"
 
 class ApplicationGeocoderTest < ActiveSupport::TestCase
   test "makes a query to the Mapbox endpoint" do
