@@ -2,8 +2,8 @@
 
 Sends weekly texts with links to content from BBC's Tiny Happy People to parents.
 
-Users can sign up, and then only interact with the service via text.
-Admins maintain content via the admin dashboard.
+Users can sign up, and then only interact with the service via text.<br />
+Admins maintain content via the admin dashboard.<br />
 Local authorities can view sign up and clickthrough data.
 
 ## Getting started
@@ -33,7 +33,7 @@ docker compose exec app.local bash
 rails db:schema:load
 ```
 
-The local development server will now be accessible at http://localhost:3000.
+The local development server will now be accessible at http://localhost:3000.<br />
 [Blazer](https://github.com/ankane/blazer) dashboard can be found at http://localhost:3000/admin.
 
 To view the admin dashboard, create an admin user in the database. Login is done via [magic Link](https://github.com/abevoelker/devise-passwordless).
@@ -55,6 +55,6 @@ We use Heroku to host and deploy this app.
 
 The tasks to send messages to parents are set up using Heroku scheduler. See `scheduler.rake` for those tasks.
 
-### Sending texts
+### Sending texts
 
 We currently use [Twilio](https://www.twilio.com/en-us) to send the text messages, and [Sendgrid](https://sendgrid.com/en-us) to send login links to administrators.
