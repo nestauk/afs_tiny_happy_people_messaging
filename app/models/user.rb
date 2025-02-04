@@ -4,7 +4,9 @@ class User < ApplicationRecord
   has_many :contents, through: :messages
   belongs_to :local_authority, optional: true
 
-  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
+  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, presence: true
+  validates :postcode, presence: true, format: {with: /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/}
+
   validates_uniqueness_of :phone_number
   validates :child_birthday, inclusion: {in: ((Date.today - 24.months)...(Date.today - 6.months))}
 

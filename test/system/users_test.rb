@@ -30,7 +30,7 @@ class UsersTest < ApplicationSystemTestCase
     visit users_path
     click_on "Jo Smith"
     assert_text "+447444930200"
-    assert_text "ABC123"
+    assert_text "EC4Y 0DS"
     assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development."
     assert_equal "Jack", User.last.child_name
     assert_equal 2, User.last.day_preference
@@ -75,7 +75,7 @@ class UsersTest < ApplicationSystemTestCase
     visit users_path
     click_on "Jo Smith"
     assert_text "+447444930200"
-    assert_text "ABC123"
+    assert_text "EC4Y 0DS"
     assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development."
     assert_equal "Jack", User.last.child_name
     assert_equal 2, User.last.day_preference
@@ -136,7 +136,7 @@ class UsersTest < ApplicationSystemTestCase
     visit users_path
     click_on "Jo Smith"
     assert_text "+447444930200"
-    assert_text "ABC123"
+    assert_text "EC4Y 0DS"
     assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development."
     assert_equal "", User.last.child_name
     assert_equal 2, User.last.day_preference
@@ -175,7 +175,7 @@ class UsersTest < ApplicationSystemTestCase
     visit users_path
     click_on "Jo Smith"
     assert_text "+447444930200"
-    assert_text "ABC123"
+    assert_text "EC4Y 0DS"
     assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development."
     assert_equal "Jack", User.last.child_name
     assert_equal 2, User.last.day_preference
@@ -220,7 +220,7 @@ class UsersTest < ApplicationSystemTestCase
     fill_in "First name", with: "Jo"
     fill_in "Last name", with: "Smith"
     fill_in "Phone number", with: "07444930200"
-    fill_in "Postcode", with: "ABC123"
+    fill_in "Postcode", with: "EC4Y 0DS"
     select month
     select year
     check "I accept the terms of service and privacy policy"

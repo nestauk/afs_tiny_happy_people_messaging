@@ -35,6 +35,14 @@ class UserTest < ActiveSupport::TestCase
     assert_not @subject.valid?
   end
 
+  test "postcode is valid" do
+    @subject.postcode = "123456"
+    assert_not @subject.valid?
+
+    @subject.postcode = "EC4Y 0DS"
+    assert @subject.valid?
+  end
+
   test "contactable scope" do
     create(:user, contactable: false)
 
