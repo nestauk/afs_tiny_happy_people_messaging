@@ -6,7 +6,7 @@ class UserProfile
   STAGES = %w[personalisation about_service diary_study]
 
   USER_PARAMS = [
-    :email, :hour_preference, :day_preference, :referral_source, :id,
+    :email, :hour_preference, :day_preference, :referral_source, :id, :new_language_preference,
     :diary_study, :diary_study_contact_method, :child_name, interests: []
   ]
   PERMITTED_PARAMS = [:stage, :move_back, :move_next, user_profile: USER_PARAMS]
@@ -99,6 +99,10 @@ class UserProfile
 
   def interests
     user_profile_params[:interests] || []
+  end
+
+  def new_language_preference
+    user_profile_params[:new_language_preference].to_s.strip
   end
 
   private

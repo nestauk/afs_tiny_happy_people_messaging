@@ -15,6 +15,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "You're almost done"
     select "Social media"
     check "Building a better routine with my child"
+    fill_in "We're currently available in English, with more languages on the horizon! Let us know your preferred language to help shape our future offerings", with: "Polish"
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.new(phone_number: "+447444930200"))
 
@@ -36,6 +37,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal 2, User.last.day_preference
     assert_equal "morning", User.last.hour_preference
     assert_equal "Islington", User.last.local_authority.name
+    assert_equal "Polish", User.last.new_language_preference
   end
 
   test "user can sign up and take part in the diary study" do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_30_100613) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_122804) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -207,6 +207,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_30_100613) do
     t.uuid "uuid"
     t.bigint "local_authority_id"
     t.boolean "asked_for_feedback", default: false
+    t.string "new_language_preference"
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
