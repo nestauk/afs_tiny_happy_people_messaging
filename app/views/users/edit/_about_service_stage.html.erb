@@ -19,6 +19,8 @@
   <%= f.input :referral_source, required: false, label: "How did you find out about us?", as: :select, include_blank: true, collection: ["Social media", "Referral by a professional", "Flyer/Poster", "Other"], input_html: { class: "w-full" } %>
   
   <%= f.input :interests, as: :check_boxes, collection: Interest::TITLES, wrapper_html: { class: "mt-5 flex flex-col gap-2" }, label: "What are you interested in?", hint: "You can select more than one", required: false %>
+  
+  <%= f.input :new_language_preference, required: false, label: "We're currently available in English, with more languages on the horizon! Let us know your preferred language to help shape our future offerings", input_html: { class: "w-full" }, wrapper_html: { class: "mt-5" } %>
 
   <div class="mt-5 flex flex-col gap-2">
     <%= f.button :submit, "Next", class: 'btn bg-purple-600 text-white', data: { turbo_submits_with: 'Saving...' } %>
