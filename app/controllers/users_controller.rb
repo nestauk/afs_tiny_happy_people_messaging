@@ -68,7 +68,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name, :last_name, :phone_number, :child_birthday, :email, :id, :new_language_preference,
       :postcode, :hour_preference, :day_preference, :referral_source, :child_name, :consent,
-      :terms_agreed_at, :diary_study, interests: []
+      :terms_agreed_at, :diary_study, incentive_receipt_method: [], interests: []
     )
   end
 

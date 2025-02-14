@@ -60,6 +60,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "Thank you for your interest in our diary study"
     fill_in "Email", with: "email@example.com"
+    check "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections."
 
     click_button "I'd like to take part"
     
@@ -89,6 +90,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "morning", User.last.hour_preference
     assert_equal true, User.last.diary_study
     assert_equal "email@example.com", User.last.email
+    assert_equal "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections.", User.last.incentive_receipt_method
     refute_nil User.last.consent_given_at
   end
 
@@ -135,6 +137,7 @@ class UsersTest < ApplicationSystemTestCase
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one!", User.last)
 
     fill_in "Email", with: "email@example.com"
+    check "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections."
 
     click_button "I'd like to take part"
 
@@ -199,6 +202,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "Thank you for your interest in our diary study"
 
     fill_in "Email", with: "email@example.com"
+    check "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections."
 
     click_button "I'd like to take part"
     
@@ -253,8 +257,10 @@ class UsersTest < ApplicationSystemTestCase
     click_button "I'd like to take part"
 
     assert_field_has_errors("Email")
+    assert_text "Choose one option"
 
     fill_in "Email", with: "email@example.com"
+    check "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections."
 
     click_button "I'd like to take part"
 

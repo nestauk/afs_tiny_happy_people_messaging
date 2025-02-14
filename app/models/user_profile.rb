@@ -7,7 +7,7 @@ class UserProfile
 
   USER_PARAMS = [
     :email, :hour_preference, :day_preference, :referral_source, :id, :new_language_preference,
-    :diary_study, :diary_study_contact_method, :child_name, :consent, interests: []
+    :diary_study, :child_name, :consent, incentive_receipt_method: [], interests: []
   ]
   PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, user_profile: USER_PARAMS]
 
@@ -44,15 +44,14 @@ class UserProfile
       return false
     end
 
-    if @user.update(user_profile_params.except(:interests, :consent))
+    if @user.update(user_profile_params.except(:interests, :consent, :incentive_receipt_method))
       if stage == "about_service"
         interests = user_profile_params[:interests].compact_blank
-        if interests.any?
-          interests.each do |title|
-            interest = Interest.find_or_create_by(title:)
-            @user.interests << interest
-          end
-        end
+        create_interests if interests.any?
+      end
+
+      if stage == "diary_study" && incentive_receipt_method.any?
+        @user.update(incentive_receipt_method: incentive_receipt_method.compact_blank.first)
       end
 
       if stage == "consent" && consent == "1"
@@ -97,8 +96,8 @@ class UserProfile
     user_profile_params[:diary_study] || "0"
   end
 
-  def diary_study_contact_method
-    user_profile_params[:diary_study_contact_method].to_s.strip
+  def incentive_receipt_method
+    user_profile_params[:incentive_receipt_method] || []
   end
 
   def interests
@@ -142,6 +141,7 @@ class UserProfile
   def validate_user
     if stage == "diary_study" && @params[:commit] != "I'm not interested"
       errors.add(:email, "can't be blank") if email.blank?
+      errors.add(:incentive_receipt_method, "Choose one option") if incentive_receipt_method.compact_blank.empty?
     end
 
     if stage == "consent" && @params[:commit] != "I'm not interested"
@@ -172,6 +172,13 @@ class UserProfile
       end
     else
       "about_service"
+    end
+  end
+
+  def create_interests
+    interests.each do |title|
+      interest = Interest.find_or_create_by(title:)
+      @user.interests << interest
     end
   end
 end

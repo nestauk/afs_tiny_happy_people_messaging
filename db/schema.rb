@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_13_165126) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_14_102332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -202,13 +202,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_165126) do
     t.boolean "diary_study", default: false
     t.integer "day_preference", default: 1, null: false
     t.string "referral_source"
-    t.string "diary_study_contact_method"
     t.string "email"
     t.uuid "uuid"
     t.bigint "local_authority_id"
     t.boolean "asked_for_feedback", default: false
     t.string "new_language_preference"
     t.datetime "consent_given_at"
+    t.string "incentive_receipt_method"
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
