@@ -1,0 +1,50 @@
+<%= f.input :child_name, as: :hidden %>
+<%= f.input :hour_preference, as: :hidden %>
+<%= f.input :day_preference, as: :hidden %>
+<%= f.input :diary_study, as: :hidden %>
+<%= f.input :referral_source, as: :hidden %>
+<%= f.input :interests, as: :hidden %>
+<%= f.input :new_language_preference, as: :hidden %>
+<%= f.input :email, as: :hidden %>
+
+<div class="w-full px-5">
+  <h1>Diary study consent</h1>
+
+  <p class="mb-3">
+    Thank you for agreeing to be interviewed for our diary study.
+  </p>
+
+  <p class="mb-3">
+    Please read each statement below carefully and indicate your agreement by checking the checkbox.
+  </p>
+
+  <ol class="px-5">
+    <li class="mb-3">
+      I have read and understood the <%= link_to "information sheet", diary_study_path, class: "link", target: "_blank" %> about this research. 
+    </li>
+    <li class="mb-3">
+      I have been able to ask questions I have about the research and I am happy with the answers I have been given.
+    </li>
+    <li class="mb-3">
+      I agree that my words can be quoted anonymously in presentations and reports about this project. Anonymously means that the research team will not publish anyone’s real name. 
+    </li>
+    <li class="mb-3">
+      I understand that the information I give will remain confidential unless it suggests that someone is at risk of serious harm. This means the information will be kept private, and that information about me will not be shared with anyone outside of the research team. 
+    </li>
+    <li class="mb-3">
+      I understand that my information will only be used for this project and will be securely stored by Nesta for three years, after which it will be deleted. Nesta will collect and store the following data: my name, diary responses, email, phone number, and my child's age. If I request a physical copy of my diary, Nesta will also store my address. Additionally, if I complete the demographic information form, Nesta will store my age, gender, family size, income level, ethnicity, education level, marital status and employment status.
+    </li>
+    <li class="mb-3">
+      I understand that I can withdraw my consent to participate in this study at any time before or during the diary study, and until my data has been analysed. After analysis, I can request the removal of my personal details from Nesta’s records, but my words might still appear in the research report or presentation.
+    </li>
+    <li class="mb-3">
+      I agree that someone can contact me to ask if I want to take part in other activities related to this research.
+    </li>
+  </ol>
+
+  <div class="mt-5">
+    <%= f.input :consent, as: :boolean, inline_label: "I agree to the above statements and to taking part in the diary study", label: false, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-1" } %>
+    <%= f.submit "Submit", class: 'btn bg-purple-600 text-white w-full mt-5' %>
+    <%= f.submit "I'm not interested", class: 'btn bg-gray-300 text-black w-full mt-5' %>
+  </div>
+</div>

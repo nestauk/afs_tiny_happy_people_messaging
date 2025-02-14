@@ -9,9 +9,9 @@
       <h2 class="text-2xl lg:text-3xl text-pink-200 mb-5">
         You will receive your first text very soon
       </h2>
-      <% if @user.diary_study && @user.diary_study_contact_method.present? %>
+      <% if @user.consent_given_at.present? %>
         <p class="text-md text-lg l:text-xl text-white xl:w-5/6 mb-5">
-          We'll be in touch within <span class="font-bold">5 working days</span> to explain more about the diary study and get you started. If you have any questions in the meantime, feel free to contact us at <a href="mailto:info@thp-text.uk" class="link">info@thp-text.uk</a>.
+          We'll be in touch within <span class="font-bold">5 working days</span> to get you started with the diary study. If you have any questions in the meantime, feel free to contact us at <a href="mailto:info@thp-text.uk" class="link">info@thp-text.uk</a>.
         </p>
       <% end %>
       <p class="text-md text-lg l:text-xl text-white xl:w-5/6">

@@ -22,7 +22,7 @@ class UsersTest < ApplicationSystemTestCase
     click_button "Next"
 
     assert_text "Thank you for signing up!"
-    assert_no_text "We will be in touch within 3 working days to explain more about the diary study and get you started."
+    assert_no_text "We will be in touch within 5 working days to explain more about the diary study and get you started."
     assert_equal 1, Message.count
 
     @admin = create(:admin)
@@ -59,15 +59,20 @@ class UsersTest < ApplicationSystemTestCase
     click_button "Next"
 
     assert_text "Thank you for your interest in our diary study"
-    select "Email"
     fill_in "Email", with: "email@example.com"
 
+    click_button "I'd like to take part"
+    
+    assert_text "Diary study consent"
+    
+    check "I agree to the above statements and to taking part in the diary study"
+    
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.last)
 
-    click_button "Save"
+    click_button "Submit"
 
     assert_text "Thank you for signing up!"
-    assert_text "We'll be in touch within 5 working days to explain more about the diary study and get you started."
+    assert_text "We'll be in touch within 5 working days to get you started with the diary study."
 
     assert_equal 1, Message.count
 
@@ -83,11 +88,11 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal 2, User.last.day_preference
     assert_equal "morning", User.last.hour_preference
     assert_equal true, User.last.diary_study
-    assert_equal "Email", User.last.diary_study_contact_method
     assert_equal "email@example.com", User.last.email
+    refute_nil User.last.consent_given_at
   end
 
-  test "user can sign up and decide not to take part in the diary study" do
+  test "user can sign up and decide not to take part in the diary study after seeing information" do
     visit new_user_path
 
     sign_up
@@ -106,11 +111,43 @@ class UsersTest < ApplicationSystemTestCase
     click_button "I'm not interested"
 
     assert_text "Thank you for signing up!"
-    assert_no_text "We will be in touch within 3 working days to explain more about the diary study and get you started."
+    assert_no_text "We'll be in touch within 5 working days to get you started with the diary study."
 
     assert_equal 1, Message.count
     assert_equal true, User.last.diary_study
-    assert_equal "", User.last.diary_study_contact_method
+    assert_nil User.last.consent_given_at
+  end
+
+  test "user can sign up and decide not to take part in the diary study by refusing consent" do
+    visit new_user_path
+
+    sign_up
+
+    assert_text "Thanks for signing up!"
+    check "Yes, I'm interested in joining the diary study and earning a £100 voucher!"
+    click_button "Next"
+
+    assert_text "You're almost done"
+    click_button "Next"
+
+    assert_text "Thank you for your interest in our diary study"
+
+    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one!", User.last)
+
+    fill_in "Email", with: "email@example.com"
+
+    click_button "I'd like to take part"
+
+    assert_text "Diary study consent"
+
+    click_button "I'm not interested"
+
+    assert_text "Thank you for signing up!"
+    assert_no_text "We'll be in touch within 5 working days to get you started with the diary study."
+
+    assert_equal 1, Message.count
+    assert_equal true, User.last.diary_study
+    assert_nil User.last.consent_given_at
   end
 
   test "user can skip non-essential form fields" do
@@ -161,13 +198,20 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "Thank you for your interest in our diary study"
 
-    select "Phone call"
+    fill_in "Email", with: "email@example.com"
 
+    click_button "I'd like to take part"
+    
+    assert_text "Diary study consent"
+    
+    check "I agree to the above statements and to taking part in the diary study"
+    
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.last)
 
-    click_button "Save"
+    click_button "Submit"
 
     assert_text "Thank you for signing up!"
+    assert_text "We'll be in touch within 5 working days to get you started with the diary study."
 
     @admin = create(:admin)
     sign_in
@@ -196,6 +240,29 @@ class UsersTest < ApplicationSystemTestCase
     assert_field_has_errors("Phone number")
     assert_field_has_errors("Your child's birthday")
     assert_field_has_errors("I accept the terms of service and privacy policy")
+
+    sign_up
+
+    check "Yes, I'm interested in joining the diary study and earning a £100 voucher!"
+
+    click_button "Next"
+    click_button "Skip this section"
+
+    assert_text "Thank you for your interest in our diary study"
+
+    click_button "I'd like to take part"
+
+    assert_field_has_errors("Email")
+
+    fill_in "Email", with: "email@example.com"
+
+    click_button "I'd like to take part"
+
+    assert_text "Diary study consent"
+
+    click_button "Submit"
+
+    assert_field_has_errors("I agree to the above statements and to taking part in the diary study")
   end
 
   test "can see all users" do

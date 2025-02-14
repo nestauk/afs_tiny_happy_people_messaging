@@ -67,8 +67,8 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :phone_number, :child_birthday, :email, :id, :new_language_preference,
-      :postcode, :hour_preference, :day_preference, :referral_source, :child_name,
-      :diary_study_contact_method, :terms_agreed_at, :diary_study, interests: []
+      :postcode, :hour_preference, :day_preference, :referral_source, :child_name, :consent,
+      :terms_agreed_at, :diary_study, interests: []
     )
   end
 

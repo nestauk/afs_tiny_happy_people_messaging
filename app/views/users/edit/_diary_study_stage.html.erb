@@ -44,11 +44,15 @@
   <h2>
     What's next?
   </h2>
-  <%= f.input :diary_study_contact_method, as: :select, collection: ["Phone call", "Email"], label: "If you are happy to take part, please let us know how you we can best contact you regarding the next steps:", wrapper_html: { "data-action": "change->users#showForm" }, input_html: { class: "w-full" } %>
-  <%= f.input :email, wrapper_html: { class: "hidden mt-5" }, input_html: { class: "w-full" } %>
+
+  <%= f.input :email, wrapper_html: { class: "mt-5" }, input_html: { class: "w-full" }, hint: "We need this to be able to send you the diary study template" %>
+
+  <p class="mt-5">
+    If you're happy to take part, we need to make sure you're comfortable participating in this research. We'll ask you to confirm that you understand what's involved and agree to take part.
+  </p>
   
   <div class="mt-5">
-    <%= f.submit "Save", class: 'btn bg-purple-600 text-white w-full' %>
+    <%= f.submit "I'd like to take part", class: 'btn bg-purple-600 text-white w-full' %>
     <%= f.submit "I'm not interested", class: 'btn bg-gray-300 text-black w-full mt-5' %>
   </div>
 </div>

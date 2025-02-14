@@ -3,13 +3,13 @@ class UserProfile
   extend ActiveModel::Translation
   include ActiveModel::Conversion
 
-  STAGES = %w[personalisation about_service diary_study]
+  STAGES = %w[personalisation about_service diary_study consent]
 
   USER_PARAMS = [
     :email, :hour_preference, :day_preference, :referral_source, :id, :new_language_preference,
-    :diary_study, :diary_study_contact_method, :child_name, interests: []
+    :diary_study, :diary_study_contact_method, :child_name, :consent, interests: []
   ]
-  PERMITTED_PARAMS = [:stage, :move_back, :move_next, user_profile: USER_PARAMS]
+  PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, user_profile: USER_PARAMS]
 
   attr_reader :params, :errors, :user
 
@@ -44,7 +44,7 @@ class UserProfile
       return false
     end
 
-    if @user.update(user_profile_params.except(:interests))
+    if @user.update(user_profile_params.except(:interests, :consent))
       if stage == "about_service"
         interests = user_profile_params[:interests].compact_blank
         if interests.any?
@@ -53,6 +53,10 @@ class UserProfile
             @user.interests << interest
           end
         end
+      end
+
+      if stage == "consent" && consent == "1"
+        @user.update(consent_given_at: Time.zone.now)
       end
 
       if done?
@@ -105,6 +109,10 @@ class UserProfile
     user_profile_params[:new_language_preference].to_s.strip
   end
 
+  def consent
+    user_profile_params[:consent] || "0"
+  end
+
   private
 
   def stage_param
@@ -128,10 +136,18 @@ class UserProfile
   end
 
   def next_stage
-    STAGES[[stage_index + 1, 2].min]
+    STAGES[[stage_index + 1, 3].min]
   end
 
   def validate_user
+    if stage == "diary_study" && @params[:commit] != "I'm not interested"
+      errors.add(:email, "can't be blank") if email.blank?
+    end
+
+    if stage == "consent" && @params[:commit] != "I'm not interested"
+      errors.add(:consent, "can't be blank") if consent == "0"
+    end
+
     if errors.any?
       @stage = stage
     end
@@ -149,7 +165,11 @@ class UserProfile
 
   def done?
     stage == if diary_study == "1"
-      "diary_study"
+      if @params[:commit] == "I'm not interested"
+        @stage
+      elsif email.present?
+        "consent"
+      end
     else
       "about_service"
     end
