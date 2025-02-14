@@ -63,11 +63,25 @@ class UsersTest < ApplicationSystemTestCase
     check "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections."
 
     click_button "I'd like to take part"
-    
+
     assert_text "Diary study consent"
-    
+
     check "I agree to the above statements and to taking part in the diary study"
-    
+
+    click_button "Submit"
+
+    fill_in "What is your gender?", with: "Female"
+    fill_in "What is your age?", with: "27"
+    fill_in "How many children do you have?", with: "2"
+    fill_in "How old are you children?", with: "2 and 4"
+    select "England"
+    select "White"
+    select "Up to 4 GCSE's (Including 1-4 O Levels/CSE/GCSEs (any grades), Foundation Diploma, NVQ level 1, Foundation GNVQ or equivalents) (or foreign equivalent)"
+    select "Married"
+    select "Full time employed"
+    select "Less than £9,999"
+    choose "Yes"
+
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.last)
 
     click_button "Submit"
@@ -92,6 +106,18 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "email@example.com", User.last.email
     assert_equal "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections.", User.last.incentive_receipt_method
     refute_nil User.last.consent_given_at
+
+    assert_equal "Female", User.last.demographic_data.gender
+    assert_equal 27, User.last.demographic_data.age
+    assert_equal 2, User.last.demographic_data.number_of_children
+    assert_equal "2 and 4", User.last.demographic_data.children_ages
+    assert_equal "England", User.last.demographic_data.country
+    assert_equal "White", User.last.demographic_data.ethnicity
+    assert_equal "Up to 4 GCSE's (Including 1-4 O Levels/CSE/GCSEs (any grades), Foundation Diploma, NVQ level 1, Foundation GNVQ or equivalents) (or foreign equivalent)", User.last.demographic_data.education
+    assert_equal "Married", User.last.demographic_data.marital_status
+    assert_equal "Full time employed", User.last.demographic_data.employment_status
+    assert_equal "Less than £9,999", User.last.demographic_data.household_income
+    assert User.last.demographic_data.receiving_credit
   end
 
   test "user can sign up and decide not to take part in the diary study after seeing information" do
@@ -205,14 +231,16 @@ class UsersTest < ApplicationSystemTestCase
     check "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections."
 
     click_button "I'd like to take part"
-    
+
     assert_text "Diary study consent"
-    
+
     check "I agree to the above statements and to taking part in the diary study"
-    
-    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.last)
 
     click_button "Submit"
+
+    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one!", User.last)
+
+    click_button "Skip this section"
 
     assert_text "Thank you for signing up!"
     assert_text "We'll be in touch within 5 working days to get you started with the diary study."

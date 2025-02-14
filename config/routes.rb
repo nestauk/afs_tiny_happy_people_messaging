@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     get "dashboard", on: :collection
     get "thank_you", on: :member
     resources :messages
+    resources :demographic_data, only: %i[new create]
   end
 
   get "dashboard", to: "dashboards#show"

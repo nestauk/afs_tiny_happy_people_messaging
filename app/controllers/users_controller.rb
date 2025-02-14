@@ -49,9 +49,13 @@ class UsersController < ApplicationController
     ahoy.track @user.stage, request.path_parameters
 
     if @user.save
-      SendWelcomeMessageJob.perform_now(@user.user)
+      if @user.user.consent_given_at.present?
+        redirect_to new_user_demographic_datum_path(@user.user.uuid)
+      else
+        SendWelcomeMessageJob.perform_now(@user.user)
 
-      redirect_to thank_you_user_path(@user.user.uuid)
+        redirect_to thank_you_user_path(@user.user.uuid)
+      end
     else
       render :edit, status: :unprocessable_entity
     end
