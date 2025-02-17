@@ -7,9 +7,11 @@ class UserProfile
 
   USER_PARAMS = [
     :email, :hour_preference, :day_preference, :referral_source, :id, :new_language_preference,
+    :can_be_contacted_for_research, :can_be_quoted_for_research,
     :diary_study, :child_name, :consent, incentive_receipt_method: [], interests: []
   ]
-  PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, user_profile: USER_PARAMS]
+  CONSENT_PARAMS = [:questions, :info_sheet, :confidential, :storage, :withdraw]
+  PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, user_profile: USER_PARAMS + CONSENT_PARAMS]
 
   attr_reader :params, :errors, :user
 
@@ -44,7 +46,7 @@ class UserProfile
       return false
     end
 
-    if @user.update(user_profile_params.except(:interests, :consent, :incentive_receipt_method))
+    if @user.update(user_profile_params.except(:interests, :consent, :incentive_receipt_method, :questions, :info_sheet, :confidential, :storage, :withdraw))
       if stage == "about_service"
         interests = user_profile_params[:interests].compact_blank
         create_interests if interests.any?
@@ -54,7 +56,7 @@ class UserProfile
         @user.update(incentive_receipt_method: incentive_receipt_method.compact_blank.first)
       end
 
-      if stage == "consent" && consent == "1"
+      if stage == "consent" && has_given_consent?
         @user.update(consent_given_at: Time.zone.now)
       end
 
@@ -112,6 +114,14 @@ class UserProfile
     user_profile_params[:consent] || "0"
   end
 
+  def can_be_contacted_for_research
+    user_profile_params[:can_be_contacted_for_research] || "0"
+  end
+
+  def can_be_quoted_for_research
+    user_profile_params[:can_be_quoted_for_research] || "0"
+  end
+
   private
 
   def stage_param
@@ -142,10 +152,6 @@ class UserProfile
     if stage == "diary_study" && @params[:commit] != "I'm not interested"
       errors.add(:email, "can't be blank") if email.blank?
       errors.add(:incentive_receipt_method, "Choose one option") if incentive_receipt_method.compact_blank.empty?
-    end
-
-    if stage == "consent" && @params[:commit] != "I'm not interested"
-      errors.add(:consent, "can't be blank") if consent == "0"
     end
 
     if errors.any?
@@ -180,5 +186,9 @@ class UserProfile
       interest = Interest.find_or_create_by(title:)
       @user.interests << interest
     end
+  end
+
+  def has_given_consent?
+    CONSENT_PARAMS.all? { |param| user_profile_params[param].to_s == "on" } && consent == "1"
   end
 end
