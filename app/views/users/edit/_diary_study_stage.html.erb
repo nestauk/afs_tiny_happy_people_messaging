@@ -25,7 +25,7 @@
       At the end of each week, take <span class="font-bold">5–10 minutes</span> to reflect on your experience and send us your diary 
     </li>
     <li>
-      Receive a thank-you <span class="font-bold">£100 voucher at the end of 4 weeks</span> (£20 at the end of every week + a £20 completion bonus) 
+      Receive a thank-you <span class="font-bold">£100 voucher at the end of 4 weeks</span> or <span class="font-bold">£20 at the end of every week + a £20 completion bonus</span>
     </li>
   </ul>
 
@@ -44,11 +44,17 @@
   <h2>
     What's next?
   </h2>
-  <%= f.input :diary_study_contact_method, as: :select, collection: ["Phone call", "Email"], label: "If you are happy to take part, please let us know how you we can best contact you regarding the next steps:", wrapper_html: { "data-action": "change->users#showForm" }, input_html: { class: "w-full" } %>
-  <%= f.input :email, wrapper_html: { class: "hidden mt-5" }, input_html: { class: "w-full" } %>
+
+  <%= f.input :email, wrapper_html: { class: "mt-5" }, input_html: { class: "w-full" }, hint: "We need this to be able to send you the diary study template" %>
+
+  <%= f.input :incentive_receipt_method, as: :check_boxes, collection: ["Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections.", "Option 2: Receive £20 per week, after we receive your completed weekly reflections, and a £20 bonus at the end of the study for completing each week."], wrapper_html: { class: "mt-5 flex flex-col gap-2" }, label: "How would you like to receive your incentive(s)? Please tick the option you prefer.", required: true %>
+
+  <p class="mt-5">
+    If you're happy to take part, we need to make sure you're comfortable participating in this research. We'll ask you to confirm that you understand what's involved and agree to take part.
+  </p>
   
   <div class="mt-5">
-    <%= f.submit "Save", class: 'btn bg-purple-600 text-white w-full' %>
+    <%= f.submit "I'd like to take part", class: 'btn bg-purple-600 text-white w-full' %>
     <%= f.submit "I'm not interested", class: 'btn bg-gray-300 text-black w-full mt-5' %>
   </div>
 </div>

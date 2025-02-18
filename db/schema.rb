@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_122804) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_17_104319) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -148,6 +148,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_122804) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "demographic_data", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "gender"
+    t.integer "age"
+    t.integer "number_of_children"
+    t.string "children_ages"
+    t.string "country"
+    t.string "ethnicity"
+    t.string "education"
+    t.string "marital_status"
+    t.string "employment_status"
+    t.string "household_income"
+    t.boolean "receiving_credit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_demographic_data_on_user_id"
+  end
+
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -202,17 +220,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_122804) do
     t.boolean "diary_study", default: false
     t.integer "day_preference", default: 1, null: false
     t.string "referral_source"
-    t.string "diary_study_contact_method"
     t.string "email"
     t.uuid "uuid"
     t.bigint "local_authority_id"
     t.boolean "asked_for_feedback", default: false
     t.string "new_language_preference"
+    t.datetime "consent_given_at"
+    t.string "incentive_receipt_method"
+    t.boolean "can_be_quoted_for_research", default: false
+    t.boolean "can_be_contacted_for_research", default: false
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 
+  add_foreign_key "demographic_data", "users"
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
   add_foreign_key "users", "contents", column: "last_content_id"

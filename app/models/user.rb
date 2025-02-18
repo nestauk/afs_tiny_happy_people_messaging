@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_many :interests
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
+  has_one :demographic_data, dependent: :destroy
   belongs_to :local_authority, optional: true
 
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
@@ -10,7 +11,7 @@ class User < ApplicationRecord
 
   phony_normalize :phone_number, default_country_code: "UK"
 
-  accepts_nested_attributes_for :interests
+  accepts_nested_attributes_for :interests, :demographic_data
 
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
