@@ -170,7 +170,7 @@ class UserProfile
   end
 
   def done?
-    stage == if diary_study == "1"
+    stage == if diary_study == "1" || email.present?
       if @params[:commit] == "I'm not interested"
         @stage
       elsif email.present?
