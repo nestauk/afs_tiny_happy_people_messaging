@@ -96,6 +96,8 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "email@example.com", User.last.email
     assert_equal "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections.", User.last.incentive_receipt_method
     refute_nil User.last.consent_given_at
+    assert User.last.can_be_quoted_for_research
+    assert User.last.can_be_contacted_for_research
 
     assert_equal "Female", User.last.demographic_data.gender
     assert_equal 27, User.last.demographic_data.age

@@ -7,7 +7,7 @@ class DemographicDataController < ApplicationController
   end
 
   def create
-    @demographic_data = DemographicData.new(demographic_data_params)
+    @demographic_data = @user.build_demographic_data(demographic_data_params)
 
     if @demographic_data.save
       SendWelcomeMessageJob.perform_now(@user)
@@ -36,8 +36,7 @@ class DemographicDataController < ApplicationController
       :marital_status,
       :employment_status,
       :household_income,
-      :receiving_credit,
-      :user_id
+      :receiving_credit
     )
   end
 end
