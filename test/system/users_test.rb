@@ -388,6 +388,44 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "Jane Doe"
   end
 
+  test "users can be sent consent form and fill it in" do
+    user = create(:user)
+
+    visit edit_user_path(stage: "diary_study", uuid: user.uuid)
+
+    fill_in "Email", with: "user@example.com"
+    check "Option 1: Receive my £100 voucher at the end of the study, after I have submitted all 4 weeks of reflections."
+
+    click_button "I'd like to take part"
+
+    fill_in_consent_form
+    click_button "Submit"
+
+    fill_in_demographic_data
+    stub_successful_twilio_call("Hi Ali, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one!", User.last)
+
+    click_button "Submit"
+
+    assert_text "Thank you for signing up!"
+    assert_text "We'll be in touch within 5 working days to get you started with the diary study."
+
+    refute_nil User.last.consent_given_at
+    assert User.last.can_be_quoted_for_research
+    assert User.last.can_be_contacted_for_research
+
+    assert_equal "Female", User.last.demographic_data.gender
+    assert_equal 27, User.last.demographic_data.age
+    assert_equal 2, User.last.demographic_data.number_of_children
+    assert_equal "2 and 4", User.last.demographic_data.children_ages
+    assert_equal "England", User.last.demographic_data.country
+    assert_equal "White", User.last.demographic_data.ethnicity
+    assert_equal "Up to 4 GCSE's (Including 1-4 O Levels/CSE/GCSEs (any grades), Foundation Diploma, NVQ level 1, Foundation GNVQ or equivalents) (or foreign equivalent)", User.last.demographic_data.education
+    assert_equal "Married", User.last.demographic_data.marital_status
+    assert_equal "Full time employed", User.last.demographic_data.employment_status
+    assert_equal "Less than £9,999", User.last.demographic_data.household_income
+    assert User.last.demographic_data.receiving_credit
+  end
+
   private
 
   def sign_up
