@@ -10,7 +10,6 @@ class DiaryEntryForm
     :feedback_reason, :reason_for_not_doing_activity, :enjoyed_most, :enjoyed_least, :changes_to_make,
     days: [], timings: [], feedback: []
   ]
-  CONSENT_PARAMS = [:questions, :info_sheet, :confidential, :storage, :withdraw]
   PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, diary_entry_form: DIARY_ENTRY_PARAMS]
 
   attr_reader :params, :errors, :user, :session

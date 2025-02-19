@@ -74,24 +74,24 @@ class DiaryEntriesTest < ApplicationSystemTestCase
     assert_checked_field "Monday"
     assert_checked_field "Wednesday"
     assert_checked_field "Mornings"
-    assert_field "When you got the chance to engage with the tips or activities you received in the text this week, how long did you typically spend doing each activity?", with: "30"
+    assert_field "When you got the chance to engage with the tips or activities you received in the text this week, how long did you typically spend doing each activity (in minutes)?", with: "30"
 
     click_button "Next"
 
     assert_text "Reflecting on previous week's text"
     assert_checked_field "Yes"
-    assert_field "[IF YES TO PREVIOUS QUESTION] What tips or activities from previous weeks did you engage with this week?", with: "I did laundry with her"
+    assert_field "What tips or activities from previous weeks did you engage with this week?", with: "I did laundry with her"
 
     click_button "Next"
 
     assert_text "Feedback on this week's text"
 
     assert_checked_field "Interesting?"
-    assert_field "Tell us more about why you selected the choices above, and what you thought about the text message and activity you received.", with: "It was interesting"
-    assert_field "If you didn’t do the activities in the text or watch the video, what was the reason?", with: "I was busy"
-    assert_field "What have you enjoyed most about the programme this week?", with: "I had fun"
-    assert_field "What have you enjoyed least about the programme this week?", with: "I was too busy"
-    assert_field "What would you change about the programme this week, if anything?", with: "Fewer reminders"
+    assert_field "Tell us more about why you selected the choices above, and what you thought about the text message and activity you received (1-3 sentences).", with: "It was interesting"
+    assert_field "If you didn’t do the activities in the text or watch the video, what was the reason? (1-3 sentences)", with: "I was busy"
+    assert_field "What have you enjoyed most about the programme this week? (1-3 sentences)", with: "I had fun"
+    assert_field "What have you enjoyed least about the programme this week? (1-3 sentences)", with: "I was too busy"
+    assert_field "What would you change about the programme this week, if anything? (1-3 sentences)", with: "Fewer reminders"
   end
 
   test "The form correctly saves if it was my first week" do
@@ -135,15 +135,17 @@ class DiaryEntriesTest < ApplicationSystemTestCase
 
     check "Mornings"
 
-    fill_in "When you got the chance to engage with the tips or activities you received in the text this week, how long did you typically spend doing each activity?", with: "30"
+    fill_in "When you got the chance to engage with the tips or activities you received in the text this week, how long did you typically spend doing each activity (in minutes)?", with: "30"
 
     click_button "Next"
 
     assert_text "Reflecting on previous week's text"
 
+    assert_no_text "What tips or activities from previous weeks did you engage with this week?"
+
     choose "Yes"
 
-    fill_in "If you said yes to the previous question, what tips or activities from previous weeks did you engage with this week?", with: "I did laundry with her"
+    fill_in "What tips or activities from previous weeks did you engage with this week?", with: "I did laundry with her"
 
     click_button "Next"
 
@@ -151,10 +153,10 @@ class DiaryEntriesTest < ApplicationSystemTestCase
 
     check "Interesting?"
 
-    fill_in "Tell us more about why you selected the choices above, and what you thought about the text message and activity you received.", with: "It was interesting"
-    fill_in "If you didn’t do the activities in the text or watch the video, what was the reason?", with: "I was busy"
-    fill_in "What have you enjoyed most about the programme this week?", with: "I had fun"
-    fill_in "What have you enjoyed least about the programme this week?", with: "I was too busy"
-    fill_in "What would you change about the programme this week, if anything?", with: "Fewer reminders"
+    fill_in "Tell us more about why you selected the choices above, and what you thought about the text message and activity you received (1-3 sentences).", with: "It was interesting"
+    fill_in "If you didn’t do the activities in the text or watch the video, what was the reason? (1-3 sentences)", with: "I was busy"
+    fill_in "What have you enjoyed most about the programme this week? (1-3 sentences)", with: "I had fun"
+    fill_in "What have you enjoyed least about the programme this week? (1-3 sentences)", with: "I was too busy"
+    fill_in "What would you change about the programme this week, if anything? (1-3 sentences)", with: "Fewer reminders"
   end
 end
