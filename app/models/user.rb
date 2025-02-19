@@ -1,7 +1,8 @@
 class User < ApplicationRecord
-  has_many :interests
+  has_many :interests, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
+  has_many :diary_entries, dependent: :destroy
   has_one :demographic_data, dependent: :destroy
   belongs_to :local_authority, optional: true
 

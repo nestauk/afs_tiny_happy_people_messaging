@@ -1,0 +1,18 @@
+<%= f.input :total_time, as: :hidden %>
+<%= f.input :feedback_reason, as: :hidden %>
+<%= f.input :reason_for_not_doing_activity, as: :hidden %>
+<%= f.input :enjoyed_most, as: :hidden %>
+<%= f.input :enjoyed_least, as: :hidden %>
+<%= f.input :changes_to_make, as: :hidden %>
+
+<div class="w-full px-5">
+  <h1>
+    Reflecting on previous week's text
+  </h1>
+
+  <%= f.input :did_previous_week_activity, label: "This week, did you apply the tips or do any of the activities from texts you received in previous weeks?", required: false, as: :radio_buttons, collection: [["Yes", true], ["No", false], ["This is my first week of texts", 'first_week']], wrapper_html: { class: "mt-5" }, item_wrapper_tag: :div %>
+  <%= f.input :activities_from_previous_weeks, as: :text, label: "[IF YES TO PREVIOUS QUESTION] What tips or activities from previous weeks did you engage with this week?",  required: false, wrapper_html: { class: 'mt-5 mb-5' }, input_html: { class: 'w-full', rows: 3 } %>
+  
+  <%= f.button :submit, "Next", class: 'btn bg-purple-600 text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
+  <%= f.button :submit, "Back", class: 'btn bg-purple-200 text-black w-full mt-3', name: "move_back" %>
+<div>
