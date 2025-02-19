@@ -143,7 +143,7 @@ class DiaryEntriesTest < ApplicationSystemTestCase
 
     choose "Yes"
 
-    fill_in "[IF YES TO PREVIOUS QUESTION] What tips or activities from previous weeks did you engage with this week?", with: "I did laundry with her"
+    fill_in "If you said yes to the previous question, what tips or activities from previous weeks did you engage with this week?", with: "I did laundry with her"
 
     click_button "Next"
 
