@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @users.contactable.each do |user| %>
+        <% @users.contactable.order(:last_name, :first_name).each do |user| %>
           <tr class="border-b-2">
             <td class="px-4 py-4 bg-white">
               <%= link_to user.full_name, user_path(user.uuid), class: "underline hover:no-underline" %>

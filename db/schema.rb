@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_17_104319) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_19_134828) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -166,6 +166,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_104319) do
     t.index ["user_id"], name: "index_demographic_data_on_user_id"
   end
 
+  create_table "diary_entries", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.jsonb "days", default: [], array: true
+    t.jsonb "timings", default: [], array: true
+    t.integer "total_time"
+    t.boolean "did_previous_week_activity"
+    t.boolean "first_week"
+    t.text "activities_from_previous_weeks"
+    t.jsonb "feedback", default: [], array: true
+    t.text "feedback_reason"
+    t.text "reason_for_not_doing_activity"
+    t.text "enjoyed_most"
+    t.text "enjoyed_least"
+    t.text "changes_to_make"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_diary_entries_on_user_id"
+  end
+
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -235,6 +255,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_104319) do
   end
 
   add_foreign_key "demographic_data", "users"
+  add_foreign_key "diary_entries", "users"
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
   add_foreign_key "users", "contents", column: "last_content_id"

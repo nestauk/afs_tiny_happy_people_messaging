@@ -1,0 +1,19 @@
+<%= f.input :did_previous_week_activity, as: :hidden %>
+<%= f.input :activities_from_previous_weeks, as: :hidden %>
+<%= f.input :feedback_reason, as: :hidden %>
+<%= f.input :reason_for_not_doing_activity, as: :hidden %>
+<%= f.input :enjoyed_most, as: :hidden %>
+<%= f.input :enjoyed_least, as: :hidden %>
+<%= f.input :changes_to_make, as: :hidden %>
+
+<div class="w-full px-5">
+  <h1>
+    Reflecting on this week's text
+  </h1>
+
+  <%= f.input :days, as: :check_boxes, include_hidden: false, collection: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'None of the days'], wrapper_html: { class: "mt-5 flex flex-col gap-2" }, label: "On which days this week did you apply the tips or do the activities in the text you received?", hint: "Select all that apply", required: false %>
+  <%= f.input :timings, as: :check_boxes, include_hidden: false, collection: ['Mornings', 'Afternoons', 'Evenings', 'None of the timings'], wrapper_html: { class: "mt-5 flex flex-col gap-2" }, label: "When did you typically apply the tips or do the activities in the text you received this week?", hint: "Select all that apply", required: false %>
+  <%= f.input :total_time, label: "When you got the chance to engage with the tips or activities you received in the text this week, how long did you typically spend doing each activity (in minutes)?", wrapper_html: { class: "mt-5 mb-5 flex flex-col gap-2" } %>
+
+  <%= f.button :submit, "Next", class: 'btn bg-purple-600 text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
+</div>

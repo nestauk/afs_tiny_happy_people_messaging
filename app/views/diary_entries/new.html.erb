@@ -1,0 +1,7 @@
+<div class="mx-auto max-w-prose" data-controller="users">
+  <%= simple_form_for @diary_entry_form, url: user_diary_entries_path(@user.uuid), method: :post do |form| %>
+    <%= hidden_field_tag :stage, @diary_entry_form.stage %>
+    <%= render @diary_entry_form, f: form, diary_entry: form.object %>
+  <% end %>
+</div>
+<% turbo_page_requires_reload %>
