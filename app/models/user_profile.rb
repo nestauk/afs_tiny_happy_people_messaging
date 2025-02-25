@@ -3,15 +3,13 @@ class UserProfile
   extend ActiveModel::Translation
   include ActiveModel::Conversion
 
-  STAGES = %w[personalisation about_service diary_study consent]
+  STAGES = %w[personalisation about_service]
 
   USER_PARAMS = [
-    :email, :hour_preference, :day_preference, :referral_source, :id, :new_language_preference,
-    :can_be_contacted_for_research, :can_be_quoted_for_research,
-    :diary_study, :child_name, :consent, incentive_receipt_method: [], interests: []
+    :hour_preference, :day_preference, :referral_source, :id, :new_language_preference,
+    :child_name, interests: []
   ]
-  CONSENT_PARAMS = [:questions, :info_sheet, :confidential, :storage, :withdraw]
-  PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, user_profile: USER_PARAMS + CONSENT_PARAMS]
+  PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, user_profile: USER_PARAMS]
 
   attr_reader :params, :errors, :user
 
@@ -46,18 +44,10 @@ class UserProfile
       return false
     end
 
-    if @user.update(user_profile_params.except(:interests, :consent, :incentive_receipt_method, :questions, :info_sheet, :confidential, :storage, :withdraw))
+    if @user.update(user_profile_params.except(:interests))
       if stage == "about_service"
         interests = user_profile_params[:interests].compact_blank
         create_interests if interests.any?
-      end
-
-      if stage == "diary_study" && incentive_receipt_method.any?
-        @user.update(incentive_receipt_method: incentive_receipt_method.compact_blank.first)
-      end
-
-      if stage == "consent" && has_given_consent?
-        @user.update(consent_given_at: Time.zone.now)
       end
 
       if done?
@@ -72,10 +62,6 @@ class UserProfile
 
   def child_name
     user_profile_params[:child_name].to_s.strip
-  end
-
-  def email
-    user_profile_params[:email].to_s.strip
   end
 
   def hour_preference
@@ -94,32 +80,12 @@ class UserProfile
     user_profile_params[:referral_source].to_s.strip
   end
 
-  def diary_study
-    user_profile_params[:diary_study] || "0"
-  end
-
-  def incentive_receipt_method
-    user_profile_params[:incentive_receipt_method] || []
-  end
-
   def interests
     user_profile_params[:interests] || []
   end
 
   def new_language_preference
     user_profile_params[:new_language_preference].to_s.strip
-  end
-
-  def consent
-    user_profile_params[:consent] || "0"
-  end
-
-  def can_be_contacted_for_research
-    user_profile_params[:can_be_contacted_for_research] || "0"
-  end
-
-  def can_be_quoted_for_research
-    user_profile_params[:can_be_quoted_for_research] || "0"
   end
 
   private
@@ -149,11 +115,6 @@ class UserProfile
   end
 
   def validate_user
-    if stage == "diary_study" && @params[:commit] != "I'm not interested"
-      errors.add(:email, "can't be blank") if email.blank?
-      errors.add(:incentive_receipt_method, "Choose one option") if incentive_receipt_method.compact_blank.empty?
-    end
-
     if errors.any?
       @stage = stage
     end
@@ -170,15 +131,7 @@ class UserProfile
   end
 
   def done?
-    stage == if diary_study == "1" || email.present?
-      if @params[:commit] == "I'm not interested"
-        @stage
-      elsif email.present?
-        "consent"
-      end
-    else
-      "about_service"
-    end
+    stage == "about_service"
   end
 
   def create_interests
@@ -186,9 +139,5 @@ class UserProfile
       interest = Interest.find_or_create_by(title:)
       @user.interests << interest
     end
-  end
-
-  def has_given_consent?
-    CONSENT_PARAMS.all? { |param| user_profile_params[param].to_s == "on" } && consent == "1"
   end
 end
