@@ -49,13 +49,9 @@ class UsersController < ApplicationController
     ahoy.track @user.stage, request.path_parameters
 
     if @user.save
-      if @user.user.consent_given_at.present?
-        redirect_to new_user_demographic_datum_path(@user.user.uuid)
-      else
-        SendWelcomeMessageJob.perform_now(@user.user)
+      SendWelcomeMessageJob.perform_now(@user.user)
 
-        redirect_to thank_you_user_path(@user.user.uuid)
-      end
+      redirect_to thank_you_user_path(@user.user.uuid)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -71,9 +67,8 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :phone_number, :child_birthday, :email, :id, :new_language_preference,
-      :postcode, :hour_preference, :day_preference, :referral_source, :child_name, :consent,
-      :can_be_quoted_for_research, :can_be_contacted_for_research,
-      :terms_agreed_at, :diary_study, incentive_receipt_method: [], interests: []
+      :postcode, :hour_preference, :day_preference, :referral_source, :child_name,
+      :terms_agreed_at, interests: []
     )
   end
 
