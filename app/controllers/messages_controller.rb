@@ -48,6 +48,17 @@ class MessagesController < ApplicationController
     end
   end
 
+  def update
+    @message = Message.find(params[:id])
+    @message.assign_attributes(marked_as_seen_at: Time.now) if params[:seen] == "true"
+
+    if @message.save
+      redirect_to dashboard_users_path, notice: "Message marked as seen"
+    else
+      redirect_to dashboard_users_path, alert: "Message not updated"
+    end
+  end
+
   private
 
   def message_params

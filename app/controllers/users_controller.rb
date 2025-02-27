@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    @messages = Message.where(status: "received")
+    @messages = Message.where(status: "received", marked_as_seen_at: nil)
   end
 
   def show

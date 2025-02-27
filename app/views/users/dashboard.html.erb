@@ -7,6 +7,9 @@
           <th class="px-4 py-4">Name</th>
           <th class="px-4 py-4">Message</th>
           <th class="px-4 py-4">Received</th>
+          <td>
+            &nbsp;
+          </td>
         </tr>
       </thead>
       <tbody>
@@ -20,6 +23,13 @@
             </td>
             <td class="px-4 py-4 bg-white">
               <%= message.created_at.strftime("%d/%m/%y") %>
+            </td>
+            <td class="px-4 py-4 bg-white text-right">
+              <%= simple_form_for message, url: user_message_path(user_uuid: message.user.uuid, id: message.id) do |f| %>
+                <%= hidden_field_tag 'seen', 'true'  %>
+                <%= f.submit "Mark as seen", class: "link" %>
+              <% end %>
+              <%= link_to "Reply", new_user_message_path(user_uuid: message.user.uuid), class: "underline hover:no-underline" %>
             </td>
           </tr>
         <% end %>
