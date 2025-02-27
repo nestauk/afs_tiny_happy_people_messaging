@@ -175,6 +175,9 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.7.2)
+    judoscale-delayed_job (1.10.0)
+      delayed_job_active_record (>= 4.0)
+      judoscale-ruby (= 1.10.0)
     judoscale-rails (1.10.0)
       judoscale-ruby (= 1.10.0)
       railties
@@ -425,6 +428,7 @@ DEPENDENCIES
   hotwire-livereload (~> 1.2)
   importmap-rails
   jbuilder
+  judoscale-delayed_job
   judoscale-rails (~> 1.5)
   mocha
   pg (~> 1.1)
