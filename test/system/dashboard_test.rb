@@ -18,4 +18,18 @@ class DashboardTest < ApplicationSystemTestCase
     refute_text message2.user.full_name
     refute_text message2.body
   end
+
+  test "admins can mark messages as seen" do
+    message = create(:message, status: "received")
+
+    sign_in
+
+    assert_text message.body
+
+    click_on "Mark as seen"
+
+    assert_text "Message marked as seen"
+
+    assert_no_text message.body
+  end
 end

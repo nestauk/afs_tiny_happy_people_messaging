@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_19_134828) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_27_093014) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -218,6 +218,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_134828) do
     t.string "token", null: false
     t.string "link"
     t.datetime "clicked_at"
+    t.datetime "marked_as_seen_at"
     t.index ["content_id"], name: "index_messages_on_content_id"
     t.index ["token"], name: "index_messages_on_token", unique: true
   end
