@@ -40,6 +40,16 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "Polish", User.last.new_language_preference
   end
 
+  test "User can't sign up if max capacity reached" do
+    create_list(:user, 2001)
+
+    visit new_user_path
+
+    sign_up
+
+    assert_text "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
+  end
+
   test "user can skip non-essential form fields" do
     visit new_user_path
 

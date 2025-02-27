@@ -50,6 +50,9 @@ class User < ApplicationRecord
       .group("users.id")
       .having("COUNT(*) = 2")
   }
+  scope :not_finished_content, -> {
+    where.not(id: Message.select(:user_id).where(content_id: Content.order(:position).last&.id))
+  }
 
   attribute :hour_preference,
     morning: "morning",

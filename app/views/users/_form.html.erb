@@ -1,6 +1,11 @@
 <div class="md:mt-8 w-full">
   <%= turbo_frame_tag "form" do %>
     <%= simple_form_for @user, anchor: "sign-up-form"  do |form| %>
+      <% if notice %>
+        <p class="border border-blue-500 bg-blue-50 text-blue-900 p-3 mb-8">
+          <%= notice %>
+        </p>
+      <% end %>
       <div class="flex justify-between gap-4">
         <%= form.input :first_name, wrapper_html: { class: "w-1/2" } %>
 

@@ -24,6 +24,10 @@ class UsersController < ApplicationController
   end
 
   def create
+    if User.not_finished_content.count == 2001
+      return redirect_to root_path, notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
+    end
+
     @user = User.new(user_params)
 
     @user.terms_agreed_at = Time.now if user_params[:terms_agreed_at] == "1"
