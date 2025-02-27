@@ -145,6 +145,31 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.received_two_messages, [user1]
   end
 
+  test "not_finished_content scope" do
+    group = create(:group)
+    content1 = create(:content, position: 1, group:)
+    content2 = create(:content, position: 2, group:)
+    content3 = create(:content, position: 3, group:)
+
+    create(:message, user: @subject, content: content1)
+
+    user1 = create(:user)
+
+    user2 = create(:user)
+    create(:message, user: user2, content: content1)
+    create(:message, user: user2, content: content2)
+
+    user3 = create(:user)
+    create(:message, user: user3, content: content1)
+    create(:message, user: user3, content: content2)
+    create(:message, user: user3, content: content3)
+
+    assert_equal 3, User.not_finished_content.length
+    assert_includes User.not_finished_content, @subject
+    assert_includes User.not_finished_content, user1
+    assert_includes User.not_finished_content, user2
+  end
+
   test "full_name method" do
     user = create(:user, first_name: "John", last_name: "Doe")
 
