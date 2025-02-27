@@ -175,6 +175,10 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.7.2)
+    judoscale-rails (1.10.0)
+      judoscale-ruby (= 1.10.0)
+      railties
+    judoscale-ruby (1.10.0)
     jwt (2.8.2)
       base64
     language_server-protocol (3.17.0.3)
@@ -421,6 +425,7 @@ DEPENDENCIES
   hotwire-livereload (~> 1.2)
   importmap-rails
   jbuilder
+  judoscale-rails (~> 1.5)
   mocha
   pg (~> 1.1)
   phony_rails
