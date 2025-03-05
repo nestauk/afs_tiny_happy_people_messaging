@@ -20,6 +20,7 @@ class DiaryEntriesTest < ApplicationSystemTestCase
     assert_equal ["Monday", "Wednesday"], diary_entry.days
     assert_equal ["Mornings"], diary_entry.timings
     assert_equal 30, diary_entry.total_time
+    assert_equal 'The main message was "Be kind"', diary_entry.video_message
     assert_equal true, diary_entry.did_previous_week_activity
     refute diary_entry.first_week
     assert_equal "I did laundry with her", diary_entry.activities_from_previous_weeks
@@ -75,6 +76,7 @@ class DiaryEntriesTest < ApplicationSystemTestCase
     assert_checked_field "Wednesday"
     assert_checked_field "Mornings"
     assert_field "When you got the chance to engage with the tips or activities you received in the text this week, how long did you typically spend doing each activity (in minutes)?", with: "30"
+    assert_field "Could you describe, in 1-2 sentences, the main message of this week's video?", with: 'The main message was "Be kind"'
 
     click_button "Next"
 
@@ -136,6 +138,8 @@ class DiaryEntriesTest < ApplicationSystemTestCase
     check "Mornings"
 
     fill_in "When you got the chance to engage with the tips or activities you received in the text this week, how long did you typically spend doing each activity (in minutes)?", with: "30"
+
+    fill_in "Could you describe, in 1-2 sentences, the main message of this week's video?", with: 'The main message was "Be kind"'
 
     click_button "Next"
 
