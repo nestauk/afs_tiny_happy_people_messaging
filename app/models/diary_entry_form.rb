@@ -6,7 +6,7 @@ class DiaryEntryForm
   STAGES = %w[welcome this_week previous_week feedback]
 
   DIARY_ENTRY_PARAMS = [
-    :total_time, :did_previous_week_activity, :first_week, :activities_from_previous_weeks,
+    :total_time, :did_previous_week_activity, :first_week, :activities_from_previous_weeks, :video_message,
     :feedback_reason, :reason_for_not_doing_activity, :enjoyed_most, :enjoyed_least, :changes_to_make,
     days: [], timings: [], feedback: []
   ]
@@ -78,6 +78,10 @@ class DiaryEntryForm
 
   def total_time
     diary_entry_form_params[:total_time].to_s.strip
+  end
+
+  def video_message
+    diary_entry_form_params[:video_message].to_s.strip
   end
 
   def did_previous_week_activity
