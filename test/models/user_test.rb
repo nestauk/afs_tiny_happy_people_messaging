@@ -30,8 +30,8 @@ class UserTest < ActiveSupport::TestCase
     assert_not @subject.valid?
   end
 
-  test "child_birthday is not less than 6 months" do
-    @subject.child_birthday = Time.now - 5.months
+  test "child_birthday is not less than 3 months" do
+    @subject.child_birthday = Time.now - 2.months
     assert_not @subject.valid?
   end
 

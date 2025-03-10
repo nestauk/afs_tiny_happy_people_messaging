@@ -34,4 +34,4 @@ en:
         user:
           attributes:
             child_birthday:
-              inclusion: "Your child must be between 6 and 24 months old, but we're working to expand our content"
+              inclusion: "Your child must be between 3 and 24 months old, but we're working to expand our content"
