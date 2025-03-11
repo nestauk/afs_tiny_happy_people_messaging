@@ -22,8 +22,8 @@ class UserTest < ActiveSupport::TestCase
   test("last_name required") { assert_present(:last_name) }
   test("child_birthday required") { assert_present(:child_birthday) }
 
-  test "child_birthday is within the last 24 months" do
-    @subject.child_birthday = Time.now - 25.months
+  test "child_birthday is within the last 27 months" do
+    @subject.child_birthday = Time.now - 28.months
     assert_not @subject.valid?
 
     @subject.child_birthday = Time.now + 1.month
