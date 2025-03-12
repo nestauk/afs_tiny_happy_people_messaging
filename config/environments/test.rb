@@ -53,4 +53,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :test
 
   Rails.application.routes.default_url_options[:host] = "localhost:3000"
+
+  config.time_zone = "UTC"
 end
