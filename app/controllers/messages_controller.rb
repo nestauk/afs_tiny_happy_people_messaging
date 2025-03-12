@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
       message_sid = params["MessageSid"]
       status = params["MessageStatus"]
 
-      Message.find_by(message_sid:).update(status:, sent_at: Time.now)
+      Message.find_by(message_sid:)&.update(status:, sent_at: Time.now)
     end
   end
 

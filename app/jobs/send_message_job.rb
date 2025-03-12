@@ -25,8 +25,8 @@ class SendMessageJob < ApplicationJob
 
   def save_user_and_message(user, message, content)
     ActiveRecord::Base.transaction do
-      user.update(last_content_id: content.id)
-      message.save
+      user.update!(last_content_id: content.id)
+      message.save!
     rescue ActiveRecord::RecordInvalid
       false
     end
