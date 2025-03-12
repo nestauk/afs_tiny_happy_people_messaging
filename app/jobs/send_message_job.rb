@@ -27,7 +27,8 @@ class SendMessageJob < ApplicationJob
     ActiveRecord::Base.transaction do
       user.update!(last_content_id: content.id)
       message.save!
-    rescue ActiveRecord::RecordInvalid
+    rescue ActiveRecord::RecordInvalid => e
+      Rollbar.error(e, user_info: user.attributes, message_info: message.attributes)
       false
     end
   end
