@@ -74,10 +74,10 @@ class SendMessageJobTest < ActiveSupport::TestCase
   test "#perform does not send message if user fails to update" do
     content = create(:content, body: "here is a link: {{link}}")
     create(:content, group: content.group, body: "here is a link: {{link}}")
-    user = create(:user, last_content_id: content.id)
+    user = build(:user, last_content_id: content.id, child_birthday: 3.years.ago)
+    user.save(validate: false)
 
     Message.any_instance.stubs(:generate_token).returns("123")
-    User.any_instance.stubs(:update).raises(ActiveRecord::RecordInvalid)
 
     assert_no_changes -> { Message.count } do
       SendMessageJob.new.perform(user)
