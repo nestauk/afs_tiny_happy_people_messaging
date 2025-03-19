@@ -3,6 +3,10 @@ require "test_helper"
 class SendBulkMessageJobTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
+  setup do
+    travel_to Time.zone.now
+  end
+
   test "#perform creates jobs to send messages to users" do
     users = create_list(:user, 3, child_birthday: 7.months.ago)
 
