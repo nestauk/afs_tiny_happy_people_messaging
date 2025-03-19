@@ -93,6 +93,9 @@ GEM
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     builder (3.3.0)
+    bullet (8.0.1)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     capybara (3.40.0)
       addressable
       matrix
@@ -384,6 +387,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
+    uniform_notifier (1.16.0)
     uri (1.0.3)
     useragent (0.16.11)
     warden (1.2.9)
@@ -416,6 +420,7 @@ DEPENDENCIES
   ahoy_matey
   blazer
   bootsnap
+  bullet
   capybara
   debug
   delayed_job_active_record
