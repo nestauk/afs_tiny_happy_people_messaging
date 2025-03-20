@@ -132,7 +132,10 @@ class DashboardsController < ApplicationController
   end
 
   def set_local_authority
-    @local_authority = LocalAuthority.find_by(name: params[:q].tr("_", " ").titleize)
+    nocaps = ["and", "of", "with"]
+    name = params[:q].split("_").map { |word| nocaps.include?(word) ? word : word.capitalize }.join(" ")
+
+    @local_authority = LocalAuthority.find_by(name:)
   end
 
   def set_timeframe
