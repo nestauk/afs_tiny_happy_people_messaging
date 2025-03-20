@@ -239,12 +239,13 @@ class UserTest < ActiveSupport::TestCase
   test "#update_local_authority method" do
     user = create(:user, postcode: "SW1A 1AA")
 
-    geocode_payload = Geokit::GeoLoc.new(state: "Islington")
+    geocode_payload = Geokit::GeoLoc.new(state: "Islington", country_code: "England")
     LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
 
     user.update_local_authority
 
     assert_equal "Islington", user.local_authority.name
+    assert_equal "England", user.local_authority.country
   end
 
   test "#update_local_authority method doesn't fail if geocoding fails" do

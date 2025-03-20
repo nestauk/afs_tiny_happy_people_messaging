@@ -24,6 +24,8 @@ module Geokit
           result_json["properties"]["context"]["district"]["name"]
         end
 
+        loc.country_code = result_json["properties"]["context"]["region"]["name"]
+
         loc.success = true
         loc
       end
