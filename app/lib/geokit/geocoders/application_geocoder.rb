@@ -16,6 +16,19 @@ module Geokit
         process :json, url
       end
 
+      def self.parse_json(results)
+        return GeoLoc.new unless results["features"].count > 0
+        loc = nil
+
+        extracted_geoloc = extract_geoloc(results["features"].first)
+        if loc.nil?
+          loc = extracted_geoloc
+        else
+          loc.all.push(extracted_geoloc)
+        end
+        loc
+      end
+
       def self.extract_geoloc(result_json)
         loc = new_loc
         loc.state = if result_json["properties"]["context"]["district"]["name"] == "Greater London"
