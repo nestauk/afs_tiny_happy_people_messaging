@@ -8,6 +8,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     create(:auto_response, trigger_phrase: "yes", response: "That's great to hear, thanks for letting us know!", update_user: "{\"asked_for_feedback\": false}", conditions: "{\"asked_for_feedback\": true}")
     create(:auto_response, trigger_phrase: "no", response: "We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if your child is not yet saying words, 2 if they are saying single words, 3 if they are saying whole sentences.", update_user: "{\"asked_for_feedback\": false}", conditions: "{\"asked_for_feedback\": true}")
     create(:auto_response, trigger_phrase: "stop", update_user: "{\"contactable\": false}")
+    create(:auto_response, trigger_phrase: "end", update_user: "{\"contactable\": false}", response: "Please let us know why")
     create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
   end
   test "should match response to 'pause'" do
@@ -27,6 +28,17 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "stop", status: "received", user:)
 
     assert_no_changes Message.count do
+      ResponseMatcherService.new(message).match_response
+    end
+
+    refute user.contactable
+  end
+
+  test "should match response to 'end'" do
+    user = create(:user, contactable: true)
+    message = build(:message, body: "End", status: "received", user:)
+
+    assert_enqueued_with(job: SendCustomMessageJob) do
       ResponseMatcherService.new(message).match_response
     end
 
