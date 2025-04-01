@@ -113,7 +113,7 @@ class SchedulerTest < ActiveSupport::TestCase
       Rake::Task["scheduler:check_for_disengaged_users"].execute
     end
 
-    assert_equal 1, Message.where(body: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'STOP' to stop them entirely.").count
+    assert_equal 1, Message.where(body: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'END' to stop them entirely.").count
   end
 
   test "get_user_feedback" do

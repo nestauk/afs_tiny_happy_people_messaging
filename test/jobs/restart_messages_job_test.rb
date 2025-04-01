@@ -7,7 +7,7 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
   test "#perform updates user and sends message" do
     user = create(:user, contactable: false)
 
-    stub_successful_twilio_call("Welcome back to Tiny Happy People! Text 'stop' to unsubscribe at any time.", user)
+    stub_successful_twilio_call("Welcome back to Tiny Happy People! Text 'END' to unsubscribe at any time.", user)
 
     RestartMessagesJob.new.perform(user)
 
