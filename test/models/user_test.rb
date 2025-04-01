@@ -22,17 +22,22 @@ class UserTest < ActiveSupport::TestCase
   test("last_name required") { assert_present(:last_name) }
   test("child_birthday required") { assert_present(:child_birthday) }
 
-  test "child_birthday is within the last 27 months" do
-    @subject.child_birthday = Time.now - 28.months
-    assert_not @subject.valid?
-
-    @subject.child_birthday = Time.now + 1.month
-    assert_not @subject.valid?
+  test "child_birthday is within the last 27 months on create" do
+    assert_raises ActiveRecord::RecordInvalid do
+      create(:user, child_birthday: Time.now - 28.months)
+    end
   end
 
-  test "child_birthday is not less than 3 months" do
-    @subject.child_birthday = Time.now - 2.months
-    assert_not @subject.valid?
+  test "child_birthday is not less than 3 months on create" do
+    assert_raises ActiveRecord::RecordInvalid do
+      create(:user, child_birthday: Time.now - 2.months)
+    end
+  end
+
+  test "child_birthday is not validated on update" do
+    @subject.update(child_birthday: Time.now + 28.months)
+
+    assert @subject.valid?
   end
 
   test "contactable scope" do

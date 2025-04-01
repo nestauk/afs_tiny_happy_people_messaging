@@ -133,7 +133,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     create(:auto_response, trigger_phrase: "restart", response: "You're all set to start receiving messages again!", update_user: "{\"contactable\": false}")
     user = create(:user)
     message = build(:message, body: "restart", status: "received", user:)
-    user.child_birthday = 1.month.ago
+    user.phone_number = "1112"
     user.save(validate: false)
     refute user.valid?
 
