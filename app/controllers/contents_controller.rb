@@ -1,5 +1,6 @@
 class ContentsController < ApplicationController
   before_action :check_admin_role
+  before_action :set_content, except: %i[new create]
 
   def new
     @group = Group.find_by(id: params[:group_id])
@@ -18,12 +19,9 @@ class ContentsController < ApplicationController
   end
 
   def edit
-    @content = Content.find(params[:id])
   end
 
   def update
-    @content = Content.find(params[:id])
-
     if @content.update(content_params)
       redirect_to group_path(@content.group), notice: "Content updated!"
     else
@@ -32,18 +30,23 @@ class ContentsController < ApplicationController
   end
 
   def update_position
-    @content = Content.find(params[:id])
     @content.update(position: params[:position])
     head :no_content
   end
 
-  def destroy
-    @content = Content.find(params[:id])
-    @content.destroy
-    redirect_to group_path(@content.group), notice: "Content deleted"
+  def archive
+    if @content.update(archived_at: Time.now)
+      redirect_to group_path(@content.group), notice: "Content archived"
+    else
+      render group_path(@content.group), status: :unprocessable_entity
+    end
   end
 
   private
+
+  def set_content
+    @content = Content.find(params[:id])
+  end
 
   def content_params
     params.require(:content).permit(:body, :link, :position, :age_in_months)

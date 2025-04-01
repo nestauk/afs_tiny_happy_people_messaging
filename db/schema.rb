@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_20_095633) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_01_084554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -129,6 +129,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_095633) do
     t.bigint "group_id"
     t.integer "position", null: false
     t.integer "age_in_months", null: false
+    t.datetime "archived_at"
     t.index ["group_id", "position"], name: "index_contents_on_group_id_and_position", unique: true
     t.index ["group_id"], name: "index_contents_on_group_id"
   end

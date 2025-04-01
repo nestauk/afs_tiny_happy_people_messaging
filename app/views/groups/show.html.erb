@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody class="bg-white" data-controller="sortable" data-sortable-handle-value=".cursor-grab">
-        <% @group.contents.order(:position).each do |content| %>
+        <% @group.contents.active.order(:position).each do |content| %>
           <tr class="border-b-2" data-sortable-update-url="<%= update_position_path(content) %>">
             <td class="p-4">
               <svg class="cursor-grab" width="20px" height="20px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#ccc"><path d="M3 5H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 12H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 19H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -33,7 +33,9 @@
             <td class="p-4"><%= content.link %></td>
             <td class="p-4">
               <%= link_to "Edit", edit_group_content_path(@group, content), class: "underline hover:no-underline" %>
-              <%= link_to "Delete", group_content_path(@group, content), class: "underline hover:no-underline", data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+              <%= simple_form_for content, url: archive_group_content_path(@group, content) do |f| %>
+                <%= f.button :submit, "Archive", class: "underline hover:no-underline" %>
+              <% end %>
             </td>
           </tr>
         <% end %>

@@ -55,22 +55,21 @@ class ContentsTest < ApplicationSystemTestCase
     assert_text "Updated Content"
   end
 
-  test "deleting content" do
-    content = create(:content, body: "Content to delete", group: @group)
-    message = create(:message, user: create(:user), content: content)
+  test "archiving content" do
+    content = create(:content, body: "Content to archive", group: @group)
+    message = create(:message, user: create(:user), content:)
 
     sign_in
     visit group_path(@group)
 
-    assert_text "Content to delete"
+    assert_text "Content to archive"
 
-    accept_confirm do
-      click_on "Delete", match: :first
-    end
+    click_on "Archive", match: :first
 
-    assert_text "Content deleted"
-    refute_text "Content to delete"
+    assert_text "Content archived"
+    refute_text "Content to archive"
 
-    assert_nil message.reload.content
+    assert_not_nil content.reload.archived_at
+    assert_not_nil message.reload.content_id
   end
 end

@@ -109,7 +109,7 @@ class User < ApplicationRecord
       # Last message in series
       return nil if content.nil?
       # Next message
-      return content if not_seen_content?(content)
+      return content if not_seen_content?(content) && !content.archived?
       i += 1
     end
   end

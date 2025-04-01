@@ -35,7 +35,9 @@ Rails.application.routes.draw do
   get "dashboards/fetch_click_through_data", to: "dashboards#fetch_click_through_data"
 
   resources :groups do
-    resources :contents, except: %i[index]
+    resources :contents, except: %i[index destroy] do
+      patch "archive", on: :member
+    end
   end
 
   resources :admins, except: %i[show destroy]
