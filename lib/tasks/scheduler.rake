@@ -61,4 +61,11 @@ namespace :scheduler do
       SendBulkMessageJob.perform_later(users.to_a, :feedback)
     end
   end
+
+  desc "Send survey (not permanent)"
+  task send_survey: :environment do
+    User.contactable.order(:created_at).first(101).find_in_batches do |users|
+      SendBulkMessageJob.perform_later(users.to_a, :survey)
+    end
+  end
 end
