@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
+    set_languages
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:q].presence || "no-referrer"}", request.path_parameters
   end
@@ -36,6 +37,8 @@ class UsersController < ApplicationController
     else
       @no_padding = true
       @hide_sidebar = true
+      set_languages
+
       render :new, status: :unprocessable_content
     end
   end
@@ -113,6 +116,14 @@ class UsersController < ApplicationController
     Time.zone.at(data["exp"]) > Time.current
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     false
+  end
+
+  def set_languages
+    @languages = if params[:locale] == "cy"
+      [["Cymraeg", "cy"], ["English", "en"]]
+    else
+      [["English", "en"], ["Cymraeg", "cy"]]
+    end
   end
 
   def rate_limit_exceeded
