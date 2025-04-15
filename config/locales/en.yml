@@ -31,7 +31,7 @@ en:
   activerecord:
     errors:
       messages:
-        blank: "Can't be blank"
+        blank: "can't be blank"
       models:
         user:
           attributes:
