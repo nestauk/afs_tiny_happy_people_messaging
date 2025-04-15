@@ -42,6 +42,8 @@ class SendMessageJobTest < ActiveSupport::TestCase
   end
 
   test "#perform does not send message if no appropriate content available" do
+    create(:group, language: "en")
+
     assert_no_changes -> { Message.count } do
       SendMessageJob.new.perform(create(:user))
     end
