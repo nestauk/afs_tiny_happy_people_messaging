@@ -8,6 +8,13 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     sign_in create(:admin)
   end
 
+  test "local authority admins can't access" do
+    admin = create(:admin, role: "local_authority", email: "local_authority@email.com")
+    sign_in admin
+    get user_messages_path(user_uuid: @user.uuid)
+    assert_response :redirect
+  end
+
   test "should create message" do
     assert_difference("Message.count", 1) do
       post user_messages_path(@user), params: {message: {body: "Test message", user_id: @user.id}}
