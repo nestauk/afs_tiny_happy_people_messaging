@@ -108,9 +108,9 @@ class UsersController < ApplicationController
 =======
   def set_languages
     @languages = if params[:locale] == "cy"
-      [['Cymraeg', 'cy'], ['English', 'en']]
+      [["Cymraeg", "cy"], ["English", "en"]]
     else
-      [['English', 'en'], ['Cymraeg', 'cy']]
+      [["English", "en"], ["Cymraeg", "cy"]]
     end
 >>>>>>> d521d18 (Translate home page and add language preferences for user)
   end
