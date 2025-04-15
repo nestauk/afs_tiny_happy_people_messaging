@@ -1,3 +1,19 @@
+require "simplecov"
+SimpleCov.start "rails" do
+  enable_coverage :branch
+  add_filter "/test/" # or '/spec/' if you're using RSpec
+end
+
+SimpleCov.coverage_dir("coverage") # optional, but helps keep it consistent
+
+SimpleCov.at_exit do
+  SimpleCov.result.format!
+end
+
+# SimpleCov.collate Dir["coverage/.resultset*.json"] do
+#   SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+#   SimpleCov.minimum_coverage 90
+# end
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
