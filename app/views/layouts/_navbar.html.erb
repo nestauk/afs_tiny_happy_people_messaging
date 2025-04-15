@@ -21,6 +21,11 @@
         </div>
       <% end %>
     </div>
+      <% if params[:locale] == "en" || params[:locale].nil? %>
+        <%= link_to "Cymraeg", root_path(locale: 'cy') %>
+      <% else %>
+        <%= link_to "English", root_path(locale: 'en') %>
+      <% end %>
   </div>
 </nav>
     

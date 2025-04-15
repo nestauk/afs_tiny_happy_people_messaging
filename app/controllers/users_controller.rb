@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
+    set_languages
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:q].presence || "no-referrer"}", request.path_parameters
   end
@@ -33,6 +34,8 @@ class UsersController < ApplicationController
     else
       @no_padding = true
       @hide_sidebar = true
+      set_languages
+
       render :new, status: :unprocessable_content
     end
   end
@@ -95,6 +98,14 @@ class UsersController < ApplicationController
     @user = User.find_by_token_for(:profile_token, params[:token])
     unless @user
       redirect_to root_path, notice: "Your session has expired. Contact info@cbeebies-text.uk if you need further help."
+    end
+  end
+
+  def set_languages
+    @languages = if params[:locale] == "cy"
+      [["Cymraeg", "cy"], ["English", "en"]]
+    else
+      [["English", "en"], ["Cymraeg", "cy"]]
     end
   end
 
