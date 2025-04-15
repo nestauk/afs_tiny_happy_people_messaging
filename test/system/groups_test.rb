@@ -18,6 +18,21 @@ class GroupsTest < ApplicationSystemTestCase
     assert_text "Default content"
   end
 
+  test "can choose another language" do
+    sign_in
+    visit groups_path
+
+    click_on "Create content group"
+
+    fill_in "Name", with: "Default content"
+    select "Welsh", from: "Language"
+    click_on "Create"
+
+    assert_text "Content group successfully created"
+    assert_text "Default content"
+    assert_equal "cy", Group.last.language
+  end
+
   test "shows errors" do
     sign_in
     visit admin_groups_path
