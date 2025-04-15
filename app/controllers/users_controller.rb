@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
+    set_languages
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:q].blank? ? "no-referrer" : params[:q]}", request.path_parameters
   end
@@ -32,6 +33,8 @@ class UsersController < ApplicationController
     else
       @no_padding = true
       @hide_sidebar = true
+      set_languages
+
       render :new, status: :unprocessable_content
     end
   end
@@ -68,7 +71,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :phone_number, :child_birthday, :email, :id, :new_language_preference,
-      :postcode, :hour_preference, :day_preference, :referral_source, :child_name,
+      :postcode, :hour_preference, :day_preference, :referral_source, :child_name, :language,
       :terms_agreed_at, interests: []
     )
   end
@@ -97,9 +100,18 @@ class UsersController < ApplicationController
     false
   end
 
+<<<<<<< HEAD
   def rate_limit_exceeded
     @user = User.new
     flash.now[:notice] = "Too many attempts. Try again later."
     render :new, status: :unprocessable_content
+=======
+  def set_languages
+    @languages = if params[:locale] == "cy"
+      [['Cymraeg', 'cy'], ['English', 'en']]
+    else
+      [['English', 'en'], ['Cymraeg', 'cy']]
+    end
+>>>>>>> d521d18 (Translate home page and add language preferences for user)
   end
 end
