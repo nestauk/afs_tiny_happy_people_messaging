@@ -4,12 +4,12 @@
   <div class="bg-bbc-dark-blue md:bg-transparent md:flex md:flex-col p-5 relative md:px-24 md:justify-around h-85svh">
     <div class="md:w-4/5 xl:w-3/5 md:bg-bbc-dark-blue md:p-6 xl:p-8 flex flex-col justify-between h-fit">
       <h1 class="text-3xl lg:text-4xl xl:text-5xl text-bbc-yellow">
-        Nurture your child's growth with fun, free activities
+        <%= t('home_page.title') %>
       </h1>
-      <h2 class="text-xl lg:text-3xl text-white md:w-5/6">
-        Get weekly bite-sized activities that spark imagination delivered to your phone, for ages 3-24 months
+      <h2 class="text-xl lg:text-3xl text-pink-200 md:w-5/6">
+        <%= t('home_page.subtitle') %>
       </h2>
-      <%= link_to "Sign up", "#sign-up-form", class: "btn bg-white float-end md:w-1/3 mt-6 font-bold" %>
+      <%= link_to t('home_page.sign_up'), "#sign-up-form", class: "btn bg-white float-end md:w-1/3 mt-6 font-bold" %>
     </div>
   </div>
 </div>
@@ -20,7 +20,7 @@
 <div class="px-3 py-8 md:py-24 items-center">
   <div class="flex justify-around">
     <h2 class="text-3xl md:text-5xl md:mb-20 mb-8 text-center font-bold">
-      How does it work?
+      <%= t('home_page.how_it_works') %>
     </h2>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 justify-center gap-10 xl:px-20">
@@ -32,10 +32,10 @@
       </div>
       <div>
         <p class="text-lg md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
-          1. Sign up
+          1. <%= t('home_page.step_1_title') %>
         </p>
         <p class="md:text-xl text-center w-64">
-          Enter your mobile number to begin your journey
+          <%= t('home_page.step_1_text') %>
         </p>
       </div>
     </div>
@@ -49,10 +49,10 @@
       </div> 
       <div>
         <p class="text-lg md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
-          2. Get texts
+          2. <%= t('home_page.step_2_title') %>
         </p>
         <p class="md:text-xl text-center w-64">
-          Receive free weekly text messages with short, engaging videos
+          <%= t('home_page.step_2_text') %>
         </p>
       </div>
     </div>
@@ -64,10 +64,10 @@
       </div>
       <div>
         <p class="text-lg md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
-          3. Enjoy
+          3. <%= t('home_page.step_3_title') %>
         </p>
         <p class="md:text-xl text-center w-64">
-          Try out fun, tailored activities that fit seamlessly into your day
+          <%= t('home_page.step_3_text') %>
         </p>
       </div>
     </div>
@@ -77,55 +77,32 @@
 <div class="items-center bg-bbc-yellow-50 w-full">
   <div class="md:flex md:justify-around px-5 md:px-20">
     <h2 class="text-3xl md:text-5xl md:mb-20 mb-8 pt-8 md:text-center font-bold">
-      Why sign up?
+      <%= t('home_page.why_sign_up') %>
     </h2>
   </div>
   <div class="flex flex-col lg:flex-row flex-wrap">
     <div class="w-full xl:w-1/2 px-5 md:px-20">
-      <div class="pb-5">
-        <h3 class="font-bold md:text-2xl text-lg">Personalised for your family</h3>
-        <p class="mt-1">
-          Content is tailored to meet your child’s needs, delivered any time you want! 
-        </p>
-      </div>
-      <hr class="border border-bbc-yellow">
-      <div class="py-5">
-        <h3 class="font-bold md:text-2xl text-lg">Quick & Easy</h3>
-        <p class="mt-1">
-          No apps, no hassle — just one message per week.
-        </p>
-      </div>
-      <hr class="border border-bbc-yellow">
-      <div class="py-5">
-        <h3 class="font-bold md:text-2xl text-lg">For Busy Lives</h3>
-        <p class="mt-1">
-          Easy-to-try fun activities that fit right into your daily routines.
-        </p>
-      </div>
-      <hr class="border border-bbc-yellow">
-      <div class="py-5">
-        <h3 class="font-bold md:text-2xl text-lg">Expert-designed</h3>
-        <p class="mt-1">
-          Built to boost language and socio-emotional development.
-        </p>
-      </div>
-      <hr class="border border-bbc-yellow">
-      <div class="py-5">
-        <h3 class="font-bold md:text-2xl text-lg">Quality time</h3>
-        <p class="mt-1">
-          Strengthen your bond while having fun together.
-        </p>
-      </div>
+      <% (1..5).each do |i| %>
+        <div class=<%= i == 1 ? "pb-5" : "py-5" %>>
+          <h3 class="font-bold md:text-2xl text-lg"><%= t("home_page.reason_#{i}_title") %></h3>
+          <p class="mt-1">
+            <%= t("home_page.reason_#{i}_text") %>
+          </p>
+        </div>
+        <% unless i == 5 %>
+          <hr class="border border-purple-900">
+        <% end %>
+      <% end %>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-1 w-full xl:w-1/2 xl:relative">
       <%= vite_image_tag "images/frisbee.jpg", alt: "", "aria-hidden": "true", class: "lg:col-span-2 xl:col-span-1" %>
       <div class="bg-bbc-yellow text-black p-8 col-span-1 lg:col-start-3 xl:col-start-1 flex flex-col justify-around xl:absolute xl:bottom-0 xl:w-2/3 xl:right-0">
         <div>
           <p class="text-lg md:text-xl font-bold">
-            “A great guide and confidence builder knowing we were doing a lot right and then fantastic guidance in what we can do and apply to further develop our child."
+            <%= t("home_page.quote") %>
           </p>
           <p class="text-lg md:text-xl mt-2">
-            - Ali's mum
+            - <%= t("home_page.quote_author") %>
           </p>
         </div>
       </div>
@@ -136,11 +113,11 @@
 <div class="flex justify-around md:py-10" id="sign-up-form">
   <div class="py-8 px-8 md:py-14 lg:w-1/2 w-full">
     <h2 class="text-3xl md:text-5xl font-bold">
-      Sign up
+      <%= t("home_page.sign_up") %>
     </h2>
     <% if ENV.fetch("SIGN_UP_OPEN", "true") == "true" %>
       <p>
-        This service is and will always be free to use.
+        <%= t("home_page.free") %>
       </p>
       <%= render "form" %>
     <% else %>

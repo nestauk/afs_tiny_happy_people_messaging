@@ -1,0 +1,51 @@
+cy:
+  activerecord:
+    errors: 
+      messages:
+        blank: "methu bod yn wag"
+      models:
+        user:
+          attributes:
+            child_birthday:
+              inclusion: "Rhaid i'ch plentyn fod rhwng 3 a 24 mis oed, ond rydym yn gweithio i ehangu ein cynnwys"
+  date:
+    month_names: [~, "Ionawr", "Chwefror", "Mawrth", "Ebrill", "Mai", "Mehefin", "Gorffennaf", "Awst", "Medi", "Hydref", "Tachwedd", "Rhagfyr"]
+  helpers:
+    submit:
+      user:
+        create: 'Cofrestru'
+  footer: 
+    title: "Negeseuon Testun Tiny Happy People"
+    blurb: "Mae rhaglen negeseuon testun Tiny Happy People yn wasanaeth a redir gan Nesta, asiantaeth arloesi'r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield ac Addysg y BBC. Mae tîm Dechrau Teg Nesta yn gweithio i dorri’r cyswllt rhwng cefndir teuluol a chyfleoedd bywyd. Erbyn 2030, bydd gan bob plentyn yr un cyfle i ddatblygu i’w lawn botensial yn ystod y blynyddoedd cynnar."
+    about_us: "Amdanom ni"
+    terms: "Telerau defnyddio"
+    privacy: "Polisi preifatrwydd"
+    partnership: "Partneriaeth ag Addysg y BBC a Phrifysgol Sheffield"
+    email: "info@thp-text.uk"
+  home_page:
+    title: "Magwch dwf eich plentyn gyda gweithgareddau hwyliog, am ddim"
+    subtitle: "Derbyn gweithgareddau bach wythnosol sy’n ysgogi dychymyg wedi’u danfon i’ch ffôn, ar gyfer plant 3-24 mis oed"
+    sign_up: "Cofrestru"
+    how_it_works: "Sut mae'n gweithio?"
+    step_1_title: "Cofrestru"
+    step_1_text: "Rhowch eich rhif symudol i ddechrau eich taith"
+    step_2_title: "Derbyn testunau"
+    step_2_text: "Derbyn negeseuon testun wythnosol am ddim gyda fideos byr a diddorol"
+    step_3_title: "Mwynhau"
+    step_3_text: "Rhowch gynnig ar weithgareddau hwyliog, wedi’u teilwra sy’n cyd-fynd yn hawdd â’ch diwrnod"
+    why_sign_up: "Pam cofrestru?"
+    reason_1_title: "Wedi’i deilwra i’ch teulu"
+    reason_1_text: "Mae’r cynnwys wedi’i addasu i ddiwallu anghenion eich plentyn, wedi’i ddarparu pryd bynnag rydych chi eisiau!"
+    reason_2_title: "Cyflym a Hawdd"
+    reason_2_text: "Dim apiau, dim drafferth — dim ond un neges yr wythnos."
+    reason_3_title: "Ar gyfer Bywydau Prysur"
+    reason_3_text: "Gweithgareddau hwyliog hawdd i’w rhoi ar brawf sy’n ffitio’n llyfn i’ch trefn ddyddiol."
+    reason_4_title: "Wedi’i ddylunio gan arbenigwyr"
+    reason_4_text: "Wedi’i adeiladu i hybu datblygiad iaith a chymdeithasol-emosiynol."
+    reason_5_title: "Amser o ansawdd"
+    reason_5_text: "Cryfhau’r berthynas tra’n cael hwyl gyda’ch gilydd."
+    quote: '“Canllaw gwych a chodi hyder gan wybod ein bod ni’n gwneud llawer o bethau’n iawn ac yna arweiniad gwych ar yr hyn y gallwn ei wneud i helpu datblygiad ein plentyn ymhellach."'
+    quote_author: "Mam Ali"
+    free: "Mae’r gwasanaeth hwn yn rhad ac am ddim ac yn mynd i aros felly."
+    terms: "telerau gwasanaeth"
+    privacy: "polisi preifatrwydd"
