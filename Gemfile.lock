@@ -132,6 +132,7 @@ GEM
     devise-passwordless (1.0.3)
       devise
       globalid
+    docile (1.4.1)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
@@ -345,6 +346,12 @@ GEM
     simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.13.1)
+    simplecov_json_formatter (0.1.4)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -448,6 +455,7 @@ DEPENDENCIES
   selenium-webdriver
   sendgrid-ruby
   simple_form
+  simplecov
   sprockets-rails
   standard
   stimulus-rails
