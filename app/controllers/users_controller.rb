@@ -92,9 +92,9 @@ class UsersController < ApplicationController
 
   def set_languages
     @languages = if params[:locale] == "cy"
-      [['Cymraeg', 'cy'], ['English', 'en']]
+      [["Cymraeg", "cy"], ["English", "en"]]
     else
-      [['English', 'en'], ['Cymraeg', 'cy']]
+      [["English", "en"], ["Cymraeg", "cy"]]
     end
   end
 end
