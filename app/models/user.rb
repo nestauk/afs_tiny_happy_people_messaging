@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_one :demographic_data, dependent: :destroy
   belongs_to :local_authority, optional: true
 
-  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
+  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, :language, presence: true
   validates_uniqueness_of :phone_number
   validates_plausible_phone :phone_number
   validates :child_birthday, inclusion: {in: ((Date.today - 27.months)...(Date.today - 3.months))}, on: :create

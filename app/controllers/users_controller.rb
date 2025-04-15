@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
+    set_languages
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:q].blank? ? "no-referrer" : params[:q]}", request.path_parameters
   end
@@ -38,6 +39,7 @@ class UsersController < ApplicationController
       redirect_to edit_user_path(@user.uuid)
     else
       @no_padding = true
+      set_languages
       render :new, status: :unprocessable_entity
     end
   end
@@ -71,7 +73,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :phone_number, :child_birthday, :email, :id, :new_language_preference,
-      :postcode, :hour_preference, :day_preference, :referral_source, :child_name,
+      :postcode, :hour_preference, :day_preference, :referral_source, :child_name, :language,
       :terms_agreed_at, interests: []
     )
   end
@@ -86,5 +88,13 @@ class UsersController < ApplicationController
 
   def check_admin_role
     redirect_to root_path unless current_admin.role == "admin"
+  end
+
+  def set_languages
+    @languages = if params[:locale] == "cy"
+      [['Cymraeg', 'cy'], ['English', 'en']]
+    else
+      [['English', 'en'], ['Cymraeg', 'cy']]
+    end
   end
 end
