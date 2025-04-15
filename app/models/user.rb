@@ -81,7 +81,7 @@ class User < ApplicationRecord
     if had_any_content_before?
       find_next_unseen_content
     else
-      Content.where(age_in_months: child_age_in_months_today).order(:position).first
+      Group.find_by(language: language).contents.where(age_in_months: child_age_in_months_today).min_by(&:position)
     end
   end
 
