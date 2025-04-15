@@ -1,0 +1,20 @@
+cy:
+  simple_form:
+    required:
+      text: 'angenrheidiol'
+      mark: '*'
+    error_notification:
+      default_message: "Adolygwch y problemau isod os gwelwch yn dda:"
+    labels:
+      user:
+        first_name: 'Enw cyntaf'
+        last_name: 'Cyfenw'
+        phone_number: 'Rhif ffôn'
+        postcode: 'Cod post'
+        child_birthday: "Pen-blwydd eich plentyn"
+        language: 'Ym mha iaith yr hoffech chi dderbyn y testunau?'
+        terms_agreed_at: "Rwy’n derbyn y %{terms} a’r %{privacy}"
+    hints:
+      user: 
+        postcode: "Rydym yn defnyddio hwn i nodi eich awdurdod lleol a fydd yn talu am y gwasanaeth hwn."
+        child_birthday: "Rydym yn defnyddio hwn i ddechrau awgrymu gweithgareddau, ac yn gofyn i chi ddweud wrthym os ydynt yn addas i'ch plentyn."
