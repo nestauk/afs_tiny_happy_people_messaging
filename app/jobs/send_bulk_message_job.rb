@@ -6,8 +6,6 @@ class SendBulkMessageJob < ApplicationJob
       users.map { |user| SendFeedbackMessageJob.new(user) }
     elsif message_type == :weekly_message
       users.map { |user| SendMessageJob.new(user) }
-    elsif message_type == :survey
-      users.map { |user| SendSurveyMessageJob.new(user) }
     end
 
     ActiveJob.perform_all_later(message_jobs) unless message_jobs.nil?
