@@ -5,7 +5,7 @@ class RestartMessagesJob < ApplicationJob
 
   def perform(user)
     if user.update(contactable: true)
-      message = Message.create(user: user, body: "Welcome back to Tiny Happy People! Text 'END' to unsubscribe at any time.")
+      message = Message.create(user: user, body: I18n.t(".messages.restart"))
 
       Twilio::Client.new.send_message(message)
     end

@@ -7,14 +7,52 @@ en:
       default_message: "Please review the problems below:"
     labels:
       user:
+        child_birthday: "Your child's birthday"
         first_name: 'First name'
         last_name: 'Last name'
+        language: 'What language would you like to receive the texts in?'
         phone_number: 'Phone number'
         postcode: 'Postcode'
-        child_birthday: "Your child's birthday"
-        language: 'What language would you like to receive the texts in?'
         terms_agreed_at: "I accept the %{terms} and %{privacy}"
+      user_profile:
+        child_name: "Your child's name, or nickname (optional)"
+        day_preference: "What day would you like to get the texts each week? (optional)"
+        interests: "What are you interested in?"
+        new_language_preference: "We're currently available in English, with more languages coming soon! Let us know your preferred language to help shape our future offerings"
+        referral_source: "How did you hear about us?"
+        time_preference: "What time of day would you like to get the texts? (optional)"
+    options:
+      user_profile:
+        day_preference:
+          monday: "Monday"
+          tuesday: "Tuesday"
+          wednesday: "Wednesday"
+          thursday: "Thursday"
+          friday: "Friday"
+          saturday: "Saturday"
+          sunday: "Sunday"
+          no_preference: "No preference, send them any day"
+        hour_preference:
+          morning: "Morning, 8am"
+          afternoon: "Afternoon, 12pm"
+          evening: "Evening, 8pm"
+          no_preference: "No preference, send them any time"
+        interests:      
+          routine: "Building a better routine with my child"
+          sharing: "Sharing special moments together"
+          new_ideas: "Finding fresh ideas for activities with my child"
+          support: "Feeling supported through parenting ups and downs"
+          build: "Building on my existing parenting skills"
+        referral_source:
+          social_media: "Social media"
+          professional: "Referral by a professional"
+          flyer: "Flyer/Poster"
+          email: "Email"
+          other: "Other"
     hints:
-      user: 
-        postcode: "We use this to identify your local authority who will cover the cost of this service."
+      user:
         child_birthday: "We use this to start suggesting activities, and ask you to tell us if they are suitable for your child."
+        postcode: "We use this to identify your local authority who will cover the cost of this service."
+      user_profile:
+        child_name: "We use your child's name to personalize the texts we send you. We take your privacy seriously and only use this information for personalization."
+        interests: "You can select more than one"
