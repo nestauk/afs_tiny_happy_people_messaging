@@ -21,11 +21,7 @@
         </div>
       </div>
     <% else %>
-      <% if params[:locale] == "en" || params[:locale].nil? %>
-        <%= link_to "Cymraeg", root_path(locale: 'cy') %>
-      <% else %>
-        <%= link_to "English", root_path(locale: 'en') %>
-      <% end %>
+      <%= link_to (I18n.locale == :en ? "Cymraeg" : "English"), url_for(params.permit!.merge(locale: I18n.locale == :en ? :cy : :en)) %>
     <% end %>
   </div>
 </nav>
