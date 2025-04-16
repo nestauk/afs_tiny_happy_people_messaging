@@ -5,7 +5,7 @@ class SendFeedbackMessageJob < ApplicationJob
     message = Message.build do |m|
       m.token = m.send(:generate_token)
       m.user = user
-      m.body = "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
+      m.body = I18n.t(".messages.feedback")
     end
 
     if message.save

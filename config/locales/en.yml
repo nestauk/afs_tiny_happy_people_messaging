@@ -1,32 +1,3 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
   activerecord:
     errors:
@@ -37,43 +8,198 @@ en:
           attributes:
             child_birthday:
               inclusion: "Your child must be between 3 and 24 months old, but we're working to expand our content"
+  controllers: 
+    users:
+      create:
+        notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
   helpers:
     submit:
       user:
         create: 'Sign up'
-  footer: 
-    title: "Tiny Happy People Text Messaging"
-    blurb: "The Tiny Happy People texting programme is a service run by Nesta, the UK's innovation agency for social good in partnership with the University of Sheffield and BBC Education. Nesta's A Fairer Start team is working to break the link between family background and life chances. From 2030, every child will have the same chance of developing to their full potential in the early years."
-    about_us: "About us"
-    terms: "Terms of use"
-    privacy: "Privacy policy"
-    partnership: "Partnership with BBC Education and the University of Sheffield"
-    email: "info@thp-text.uk"
-  home_page:
-    title: "Nurture your child's growth with fun, free activities"
-    subtitle: "Get weekly bite-sized activities that spark imagination delivered to your phone, for ages 3-24 months"
-    sign_up: "Sign up"
-    how_it_works: "How does it work?"
-    step_1_title: "Sign up"
-    step_1_text: "Enter your mobile number to begin your journey"
-    step_2_title: "Get texts"
-    step_2_text: "Receive free weekly text messages with short, engaging videos"
-    step_3_title: "Enjoy"
-    step_2_text: "Try out fun, tailored activities that fit seamlessly into your day"
-    why_sign_up: "Why sign up?"
-    reason_1_title: "Personalized for your family"
-    reason_1_text: "Content is tailored to meet your child’s needs, delivered any time you want!"
-    reason_2_title: "Quick & Easy"
-    reason_2_text: "No apps, no hassle — just one message per week."
-    reason_3_title: "For Busy Lives"
-    reason_3_text: "Easy-to-try fun activities that fit right into your daily routines."
-    reason_4_title: "Expert-designed"
-    reason_4_text: "Built to boost language and socio-emotional development."
-    reason_5_title: "Quality time"
-    reason_5_text: "Strengthen your bond while having fun together."
-    quote: '“A great guide and confidence builder knowing we were doing a lot right and then fantastic guidance in what we can do and apply to further develop our child."'
-    quote_author: "Ali's mum"
-    free: "This service is and will always be free to use."
-    terms: "terms of service"
-    privacy: "privacy policy"
-  
+      user_profile:
+        update: "Next"
+  messages:
+    feedback: "Are the activities we send you suitable for your child? Respond Yes or No to let us know."
+    restart: "Welcome back to Tiny Happy People! Text 'END' to unsubscribe at any time."
+    welcome: "Hi {{parent_name}}, welcome to our programme of weekly texts with fun activities for {{child_name}}'s development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?"
+  pages:
+    about_us:
+      title: "About us"
+      para1_title: "Nurturing your child's growth with fun, free activities"
+      para1_text: "Get bite-sized, expert-crafted activities that spark imagination - delivered to your phone, every week."
+      para2_title: "Why sign up?"
+      para2_text1: "Parents get free, bite-sized, expert-developed activities delivered to their phone, every week."
+      para2_text2: "The Tiny Happy People texting programme is designed to offer parenting support and a journey tailored to your family’s unique needs, with texts at a time most convenient for parents and their busy schedules. Each activity is from BBC Education’s catalogue of Tiny Happy People videos, designed by experts to support your child’s language and learning and strengthen your bond with your child."
+      para3_title: "About Nesta"
+      para3_text: "The Tiny Happy People texting programme is a service run by Nesta, the UK’s innovation agency for social good in partnership with the University of Sheffield and BBC Education. Nesta’s A Fairer Start team is working to break the link between family background and life chances. From 2030, every child will have the same chance of developing to their full potential in the early years."
+      para4_title: "About our partners"
+      para4_text1: "The Tiny Happy People texting programme was first developed by Professor Danielle Matthews at the University of Sheffield and BBC Education to deliver the free online resources of THP to caregivers to evaluate via a trial if texting THP video resources to families supports caregiver-child interaction and ultimately results in better language outcomes for children."
+      para4_text2: "Since 2024, Nesta has been working in an innovation partnership with Professor Danielle Matthews and BBC Education to further develop the Tiny Happy People (THP) texting programme. Since the beginning of our partnership, Nesta has been working to continue to develop, test, and scale the Tiny Happy People texting programme to reach more parents across the UK and contribute towards our mission goal of breaking the link between family background and life chances."
+      para5_title: "Get in touch"
+      para5_text: "We’re working in partnership with local authorities across the UK, the University of Sheffield, and BCC Education to deliver this service. Please get in touch if you’d like to explore how you can contribute or how we can improve the service. Email us at <a href='mailto:info@thp-text.uk' class='link'>info@thp-text.uk</a>."
+    footer: 
+      title: "Tiny Happy People Text Messaging"
+      blurb: "The Tiny Happy People texting programme is a service run by Nesta, the UK's innovation agency for social good in partnership with the University of Sheffield and BBC Education. Nesta's A Fairer Start team is working to break the link between family background and life chances. From 2030, every child will have the same chance of developing to their full potential in the early years."
+      about_us: "About us"
+      terms: "Terms of use"
+      privacy: "Privacy policy"
+      partnership: "Partnership with BBC Education and the University of Sheffield"
+      email: "info@thp-text.uk"
+    form:
+      personalisation: 
+        title: "Thanks for signing up!"
+        blurb: "Tell us about your preferences for a better and more meaningful experience"
+        saving: "Saving..."
+        skip: "Skip this section"
+      about_service:
+        back: "Back"
+        title: "You're almost done"
+        blurb: "Tell us how you found out about our service, and what you are interested in"
+        save: "Finish"
+        saving: "Saving..."
+        skip: "Skip this section"
+    home:
+      title: "Nurture your child's growth with fun, free activities"
+      subtitle: "Get weekly bite-sized activities that spark imagination delivered to your phone, for ages 3-24 months"
+      sign_up: "Sign up"
+      how_it_works: "How does it work?"
+      step_1_title: "Sign up"
+      step_1_text: "Enter your mobile number to begin your journey"
+      step_2_title: "Get texts"
+      step_2_text: "Receive free weekly text messages with short, engaging videos"
+      step_3_title: "Enjoy"
+      step_2_text: "Try out fun, tailored activities that fit seamlessly into your day"
+      why_sign_up: "Why sign up?"
+      reason_1_title: "Personalized for your family"
+      reason_1_text: "Content is tailored to meet your child’s needs, delivered any time you want!"
+      reason_2_title: "Quick & Easy"
+      reason_2_text: "No apps, no hassle — just one message per week."
+      reason_3_title: "For Busy Lives"
+      reason_3_text: "Easy-to-try fun activities that fit right into your daily routines."
+      reason_4_title: "Expert-designed"
+      reason_4_text: "Built to boost language and socio-emotional development."
+      reason_5_title: "Quality time"
+      reason_5_text: "Strengthen your bond while having fun together."
+      quote: '“A great guide and confidence builder knowing we were doing a lot right and then fantastic guidance in what we can do and apply to further develop our child."'
+      quote_author: "Ali's mum"
+      free: "This service is and will always be free to use."
+      terms: "terms of service"
+      privacy: "privacy policy"
+    privacy_policy:
+      title: "Privacy policy"
+      para1: "This website is owned and operated by Nesta - you can find our full details below. This privacy policy explains how Nesta uses personal information we collect via this site. We are committed to protecting your privacy and we take all reasonable precautions to safeguard personal information."
+      para2_title: "What kind of information do we collect?"
+      para2_text1: "<span class='font-bold'>Sign-up details:</span> If you sign up to our text messaging programme, we will ask you for personal information such as your name, phone number and postcode as well as the month and year of your child’s birth. We also ask for optional information to personalise your experience such as your child’s name or nickname, and optional information to improve our service such as your interests."
+      para2_text2: "<span class='font-bold'>Research:</span> We may ask you to participate in research we are conducting and we may contact you to ask for further information about you or your experiences or opinions."
+      para2_text3: "<span class='font-bold'>Feedback and surveys:</span> We may also ask you for feedback or to complete surveys."
+      para2_text4: "<span class='font-bold'>Online activity:</span> When you use our website, we obtain information about the device from which you accessed it, your visits and use of the website including your browser type and version, referrer and activity. We collect this information through first-party analytics tools that are built into our website, without using cookies or third-party tracking technologies."
+      para3_title: "What do we do with information we collect and what is our legal basis for this?"
+      para3_text1: "<span class='font-bold'>Sign-up details:</span> If you sign up to our text messaging programme we will use your personal information to send text messages to you. Our legal basis for doing this is your consent. You have the right to withdraw this consent at any time. We will also share postcodes with our partner University of Sheffield who will cross-reference with that of Tiny Happy People research participants, under the terms of our data sharing agreement."
+      para3_text2: "<span class='font-bold'>Third party processors:</span> We use a third party processor called Twilio to deliver text messages. In using this third party we are pursuing our legitimate interest to use third party technology to achieve greater efficiency within our organisation. To balance our interests against yours, we enter into legally binding contractual arrangements with Twilio and take steps to ensure it maintains appropriate technical and organisational measures to keep your personal information secure. For more information see the <a href='https://www.twilio.com/en-us/privacy' target='_blank'>Twilio privacy policy</a>."
+      para3_text3: "<span class='font-bold'>Research:</span> If you agree to take part in any research, including our diary study we will use your information for the purpose of that research project or programme. Full details of how your personal information will be used will be given to you at the time you agree to participate; this could include to inform the development of a new prize, project, programme or other initiative, being incorporated into reports or other research outcomes, and may include being publicly displayed on web pages relating to the particular research project or programme."
+      para3_text4: "<span class='font-bold'>Feedback and surveys:</span> If you agree to give us feedback or complete a survey, we will use the information to improve our work and activities. We usually use Alchemer to process surveys, and they only process your information on our instructions."
+      para3_text5: "Alchemer operates in the US. For more information see the <a href='https://www.alchemer.com/privacy/' target='_blank' class='link'>Alchemer privacy policy</a>. If you agree to participate in any survey that will form part of any research project, we will tell you at the time you take part how your information will be used for the particular research project or programme, and how long it will be kept for."
+      para3_text6: "<span class='font-bold'>‍For all kinds of information collected:</span> Please make sure that all personal details you provide are accurate and up to date, and let us know about any changes. Please get consent first before giving us anyone else’s information."
+      para3_text7: "The nature of Nesta’s work means we often work in partnership with other organisations, however, we will not share your information with any other organisation unless we have your permission first, or we have a legitimate interest or legal requirement to do so."
+      para3_text8: "We may also use your information to carry out analysis and research to improve our publications, events and activities, customise our website and its content to your particular preferences, notify you of any changes to our website or to our activities that may affect you, to prevent and detect fraud and abuse, and to protect other users."
+      para3_text9: "However you choose to engage with Nesta, we may retain your information for our own legitimate business interests for statistical analysis purposes, in order to review, develop and improve our business activities. In this situation, we will only keep any personal information if it is necessary to do so, and will always put in place appropriate technical and administrative safeguards, including where possible anonymising or minimising the personal information retained."
+      para3_text10: "We use a third party to provide cloud based data security, storage and disaster recovery service to backup data that we hold."
+      para4_title: "How long will we keep your information for?"
+      para4_text1: "<span class='font-bold'>General principle:</span> We will only keep any personal information that you provide to us for as long as is necessary to fulfil the purpose for which you gave us the information. We will securely delete information when it is no longer needed for that purpose, as explained in more detail below."
+      para4_text2: "<span class='font-bold'>Consent:</span> We keep records of consent, and any withdrawal of consent, on our files for as long as your personal information is being used in-line with that consent and for a period of 6 years after the consent is withdrawn (unless otherwise requested by you)."
+      para4_text3: "<span class='font-bold'>Research:</span> If you agree to take part in any research your personal information will be kept for as long as it is of value to Nesta and the wider research community, and for as long as may be specified by any external research funder, patent law, legislative and other regulatory requirements. Research data shall be reviewed at least every 5 years to consider its continued value to Nesta, and personal data anonymised or pseudonymised where possible, unless to do so would affect the integrity of the research data and/or its outcomes, or its future value.To the extent that Personal Data arising from any research is embodied within a research report or other research outcome, it will be retained in perpetuity as part of the published materials. Research that supports the development of a prize, project, programme, publication or other research outcome, shall be kept for at least 5 years beyond publication or any other research outcome has been completed. If the research is funded or the subject of any other contract, your personal data may be kept for 6 years after the end of the contract or longer if the contract or funding agreement specifies, which could be up to 12 years after the contract ends."
+      para4_text4: "<span class='font-bold'>Processing for statistical analysis purposes:</span> This type of processing will only be undertaken whilst we retain your personal information in line with the principles explained above."
+      para5_title: "Security"
+      para5_text: "We take steps to protect your personal information and follow procedures designed to minimise unauthorised access or disclosure of your information."
+      para6_title: "Contacting us, exercising your rights and complaints"
+      para6_text1: "You are legally entitled to know what personal information we hold about you and how that information is processed, which includes the right to:"
+      para6_list1: |
+        <ul class='list-disc pl-4 pt-2 mb-4'>
+          <li>ask us to correct any mistakes in your information which we hold</li>
+          <li>ask us to delete your personal information</li>
+          <li>ask us to stop using your personal information or restrict how we can use it, for example if you feel it is inaccurate or no longer needs to be used by Nesta</li>
+          <li>to object to us using of your personal information</li>
+          <li>to object to any automated decision making that we may do using your personal information</li>
+        </ul>
+      para6_text2: "If you wish to know what information we hold about you, or wish to exercise any of your other rights as detailed above, or have any complaint about how we are using your personal information, then please email us using information@nesta.org.uk or write to us at 58 Victoria Embankment London EC4Y 0DS UK and provide enough information to identify yourself (e.g. name and address or any registration details)."
+      para6_text3: "If our information is incorrect or out of date, please provide us with enough information to allow us to update it. If you want us to delete, restrict or stop using any information we hold about you, please specifically confirm the reasons why you are asking this. If you are unhappy with how we are using your information, again please explain to us the reasons and we will investigate the matter."
+      para6_text4: "You can also write to the same address if you have a complaint about this policy."
+      para6_text5: "If you are unhappy with how any data rights request or complaint has been dealt with you have the right to complain to the Information Commissioner:"
+      para6_list2: |
+        <ul class='list-disc pl-4 pt-2 mb-4'>
+          <li>On the <a href='https://ico.org.uk/concerns' target='_blank' class='link'>ICO website</a>;</li>
+          <li>By mail at Wycliff House, Water Lane, Wilmslow, Cheshire SK9 5AF, or</li>
+          <li>By calling the helpline on 0303 123 1113.</li>
+        </ul>
+      para6_text6: "This contact information for the Information Commissioner’s Office is correct as at the time this privacy policy is published."
+      para7_title: "Changes to the privacy policy"
+      para7_text1: "We may change this privacy policy from time to time. We will notify you of any changes that relate to information we already hold about you, where practicable. You should check this policy occasionally to ensure you are aware of the most recent version that will apply each time you access this website."
+      para7_text2: "Nesta, a company limited by guarantee registered in England and Wales with company number 7706036 and charity number 1144091.<br>Registered as a charity in Scotland number SC042833.<br>Registered office: 58 Victoria Embankment, London, EC4Y 0DS<br>Email: information@nesta.org.uk"
+    resources:
+      title: "Resources for caregivers"
+      text: "We've compiled a list of helpful resources below to support you in navigating any challenges you may face while caring for your little ones."
+      mental_health:
+        title: "Mental Health Support for Parents and Children"
+        para1: "<span class='font-bold'>NHS Mental Health Support:</span> Get advice about mental health difficulties and <a href='https://www.nhs.uk/mental-health/' target='_blank' class='link'>find local support</a>"
+        para2: "<span class='font-bold'>Local Mental Health Services:</span> <a href='https://www.nhs.uk/nhs-services/gps/' target='_blank' class='link'>Consult your GP</a> for referrals"
+        para3: "<span class='font-bold'>Mind:</span> Call 0300 123 3393 or <a href='https://www.mind.org.uk/' target='_blank' class='link'>go online</a> to access information, advice and support for your or a loved one’s mental health needs, including supported self-help for adults living in England and the Channel Islands"
+        para4: "<span class='font-bold'>Anna Freud:</span> Call 020 7794 2313 or <a href='https://www.annafreud.org/resources/family-wellbeing/' target='_blank' class='link'>go online</a> to access resources to help support a child experiencing mental health difficulties"
+      slt:
+        title: "Speech, Language and Communication Difficulties"
+        para1: "<span class='font-bold'>Local Speech and Language Therapy:</span> You can get a referral to a speech and language therapy department through your GP, health visitor, district nurse, nursery staff or your child's teacher, children’s centre, community paediatrician or through the private sector . You can also refer yourself to the service by calling your local NHS service and asking for the speech and language therapy number."
+        para2: "<span class='font-bold'>NHS Guidance:</span> View <a href='https://www.cpft.nhs.uk/speech-and-language-therapy-toolkit/' target='_blank' class='link'>NHS Cambridgeshire and Peterborough's Speech Language Therapy Toolkit</a> for tips and advice to help with the development of children and young people's speech, language and communication skills.<br><br>If you don’t live in Cambridgeshire or Peterborough but would like to know where to get local support for your child’s speech, language and communication, <a href='https://www.gov.uk/find-local-council' target='_blank' class='link'>find your local council’s website</a>. "
+      finance:
+        title: "Financial Support"
+        para1: "<span class='font-bold'>Benefit Checker:</span> Use <a href='https://www.turn2us.org.uk/' target='_blank' class='link'>Turn2Us</a> to check your benefit eligibility."
+        para2: "<span class='font-bold'>Citizens Advice:</span> Call 0800 144 8848 (England) or 0800 702 2020 (Wales) or visit <a href='https://www.citizensadvice.org.uk/' target='_blank' class='link'>Citizen's Advice website</a> to get guidance on financial issues and other challenges at Citizens Advice."
+      development:
+        title: "Child Development"
+        para1: "<span class='font-bold'>Developmental milestones by age:</span> Check out the <a href='https://cambspborochildrenshealth.nhs.uk/child-development-and-growing-up/milestones/' target='_blank' class='link'>NHS Cambridgeshire and Community's Milestones page</a> for a rough guide on children’s different developmental milestones and when to contact your health visitor.<br><br>If you don’t live in Cambridgeshire but would like to know where to get local support related to your child’s development, <a href='https://www.gov.uk/find-local-council' target='_blank' class='link'>find your local council’s website</a>."
+        para2: "<span class='font-bold'>Activities to promote children’s development:</span> Use the <a href='https://www.bbc.co.uk/tiny-happy-people' target='_blank' class='link'>Tiny Happy People website</a> to find ideas for activities to promote your children’s development. This is one of the websites we asked you to view in your interview with us."
+      emergency:
+        title: "Emergency Support"
+        para1: "<span class='font-bold'>Childline (UK):</span> Call 0800 1111 for a safe, confidential space to talk with a counsellor, available 24/7 for anyone under 19 across the UK"
+        para2: "<span class='font-bold'>Samaritans:</span> Call 116 123 for a safe, confidential space to talk, available 24/7 for all ages in the UK and Ireland"
+        para3: "<span class='font-bold'>Non-life threatening, medical help:</span> Call 111 for help with your medical symptoms or if you’re unsure where to get help for an urgent medical concern. The helpline is available 24/7."
+        para4: "<span class='font-bold'>Emergency Services:</span> Call 999 for life-threatening situations, available 24/7 free to call for emergencies across the UK."
+    thank_you: 
+      title: "Thank you for signing up!"
+      subtitle: "You will receive your first text very soon"
+      text: "If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <a href='/resources' class='link'>resources page</a> to know where you might find UK-based support."
+    terms:
+      title: "Terms of use"
+      para1: "The purpose of this website is to enable parents and caregivers of children aged 3-24 months old to sign up to a text messaging programme that delivers tips and advice around child development themes."
+      para2: "This website is owned and operated by <a href='https://www.nesta.org.uk/'' target='_blank' class='link'>Nesta</a> – you can find our full details below. Use of the site is subject to these Terms. Our <a href='/privacy_policy' class='link'>Privacy Notice</a> explains how we use personal information which we may collect via the site. If you don’t agree with these Terms or our Privacy Policy, please don’t use this site."
+      para3: "The information, materials and logos on this site belong to Nesta, our partners or licensors. We make no representation or warranty about the content, including in relation to non-infringement of intellectual property rights."
+      para4: "The purpose of the content on the site and in text messages is to give information only and Nesta will not be liable for any decisions that you make as a result of reviewing the content. Nesta cannot compensate you for any loss you may suffer as a result of:"
+      list1: |
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>action you take based on anything you read on these pages;</li>
+          <li>any mistake with the content on our website;</li>
+          <li>any parts of our website being unavailable or inaccessible;</li>
+          <li>your use of any organisation’s website that you can access from our website (including any purchase from that organisation and any use they make of the personal data you provide to them);</li>
+          <li>the downloading of any material from any of our website.</li>
+        </ul>
+      para5: "Nesta will not exclude any liability we may have in the unlikely event we have been fraudulent or if we are negligent and as a result we cause death or personal injury in connection with this website."
+      para6: "All content from the site may be printed, copied or downloaded provided that it is for private and personal use. You must not use any content for commercial gain. In the event that you do print, copy or download the content, Nesta grants you a non-exclusive, royalty free licence to use its logo in relation to the content and you must always cite Nesta as the content creator. You will be responsible for any damage to your computer system that may result from the downloading of any content or any other harm (save as provided for otherwise elsewhere here) that arises as a result of your use of the content."
+      para7: "You must not use this site:"
+      list2: |
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>to post, share or transmit material which is unlawful or infringes anyone else’s rights</li>
+          <li>for any commercial purpose</li>
+          <li>in any way which is abusive, defamatory or obscene or which harasses or distresses anyone or restricts or inhibits their use and enjoyment of the site or otherwise damages our reputation</li>
+          <li>to transmit software viruses or code designed to interrupt, destroy or compromise the integrity of computer software, hardware or telecommunications equipment</li>
+        </ul>
+      para8: "When using with this site, you must follow the following rules:"
+      list3: |
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>act lawfully, ethically and in good faith and comply with these Terms</li>
+          <li>act with common sense, integrity and treat others with respect</li>
+          <li>do not lie, misrepresent something or someone, or pretend to be someone else</li>
+          <li>be polite and respectful when you communicate or interact with others.</li>
+        </ul>
+      para9: "As permitted by law, you shall release, defend (at Nesta’s option), indemnify, and hold Nesta harmless from and against any claims, liabilities, damages, losses, and expenses, including, without limitation, all reasonable legal and professional fees, arising from or in any way connected with: (a) your breach of these Terms, (b) your improper use of the platform. This indemnity shall only apply if and to the extent that the claims, liabilities, damages, losses, and expenses have been caused by your breach of obligations under these Terms."
+      para10: "The information on this site is subject to change from time to time and we can't guarantee that it will always be accurate and up-to-date. We are not responsible for the content of external sites which you link to from this site. We don’t guarantee that the site will always be available or free from errors or viruses. You are responsible for installing virus-checking software to protect your hardware. As far as legally possible, we and our partners exclude all liability for any loss or damage suffered as a result of using or accessing our site, whether direct or indirect, and however arising, including any loss of data or damage caused by downloading content from our site."
+      para11: "These Terms may be varied from time to time. If you use the site after any change has been made, you will be deemed to have accepted the change. Additional terms may apply to certain areas of this site, such as applications for grant funding or payment for events."
+      para12: "These Terms are governed by English law and the courts of England and Wales will have jurisdiction over any dispute arising from them."
+      para13: "Nesta, a company limited by guarantee registered in England and Wales with company number 7706036 and charity number 1144091.<br>Registered as a charity in Scotland number SC042833.<br>Registered office: 58 Victoria Embankment, London, EC4Y 0DS"
