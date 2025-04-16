@@ -33,7 +33,7 @@ class UsersTest < ApplicationSystemTestCase
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
 
-    click_button "Next"
+    click_button "Finish"
 
     assert_text "Thank you for signing up!"
     assert_no_text "We will be in touch within 5 working days to explain more about the diary study and get you started."
