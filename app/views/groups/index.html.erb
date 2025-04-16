@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody class="bg-white">
-        <% @groups.each do |group| %>
+        <% @groups.order(:name).each do |group| %>
           <tr class="border-b-2">
             <td class="p-4"><%= link_to group.name, group, class: "underline hover:no-underline" %></td>
             <td class="p-4"><%= group.contents.active.size %></td>

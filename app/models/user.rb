@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_one :demographic_data, dependent: :destroy
   belongs_to :local_authority, optional: true
 
-  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
+  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, :language, presence: true
   validates_uniqueness_of :phone_number
   validates_plausible_phone :phone_number
   validates :child_birthday, inclusion: {in: ((Date.today - 27.months)...(Date.today - 3.months))}, on: :create
@@ -75,7 +75,7 @@ class User < ApplicationRecord
     if had_any_content_before?
       find_next_unseen_content
     else
-      Content.where(age_in_months: child_age_in_months_today).min_by(&:position)
+      Group.find_by(language: language).contents.where(age_in_months: child_age_in_months_today).min_by(&:position)
     end
   end
 
@@ -102,10 +102,11 @@ class User < ApplicationRecord
   end
 
   def find_next_unseen_content
-    i = Content.find(last_content_id).position + 1
+    contents = Group.find_by(language: language).contents
+    i = contents.find(last_content_id).position + 1
 
     loop do
-      content = Content.find_by(position: i)
+      content = contents.find_by(position: i)
       # Last message in series
       return nil if content.nil?
       # Next message
