@@ -45,7 +45,7 @@ class UsersTest < ApplicationSystemTestCase
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
 
-    click_button "Next"
+    click_button "Finish"
 
     assert_text "Thank you for signing up!"
 
@@ -154,7 +154,7 @@ class UsersTest < ApplicationSystemTestCase
     user = create(:user)
     visit edit_user_path(user)
 
-    assert_current_path root_path
+    assert_current_path root_path(locale: "en")
     assert_text "Your session has expired"
   end
 
@@ -162,7 +162,7 @@ class UsersTest < ApplicationSystemTestCase
     user = create(:user)
     visit edit_user_path(user, token: "invalid_token")
 
-    assert_current_path root_path
+    assert_current_path root_path(locale: "en")
     assert_text "Your session has expired"
   end
 
@@ -176,7 +176,7 @@ class UsersTest < ApplicationSystemTestCase
     travel_to 16.minutes.from_now do
       click_button "Next"
 
-      assert_current_path root_path
+      assert_current_path root_path(locale: "en")
       assert_text "Your session has expired"
     end
   end
