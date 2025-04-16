@@ -104,7 +104,7 @@ class UsersController < ApplicationController
 
   def check_token_session
     if !session_token_valid?
-      redirect_to root_path, notice: "Your session has expired. Contact info@thp-text.uk if you need further help."
+      redirect_to root_path, notice: I18n.t("controllers.users.edit.notice")
     end
   end
 
