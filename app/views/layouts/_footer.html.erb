@@ -2,18 +2,18 @@
   <div class="w-full xl:container mx-auto px-8">
     <div class="flex flex-wrap pt-6 lg:py-8 md:justify-around">
       <div class="w-full md:w-6/12 pr-0 md:pr-4 mb-4">
-        <h2 class="text-lg sm:text-xl mb-5"><%= t('footer.title') %></h2>
+        <h2 class="text-lg sm:text-xl mb-5"><%= t('pages.footer.title') %></h2>
         <p>
-          <%= t('footer.blurb') %>
+          <%= t('pages.footer.blurb') %>
         </p>
       </div>
       <div class="w-full md:w-3/12 mb-4 border-l-none md:border-l border-white pl-0 md:pl-4">
         <div class="flex flex-col gap-4">
-          <%= link_to t('footer.about_us'), about_us_path, class: 'link', target: '_blank', rel: 'noopener' %>
-          <%= link_to t('footer.terms'), terms_path, class: 'link', target: '_blank', rel: 'noopener' %>
-          <%= link_to t('footer.privacy'), privacy_policy_path, class: 'link', target: '_blank', rel: 'noopener' %>
-          <%= link_to t('footer.partnership'), about_us_path(anchor: "our_partners"), class: 'link', target: '_blank', rel: 'noopener' %>
-          <a href="mailto:info@thp-text.uk" class="link" target="_blank" rel="noopener"><%= t('footer.email') %></a>
+          <%= link_to t('pages.footer.about_us'), about_us_path, class: 'link', target: '_blank', rel: 'noopener' %>
+          <%= link_to t('pages.footer.terms'), terms_path, class: 'link', target: '_blank', rel: 'noopener' %>
+          <%= link_to t('pages.footer.privacy'), privacy_policy_path, class: 'link', target: '_blank', rel: 'noopener' %>
+          <%= link_to t('pages.footer.partnership'), about_us_path(anchor: "our_partners"), class: 'link', target: '_blank', rel: 'noopener' %>
+          <a href="mailto:info@thp-text.uk" class="link" target="_blank" rel="noopener"><%= t('pages.footer.email') %></a>
         </div>
       </div>
     </div>

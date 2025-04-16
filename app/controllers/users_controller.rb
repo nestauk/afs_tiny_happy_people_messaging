@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     redirect_to root_path, notice: "Signups are currently paused. Please check back later." and return if ENV.fetch("SIGN_UP_OPEN", "true") == "false"
 
     if User.not_finished_content.count == 2001
-      return redirect_to root_path, notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
+      return redirect_to root_path, notice: I18n.t("controllers.users.create.notice")
     end
 
     @user = User.new(user_params)
