@@ -87,7 +87,7 @@ class UsersController < ApplicationController
 
   def check_token_session
     if !session_token_valid?
-      redirect_to root_path, notice: "Your session has expired. Contact info@thp-text.uk if you need further help."
+      redirect_to root_path, notice: I18n.t("controllers.users.edit.notice")
     end
   end
 
@@ -100,18 +100,17 @@ class UsersController < ApplicationController
     false
   end
 
-<<<<<<< HEAD
   def rate_limit_exceeded
     @user = User.new
     flash.now[:notice] = "Too many attempts. Try again later."
     render :new, status: :unprocessable_content
-=======
+  end
+
   def set_languages
     @languages = if params[:locale] == "cy"
       [["Cymraeg", "cy"], ["English", "en"]]
     else
       [["English", "en"], ["Cymraeg", "cy"]]
     end
->>>>>>> d521d18 (Translate home page and add language preferences for user)
   end
 end

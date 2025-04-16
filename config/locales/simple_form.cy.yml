@@ -1,20 +1,58 @@
 cy:
   simple_form:
     required:
-      text: 'angenrheidiol'
+      text: 'anghangen'
       mark: '*'
     error_notification:
-      default_message: "Adolygwch y problemau isod os gwelwch yn dda:"
+      default_message: "Os gwelwch yn dda, adolygwch y problemau isod:"
     labels:
       user:
+        child_birthday: "Pen-blwydd eich plentyn"
         first_name: 'Enw cyntaf'
-        last_name: 'Cyfenw'
+        last_name: 'Enw olaf'
+        language: 'Pa iaith hoffech chi dderbyn y negeseuon testun ynddi?'
         phone_number: 'Rhif ffôn'
         postcode: 'Cod post'
-        child_birthday: "Pen-blwydd eich plentyn"
-        language: 'Ym mha iaith yr hoffech chi dderbyn y testunau?'
-        terms_agreed_at: "Rwy’n derbyn y %{terms} a’r %{privacy}"
+        terms_agreed_at: "Derbyniaf y %{terms} a'r %{privacy}"
+      user_profile:
+        child_name: "Enw eich plentyn, neu enw ar hap (dewisol)"
+        day_preference: "Pa ddiwrnod hoffech chi dderbyn y negeseuon testun bob wythnos? (dewisol)"
+        interests: "Beth sydd o ddiddordeb i chi?"
+        new_language_preference: "Rydym ar gael ar hyn o bryd yn Saesneg, gyda mwy o ieithoedd i ddod yn fuan! Gadewch i ni wybod eich iaith ddewisol i helpu i lunio ein cynnig yn y dyfodol"
+        referral_source: "Sut clywsoch chi amdano ni?"
+        time_preference: "Pa amser o'r dydd hoffech chi dderbyn y negeseuon testun? (dewisol)"
+    options:
+      user_profile:
+        day_preference:
+          monday: "Dydd Llun"
+          tuesday: "Dydd Mawrth"
+          wednesday: "Dydd Mercher"
+          thursday: "Dydd Iau"
+          friday: "Dydd Gwener"
+          saturday: "Dydd Sadwrn"
+          sunday: "Dydd Sul"
+          no_preference: "Dim dewis, anfonwch nhw unrhyw ddiwrnod"
+        hour_preference:
+          morning: "Bore, 8yb"
+          afternoon: "Prynhawn, 12yp"
+          evening: "Noswaith, 8yh"
+          no_preference: "Dim dewis, anfonwch nhw unrhyw bryd"
+        interests:      
+          routine: "Creu routine gwell gyda fy mhlentyn"
+          sharing: "Rhannu eiliadau arbennig gyda'n gilydd"
+          new_ideas: "Darganfod syniadau newydd ar gyfer gweithgareddau gyda fy mhlentyn"
+          support: "Teimlo’n gefnogol drwy lawenydd ac anawsterau rhieni"
+          build: "Datblygu fy sgiliau rhieni presennol"
+        referral_source:
+          social_media: "Cyfryngau cymdeithasol"
+          professional: "Cyfeiriad gan broffesiynol"
+          flyer: "Hysbyseb/Plastri"
+          email: "E-bost"
+          other: "Arall"
     hints:
-      user: 
-        postcode: "Rydym yn defnyddio hwn i nodi eich awdurdod lleol a fydd yn talu am y gwasanaeth hwn."
-        child_birthday: "Rydym yn defnyddio hwn i ddechrau awgrymu gweithgareddau, ac yn gofyn i chi ddweud wrthym os ydynt yn addas i'ch plentyn."
+      user:
+        child_birthday: "Defnyddiwch hyn i ddechrau awgrymu gweithgareddau, ac yn gofyn i chi ddweud wrthym os ydynt yn addas ar gyfer eich plentyn."
+        postcode: "Defnyddiwch hyn i adnabod eich awdurdod lleol a fydd yn talu am y gwasanaeth hwn."
+      user_profile:
+        child_name: "Defnyddiwch enw eich plentyn i bersonoli'r negeseuon testun rydym yn eu hanfon. Rydym yn cymryd eich preifatrwydd o ddifrif ac yn defnyddio'r wybodaeth hon yn unig ar gyfer personoli."
+        interests: "Gallwch ddewis mwy nag un"
