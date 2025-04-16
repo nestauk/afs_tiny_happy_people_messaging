@@ -1,66 +1,217 @@
 cy:
   activerecord:
-    errors: 
+    errors:
       messages:
-        blank: "methu bod yn wag"
+        blank: "ni all fod yn wag"
       models:
         user:
           attributes:
             child_birthday:
-              inclusion: "Rhaid i'ch plentyn fod rhwng 3 a 24 mis oed, ond rydym yn gweithio i ehangu ein cynnwys"
+              inclusion: "Rhaid i’ch plentyn fod rhwng 3 a 24 mis oed, ond rydyn ni’n gweithio i ehangu ein cynnwys"
+  controllers: 
+    users:
+      create:
+        notice: "Diolch am eich diddordeb. Oherwydd y galw mawr, rydym wedi cyrraedd ein capasiti uchaf ar gyfer cofrestru ar hyn o bryd. Edrychwch yn ôl ymhen ychydig fisoedd"
+      edit: 
+        notice: "Mae eich sesiwn wedi dod i ben. Cysylltwch â info@thp-text.uk os oes angen rhagor o gymorth arnoch."
   date:
     month_names: [~, "Ionawr", "Chwefror", "Mawrth", "Ebrill", "Mai", "Mehefin", "Gorffennaf", "Awst", "Medi", "Hydref", "Tachwedd", "Rhagfyr"]
   helpers:
     submit:
       user:
         create: 'Cofrestru'
+      user_profile:
+        update: "Nesaf"
+  images:
+    home:
+      mobile: "Ffôn symudol"
+      text: "Neges destun"
+      child: "Plentyn hapus"
+      family: "Teulu'n chwarae gyda frisbi"
+    thank_you:
+      family: "Teulu'n chwarae yn y parc"
+  messages:
+    feedback: "Ydy'r gweithgareddau rydyn ni'n eu hanfon atoch yn addas i’ch plentyn? Atebwch Ie neu Na i roi gwybod i ni."
+    restart: "Croeso yn ôl i Tiny Happy People! Anfonwch ‘END’ i ddad-danysgrifio unrhyw bryd."
+    welcome: "Helo {{parent_name}}, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad {{child_name}}. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘Tiny Happy People’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?"
   pages:
-    about_us: 
+    about_us:
       title: "Amdanom ni"
-      para1_title: "Magu twf eich plentyn gyda gweithgareddau hwyliog ac am ddim"
-      para1_text: "Dewch o hyd i weithgareddau bach, wedi’u creu gan arbenigwyr sy’n ysbrydoli dychymyg – wedi’u danfon i’ch ffôn, bob wythnos."
+      para1_title: "Magu twf eich plentyn gyda gweithgareddau hwyliog, am ddim"
+      para1_text: "Dewch o hyd i weithgareddau bach ond pwerus, wedi’u creu gan arbenigwyr – a’u hanfon at eich ffôn bob wythnos."
       para2_title: "Pam cofrestru?"
-      para2_text1: "Mae rhieni’n cael gweithgareddau bach, am ddim, wedi’u datblygu gan arbenigwyr, wedi’u danfon i’w ffôn bob wythnos."
-      para2_text2: "Mae rhaglen negeseuon testun Tiny Happy People wedi’i chynllunio i gynnig cymorth rhianta a thaith wedi’i theilwra i anghenion unigryw eich teulu, gyda negeseuon testun ar yr amser mwyaf cyfleus i rieni a’u hamserlenni prysur. Mae pob gweithgaredd yn dod o gatalog fideos Tiny Happy People gan Addysg y BBC, wedi’i gynllunio gan arbenigwyr i gefnogi iaith a dysgu eich plentyn ac i gryfhau’r berthynas rhyngoch chi a’ch plentyn."
-      para3_title: "Ynglŷn â Nesta"
-      para3_text: "Mae rhaglen negeseuon testun Tiny Happy People yn wasanaeth sy’n cael ei redeg gan Nesta, asiantaeth arloesi’r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield ac Addysg y BBC. Mae tîm A Fairer Start Nesta yn gweithio i dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd. O 2030, bydd gan bob plentyn yr un cyfle i ddatblygu’n llawn yn y blynyddoedd cynnar."
-      para4_title: "Ynglŷn â’n partneriaid"
-      para4_text1: "Fe ddatblygwyd rhaglen negeseuon testun Tiny Happy People gyntaf gan yr Athro Danielle Matthews ym Mhrifysgol Sheffield ac Addysg y BBC i gyflwyno adnoddau ar-lein am ddim THP i ofalwyr ac i werthuso trwy dreial a yw anfon fideos THP trwy neges destun yn cefnogi rhyngweithio rhwng gofalwyr a phlant ac yn y pen draw yn arwain at well canlyniadau iaith i blant."
-      para4_text2: "Ers 2024, mae Nesta wedi bod yn gweithio mewn partneriaeth arloesi gyda’r Athro Danielle Matthews ac Addysg y BBC i ddatblygu rhaglen negeseuon testun Tiny Happy People (THP) ymhellach. Ers dechrau’r bartneriaeth, mae Nesta wedi bod yn gweithio i barhau i ddatblygu, profi ac ehangu’r rhaglen negeseuon testun Tiny Happy People i gyrraedd mwy o rieni ar draws y DU ac i gyfrannu tuag at ein nod o dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd."
+      para2_text1: "Mae rhieni’n cael gweithgareddau bach, am ddim, wedi’u datblygu gan arbenigwyr, wedi’u hanfon at eu ffôn bob wythnos."
+      para2_text2: "Mae rhaglen negeseuon testun Tiny Happy People wedi’i chynllunio i gynnig cefnogaeth rhianta a thaith wedi’i theilwra i anghenion unigryw eich teulu, gyda negeseuon ar yr adeg sy’n fwyaf cyfleus i rieni a’u hamserlenni prysur. Mae pob gweithgaredd yn dod o gatalog fideos Tiny Happy People gan BBC Addysg, wedi’u cynllunio gan arbenigwyr i gefnogi iaith a dysgu eich plentyn ac i gryfhau’r bond rhyngoch chi a’ch plentyn."
+      para3_title: "Amdanom Nesta"
+      para3_text: "Mae rhaglen negeseuon testun Tiny Happy People yn wasanaeth a gynhelir gan Nesta, asiantaeth arloesi’r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield a BBC Addysg. Mae tîm A Fairer Start Nesta yn gweithio i dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd. Erbyn 2030, bydd gan bob plentyn yr un cyfle i ddatblygu i’w lawn botensial yn y blynyddoedd cynnar."
+      para4_title: "Amdanom ein partneriaid"
+      para4_text1: "Datblygwyd rhaglen negeseuon testun Tiny Happy People gyntaf gan yr Athro Danielle Matthews ym Mhrifysgol Sheffield a BBC Addysg i gyflwyno adnoddau ar-lein am ddim THP i ofalwyr, ac i werthuso trwy dreialu a yw anfon fideos THP trwy neges testun at deuluoedd yn cefnogi rhyngweithio rhwng gofalwyr a phlant ac, yn y pen draw, yn arwain at ganlyniadau iaith well i blant."
+      para4_text2: "Ers 2024, mae Nesta wedi bod yn gweithio mewn partneriaeth arloesol gyda’r Athro Danielle Matthews a BBC Addysg i ddatblygu rhaglen negeseuon testun Tiny Happy People (THP) ymhellach. Ers dechrau ein partneriaeth, mae Nesta wedi bod yn gweithio i barhau i ddatblygu, profi a chynyddu’r rhaglen i gyrraedd mwy o rieni ar draws y DU a chyfrannu at ein nod cenhadaeth o dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd."
       para5_title: "Cysylltwch â ni"
-      para5_text: "Rydym yn gweithio mewn partneriaeth ag awdurdodau lleol ledled y DU, Prifysgol Sheffield, ac Addysg y BCC i ddarparu’r gwasanaeth hwn. Cysylltwch â ni os hoffech archwilio sut y gallwch gyfrannu neu sut y gallwn wella’r gwasanaeth. Anfonwch e-bost atom yn <a href='mailto:info@thp-text.uk' class='link'>info@thp-text.uk</a>."
+      para5_text: "Rydym yn gweithio mewn partneriaeth â chynghorau lleol ar draws y DU, Prifysgol Sheffield a BBC Addysg i ddarparu’r gwasanaeth hwn. Cysylltwch â ni os hoffech archwilio sut y gallwch gyfrannu neu sut gallwn wella’r gwasanaeth. Ebostiwch ni yn <a href='mailto:info@thp-text.uk' class='link'>info@thp-text.uk</a>."
     footer: 
       title: "Negeseuon Testun Tiny Happy People"
-      blurb: "Mae rhaglen negeseuon testun Tiny Happy People yn wasanaeth a redir gan Nesta, asiantaeth arloesi'r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield ac Addysg y BBC. Mae tîm Dechrau Teg Nesta yn gweithio i dorri’r cyswllt rhwng cefndir teuluol a chyfleoedd bywyd. Erbyn 2030, bydd gan bob plentyn yr un cyfle i ddatblygu i’w lawn botensial yn ystod y blynyddoedd cynnar."
+      blurb: "Mae rhaglen negeseuon testun Tiny Happy People yn wasanaeth a gynhelir gan Nesta, asiantaeth arloesi’r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield a BBC Addysg. Mae tîm A Fairer Start Nesta yn gweithio i dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd. Erbyn 2030, bydd gan bob plentyn yr un cyfle i ddatblygu i’w lawn botensial yn y blynyddoedd cynnar."
       about_us: "Amdanom ni"
       terms: "Telerau defnyddio"
       privacy: "Polisi preifatrwydd"
-      partnership: "Partneriaeth ag Addysg y BBC a Phrifysgol Sheffield"
+      partnership: "Partneriaeth â BBC Addysg a Phrifysgol Sheffield"
       email: "info@thp-text.uk"
+    form:
+      personalisation: 
+        title: "Diolch am gofrestru!"
+        blurb: "Dwedwch wrthym am eich dewisiadau ar gyfer profiad gwell ac ystyrlon"
+        saving: "Yn cadw..."
+        skip: "Hepgor yr adran hon"
+      about_service:
+        back: "Yn ôl"
+        title: "Rydych bron wedi gorffen"
+        blurb: "Dwedwch wrthym sut gwnaethoch glywed am ein gwasanaeth, a beth sy'n eich diddori"
+        save: "Gorffen"
+        saving: "Yn cadw..."
+        skip: "Hepgor yr adran hon"
     home:
-      title: "Magwch dwf eich plentyn gyda gweithgareddau hwyliog, am ddim"
-      subtitle: "Derbyn gweithgareddau bach wythnosol sy’n ysgogi dychymyg wedi’u danfon i’ch ffôn, ar gyfer plant 3-24 mis oed"
+      title: "Magu twf eich plentyn gyda gweithgareddau hwyliog, am ddim"
+      subtitle: "Dewch o hyd i weithgareddau wythnosol, bach ond pwerus, i ysbrydoli dychymyg, wedi'u hanfon i’ch ffôn ar gyfer oedran 3–24 mis"
       sign_up: "Cofrestru"
       how_it_works: "Sut mae'n gweithio?"
       step_1_title: "Cofrestru"
-      step_1_text: "Rhowch eich rhif symudol i ddechrau eich taith"
-      step_2_title: "Derbyn testunau"
-      step_2_text: "Derbyn negeseuon testun wythnosol am ddim gyda fideos byr a diddorol"
-      step_3_title: "Mwynhau"
-      step_3_text: "Rhowch gynnig ar weithgareddau hwyliog, wedi’u teilwra sy’n cyd-fynd yn hawdd â’ch diwrnod"
+      step_1_text: "Rhowch eich rhif ffôn symudol i ddechrau eich taith"
+      step_2_title: "Derbyn negeseuon"
+      step_2_text: "Derbynwch negeseuon testun wythnosol am ddim gyda fideos byr a chyfareddol"
+      step_3_title: "Mwynhewch"
+      step_2_text: "Rhowch gynnig ar weithgareddau hwyliog, wedi’u teilwra i ffitio’n berffaith i’ch diwrnod"
       why_sign_up: "Pam cofrestru?"
       reason_1_title: "Wedi’i deilwra i’ch teulu"
-      reason_1_text: "Mae’r cynnwys wedi’i addasu i ddiwallu anghenion eich plentyn, wedi’i ddarparu pryd bynnag rydych chi eisiau!"
-      reason_2_title: "Cyflym a Hawdd"
-      reason_2_text: "Dim apiau, dim drafferth — dim ond un neges yr wythnos."
-      reason_3_title: "Ar gyfer Bywydau Prysur"
-      reason_3_text: "Gweithgareddau hwyliog hawdd i’w rhoi ar brawf sy’n ffitio’n llyfn i’ch trefn ddyddiol."
-      reason_4_title: "Wedi’i ddylunio gan arbenigwyr"
-      reason_4_text: "Wedi’i adeiladu i hybu datblygiad iaith a chymdeithasol-emosiynol."
+      reason_1_text: "Mae'r cynnwys wedi’i deilwra i anghenion eich plentyn, wedi’i anfon pryd bynnag sy’n gyfleus i chi!"
+      reason_2_title: "Cyflym ac Hawdd"
+      reason_2_text: "Dim apiau, dim helynt — dim ond un neges yr wythnos."
+      reason_3_title: "Ar gyfer bywydau prysur"
+      reason_3_text: "Gweithgareddau hwyliog hawdd eu rhoi ar waith sy’n ffitio’n naturiol i’ch trefn ddyddiol."
+      reason_4_title: "Dyluniwyd gan arbenigwyr"
+      reason_4_text: "Wedi’i greu i hybu datblygiad iaith ac emosiynol-gymdeithasol."
       reason_5_title: "Amser o ansawdd"
-      reason_5_text: "Cryfhau’r berthynas tra’n cael hwyl gyda’ch gilydd."
-      quote: '“Canllaw gwych a chodi hyder gan wybod ein bod ni’n gwneud llawer o bethau’n iawn ac yna arweiniad gwych ar yr hyn y gallwn ei wneud i helpu datblygiad ein plentyn ymhellach."'
+      reason_5_text: "Cryfhau’r bond rhyngoch chi a’ch plentyn wrth gael hwyl gyda’ch gilydd."
+      quote: '“Canllaw gwych ac yn rhoi hyder ein bod eisoes yn gwneud llawer yn iawn ac yna canllawiau gwych ar yr hyn arall allwn ni ei wneud i ddatblygu ein plentyn ymhellach."'
       quote_author: "Mam Ali"
-      free: "Mae’r gwasanaeth hwn yn rhad ac am ddim ac yn mynd i aros felly."
+      free: "Mae’r gwasanaeth hwn yn rhad ac am ddim i’w ddefnyddio, a bydd hynny wastad yn wir."
       terms: "telerau gwasanaeth"
       privacy: "polisi preifatrwydd"
+    privacy_policy:
+      title: "Polisi Preifatrwydd"
+      para1: "Mae’r wefan hon yn cael ei berchnogi a’i gweithredu gan Nesta – gallwch ddod o hyd i’n manylion llawn isod. Mae’r polisi preifatrwydd hwn yn egluro sut mae Nesta yn defnyddio gwybodaeth bersonol a gasglwn drwy’r wefan hon. Rydym wedi ymrwymo i ddiogelu eich preifatrwydd ac rydym yn cymryd pob cam rhesymol i warchod gwybodaeth bersonol."
+      para2_title: "Pa fath o wybodaeth ydym ni’n ei chasglu?"
+      para2_text1: "<span class='font-bold'>Manylion cofrestru:</span> Os byddwch yn cofrestru ar ein rhaglen negeseuon testun, byddwn yn gofyn am wybodaeth bersonol megis eich enw, rhif ffôn a chod post yn ogystal â mis a blwyddyn geni eich plentyn. Byddwn hefyd yn gofyn am wybodaeth ddewisol i bersonoli’ch profiad megis enw neu lysenw eich plentyn, ac am wybodaeth ddewisol i wella’n gwasanaeth megis eich diddordebau."
+      para2_text2: "<span class='font-bold'>Ymchwil:</span> Efallai y gofynnwn i chi gymryd rhan mewn ymchwil rydym yn ei chynnal ac efallai y byddwn yn cysylltu â chi i ofyn am ragor o wybodaeth amdanoch chi, eich profiadau neu eich barn."
+      para2_text3: "<span class='font-bold'>Adborth ac arolygon:</span> Efallai y gofynnwn hefyd am eich adborth neu i chi gwblhau arolygon."
+      para2_text4: "<span class='font-bold'>Gweithgarwch ar-lein:</span> Pan fyddwch yn defnyddio’n gwefan, rydym yn casglu gwybodaeth am y ddyfais a ddefnyddiwyd gennych i gael mynediad, eich ymweliadau a’ch defnydd o’r wefan gan gynnwys math a fersiwn eich porwr, cyfeirydd a gweithgarwch. Rydym yn casglu’r wybodaeth hon drwy offer dadansoddi cyntaf barti sydd wedi’u hymgorffori yn ein gwefan, heb ddefnyddio cwcis nac offer trydydd parti."
+      para3_title: "Beth ydym ni’n ei wneud gyda’r wybodaeth a gasglwn a beth yw ein sail gyfreithiol ar gyfer hyn?"
+      para3_text1: "<span class='font-bold'>Manylion cofrestru:</span> Os byddwch yn cofrestru ar ein rhaglen negeseuon testun, byddwn yn defnyddio eich gwybodaeth bersonol i anfon negeseuon testun atoch. Ein sail gyfreithiol ar gyfer hyn yw eich caniatâd. Mae gennych hawl i dynnu’r caniatâd hwn yn ôl unrhyw bryd. Byddwn hefyd yn rhannu codau post gyda’n partner, Prifysgol Sheffield, a fydd yn eu cymharu â’r rheini o gyfranogwyr ymchwil Tiny Happy People, yn unol â’n cytundeb rhannu data."
+      para3_text2: "<span class='font-bold'>Proseswyr trydydd parti:</span> Rydym yn defnyddio prosesydd trydydd parti o’r enw Twilio i gyflwyno negeseuon testun. Wrth ddefnyddio’r trydydd parti hwn rydym yn dilyn ein budd cyfreithlon i ddefnyddio technoleg trydydd parti i sicrhau mwy o effeithlonrwydd yn ein sefydliad. I gydbwyso ein buddiannau â’ch rhai chi, rydym yn ymrwymo i gytundebau cyfreithiol gyda Twilio ac yn cymryd camau i sicrhau eu bod yn cynnal mesurau technegol a threfniadol priodol i gadw eich gwybodaeth bersonol yn ddiogel. Am fwy o wybodaeth, gweler <a href='https://www.twilio.com/en-us/privacy' target='_blank'>polisi preifatrwydd Twilio</a>."
+      para3_text3: "<span class='font-bold'>Ymchwil:</span> Os cytunwch i gymryd rhan mewn unrhyw ymchwil, gan gynnwys ein hastudiaeth ddyddiadur, byddwn yn defnyddio’ch gwybodaeth at ddiben y prosiect neu raglen ymchwil honno. Rhoddir manylion llawn i chi am sut y caiff eich gwybodaeth ei defnyddio pan fyddwch yn cytuno i gymryd rhan; gall hyn gynnwys llywio datblygiad gwobr newydd, prosiect, rhaglen neu fenter arall, cael ei gynnwys mewn adroddiadau neu ganlyniadau ymchwil eraill, a gall gynnwys cael ei harddangos yn gyhoeddus ar dudalennau gwe sy’n gysylltiedig â’r prosiect neu raglen ymchwil benodol."
+      para3_text4: "<span class='font-bold'>Adborth ac arolygon:</span> Os byddwch yn cytuno i roi adborth neu gwblhau arolwg, byddwn yn defnyddio’r wybodaeth i wella ein gwaith a’n gweithgareddau. Rydym fel arfer yn defnyddio Alchemer i brosesu arolygon, ac maent ond yn prosesu’ch gwybodaeth yn unol â’n cyfarwyddiadau."
+      para3_text5: "Mae Alchemer yn gweithredu yn yr UD. Am fwy o wybodaeth, gweler <a href='https://www.alchemer.com/privacy/' target='_blank' class='link'>polisi preifatrwydd Alchemer</a>. Os byddwch yn cytuno i gymryd rhan mewn unrhyw arolwg sy’n rhan o brosiect ymchwil, byddwn yn dweud wrthych ar y pryd sut y caiff eich gwybodaeth ei defnyddio ar gyfer y prosiect ymchwil hwnnw, a pha mor hir y caiff ei chadw."
+      para3_text6: "<span class='font-bold'>‍Ar gyfer pob math o wybodaeth a gasglwyd:</span> Sicrhewch fod yr holl fanylion personol a roddwch yn gywir ac yn gyfredol, a rhowch wybod i ni am unrhyw newidiadau. Sicrhewch eich bod wedi cael caniatâd cyn rhoi gwybodaeth am unrhyw un arall i ni."
+      para3_text7: "Mae natur gwaith Nesta yn golygu ein bod yn aml yn gweithio mewn partneriaeth ag sefydliadau eraill, ond ni fyddwn yn rhannu’ch gwybodaeth ag unrhyw sefydliad arall oni bai fod gennym eich caniatâd chi’n gyntaf, neu fod gennym fuddiant cyfreithlon neu ofyniad cyfreithiol i wneud hynny."
+      para3_text8: "Gallwn hefyd ddefnyddio’ch gwybodaeth i gynnal dadansoddiadau ac ymchwil i wella ein cyhoeddiadau, digwyddiadau a gweithgareddau, addasu ein gwefan a’i chynnwys yn unol â’ch dewisiadau penodol, eich hysbysu am unrhyw newidiadau i’n gwefan neu’n gweithgareddau a allai effeithio arnoch, atal a chanfod twyll ac ymddygiad camdriniol, a diogelu defnyddwyr eraill."
+      para3_text9: "Waeth sut rydych yn dewis ymgysylltu â Nesta, gallwn gadw eich gwybodaeth ar gyfer ein buddiannau busnes cyfreithlon ein hunain at ddibenion dadansoddi ystadegol, er mwyn adolygu, datblygu a gwella ein gweithgareddau busnes. Yn y sefyllfa hon, dim ond os yw’n angenrheidiol y byddwn yn cadw unrhyw wybodaeth bersonol, ac fe wnawn bob amser roi mesurau technegol a gweinyddol priodol ar waith, gan gynnwys lle bo modd, anhysbysu neu leihau’r wybodaeth bersonol a gedwir."
+      para3_text10: "Rydym yn defnyddio trydydd parti i ddarparu gwasanaeth cadw data, storio a gwella diogelwch ar sail cwmwl i gefnogi data rydym yn ei gadw."
+      para4_title: "Am ba hyd y byddwn yn cadw’ch gwybodaeth?"
+      para4_text1: "<span class='font-bold'>Egwyddor gyffredinol:</span> Byddwn ond yn cadw unrhyw wybodaeth bersonol rydych yn ei rhoi i ni cyhyd ag y bo’n angenrheidiol i gyflawni’r diben y rhoddoch y wybodaeth i ni ar ei gyfer. Byddwn yn dileu’r wybodaeth yn ddiogel pan na fydd ei hangen mwyach at y diben hwnnw, fel yr eglurir yn fwy manwl isod."
+      para4_text2: "<span class='font-bold'>Caniatâd:</span> Rydym yn cadw cofnodion o ganiatâd, ac unrhyw ddirymiad o ganiatâd, ar ein ffeiliau cyhyd ag y defnyddir eich gwybodaeth bersonol yn unol â’r caniatâd hwnnw ac am gyfnod o 6 blynedd ar ôl i’r caniatâd gael ei ddirymu (oni bai eich bod yn gofyn fel arall)."
+      para4_text3: "<span class='font-bold'>Ymchwil:</span> Os byddwch yn cytuno i gymryd rhan mewn unrhyw ymchwil, bydd eich gwybodaeth bersonol yn cael ei chadw cyhyd ag y bydd o werth i Nesta a’r gymuned ymchwil ehangach, ac am gyhyd ag y bydd unrhyw gyllid ymchwil allanol, deddfau patent, neu ofynion deddfwriaethol neu reoleiddiol eraill yn mynnu. Bydd data ymchwil yn cael ei adolygu o leiaf bob 5 mlynedd i asesu’i werth parhaus i Nesta, a bydd data personol yn cael ei anhysbysu neu ei seudoanhysbysu lle bo’n bosibl, oni bai y byddai gwneud hynny’n effeithio ar gywirdeb y data ymchwil a/neu ei ganlyniadau. Bydd unrhyw Ddata Personol sy’n ymddangos mewn adroddiad ymchwil neu ganlyniad arall yn cael ei gadw am byth. Bydd ymchwil sy’n cefnogi datblygiad gwobr, prosiect, rhaglen, cyhoeddiad neu ganlyniad arall yn cael ei gadw am o leiaf 5 mlynedd ar ôl cyhoeddi. Os yw’r ymchwil yn cael ei hariannu neu’n destun unrhyw gytundeb arall, gellir cadw eich data am 6 blynedd ar ôl diwedd y cytundeb, neu’n hirach os yw’r cytundeb yn nodi hynny – hyd at 12 mlynedd posibl."
+      para4_text4: "<span class='font-bold'>Prosesu at ddibenion dadansoddi ystadegol:</span> Dim ond tra bod eich gwybodaeth bersonol yn cael ei chadw yn unol â’r egwyddorion uchod y caiff y math hwn o brosesu ei gynnal."
+      para5_title: "Diogelwch"
+      para5_text: "Rydym yn cymryd camau i ddiogelu eich gwybodaeth bersonol ac yn dilyn gweithdrefnau sydd wedi’u cynllunio i leihau mynediad neu ddatgeliad heb awdurdod."
+      para6_title: "Cysylltu â ni, arfer eich hawliau a chwynion"
+      para6_text1: "Mae gennych hawl gyfreithiol i wybod pa wybodaeth bersonol sydd gennym amdanoch a sut mae’r wybodaeth honno’n cael ei phrosesu, gan gynnwys yr hawl i:"
+      para6_list1: |
+        <ul class='list-disc pl-4 pt-2 mb-4'>
+          <li>ofyn i ni gywiro unrhyw wallau yn eich gwybodaeth sydd gennym</li>
+          <li>ofyn i ni ddileu’ch gwybodaeth bersonol</li>
+          <li>ofyn i ni roi’r gorau i ddefnyddio’ch gwybodaeth neu gyfyngu ar ei defnyddio, er enghraifft os ydych yn teimlo ei bod yn anghywir neu nad oes angen iddi gael ei defnyddio mwyach gan Nesta</li>
+          <li>gwrthwynebu i ni ddefnyddio’ch gwybodaeth bersonol</li>
+          <li>gwrthwynebu unrhyw benderfyniadau awtomataidd rydym yn eu gwneud gan ddefnyddio’ch gwybodaeth</li>
+        </ul>
+      para6_text2: "Os ydych am wybod pa wybodaeth sydd gennym amdanoch, neu am arfer unrhyw un o’ch hawliau uchod, neu os oes gennych gwyn am sut rydym yn defnyddio’ch gwybodaeth bersonol, anfonwch e-bost i information@nesta.org.uk neu ysgrifennwch atom yn 58 Victoria Embankment London EC4Y 0DS UK gan ddarparu digon o wybodaeth i’ch adnabod (e.e. enw a chyfeiriad neu unrhyw fanylion cofrestru)."
+      para6_text3: "Os yw’n wybodaeth gennym yn anghywir neu’n hen, rhowch ddigon o wybodaeth i ni allu ei diweddaru. Os ydych am i ni ddileu, cyfyngu neu roi’r gorau i ddefnyddio unrhyw wybodaeth gennym amdanoch, cadarnhewch y rhesymau dros hynny. Os ydych yn anhapus â’r ffordd rydym yn defnyddio’ch gwybodaeth, esboniwch y rhesymau a byddwn yn ymchwilio i’r mater."
+      para6_text4: "Gallwch hefyd ysgrifennu i’r un cyfeiriad os oes gennych gwyn am y polisi hwn."
+      para6_text5: "Os ydych yn anhapus â’r ffordd y trafodwyd unrhyw gais hawliau data neu gŵyn, mae gennych hawl i gwyno i’r Comisiynydd Gwybodaeth:"
+      para6_list2: |
+        <ul class='list-disc pl-4 pt-2 mb-4'>
+          <li>Ar <a href='https://ico.org.uk/concerns' target='_blank' class='link'>wefan yr ICO</a>;</li>
+          <li>Trwy’r post yn Wycliff House, Water Lane, Wilmslow, Cheshire SK9 5AF, neu</li>
+          <li>Trwy ffonio’r llinell gymorth ar 0303 123 1113.</li>
+        </ul>
+      para6_text6: "Mae’r wybodaeth gyswllt ar gyfer Swyddfa’r Comisiynydd Gwybodaeth yn gywir ar adeg cyhoeddi’r polisi preifatrwydd hwn."
+      para7_title: "Newidiadau i’r polisi preifatrwydd"
+      para7_text1: "Efallai y byddwn yn newid y polisi preifatrwydd hwn o bryd i’w gilydd. Byddwn yn eich hysbysu o unrhyw newidiadau sy’n ymwneud â gwybodaeth sydd gennym eisoes amdanoch, lle bo hynny’n ymarferol. Dylech wirio’r polisi hwn o bryd i’w gilydd i sicrhau eich bod yn ymwybodol o’r fersiwn fwyaf diweddar a fydd yn berthnasol bob tro rydych yn defnyddio’r wefan hon."
+      para7_text2: "Nesta, cwmni cyfyngedig trwy warant wedi’i gofrestru yn Lloegr a Chymru rhif cwmni 7706036 a rhif elusen 1144091.<br>Wedi’i gofrestru fel elusen yn yr Alban rhif SC042833.<br>Swyddfa gofrestredig: 58 Victoria Embankment, Llundain, EC4Y 0DS<br>E-bost: information@nesta.org.uk"
+    resources:
+      title: "Adnoddau i ofalwyr"
+      text: "Rydym wedi llunio rhestr o adnoddau defnyddiol isod i'ch cefnogi wrth lywio unrhyw heriau y gallech eu hwynebu wrth ofalu am eich rhai bach."
+      mental_health:
+        title: "Cymorth Iechyd Meddwl i Rieni a Phlant"
+        para1: "<span class='font-bold'>Cymorth Iechyd Meddwl y GIG:</span> Cael cyngor am anawsterau iechyd meddwl a <a href='https://www.nhs.uk/mental-health/' target='_blank' class='link'>dod o hyd i gymorth lleol</a>"
+        para2: "<span class='font-bold'>Gwasanaethau Iechyd Meddwl Lleol:</span> <a href='https://www.nhs.uk/nhs-services/gps/' target='_blank' class='link'>Ymgynghorwch â’ch Meddyg Teulu</a> i gael atgyfeiriad"
+        para3: "<span class='font-bold'>Mind:</span> Ffoniwch 0300 123 3393 neu <a href='https://www.mind.org.uk/' target='_blank' class='link'>ewch ar-lein</a> i gael gwybodaeth, cyngor a chymorth ar gyfer eich anghenion iechyd meddwl chi neu anwylyn, gan gynnwys hunan-gymorth â chefnogaeth i oedolion sy'n byw yng Nghymru, Lloegr a'r Ynysoedd Sianel"
+        para4: "<span class='font-bold'>Anna Freud:</span> Ffoniwch 020 7794 2313 neu <a href='https://www.annafreud.org/resources/family-wellbeing/' target='_blank' class='link'>ewch ar-lein</a> i gael mynediad at adnoddau i helpu cefnogi plentyn sy’n profi anawsterau iechyd meddwl"
+      slt:
+        title: "Anawsterau Lleferydd, Iaith a Chyfathrebu"
+        para1: "<span class='font-bold'>Therapi Lleferydd ac Iaith Leol:</span> Gallwch gael atgyfeiriad i adran therapi lleferydd ac iaith drwy eich Meddyg Teulu, ymwelydd iechyd, nyrs ardal, staff meithrin neu athro eich plentyn, canolfan plant, pediatregydd cymunedol neu drwy'r sector preifat. Gallwch hefyd eich atgyfeirio eich hun drwy ffonio eich gwasanaeth GIG lleol a gofyn am rif therapi lleferydd ac iaith."
+        para2: "<span class='font-bold'>Canllawiau’r GIG:</span> Gweler <a href='https://www.cpft.nhs.uk/speech-and-language-therapy-toolkit/' target='_blank' class='link'>Pecyn Cymorth Therapi Lleferydd ac Iaith y GIG Cambridgeshire a Peterborough</a> am awgrymiadau a chyngor i helpu gyda datblygiad sgiliau lleferydd, iaith a chyfathrebu plant a phobl ifanc.<br><br>Os nad ydych yn byw yng Nghaergrawnt na Peterborough ond hoffech wybod ble i gael cymorth lleol ar gyfer lleferydd, iaith a chyfathrebu eich plentyn, <a href='https://www.gov.uk/find-local-council' target='_blank' class='link'>darganfyddwch wefan eich cyngor lleol</a>."
+      finance:
+        title: "Cymorth Ariannol"
+        para1: "<span class='font-bold'>Gwiriwr Budd-daliadau:</span> Defnyddiwch <a href='https://www.turn2us.org.uk/' target='_blank' class='link'>Turn2Us</a> i wirio eich cymhwystra i gael budd-daliadau."
+        para2: "<span class='font-bold'>Cyngor ar Bopeth:</span> Ffoniwch 0800 144 8848 (Lloegr) neu 0800 702 2020 (Cymru) neu ewch i <a href='https://www.citizensadvice.org.uk/' target='_blank' class='link'>wefan Cyngor ar Bopeth</a> i gael arweiniad ar faterion ariannol ac eraill."
+      development:
+        title: "Datblygiad Plant"
+        para1: "<span class='font-bold'>Camau datblygu yn ôl oedran:</span> Gwiriwch <a href='https://cambspborochildrenshealth.nhs.uk/child-development-and-growing-up/milestones/' target='_blank' class='link'>tudalen Camau Datblygu'r GIG Cambridgeshire a’r Gymuned</a> am ganllaw bras ar gamau datblygiadol plant a phryd i gysylltu ag ymwelydd iechyd.<br><br>Os nad ydych yn byw yng Nghaergrawnt ond hoffech wybod ble i gael cymorth lleol mewn perthynas â datblygiad eich plentyn, <a href='https://www.gov.uk/find-local-council' target='_blank' class='link'>darganfyddwch wefan eich cyngor lleol</a>."
+        para2: "<span class='font-bold'>Gweithgareddau i hyrwyddo datblygiad plant:</span> Defnyddiwch wefan <a href='https://www.bbc.co.uk/tiny-happy-people' target='_blank' class='link'>Tiny Happy People</a> i gael syniadau ar gyfer gweithgareddau i hybu datblygiad eich plentyn. Dyma un o'r gwefannau y gofynnon ni i chi eu gweld yn eich cyfweliad gyda ni."
+      emergency:
+        title: "Cymorth Brys"
+        para1: "<span class='font-bold'>Childline (DU):</span> Ffoniwch 0800 1111 am le diogel, cyfrinachol i siarad â chynghorydd, ar gael 24/7 i unrhyw un o dan 19 oed ledled y DU"
+        para2: "<span class='font-bold'>Samaritans:</span> Ffoniwch 116 123 am le diogel, cyfrinachol i siarad, ar gael 24/7 i bobl o bob oed yn y DU ac Iwerddon"
+        para3: "<span class='font-bold'>Cymorth meddygol nad yw'n peryglu bywyd:</span> Ffoniwch 111 i gael help gyda'ch symptomau meddygol neu os nad ydych yn siŵr ble i gael cymorth ar gyfer pryder meddygol brys. Mae'r llinell gymorth ar gael 24/7."
+        para4: "<span class='font-bold'>Gwasanaethau Brys:</span> Ffoniwch 999 mewn sefyllfaoedd sy’n peryglu bywyd, ar gael 24/7 ac yn rhad ac am ddim ledled y DU."
+    thank_you: 
+      title: "Diolch am gofrestru!"
+      subtitle: "Byddwch yn derbyn eich neges gyntaf yn fuan iawn"
+      text: "Os ydych yn chwilio am gymorth gyda iechyd chi neu eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>tudalen adnoddau</a> i ddarganfod ble gallwch ddod o hyd i gymorth yn y DU."
+    terms:
+      title: "Telerau Defnyddio"
+      para1: "Pwrpas y wefan hon yw galluogi rhieni a gofalwyr plant 3–24 mis oed i gofrestru ar raglen negeseuon testun sy’n darparu awgrymiadau a chyngor ynglŷn â themâu datblygiad plant."
+      para2: "Mae’r wefan hon yn eiddo i <a href='https://www.nesta.org.uk/' target='_blank' class='link'>Nesta</a> ac yn cael ei gweithredu ganddi – gallwch ddod o hyd i’n manylion llawn isod. Mae defnyddio’r wefan yn amodol ar y Telerau hyn. Mae ein <a href='/privacy_policy' class='link'>Hysbysiad Preifatrwydd</a> yn esbonio sut rydym yn defnyddio gwybodaeth bersonol a gasglwn drwy’r wefan. Os nad ydych yn cytuno â’r Telerau hyn nac â’n Polisi Preifatrwydd, peidiwch â defnyddio’r wefan."
+      para3: "Mae’r wybodaeth, deunyddiau a logos ar y wefan hon yn perthyn i Nesta, ein partneriaid neu drwyddedwyr. Nid ydym yn cynnig unrhyw sicrwydd na gwarant ynghylch y cynnwys, gan gynnwys ynglŷn ag unrhyw dor-cyfraith ar hawliau eiddo deallusol."
+      para4: "Pwrpas y cynnwys ar y wefan a’r negeseuon testun yw darparu gwybodaeth yn unig ac ni fydd Nesta yn atebol am unrhyw benderfyniadau a wnewch o ganlyniad i’w ddarllen. Ni all Nesta eich digolledu am unrhyw golled a allai godi o ganlyniad i:"
+      list1: |
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>gamau a gymerwch yn seiliedig ar unrhyw beth rydych yn ei ddarllen ar y tudalennau hyn;</li>
+          <li>unrhyw wall yn y cynnwys ar ein gwefan;</li>
+          <li>rhan o’n gwefan yn bod yn aneglur neu’n anghyraeddadwy;</li>
+          <li>defnyddio gwefan unrhyw sefydliad y gallwch gyrchu ohoni (gan gynnwys unrhyw bryniant gan y sefydliad hwnnw ac unrhyw ddefnydd y maent yn ei wneud o’ch data personol);</li>
+          <li>llwytho unrhyw ddeunydd i lawr o unrhyw ran o’n gwefan.</li>
+        </ul>
+      para5: "Ni fydd Nesta yn eithrio unrhyw atebolrwydd sydd gennym os ydym wedi bod yn dwyllodrus neu os ydym wedi esgeuluso a, o ganlyniad, wedi achosi marwolaeth neu anaf personol."
+      para6: "Gellir argraffu, copïo neu lawrlwytho unrhyw gynnwys o’r wefan, ar yr amod ei fod i’w ddefnyddio’n breifat ac yn bersonol yn unig. Ni chewch ddefnyddio unrhyw gynnwys at ddibenion masnachol. Os byddwch yn argraffu, copïo neu lawrlwytho’r cynnwys, mae Nesta yn rhoi trwydded ddi-eithriad, ddi-dâl i chi ddefnyddio ei logo mewn perthynas â’r cynnwys a rhaid ichi bob amser gydnabod Nesta fel y crëwr. Rydych chi’n gyfrifol am unrhyw ddifrod i’ch system gyfrifiadurol o ganlyniad i lawrlwytho unrhyw gynnwys."
+      para7: "Ni chewch ddefnyddio’r wefan hon:"
+      list2: |
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>i bostio, rhannu neu drosglwyddo deunydd anghyfreithlon neu sy’n torri hawliau unrhyw un arall</li>
+          <li>at unrhyw ddiben masnachol</li>
+          <li>mewn unrhyw ffordd sy’n sarhaus, enllibus neu anweddus neu sy’n aflonyddu neu’n poeni unrhyw un neu’n cyfyngu ar eu defnydd a’u mwynhad o’r wefan neu sy’n niweidio ein henw da</li>
+          <li>i drosglwyddo firysau meddalwedd neu god a gynlluniwyd i dorri, dinistrio neu beryglu uniondeb meddalwedd, caledwedd neu offer telathrebu</li>
+        </ul>
+      para8: "Wrth ddefnyddio’r wefan hon, rhaid ichi ddilyn y rheolau canlynol:"
+      list3: |
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>ymddwyn yn gyfreithlon, yn foesegol ac yn onest ac yn cydymffurfio â’r Telerau hyn</li>
+          <li>ymddwyn yn synhwyrol, yn onest ac â pharch at eraill</li>
+          <li>peidio â dweud celwydd, camliwio rhywun neu rywbeth, nac esgus bod rhywun arall</li>
+          <li>bod yn gwrtais ac yn barchus wrth gyfathrebu neu ryngweithio ag eraill.</li>
+        </ul>
+      para9: "I’r graddau y caniateir gan y gyfraith, rydych yn rhyddhau, yn amddiffyn (yn ôl dewis Nesta), yn indemnio, ac yn cadw Nesta’n ddieuog rhag unrhyw hawliadau, atebolrwydd, difrod, colledion ac eitemau treuliau, gan gynnwys ffioedd cyfreithiol a phroffesiynol rhesymol, sy’n codi o neu mewn unrhyw ffordd yn gysylltiedig â: (a) eich tor o’r Telerau hyn, neu (b) eich defnydd amhriodol o’r llwyfan. Dim ond os a i’r graddau y bydd hawliadau, colledion ac ati wedi’u hachosi gan eich tor o’r Telerau y bydd yr indemniad hwn yn berthnasol."
+      para10: "Gall y wybodaeth ar y wefan newid o bryd i’w gilydd ac ni allwn warantu y bydd bob amser yn gywir ac yn gyfredol. Nid ydym yn gyfrifol am gynnwys safleoedd allanol rydych yn eu cyrchu o’r wefan hon. Ni allwn warantu y bydd y wefan ar gael bob amser nac yn rhydd o wallau neu firysau. Eich cyfrifoldeb chi yw gosod meddalwedd wirio firysau i ddiogelu’ch caledwedd."
+      para11: "Gall y Telerau hyn newid o bryd i’w gilydd. Os ydych yn defnyddio’r wefan ar ôl i newid gael ei wneud, byddwch yn cael eich ystyried fel un sydd wedi derbyn y newid. Gall telerau ychwanegol fod yn berthnasol i rai rhannau o’r wefan, megis ceisiadau am arian grant neu daliad am ddigwyddiadau."
+      para12: "Mae’r Telerau hyn yn cael eu llywodraethu gan gyfraith Lloegr a bydd llysoedd Lloegr a Chymru yn meddu ar awdurdodaeth dros unrhyw anghydfod."
+      para13: "Nesta, cwmni cyfyngedig drwy warant wedi’i gofrestru yn Lloegr a Chymru gyda rhif cwmni 7706036 a rhif elusen 1144091.<br>Wedi’i gofrestru fel elusen yn yr Alban gyda rhif SC042833.<br>Swyddfa gofrestredig: 58 Victoria Embankment, Llundain, EC4Y 0DS"
