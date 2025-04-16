@@ -131,12 +131,4 @@ class UsersController < ApplicationController
     flash.now[:notice] = "Too many attempts. Try again later."
     render :new, status: :unprocessable_content
   end
-
-  def set_languages
-    @languages = if params[:locale] == "cy"
-      [["Cymraeg", "cy"], ["English", "en"]]
-    else
-      [["English", "en"], ["Cymraeg", "cy"]]
-    end
-  end
 end
