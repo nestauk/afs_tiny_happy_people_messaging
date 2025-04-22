@@ -109,26 +109,35 @@ class UserTest < ActiveSupport::TestCase
   test "not_clicked_last_x_messages scope" do
     content = create(:content)
     user1 = create(:user)
-    create(:message, user: user1, content:)
-    create(:message, user: user1, content:)
+    create(:message, user: user1, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user1, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user1, body: "https://thp-text.uk/m", content:)
 
     user2 = create(:user)
-    create(:message, user: user2, content:)
-    create(:message, user: user2, content:)
-    create(:message, user: user2, clicked_at: Time.now, content:)
-    create(:message, user: user2, clicked_at: Time.now, content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.now, content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.now, content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.now, content:)
 
     user3 = create(:user)
-    create(:message, user: user3, content:)
-    create(:message, user: user3, content:, clicked_at: Time.now)
-    create(:message, user: user3, content:)
+    create(:message, user: user3, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user3, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user3, body: "https://thp-text.uk/m", content:, clicked_at: Time.now)
+    create(:message, user: user3, body: "https://thp-text.uk/m", content:)
 
     user4 = create(:user)
-    create(:message, user: user4)
-    create(:message, user: user4)
+    create(:message, user: user4, body: "https://thp-text.uk/m")
+    create(:message, user: user4, body: "https://thp-text.uk/m")
 
-    assert_equal User.not_clicked_last_x_messages(2).to_a.size, 1
-    assert_equal User.not_clicked_last_x_messages(2), [user1]
+    user5 = create(:user)
+    create(:message, user: user5, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user5, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user5, body: "hi please fill this out", content:)
+
+    assert_equal User.not_clicked_last_x_messages(3).to_a.size, 1
+    assert_equal User.not_clicked_last_x_messages(3), [user1]
   end
 
   test "received_two_messages scope" do

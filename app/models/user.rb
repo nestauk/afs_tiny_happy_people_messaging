@@ -31,12 +31,13 @@ class User < ApplicationRecord
             .select(:id)
             .where("messages.user_id = users.id")
             .where.not(content_id: nil)
+            .where("body LIKE ?", "%https://thp-text.uk/m%")
             .order(created_at: :desc)
             .limit(x)
         }
       )
       .group("users.id")
-      .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = 2")
+      .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = #{x}")
   }
   scope :received_two_messages, -> {
     joins(:messages)
