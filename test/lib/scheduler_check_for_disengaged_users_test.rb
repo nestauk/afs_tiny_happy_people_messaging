@@ -14,16 +14,17 @@ class SchedulerTest < ActiveSupport::TestCase
   test "check_for_disengaged_users" do
     user1 = create(:user)
     content = create(:content)
-    create(:message, user: user1, clicked_at: nil, content:)
-    create(:message, user: user1, clicked_at: nil, content:)
+    create(:message, user: user1, clicked_at: nil, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user1, clicked_at: nil, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user1, clicked_at: nil, body: "https://thp-text.uk/m", content:)
 
     user2 = create(:user)
-    create(:message, user: user2, clicked_at: nil, content:)
+    create(:message, user: user2, clicked_at: nil, body: "https://thp-text.uk/m", content:)
     create(:message, user: user2, clicked_at: Time.now, content:)
 
     user3 = create(:user, nudged_at: Time.now)
-    create(:message, user: user3, clicked_at: nil, content:)
-    create(:message, user: user3, clicked_at: nil, content:)
+    create(:message, user: user3, clicked_at: nil, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user3, clicked_at: nil, body: "https://thp-text.uk/m", content:)
 
     assert_enqueued_with(job: SendCustomMessageJob) do
       Rake::Task["scheduler:check_for_disengaged_users"].execute
