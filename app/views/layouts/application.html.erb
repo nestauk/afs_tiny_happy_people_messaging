@@ -22,7 +22,7 @@
         </p>
       </div>
     <% end %>
-    <main class="<%= @no_padding ? "" : "mx-auto py-10 lg:py-20 container" %> w-full">
+    <main class="<%= @no_padding ? "" : "mx-auto py-10 lg:py-20 container max-w-screen-2xl" %> w-full">
       <%= yield %>
     </main>
     <% if @show_footer %>

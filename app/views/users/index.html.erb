@@ -4,7 +4,7 @@
     <p>
       Filter by name:
     </p>
-    <div class="w-full flex justify-around mt-2 mb-5">
+    <div class="w-full flex justify-around flex-wrap mt-2 mb-5">
       <%= link_to "All", users_path, class: (params[:letter].present? ? 'bg-gray-200 text-gray-700 p-3 rounded' : 'bg-purple-600 text-white p-3 rounded') %>
       <% ("A".."Z").each do |letter| %>
         <%= link_to letter, users_path(letter: letter), class: (letter == params[:letter] ? 'bg-purple-600 text-white p-3 rounded' : 'bg-gray-200 text-gray-700 p-3 rounded') %>
