@@ -27,13 +27,14 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
+    set_languages
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:q].blank? ? "no-referrer" : params[:q]}", request.path_parameters
   end
 
   def create
     if User.not_finished_content.count == 2001
-      return redirect_to root_path, notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
+      return redirect_to root_path, notice: I18n.t("controllers.users.create.notice")
     end
 
     @user = User.new(user_params)
@@ -49,6 +50,7 @@ class UsersController < ApplicationController
       redirect_to edit_user_path(@user, token:)
     else
       @no_padding = true
+      set_languages
       render :new, status: :unprocessable_entity
     end
   end
@@ -83,7 +85,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :phone_number, :child_birthday, :email, :id, :new_language_preference,
-      :postcode, :hour_preference, :day_preference, :referral_source, :child_name,
+      :postcode, :hour_preference, :day_preference, :referral_source, :child_name, :language,
       :terms_agreed_at, interests: []
     )
   end
@@ -102,7 +104,7 @@ class UsersController < ApplicationController
 
   def check_token_session
     if !session_token_valid?
-      redirect_to root_path, notice: "Your session has expired. Contact info@thp-text.uk if you need further help."
+      redirect_to root_path, notice: I18n.t("controllers.users.edit.notice")
     end
   end
 
@@ -113,5 +115,13 @@ class UsersController < ApplicationController
     Time.at(data["exp"]) > Time.current
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     false
+  end
+
+  def set_languages
+    @languages = if params[:locale] == "cy"
+      [["Cymraeg", "cy"], ["English", "en"]]
+    else
+      [["English", "en"], ["Cymraeg", "cy"]]
+    end
   end
 end

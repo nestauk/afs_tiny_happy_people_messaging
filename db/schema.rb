@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_03_082226) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_15_105101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -192,6 +192,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_03_082226) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "language", default: "en", null: false
   end
 
   create_table "interests", force: :cascade do |t|
@@ -254,6 +255,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_03_082226) do
     t.boolean "can_be_quoted_for_research", default: false
     t.boolean "can_be_contacted_for_research", default: false
     t.datetime "sent_survey_at"
+    t.string "language", default: "en", null: false
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
