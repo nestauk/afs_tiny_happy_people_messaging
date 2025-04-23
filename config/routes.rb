@@ -27,7 +27,6 @@ Rails.application.routes.draw do
     get "dashboard", on: :collection
     get "thank_you", on: :collection
     resources :messages
-    resources :diary_entries, only: %i[new create show]
   end
 
   get "dashboard", to: "dashboards#show"
