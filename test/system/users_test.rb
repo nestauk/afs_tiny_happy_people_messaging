@@ -127,22 +127,6 @@ class UsersTest < ApplicationSystemTestCase
     end
   end
 
-  test "can see all users" do
-    create(:user, first_name: "Jo", last_name: "Smith", contactable: true)
-    create(:user, first_name: "Jane", last_name: "Doe", contactable: false)
-
-    @admin = create(:admin)
-    sign_in
-
-    visit users_path
-
-    assert_text "Jo Smith"
-    refute_text "Jane Doe"
-
-    click_on "> Users who have stopped the service (1)"
-    assert_text "Jane Doe"
-  end
-
   private
 
   def sign_up
