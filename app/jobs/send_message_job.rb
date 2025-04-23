@@ -4,11 +4,11 @@ class SendMessageJob < ApplicationJob
   queue_as :default
 
   def perform(user)
-    content = user.next_content
-
-    return unless content.present?
     # If BulkMessage fails and reruns this job, don't send them the next message
     return if user.had_content_this_week?
+
+    content = user.next_content
+    return unless content.present?
 
     message = Message.build do |m|
       m.token = m.send(:generate_token)

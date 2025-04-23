@@ -81,7 +81,7 @@ class User < ApplicationRecord
   end
 
   def had_content_this_week?
-    messages.where("created_at > ?", 6.days.ago).where.not(content: nil).exists?
+    messages.any? { |m| m.created_at > 6.days.ago && m.content_id.present? }
   end
 
   def update_local_authority
@@ -99,7 +99,7 @@ class User < ApplicationRecord
   end
 
   def not_seen_content?(content)
-    messages.where(content_id: content.id).none?
+    messages.none? { |m| m.content_id == content.id }
   end
 
   def find_next_unseen_content

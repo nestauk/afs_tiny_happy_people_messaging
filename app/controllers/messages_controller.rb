@@ -12,7 +12,13 @@ class MessagesController < ApplicationController
       message_sid = params["MessageSid"]
       status = params["MessageStatus"]
 
-      Message.find_by(message_sid:)&.update(status:, sent_at: Time.now)
+      message = Message.find_by(message_sid:)
+
+      return if message.nil? || message.status == "delivered"
+
+      message.update(status:)
+
+      message.update(sent_at: Time.now) if message.status == "delivered"
     end
   end
 
@@ -24,11 +30,14 @@ class MessagesController < ApplicationController
   end
 
   def next
-    @message = Message.find_by(token: params[:token])
+    message = Message.find_by(token: params[:token])
 
-    @message.update(clicked_at: Time.now)
-
-    redirect_to @message.link, allow_other_host: true
+    if message.present?
+      message.update(clicked_at: Time.now)
+      redirect_to message.link, allow_other_host: true
+    else
+      redirect_to "https://www.bbc.co.uk/tiny-happy-people", allow_other_host: true
+    end
   end
 
   def new

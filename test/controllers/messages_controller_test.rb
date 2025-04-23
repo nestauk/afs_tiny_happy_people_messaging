@@ -8,14 +8,14 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     sign_in create(:admin)
   end
 
-  test "local authority admins can't access" do
+  test "#index local authority admins can't access" do
     admin = create(:admin, role: "local_authority", email: "local_authority@email.com")
     sign_in admin
     get user_messages_path(user_uuid: @user.uuid)
     assert_response :redirect
   end
 
-  test "should create message" do
+  test "#create should create message" do
     assert_difference("Message.count", 1) do
       post user_messages_path(@user), params: {message: {body: "Test message", user_id: @user.id}}
     end
@@ -25,7 +25,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to user_path(@user.uuid)
   end
 
-  test "should update message status" do
+  test "#status should update message status" do
     message = create(:message)
 
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
@@ -35,9 +35,30 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     message.reload
     assert_equal "delivered", message.status
+    assert_not_nil message.sent_at
   end
 
-  test "should handle incoming message" do
+  test "#status should not override delivered status" do
+    message = create(:message, status: "delivered")
+
+    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
+
+    post messages_status_url, params: {MessageSid: message.message_sid, MessageStatus: "queued"}
+
+    assert_response :success
+    message.reload
+    assert_equal "delivered", message.status
+  end
+
+  test "#status should not crash if it can't find the message" do
+    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
+
+    post messages_status_url, params: {MessageSid: "123", MessageStatus: "queued"}
+
+    assert_response :success
+  end
+
+  test "#incoming should handle incoming message" do
     travel_to Time.current.beginning_of_week
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
@@ -47,7 +68,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Hi", @user.messages.last.body
   end
 
-  test "should send out of office on weekends" do
+  test "#incoming should send out of office on weekends" do
     travel_to Time.current.end_of_week
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
@@ -57,7 +78,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can.", @user.messages.last.body
   end
 
-  test "should handle incoming message with stop" do
+  test "#incoming should handle incoming message with stop" do
     create(:auto_response, trigger_phrase: "stop", update_user: "{\"contactable\": false}")
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
@@ -67,7 +88,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @user.contactable, false
   end
 
-  test "should handle incoming message with pause" do
+  test "#incoming should handle incoming message with pause" do
     create(:auto_response, trigger_phrase: "pause", response: "Thanks, you've paused for 4 weeks.", update_user: '{"contactable": false, "restart_at": "4.weeks.from_now.noon"}')
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
@@ -78,7 +99,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     refute_nil @user.restart_at
   end
 
-  test "should handle incoming message with start" do
+  test "#incoming should handle incoming message with start" do
     create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
     @user.update(contactable: false)
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
@@ -89,11 +110,16 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @user.contactable, true
   end
 
-  test "should handle next message" do
+  test "#next should redirect to message link if exists" do
     message = create(:message, link: "http://example.com")
     get track_link_url(token: message.token)
     assert_redirected_to message.link
     message.reload
     assert_not_nil message.clicked_at
+  end
+
+  test "#next should redirect to Tiny Happy People homepage if system can't find the message" do
+    get track_link_url(token: "123")
+    assert_redirected_to "https://www.bbc.co.uk/tiny-happy-people"
   end
 end
