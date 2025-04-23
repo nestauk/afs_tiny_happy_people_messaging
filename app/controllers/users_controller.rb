@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_admin!, except: [:index, :show, :dashboard]
   before_action :show_footer, only: [:new, :edit, :thank_you]
   before_action :check_admin_role, only: [:index, :dashboard, :show]
+  before_action :check_token_session, only: [:edit, :update]
   after_action :track_action, only: [:edit, :create, :thank_you]
 
   def index
@@ -13,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by(uuid: params[:uuid])
+    @user = User.find(params[:id])
   end
 
   def new
@@ -35,7 +36,10 @@ class UsersController < ApplicationController
     if @user.save
       @user.update_local_authority
 
-      redirect_to edit_user_path(@user.uuid)
+      verifier = ActiveSupport::MessageVerifier.new(Rails.application.secret_key_base)
+      token = verifier.generate({user_id: @user.id, exp: 15.minutes.from_now.to_i})
+
+      redirect_to edit_user_path(@user, token:)
     else
       @no_padding = true
       render :new, status: :unprocessable_entity
@@ -43,27 +47,28 @@ class UsersController < ApplicationController
   end
 
   def edit
-    user = User.find_by(uuid: params[:uuid])
+    user = User.find(params[:id])
     @user = UserProfile.new(user, params)
   end
 
   def update
-    user = User.find_by(uuid: params[:uuid])
+    user = User.find(params[:id])
     @user = UserProfile.new(user, params)
     ahoy.track @user.stage, request.path_parameters
 
     if @user.save
       SendWelcomeMessageJob.perform_now(@user.user)
 
-      redirect_to thank_you_user_path(@user.user.uuid)
+      redirect_to thank_you_users_path
     else
+      check_token_session
+
       render :edit, status: :unprocessable_entity
     end
   end
 
   def thank_you
     @no_padding = true
-    @user = User.find_by(uuid: params[:uuid])
   end
 
   private
@@ -86,5 +91,20 @@ class UsersController < ApplicationController
 
   def check_admin_role
     redirect_to root_path unless current_admin.role == "admin"
+  end
+
+  def check_token_session
+    if !session_token_valid?
+      redirect_to root_path, notice: "Your session has expired. Contact info@thp-text.uk if you need further help."
+    end
+  end
+
+  def session_token_valid?
+    verifier = ActiveSupport::MessageVerifier.new(Rails.application.secret_key_base)
+    data = verifier.verify(params[:token])
+
+    Time.at(data["exp"]) > Time.current
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    false
   end
 end

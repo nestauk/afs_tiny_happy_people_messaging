@@ -9,14 +9,15 @@ class UserProfile
     :hour_preference, :day_preference, :referral_source, :id, :new_language_preference,
     :child_name, interests: []
   ]
-  PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, user_profile: USER_PARAMS]
+  PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, :token, user_profile: USER_PARAMS]
 
-  attr_reader :params, :errors, :user
+  attr_reader :params, :errors, :user, :token
 
   def initialize(user, params)
     @params = params.permit(*PERMITTED_PARAMS)
     @errors = ActiveModel::Errors.new(self)
     @user = user
+    @token = params[:token]
   end
 
   def read_attribute_for_validation(attribute)

@@ -23,9 +23,9 @@ Rails.application.routes.draw do
   get "/diary_study", to: "pages#diary_study"
   get "/about_us", to: "pages#about_us"
 
-  resources :users, only: %i[new create index show edit update], param: :uuid do
+  resources :users, only: %i[new create index show edit update] do
     get "dashboard", on: :collection
-    get "thank_you", on: :member
+    get "thank_you", on: :collection
     resources :messages
     resources :diary_entries, only: %i[new create show]
   end

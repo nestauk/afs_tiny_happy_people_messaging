@@ -6,7 +6,7 @@ class DiaryEntriesTest < ApplicationSystemTestCase
   end
 
   test "user can fill in a diary entry" do
-    visit new_user_diary_entry_path(user_uuid: @user.uuid)
+    visit new_user_diary_entry_path(user_id: @user.id)
 
     fill_in_diary_entry_form
 
@@ -34,7 +34,7 @@ class DiaryEntriesTest < ApplicationSystemTestCase
   end
 
   test "I can complete the form without filling in any the fields" do
-    visit new_user_diary_entry_path(user_uuid: @user.uuid)
+    visit new_user_diary_entry_path(user_id: @user.id)
 
     assert_text "Hello! Welcome to another week of our diary study"
 
@@ -60,7 +60,7 @@ class DiaryEntriesTest < ApplicationSystemTestCase
   end
 
   test "The form saves my answers if I go back" do
-    visit new_user_diary_entry_path(user_uuid: @user.uuid)
+    visit new_user_diary_entry_path(user_id: @user.id)
 
     fill_in_diary_entry_form
 
@@ -97,7 +97,7 @@ class DiaryEntriesTest < ApplicationSystemTestCase
   end
 
   test "The form correctly saves if it was my first week" do
-    visit new_user_diary_entry_path(user_uuid: @user.uuid)
+    visit new_user_diary_entry_path(user_id: @user.id)
 
     assert_text "Hello! Welcome to another week of our diary study"
 

@@ -1,7 +1,7 @@
 <div class="flex justify-around">
   <div class="w-1/2">
     <div class="mb-2">
-      <%= link_to '< Back', user_path(@user.uuid), class: 'underline hover:no-underline' %>
+      <%= link_to '< Back', user_path(@user), class: 'underline hover:no-underline' %>
     </div>
     <h1 class="text-3xl font-bold">Send a message to <%= @user.first_name %></h1>
     <%= simple_form_for [@user, @message] do |f| %>

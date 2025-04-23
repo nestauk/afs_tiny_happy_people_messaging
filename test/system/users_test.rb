@@ -96,6 +96,37 @@ class UsersTest < ApplicationSystemTestCase
     assert_field_has_errors("I accept the terms of service and privacy policy")
   end
 
+  test "users can't edit without token" do
+    user = create(:user)
+    visit edit_user_path(user)
+
+    assert_current_path root_path
+    assert_text "Your session has expired"
+  end
+
+  test "users can't edit without valid token" do
+    user = create(:user)
+    visit edit_user_path(user, token: "invalid_token")
+
+    assert_current_path root_path
+    assert_text "Your session has expired"
+  end
+
+  test "users can't edit after token has expired" do
+    visit new_user_path
+
+    sign_up
+
+    assert_text "Thanks for signing up!"
+
+    travel_to 16.minutes.from_now do
+      click_button "Next"
+
+      assert_current_path root_path
+      assert_text "Your session has expired"
+    end
+  end
+
   test "can see all users" do
     create(:user, first_name: "Jo", last_name: "Smith", contactable: true)
     create(:user, first_name: "Jane", last_name: "Doe", contactable: false)

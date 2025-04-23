@@ -41,7 +41,7 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @user = User.find_by(uuid: params[:user_uuid])
+    @user = User.find(params[:user_id])
     @message = Message.new
   end
 
@@ -51,7 +51,7 @@ class MessagesController < ApplicationController
     if @message.save
       SendCustomMessageJob.perform_later(@message)
 
-      redirect_to user_path(@message.user.uuid), notice: "Message sent!"
+      redirect_to user_path(@message.user), notice: "Message sent!"
     else
       render :new
     end
