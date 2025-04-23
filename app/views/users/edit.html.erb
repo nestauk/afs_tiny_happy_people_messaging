@@ -1,6 +1,7 @@
 <div class="mx-auto max-w-prose">
-  <%= simple_form_for @user, url: user_path(@user.user.uuid), method: :patch do |form| %>
+  <%= simple_form_for @user, url: user_path(@user.user), method: :patch do |form| %>
     <%= hidden_field_tag :stage, @user.stage %>
+    <%= hidden_field_tag :token, @user.token %>
     <%= render @user, f: form, user: form.object %>
   <% end %>
 </div>

@@ -11,7 +11,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   test "#index local authority admins can't access" do
     admin = create(:admin, role: "local_authority", email: "local_authority@email.com")
     sign_in admin
-    get user_messages_path(user_uuid: @user.uuid)
+    get user_messages_path(@user)
     assert_response :redirect
   end
 
@@ -22,7 +22,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_enqueued_jobs 1
 
-    assert_redirected_to user_path(@user.uuid)
+    assert_redirected_to user_path(@user)
   end
 
   test "#status should update message status" do

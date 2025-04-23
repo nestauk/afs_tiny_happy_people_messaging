@@ -12,7 +12,7 @@ class DiaryEntriesController < ApplicationController
     persist_arrays_to_session
 
     if @diary_entry_form.save
-      redirect_to user_diary_entry_path(user_uuid: @user.uuid, id: @user.diary_entries.last)
+      redirect_to user_diary_entry_path(user_id: @user.id, id: @user.diary_entries.last)
     else
       render :new, status: :unprocessable_entity
     end
@@ -25,7 +25,7 @@ class DiaryEntriesController < ApplicationController
   private
 
   def set_user
-    @user = User.find_by(uuid: params[:user_uuid])
+    @user = User.find(params[:user_id])
   end
 
   def persist_arrays_to_session

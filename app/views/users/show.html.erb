@@ -3,7 +3,7 @@
     <div class="bg-white px-4 py-4">
       <div class="flex justify-between items-center mb-4">
         <h1 class="mb-0"><%= @user.full_name %></h1>
-        <%= link_to "Send message", new_user_message_path(user_uuid: @user.uuid), class: "btn btn-primary bg-purple-600 text-white" %>
+        <%= link_to "Send message", new_user_message_path(@user), class: "btn btn-primary bg-purple-600 text-white" %>
       </div>
       <p><%= @user.postcode %></p>
       <p><%= @user.phone_number %></p>
