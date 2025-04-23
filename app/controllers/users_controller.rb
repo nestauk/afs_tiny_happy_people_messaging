@@ -6,7 +6,14 @@ class UsersController < ApplicationController
   after_action :track_action, only: [:edit, :create, :thank_you]
 
   def index
-    @users = User.all
+    if params[:letter].present?
+      @letter = params[:letter].upcase
+      @current_users = User.contactable.where("last_name LIKE ?", "#{@letter}%").order(:last_name, :first_name).page(params[:page]).per(25)
+    else
+      @current_users = User.contactable.order(:last_name, :first_name).page(params[:page]).per(25)
+    end
+
+    @opted_out_users = User.opted_out.order(:last_name, :first_name).page(params[:page]).per(25)
   end
 
   def dashboard
