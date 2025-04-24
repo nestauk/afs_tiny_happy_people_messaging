@@ -53,7 +53,8 @@ class User < ApplicationRecord
       .having("COUNT(*) = 2")
   }
   scope :not_finished_content, -> {
-    where.not(id: Message.select(:user_id).where(content_id: Content.order(:position).last&.id))
+    where.not(last_content_id: Content.order(:position).last&.id)
+    .or(User.where(last_content_id: nil))
   }
 
   attribute :hour_preference,

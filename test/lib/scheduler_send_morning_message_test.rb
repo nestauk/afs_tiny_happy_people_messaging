@@ -8,12 +8,12 @@ class SchedulerTest < ActiveSupport::TestCase
     ENV["WEEKLY_NUDGE_DAY"] = "1"
     ENV["SET_WEEKLY"] = "true"
 
+    @content = create(:content)
     travel_to_monday
     AfsTinyHappyPeople::Application.load_tasks if Rake::Task.tasks.empty?
   end
 
   test "send_morning_message" do
-    create(:content)
     create(:user, hour_preference: "morning", day_preference: 1)
 
     assert_enqueued_with(job: SendBulkMessageJob) do
@@ -31,6 +31,14 @@ class SchedulerTest < ActiveSupport::TestCase
 
   test "no morning job enqueued if user's day_preference doesn't match today" do
     create(:user, contactable: true, hour_preference: "morning", day_preference: 2)
+
+    assert_no_enqueued_jobs do
+      Rake::Task["scheduler:send_morning_message"].execute
+    end
+  end
+
+  test "no morning job enqueued if user has finished all the content" do
+    create(:user, hour_preference: "morning", day_preference: 1, last_content_id: @content.id)
 
     assert_no_enqueued_jobs do
       Rake::Task["scheduler:send_morning_message"].execute
