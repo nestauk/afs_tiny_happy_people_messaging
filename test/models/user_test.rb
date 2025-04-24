@@ -165,23 +165,16 @@ class UserTest < ActiveSupport::TestCase
     content2 = create(:content, position: 2, group:)
     content3 = create(:content, position: 3, group:)
 
-    create(:message, user: @subject, content: content1)
+    user1 = create(:user, last_content_id: content3.id)
 
-    user1 = create(:user)
-
-    user2 = create(:user)
-    create(:message, user: user2, content: content1)
-    create(:message, user: user2, content: content2)
-
-    user3 = create(:user)
-    create(:message, user: user3, content: content1)
-    create(:message, user: user3, content: content2)
-    create(:message, user: user3, content: content3)
+    user2 = create(:user, last_content_id: content2.id)
+    user3 = create(:user, last_content_id: content1.id)
+    @subject.update(last_content_id: nil)
 
     assert_equal 3, User.not_finished_content.length
-    assert_includes User.not_finished_content, @subject
-    assert_includes User.not_finished_content, user1
     assert_includes User.not_finished_content, user2
+    assert_includes User.not_finished_content, user3
+    assert_includes User.not_finished_content, @subject
   end
 
   test "full_name method" do
