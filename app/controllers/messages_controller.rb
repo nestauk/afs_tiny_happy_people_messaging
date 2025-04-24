@@ -8,18 +8,9 @@ class MessagesController < ApplicationController
   end
 
   def status
-    if valid_twilio_request?(request)
-      message_sid = params["MessageSid"]
-      status = params["MessageStatus"]
+    UpdateMessageStatusJob.perform_later(twilio_message_params) if valid_twilio_request?(request)
 
-      message = Message.find_by(message_sid:)
-
-      return if message.nil? || message.status == "delivered"
-
-      message.update(status:)
-
-      message.update(sent_at: Time.now) if message.status == "delivered"
-    end
+    head :no_content
   end
 
   def incoming
@@ -27,6 +18,8 @@ class MessagesController < ApplicationController
       user = User.find_by(phone_number: params["From"])
       Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
     end
+
+    head :no_content
   end
 
   def next
@@ -72,6 +65,10 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:user_id, :body)
+  end
+
+  def twilio_message_params
+    params.permit(:MessageSid, :MessageStatus, :From, :To, :Body)
   end
 
   def valid_twilio_request?(request)

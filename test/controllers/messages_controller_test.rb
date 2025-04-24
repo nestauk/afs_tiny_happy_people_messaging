@@ -25,7 +25,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to user_path(@user)
   end
 
-  test "#status should update message status" do
+  test "#status should queue job" do
     message = create(:message)
 
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
@@ -33,29 +33,18 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     post messages_status_url, params: {MessageSid: message.message_sid, MessageStatus: "delivered"}
 
     assert_response :success
-    message.reload
-    assert_equal "delivered", message.status
-    assert_not_nil message.sent_at
+    assert_enqueued_jobs 1, only: UpdateMessageStatusJob
   end
 
-  test "#status should not override delivered status" do
-    message = create(:message, status: "delivered")
+  test "#status does not queue job if twilio request isn't valid" do
+    message = create(:message)
 
-    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
+    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(false)
 
-    post messages_status_url, params: {MessageSid: message.message_sid, MessageStatus: "queued"}
-
-    assert_response :success
-    message.reload
-    assert_equal "delivered", message.status
-  end
-
-  test "#status should not crash if it can't find the message" do
-    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
-
-    post messages_status_url, params: {MessageSid: "123", MessageStatus: "queued"}
+    post messages_status_url, params: {MessageSid: message.message_sid, MessageStatus: "delivered"}
 
     assert_response :success
+    assert_enqueued_jobs 0
   end
 
   test "#incoming should handle incoming message" do
