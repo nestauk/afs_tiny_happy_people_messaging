@@ -1,7 +1,7 @@
 class SendWelcomeMessageJob < ApplicationJob
   include Rails.application.routes.url_helpers
 
-  queue_as :default
+  queue_as :background
 
   def perform(user)
     message = Message.build do |m|

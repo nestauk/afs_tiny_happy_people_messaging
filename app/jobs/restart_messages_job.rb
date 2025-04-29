@@ -1,7 +1,7 @@
 class RestartMessagesJob < ApplicationJob
   include Rails.application.routes.url_helpers
 
-  queue_as :default
+  queue_as :background
 
   def perform(user)
     if user.update(contactable: true)

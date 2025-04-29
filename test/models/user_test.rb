@@ -165,7 +165,7 @@ class UserTest < ActiveSupport::TestCase
     content2 = create(:content, position: 2, group:)
     content3 = create(:content, position: 3, group:)
 
-    user1 = create(:user, last_content_id: content3.id)
+    create(:user, last_content_id: content3.id)
 
     user2 = create(:user, last_content_id: content2.id)
     user3 = create(:user, last_content_id: content1.id)

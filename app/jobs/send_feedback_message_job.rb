@@ -1,5 +1,5 @@
 class SendFeedbackMessageJob < ApplicationJob
-  queue_as :default
+  queue_as :background
 
   def perform(user)
     message = Message.build do |m|

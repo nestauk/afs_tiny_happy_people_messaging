@@ -1,5 +1,5 @@
 class SendBulkMessageJob < ApplicationJob
-  queue_as :default
+  queue_as :real_time
 
   def perform(users, message_type)
     message_jobs = if message_type == :feedback

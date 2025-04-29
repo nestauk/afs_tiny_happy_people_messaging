@@ -54,7 +54,7 @@ class User < ApplicationRecord
   }
   scope :not_finished_content, -> {
     where.not(last_content_id: Content.order(:position).last&.id)
-    .or(User.where(last_content_id: nil))
+      .or(User.where(last_content_id: nil))
   }
 
   attribute :hour_preference,
