@@ -1,21 +1,35 @@
-production:
+development:
   morning_text:
-    class: SendBulkMessage
-    queue: real_time
-    args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_morning_message, { batch_size: 500 } ]
-    schedule: at 8am every day
+    class: SendBulkMessageJob
+    args: [ weekly_message, morning ]
+    schedule: 0 8 * * *
   afternoon_text:
-    class: SendBulkMessage
-    queue: real_time
-    args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_afternoon_message, { batch_size: 500 } ]
-    schedule: at 12pm every day
+    class: SendBulkMessageJob
+    args: [ weekly_message, afternoon ]
+    schedule: 0 12 * * *
   evening_text:
-    class: SendBulkMessage
-    queue: real_time
-    args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_evening_message, { batch_size: 500 } ]
-    schedule: at 7pm every day
+    class: SendBulkMessageJob
+    args: [ weekly_message, afternoon ]
+    schedule: 0 19 * * *
   no_preference_text: 
-    class: SendBulkMessage
-    queue: real_time
-    args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).no_hour_preference_message, { batch_size: 500 } ]
-    schedule: at 8am every day
+    class: SendBulkMessageJob
+    args: [ weekly_message, no_preference ]
+    schedule: 0 8 * * *
+  send_feedback_message:
+    class: SendBulkMessageJob
+    args: [ weekly_message ]
+    schedule: 0 8 * * 3
+  restart_users:
+    class: RestartMessagesJob
+    args: [ restart ]
+    schedule: 0 12 * * *
+  nudge_users:
+    class: SendBulkMessageJob
+    args: [ nudge ]
+    schedule: 0 12 * * 2
+  update_all_las:
+    command: "AllLasDashboard.refresh"
+    schedule: 0 * * * *
+  update_las_specific:
+    command: "LaSpecificDashboard.refresh"
+    schedule: 0 * * * *
