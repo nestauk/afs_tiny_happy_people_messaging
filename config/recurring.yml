@@ -1,25 +1,21 @@
-# production:
-#   morning_text:
-#     class: SendBulkMessage
-#     queue: real_time
-#     args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_morning_message, { batch_size: 500 } ]
-#     schedule: at 8am every day
-#   afternoon_text:
-#     class: SendBulkMessage
-#     queue: real_time
-#     args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_afternoon_message, { batch_size: 500 } ]
-#     schedule: at 1pm every day
-#   evening_text:
-#     class: SendBulkMessage
-#     queue: real_time
-#     args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_evening_message, { batch_size: 500 } ]
-#     schedule: at 7pm every day
-#   no_preference_text: 
-#     class: SendBulkMessage
-#     queue: real_time
-#     args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).no_hour_preference_message, { batch_size: 500 } ]
-#     schedule: at 8am every day
-#   restart_users:
-#     class: RestartMessagesJob
-#     queue: background
-#     args: [ User.opted_out.where("restart_at < ?", Time.now, { batch_size: 500 } ]
+production:
+  morning_text:
+    class: SendBulkMessage
+    queue: real_time
+    args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_morning_message, { batch_size: 500 } ]
+    schedule: at 8am every day
+  afternoon_text:
+    class: SendBulkMessage
+    queue: real_time
+    args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_afternoon_message, { batch_size: 500 } ]
+    schedule: at 12pm every day
+  evening_text:
+    class: SendBulkMessage
+    queue: real_time
+    args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_evening_message, { batch_size: 500 } ]
+    schedule: at 7pm every day
+  no_preference_text: 
+    class: SendBulkMessage
+    queue: real_time
+    args: [ User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).no_hour_preference_message, { batch_size: 500 } ]
+    schedule: at 8am every day
