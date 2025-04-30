@@ -20,17 +20,19 @@ class SendBulkMessageJob < ApplicationJob
     ActiveJob.perform_all_later(message_jobs) unless message_jobs.nil?
   end
 
-  private 
+  private
 
   def set_users(time)
+    users = User.not_finished_content.contactable.with_preference_for_day(Date.today.wday)
+
     if time == "morning"
-      User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_morning_message
+      users.wants_morning_message
     elsif time == "afternoon"
-      User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_afternoon_message
+      users.wants_afternoon_message
     elsif time == "evening"
-      User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).wants_evening_message
+      users.wants_evening_message
     elsif time == "no_preference"
-      User.not_finished_content.contactable.with_preference_for_day(Date.today.wday).no_hour_preference_message
+      users.no_hour_preference_message
     end
   end
 end

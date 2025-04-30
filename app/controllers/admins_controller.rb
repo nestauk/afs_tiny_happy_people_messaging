@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-  # before_action :set_admin, only: [:edit, :update]
+  before_action :set_admin, only: [:edit, :update]
   before_action :check_admin_role
 
   # GET /admins

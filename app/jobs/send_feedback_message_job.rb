@@ -9,7 +9,7 @@ class SendFeedbackMessageJob < ApplicationJob
     end
 
     if message.save
-      Twilio::Client.new.send_message(message)
+      SendCustomMessageJob.perform_later(message)
       user.update(asked_for_feedback: true)
     end
   end
