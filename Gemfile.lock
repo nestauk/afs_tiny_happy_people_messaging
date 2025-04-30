@@ -222,6 +222,16 @@ GEM
     matrix (0.4.2)
     mini_mime (1.1.5)
     minitest (5.25.4)
+    mission_control-jobs (1.0.2)
+      actioncable (>= 7.1)
+      actionpack (>= 7.1)
+      activejob (>= 7.1)
+      activerecord (>= 7.1)
+      importmap-rails (>= 1.2.1)
+      irb (~> 1.13)
+      railties (>= 7.1)
+      stimulus-rails
+      turbo-rails
     mocha (2.4.5)
       ruby2_keywords (>= 0.0.5)
     msgpack (1.7.2)
@@ -460,6 +470,7 @@ DEPENDENCIES
   judoscale-delayed_job
   judoscale-rails (~> 1.5)
   kaminari
+  mission_control-jobs
   mocha
   pg (~> 1.1)
   phony_rails

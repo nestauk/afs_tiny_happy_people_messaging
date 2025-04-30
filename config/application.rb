@@ -18,6 +18,11 @@ module AfsTinyHappyPeople
 
     config.active_job.queue_adapter = :solid_queue
 
+    Rails.application.configure do
+      MissionControl::Jobs.base_controller_class = "AdminsController"
+      config.mission_control.jobs.http_basic_auth_enabled = false
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
