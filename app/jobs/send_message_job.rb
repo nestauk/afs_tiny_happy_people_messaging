@@ -1,7 +1,7 @@
 class SendMessageJob < ApplicationJob
   include Rails.application.routes.url_helpers
 
-  queue_as :default
+  queue_as :real_time
 
   def perform(user)
     # If BulkMessage fails and reruns this job, don't send them the next message

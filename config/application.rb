@@ -16,7 +16,12 @@ module AfsTinyHappyPeople
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :solid_queue
+
+    Rails.application.configure do
+      MissionControl::Jobs.base_controller_class = "AdminsController"
+      config.mission_control.jobs.http_basic_auth_enabled = false
+    end
 
     # Configuration for the application, engines, and railties goes here.
     #

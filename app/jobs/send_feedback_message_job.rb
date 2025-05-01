@@ -1,5 +1,5 @@
 class SendFeedbackMessageJob < ApplicationJob
-  queue_as :default
+  queue_as :background
 
   def perform(user)
     message = Message.build do |m|
@@ -9,7 +9,7 @@ class SendFeedbackMessageJob < ApplicationJob
     end
 
     if message.save
-      Twilio::Client.new.send_message(message)
+      SendCustomMessageJob.perform_later(message)
       user.update(asked_for_feedback: true)
     end
   end

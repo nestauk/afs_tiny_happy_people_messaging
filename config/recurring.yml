@@ -1,0 +1,35 @@
+production:
+  morning_text:
+    class: SendBulkMessageJob
+    args: [ weekly_message, morning ]
+    schedule: 0 7 * * *
+  afternoon_text:
+    class: SendBulkMessageJob
+    args: [ weekly_message, afternoon ]
+    schedule: 0 11 * * *
+  evening_text:
+    class: SendBulkMessageJob
+    args: [ weekly_message, evening ]
+    schedule: 0 18 * * *
+  no_preference_text: 
+    class: SendBulkMessageJob
+    args: [ weekly_message, no_preference ]
+    schedule: 0 7 * * *
+  send_feedback_message:
+    class: SendBulkMessageJob
+    args: [ weekly_message ]
+    schedule: 0 7 * * 3
+  restart_users:
+    class: RestartMessagesJob
+    args: [ restart ]
+    schedule: 0 11 * * *
+  nudge_users:
+    class: SendBulkMessageJob
+    args: [ nudge ]
+    schedule: 0 11 * * 2
+  update_all_las:
+    command: "AllLasDashboard.refresh"
+    schedule: 0 * * * *
+  update_las_specific:
+    command: "LaSpecificDashboard.refresh"
+    schedule: 0 * * * *

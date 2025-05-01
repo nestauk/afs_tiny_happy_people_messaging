@@ -1,13 +1,12 @@
 class RestartMessagesJob < ApplicationJob
   include Rails.application.routes.url_helpers
 
-  queue_as :default
+  queue_as :background
 
   def perform(user)
-    if user.update(contactable: true)
+    if user.update(contactable: true, restart_at: nil)
       message = Message.create(user: user, body: "Welcome back to Tiny Happy People! Text 'END' to unsubscribe at any time.")
-
-      Twilio::Client.new.send_message(message)
+      SendCustomMessageJob.perform_later(message)
     end
   end
 end

@@ -1,5 +1,5 @@
 class UpdateMessageStatusJob < ApplicationJob
-  queue_as :default
+  queue_as :background
 
   def perform(params)
     message_sid = params[:MessageSid]

@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     mount Blazer::Engine, at: "admin"
   end
 
+  mount MissionControl::Jobs::Engine, at: "jobs"
+
   devise_for :admins, skip: :registrations, controllers: {sessions: "devise/passwordless/sessions"}
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

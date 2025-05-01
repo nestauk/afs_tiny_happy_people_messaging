@@ -7,12 +7,13 @@ class SendFeedbackMessageJobTest < ActiveSupport::TestCase
   test "#perform sends message with default content" do
     user = create(:user, child_birthday: 18.months.ago)
 
-    stub_successful_twilio_call("Are the activities we send you suitable for your child? Respond Yes or No to let us know.", user)
-
-    SendFeedbackMessageJob.new.perform(user)
+    assert_enqueued_jobs 1, only: SendCustomMessageJob do
+      SendFeedbackMessageJob.new.perform(user)
+    end
 
     assert_equal 1, Message.count
     assert_match("Are the activities we send you suitable for your child? Respond Yes or No to let us know.", Message.last.body)
+    assert user.asked_for_feedback
   end
 
   test "#perform does not send message if message is not valid" do
@@ -20,7 +21,9 @@ class SendFeedbackMessageJobTest < ActiveSupport::TestCase
 
     Message.any_instance.stubs(:save).returns(false)
 
-    SendFeedbackMessageJob.new.perform(user)
+    assert_no_enqueued_jobs do
+      SendFeedbackMessageJob.new.perform(user)
+    end
 
     assert_equal 0, Message.count
   end
