@@ -98,11 +98,11 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
   end
 
   test "#perform creates jobs to restart messages for opted-out users" do
-    create(:user, contactable: false, restart_at: Time.now - 1.day)
+    user = create(:user, contactable: false, restart_at: Time.now - 1.day)
     create(:user, contactable: false, restart_at: Time.now + 1.day)
     create(:user, contactable: true)
 
-    assert_enqueued_jobs 1, only: RestartMessagesJob do
+    assert_enqueued_with(job: RestartMessagesJob, args: [user]) do
       SendBulkMessageJob.perform_now("restart")
     end
   end

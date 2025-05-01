@@ -17,7 +17,9 @@ class SendBulkMessageJob < ApplicationJob
       users.map { |user| RestartMessagesJob.new(user) }
     end
 
-    ActiveJob.perform_all_later(message_jobs) unless message_jobs.nil?
+    return if message_jobs.nil? || message_jobs.empty?
+
+    ActiveJob.perform_all_later(message_jobs)
   end
 
   private
