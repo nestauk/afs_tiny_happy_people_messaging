@@ -17,7 +17,7 @@ production:
     schedule: 0 7 * * *
   send_feedback_message:
     class: SendBulkMessageJob
-    args: [ weekly_message ]
+    args: [ feedback ]
     schedule: 0 7 * * 3
   restart_users:
     class: RestartMessagesJob
