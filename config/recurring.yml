@@ -20,7 +20,7 @@ production:
     args: [ feedback ]
     schedule: 0 7 * * 3
   restart_users:
-    class: RestartMessagesJob
+    class: SendBulkMessageJob
     args: [ restart ]
     schedule: 0 11 * * *
   nudge_users:
