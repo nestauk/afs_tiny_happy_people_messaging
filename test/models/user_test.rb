@@ -1,6 +1,8 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   setup { @subject = create(:user) }
 
   test "should be valid" do
@@ -281,5 +283,39 @@ class UserTest < ActiveSupport::TestCase
     LocationGeocoder.any_instance.stubs(:geocode).raises(Geokit::Geocoders::GeocodeError)
 
     assert_nothing_raised { user.update_local_authority }
+  end
+
+  test "#is_in_study? method returns true if user is in study" do
+    user = create(:user, phone_number: "07123456789", postcode: "SW1A 1AA")
+    create(:research_study_user, last_four_digits_phone_number: "6789", postcode: "sw1a1aa")
+
+    assert user.is_in_study?
+  end
+
+  test "#is_in_study? method returns false if user is not in study" do
+    user = create(:user, phone_number: "07123456789", postcode: "SW1A 1AA")
+    create(:research_study_user, last_four_digits_phone_number: "6789", postcode: "sw1a1ab")
+
+    assert_not user.is_in_study?
+  end
+
+  test "#put_on_waitlist method sets user to waitlist" do
+    user = create(:user, contactable: true, restart_at: nil)
+
+    stub_successful_twilio_call("Hi Ali! Thank you for signing up to the Tiny Happy People text messaging programme. We’re currently receiving a large volume of sign ups, and as a result we unfortunately will have to place you on a waiting list to receive this service. We expect that we will be able to provide the service for you starting in September provided your child is still under 24 months. Please respond STOP if you would like to opt out, otherwise we will send your first text messages in September. We hope that you will join us in the autumn!", user)
+
+    user.put_on_waitlist
+
+    assert_not user.contactable
+    assert_equal DateTime.new(2025, 9, 15), user.restart_at
+  end
+
+  test "#put_on_waitlist method raises error if update fails" do
+    user = create(:user, contactable: true, restart_at: nil)
+
+    User.any_instance.stubs(:update).returns(false)
+    Rollbar.expects(:error).with("User in study could not be updated", user_info: user.attributes)
+
+    user.put_on_waitlist
   end
 end

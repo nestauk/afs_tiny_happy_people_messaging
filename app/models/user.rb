@@ -93,6 +93,19 @@ class User < ApplicationRecord
     nil
   end
 
+  def is_in_study?
+    stripped_postcode = postcode.gsub(/[[:space:]]/, "").downcase
+    ResearchStudyUser.find_by(postcode: stripped_postcode, last_four_digits_phone_number: phone_number[-4..]).present?
+  end
+
+  def put_on_waitlist
+    if update(contactable: false, restart_at: DateTime.new(2025, 9, 15))
+      SendWaitlistMessageJob.perform_now(self)
+    else
+      Rollbar.error("User in study could not be updated", user_info: attributes)
+    end
+  end
+
   private
 
   def had_any_content_before?
