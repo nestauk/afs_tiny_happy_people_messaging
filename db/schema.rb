@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_29_164843) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_07_144023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -210,6 +210,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_164843) do
     t.datetime "marked_as_seen_at"
     t.index ["content_id"], name: "index_messages_on_content_id"
     t.index ["token"], name: "index_messages_on_token", unique: true
+  end
+
+  create_table "research_study_users", force: :cascade do |t|
+    t.string "postcode", null: false
+    t.string "last_four_digits_phone_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|

@@ -64,7 +64,8 @@ class UsersController < ApplicationController
     ahoy.track @user.stage, request.path_parameters
 
     if @user.save
-      SendWelcomeMessageJob.perform_now(@user.user)
+      user = @user.user
+      user.is_in_study? ? user.put_on_waitlist : SendWelcomeMessageJob.perform_now(user)
 
       redirect_to thank_you_users_path
     else
