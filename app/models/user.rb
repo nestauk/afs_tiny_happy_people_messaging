@@ -37,7 +37,7 @@ class User < ApplicationRecord
         }
       )
       .group("users.id")
-      .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = #{x}")
+      .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = #{x.to_i}")
   }
   scope :received_two_messages, -> {
     joins(:messages)
