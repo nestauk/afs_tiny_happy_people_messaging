@@ -92,6 +92,8 @@ GEM
       safely_block (>= 0.4)
     bootsnap (1.18.3)
       msgpack (~> 1.2)
+    brakeman (7.0.2)
+      racc
     builder (3.3.0)
     bullet (8.0.1)
       activesupport (>= 3.0.0)
@@ -456,6 +458,7 @@ DEPENDENCIES
   ahoy_matey
   blazer
   bootsnap
+  brakeman
   bullet
   capybara
   debug

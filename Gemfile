@@ -61,6 +61,7 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem "brakeman", require: false
   gem "capybara"
   gem "mocha"
   gem "selenium-webdriver"
