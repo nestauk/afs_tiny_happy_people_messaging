@@ -30,5 +30,8 @@ module AfsTinyHappyPeople
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Clear out old finished jobs from the SolidQueue database.
+    config.solid_queue.clear_finished_jobs_after = 2.months
   end
 end

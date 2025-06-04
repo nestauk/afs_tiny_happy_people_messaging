@@ -33,3 +33,7 @@ production:
   update_las_specific:
     command: "LaSpecificDashboard.refresh"
     schedule: 0 * * * *
+  clear_finished_jobs:
+    command: "SolidQueue::Job.clear_finished_in_batches"
+    schedule: 0 2 * * *
+
