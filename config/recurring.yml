@@ -37,6 +37,6 @@ production:
     command: "SolidQueue::Job.clear_finished_in_batches"
     schedule: 0 2 * * *
   check_bbc_links:
-    command: "CheckBbcLinksJob.perform_now"
+    class: CheckBbcLinksJob
     schedule: 0 1 * * 3
 
