@@ -49,7 +49,7 @@ class MessageTest < ActiveSupport::TestCase
     message.update(clicked_at: Time.current)
     assert_equal "Clicked", message.admin_status
 
-    message.update(status: "failed")
+    message.update(status: "failed", clicked_at: nil)
     assert_equal "Failed", message.admin_status
   end
 

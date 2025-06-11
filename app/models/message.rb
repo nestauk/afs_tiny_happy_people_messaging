@@ -11,10 +11,12 @@ class Message < ApplicationRecord
   after_create :generate_reply, if: :received?
 
   def admin_status
-    if status == "delivered"
-      clicked_at ? "Clicked" : "Delivered"
+    if clicked_at
+      "Clicked"
+    elsif status == "failed"
+      "Failed"
     else
-      status&.capitalize
+      "Delivered"
     end
   end
 

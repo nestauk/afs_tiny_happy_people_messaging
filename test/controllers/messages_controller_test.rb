@@ -25,12 +25,34 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to user_path(@user)
   end
 
-  test "#status should queue job" do
+  test "#status should queue job if message failed" do
+    message = create(:message)
+
+    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
+
+    post messages_status_url, params: {MessageSid: message.message_sid, MessageStatus: "failed"}
+
+    assert_response :success
+    assert_enqueued_jobs 1, only: UpdateMessageStatusJob
+  end
+
+  test "#status shouldn't queue job if message is successful" do
     message = create(:message)
 
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
 
     post messages_status_url, params: {MessageSid: message.message_sid, MessageStatus: "delivered"}
+
+    assert_response :success
+    assert_enqueued_jobs 0
+  end
+
+  test "#status should queue job if message has failed" do
+    message = create(:message)
+
+    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
+
+    post messages_status_url, params: {MessageSid: message.message_sid, MessageStatus: "failed"}
 
     assert_response :success
     assert_enqueued_jobs 1, only: UpdateMessageStatusJob
