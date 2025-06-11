@@ -7,10 +7,8 @@ class UpdateMessageStatusJob < ApplicationJob
 
     message = Message.find_by(message_sid:)
 
-    return if message.nil? || message.status == "delivered"
+    return if message.nil?
 
-    if message.update(status:)
-      message.update(sent_at: Time.zone.now) if message.status == "delivered"
-    end
+    message.update(status:)
   end
 end
