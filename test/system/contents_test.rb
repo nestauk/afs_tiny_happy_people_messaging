@@ -4,6 +4,8 @@ class ContentsTest < ApplicationSystemTestCase
   setup do
     @admin = create(:admin)
     @group = create(:group)
+
+    stub_request(:get, /www.example.com/).to_return(status: 200)
   end
 
   test "creating new content" do
@@ -15,7 +17,7 @@ class ContentsTest < ApplicationSystemTestCase
     click_on "Add new message"
 
     fill_in "Body", with: "New content"
-    fill_in "Link", with: "www.example.com"
+    fill_in "Link", with: "https://www.example.com"
     fill_in "Age in months", with: "18"
     click_on "Create"
 
