@@ -16,7 +16,7 @@ class Message < ApplicationRecord
     elsif status == "failed"
       "Failed"
     else
-      "Delivered"
+      status&.capitalize
     end
   end
 
