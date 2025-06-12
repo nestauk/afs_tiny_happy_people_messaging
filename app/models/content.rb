@@ -1,3 +1,6 @@
+require "net/http"
+require "uri"
+
 class Content < ApplicationRecord
   belongs_to :group
   positioned on: :group
@@ -5,6 +8,7 @@ class Content < ApplicationRecord
   has_many :messages, dependent: :restrict_with_exception
 
   validates_presence_of :body, :link, :age_in_months
+  validate :valid_link?
 
   scope :active, -> { where(archived_at: nil) }
 
@@ -13,5 +17,18 @@ class Content < ApplicationRecord
 
   def archived?
     archived_at.present?
+  end
+
+  private
+
+  def valid_link?
+    uri = URI.parse(link)
+    response = Net::HTTP.get_response(uri)
+
+    if response.code != "200"
+      errors.add(:link, "is not valid or does not return a 200 status code. Please check the link and try again.")
+    end
+  rescue StandardError
+    errors.add(:link, "is not a valid URL. Please check the link and try again.")
   end
 end

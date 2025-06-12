@@ -5,6 +5,9 @@ class CheckBbcLinksJobTest < ActiveSupport::TestCase
   include Rails.application.routes.url_helpers
 
   test "#perform checks BBC links and logs errors" do
+    stub_request(:get, /www.bbc.co.uk\/some-valid-link/).to_return(status: 200)
+    stub_request(:get, /www.bbc.co.uk\/some-invalid-link/).to_return(status: 200)
+
     create(:content, link: "https://www.bbc.co.uk/some-valid-link")
     create(:content, link: "https://www.bbc.co.uk/some-invalid-link")
 

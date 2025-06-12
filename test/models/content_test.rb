@@ -19,6 +19,17 @@ class ContentTest < ActiveSupport::TestCase
     assert_not @content.valid?
   end
 
+  test "link should be valid URL" do
+    content = Content.new(link: "invalid_url")
+    content.save
+    assert_error(:link, "is not a valid URL. Please check the link and try again.", subject: content)
+
+    stub_request(:any, /notrealdomain.com/).to_return(status: 404)
+    content = Content.new(link: "https://notrealdomain.com")
+    content.save
+    assert_error(:link, "is not valid or does not return a 200 status code. Please check the link and try again.", subject: content)
+  end
+
   test "destroy does not delete associated messages" do
     create(:message, content: @content)
 
