@@ -29,12 +29,8 @@ class MessagesController < ApplicationController
   def next
     message = Message.find_by(token: params[:token])
 
-    if message.present?
-      message.update(clicked_at: Time.now)
-      redirect_to message.link, allow_other_host: true
-    else
-      redirect_to "https://www.bbc.co.uk/tiny-happy-people", allow_other_host: true
-    end
+    message.update(clicked_at: Time.now)
+    redirect_to message.link, allow_other_host: true
   end
 
   def new
