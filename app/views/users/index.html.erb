@@ -5,14 +5,14 @@
       Filter by name:
     </p>
     <div class="w-full flex justify-around flex-wrap mt-2 mb-5">
-      <%= link_to "All", users_path, class: (params[:letter].present? ? 'bg-gray-200 text-gray-700 p-3 rounded' : 'bg-purple-600 text-white p-3 rounded') %>
+      <%= link_to "All", users_path, class: (params[:letter].present? ? 'bg-gray-200 text-gray-700 p-3 rounded' : 'bg-bbc-blue text-white p-3 rounded') %>
       <% ("A".."Z").each do |letter| %>
-        <%= link_to letter, users_path(letter: letter), class: (letter == params[:letter] ? 'bg-purple-600 text-white p-3 rounded' : 'bg-gray-200 text-gray-700 p-3 rounded') %>
+        <%= link_to letter, users_path(letter: letter), class: (letter == params[:letter] ? 'bg-bbc-blue text-white p-3 rounded' : 'bg-gray-200 text-gray-700 p-3 rounded') %>
       <% end %>
     </div>
     <table class="table-auto w-full">
       <thead>
-        <tr class="bg-purple-300 text-left">
+        <tr class="bg-blue-300 text-left">
           <th class="px-4 py-4">Name</th>
           <th class="px-4 py-4">Phone number</th>
           <th class="px-4 py-4">Child's current age</th>
@@ -43,7 +43,7 @@
     <p>
     <table class="table-auto w-full hidden users-table">
       <thead>
-        <tr class="bg-purple-300 text-left">
+        <tr class="bg-blue-300 text-left">
           <th class="px-4 py-4">Name</th>
           <th class="px-4 py-4">Child's current age</th>
         </tr>

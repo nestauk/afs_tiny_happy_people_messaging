@@ -28,7 +28,7 @@
 
       <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: "I accept the #{link_to("terms of service", terms_path, class: "underline hover:no-underline", target: "_blank")} and #{link_to("privacy policy", privacy_policy_path, class: "underline hover:no-underline", target: "_blank")}".html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-4 mb-2 md:mt-8 text-xs md:text-base" }  %>
 
-      <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-purple-600 text-white w-full", "data-turbolinks": "false" %>
+      <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-bbc-blue text-white w-full", "data-turbolinks": "false" %>
     <% end %>
   <% end %>
 </div>
