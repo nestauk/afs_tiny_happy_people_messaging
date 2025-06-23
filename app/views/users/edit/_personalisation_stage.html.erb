@@ -2,8 +2,8 @@
 <%= f.input :new_language_preference, as: :hidden %>
 <%= hidden_field_tag :token, params[:token] %>
 
-<div class="bg-purple-900 p-5 md:p-10 mx-2">
-  <h1 class="text-4xl text-yellow-200">
+<div class="bg-bbc-dark-blue p-5 md:p-10 mx-2">
+  <h1 class="text-4xl text-bbc-yellow">
     Thanks for signing up!
   </h1>
 
@@ -22,6 +22,6 @@
   <%= f.input :hour_preference, label: "What time of day would you like to get the texts? (optional)", as: :select, collection: [["Morning, 8am", "morning"], ["Afternoon, 12pm", "afternoon"], ["Evening, 8pm", "evening"], ["No preference, send them any time", "no_preference"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false %>
 
   <div class="mt-5">
-    <%= f.button :submit, "Next", class: 'btn bg-purple-600 text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
+    <%= f.button :submit, "Next", class: 'btn bg-bbc-blue text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
   </div>
 </div>

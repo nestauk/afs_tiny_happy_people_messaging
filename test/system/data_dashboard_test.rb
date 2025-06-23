@@ -24,27 +24,27 @@ class DataDashboardTest < ApplicationSystemTestCase
 
     visit dashboard_path
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Total number of sign ups"
       assert_text "3"
     end
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Sign ups this month"
       assert_text "2"
     end
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Sign ups this year"
       assert_text "2"
     end
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Average click through rate"
       assert_text "50%"
     end
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Average click through rates this month"
       assert_text "100%"
     end
@@ -57,27 +57,27 @@ class DataDashboardTest < ApplicationSystemTestCase
 
     select "York"
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Total number of sign ups"
       assert_text "2"
     end
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Sign ups this month"
       assert_text "1"
     end
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Sign ups this year"
       assert_text "1"
     end
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Average click through rate"
       assert_text "100%"
     end
 
-    assert_selector "div.border-purple-500" do
+    assert_selector "div.border-blue-500" do
       assert_text "Average click through rates this month"
       assert_text "100%"
     end
