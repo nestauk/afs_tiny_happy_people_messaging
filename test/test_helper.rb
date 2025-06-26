@@ -39,5 +39,15 @@ module ActiveSupport
         )
         .to_return(status: 500, body: {"body" => message, "status" => "failed", "sid" => "123"}.to_json)
     end
+
+    def create_all_auto_responses
+      create(:auto_response, trigger_phrase: "yes", response: "That's great to hear, thanks for letting us know!", update_user: "{\"asked_for_feedback\": false}", user_conditions: "{\"asked_for_feedback\": true}")
+      create(:auto_response, trigger_phrase: "no", response: "We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if too easy, 2 if too hard, or reply with your message if you want to give more context.", update_user: "{\"asked_for_feedback\": false}", user_conditions: "{\"asked_for_feedback\": true}", update_content_adjustment: "{\"needs_adjustment\": true}", content_adjustment_conditions: "{\"needs_adjustment\": null}")
+      create(:auto_response, trigger_phrase: "1", response: "Thanks for the feedback. Are you one of these groups? 1. Tiny elephant, 2. Tiny kangaroo, 3. I'm not sure", user_conditions: "{\"contactable\": true}", update_content_adjustment: "{\"direction\": \"up\"}", content_adjustment_conditions: "{\"needs_adjustment\": true, \"direction\": null}")
+      create(:auto_response, trigger_phrase: "2", response: "Thanks for the feedback. Are you one of these groups? 1. Tiny elephant, 2. Tiny kangaroo, 3. I'm not sure", user_conditions: "{\"contactable\": true}", update_content_adjustment: "{\"direction\": \"down\"}", content_adjustment_conditions: "{\"needs_adjustment\": true, \"direction\": null}")
+      create(:auto_response, trigger_phrase: "1", response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.", user_conditions: "{\"contactable\": true}", update_content_adjustment: "{\"needs_adjustment\": false, \"adjusted_at\": \"now\", \"direction\": null}", content_adjustment_conditions: "{\"needs_adjustment\": true, \"direction\": \"not_nil\"}")
+      create(:auto_response, trigger_phrase: "2", response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.", user_conditions: "{\"contactable\": true}", update_content_adjustment: "{\"needs_adjustment\": false, \"adjusted_at\": \"now\", \"direction\": null}", content_adjustment_conditions: "{\"needs_adjustment\": true, \"direction\": \"not_nil\"}")
+      create(:auto_response, trigger_phrase: "3", response: "Thanks, a member of the team will be in touch to discuss your child's needs.", user_conditions: '{ "contactable": true}', content_adjustment_conditions: '{"needs_adjustment": true}', update_content_adjustment: '{"direction": "not_sure"}')
+    end
   end
 end

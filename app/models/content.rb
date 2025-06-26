@@ -28,7 +28,7 @@ class Content < ApplicationRecord
     if response.code != "200"
       errors.add(:link, "is not valid or does not return a 200 status code. Please check the link and try again.")
     end
-  rescue StandardError
+  rescue
     errors.add(:link, "is not a valid URL. Please check the link and try again.")
   end
 end
