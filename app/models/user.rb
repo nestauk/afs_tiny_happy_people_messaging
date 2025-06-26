@@ -109,7 +109,13 @@ class User < ApplicationRecord
   end
 
   def needs_content_group_suggestions?
-    content_adjustment&.needs_adjustment? && content_adjustment.direction.nil?
+    content_adjustment&.needs_adjustment? && !content_adjustment.direction.nil?
+  end
+
+  def needs_new_content_group?
+    content_adjustment.needs_adjustment? && 
+      !content_adjustment.direction.nil? &&
+      content_adjustment.number_options >= messages.last.body.to_i
   end
 
   private
