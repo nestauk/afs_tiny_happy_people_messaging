@@ -5,6 +5,7 @@ class CreateContentAdjustments < ActiveRecord::Migration[8.0]
       t.boolean :needs_adjustment
       t.string :direction
       t.datetime :adjusted_at
+      t.integer :number_options
       t.timestamps
     end
   end
