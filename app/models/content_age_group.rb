@@ -4,7 +4,7 @@ class ContentAgeGroup < ApplicationRecord
   scope :return_two_groups, ->(direction, age) {
     if direction == "<"
       where("max_months #{direction} ?", age).order(:max_months).limit(2)
-    else
+    elsif direction == ">"
       where("min_months #{direction} ?", age).order(:min_months).limit(2)
     end
   }

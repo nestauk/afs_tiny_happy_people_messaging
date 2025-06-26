@@ -59,6 +59,32 @@ class User < ApplicationRecord
     where.not(last_content_id: Content.order(:position).last&.id)
       .or(User.where(last_content_id: nil))
   }
+  scope :needs_assessment, -> {
+    joins(:latest_adjustment)
+    .joins(<<~SQL)
+      INNER JOIN messages latest_messages ON
+        latest_messages.id = (
+          SELECT id FROM messages
+          WHERE messages.user_id = users.id
+          AND messages.status = 'received'
+          ORDER BY created_at DESC
+          LIMIT 1
+        )
+    SQL
+    .where(latest_adjustment: { needs_adjustment: true })
+    .where("latest_messages.body ~ '[^0-9]'")
+    .or(User.joins(:latest_adjustment).joins(<<~SQL)
+        INNER JOIN messages latest_messages ON
+          latest_messages.id = (
+            SELECT id FROM messages
+            WHERE messages.user_id = users.id
+            AND messages.status = 'received'
+            ORDER BY created_at DESC
+            LIMIT 1
+          )
+      SQL
+      .where(latest_adjustment: { direction: "not_sure" }))
+  }
 
   attribute :hour_preference,
     morning: "morning",
@@ -115,6 +141,10 @@ class User < ApplicationRecord
 
   def needs_new_content_group?
     needs_content_group_suggestions? && latest_adjustment.number_options >= messages.last.body.to_i
+  end
+
+  def all_adjustment_messages
+    messages.where('created_at > ?', latest_adjustment.created_at).order(:created_at)
   end
 
   private

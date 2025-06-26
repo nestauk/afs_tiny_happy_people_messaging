@@ -1,0 +1,18 @@
+<h1 class="text-4xl">Adjustments</h1>
+<turbo-frame id="tabs" target="_top">
+  <%= render "components/tabs", class: "my-2" do %>
+    <%= render "components/tab", href: content_adjustments_path, label: "Needs assessing" %>
+    <%= render "components/tab", href: incomplete_content_adjustments_path, label: "Incomplete" %>
+    <%= render "components/tab", href: automated_content_adjustments_path, label: "Completed" %>
+  <% end %>
+
+  <% case true %>
+  <% when current_page?(content_adjustments_path) %>
+    <%= render "assessments" %>
+  <% when current_page?(automated_content_adjustments_path) %>
+    <%= render "automated" %>
+  <% when current_page?(incomplete_content_adjustments_path) %>
+    <%= render "incomplete" %>
+  <% end %>
+</turbo-frame>
+

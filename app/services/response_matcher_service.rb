@@ -9,12 +9,12 @@ class ResponseMatcherService
   def match_response
     responses = AutoResponse.where(trigger_phrase: normalized_message_body)
 
-    responses.each do |response|
-      if conditions_met?(response)
-        process_response(response) and break
-      elsif weekend?
-        send_message(WORKING_HOURS_MESSAGE)
+    if responses.any?
+      responses.each do |response|
+        process_response(response) and break if conditions_met?(response)
       end
+    elsif weekend?
+      send_message(WORKING_HOURS_MESSAGE)
     end
   end
 
