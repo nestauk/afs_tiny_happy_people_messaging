@@ -5,12 +5,13 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
 
   setup do
     create(:auto_response, trigger_phrase: "pause", response: "Thanks, you've paused for 4 weeks.", update_user: '{"contactable": false, "restart_at": "4.weeks.from_now.noon"}')
-    create(:auto_response, trigger_phrase: "yes", response: "That's great to hear, thanks for letting us know!", update_user: "{\"asked_for_feedback\": false}", conditions: "{\"asked_for_feedback\": true}")
-    create(:auto_response, trigger_phrase: "no", response: "We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if your child is not yet saying words, 2 if they are saying single words, 3 if they are saying whole sentences.", update_user: "{\"asked_for_feedback\": false}", conditions: "{\"asked_for_feedback\": true}")
+    create(:auto_response, trigger_phrase: "yes", response: "That's great to hear, thanks for letting us know!", update_user: "{\"asked_for_feedback\": false}", user_conditions: "{\"asked_for_feedback\": true}")
+    create(:auto_response, trigger_phrase: "no", response: "We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if your child is not yet saying words, 2 if they are saying single words, 3 if they are saying whole sentences.", update_user: "{\"asked_for_feedback\": false}", user_conditions: "{\"asked_for_feedback\": true}")
     create(:auto_response, trigger_phrase: "stop", update_user: "{\"contactable\": false}")
     create(:auto_response, trigger_phrase: "end", update_user: "{\"contactable\": false}", response: "Please let us know why")
     create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
   end
+
   test "should match response to 'pause'" do
     user = create(:user, contactable: true)
     message = build(:message, body: "pause", status: "received", user:)
@@ -143,5 +144,24 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
 
     assert_equal user.messages.last.body, "You're all set to start receiving messages again!"
     refute user.contactable
+  end
+
+  test "should update user and content adjustment fields" do
+    user = create(:user, contactable: true)
+    content_adjustment = create(:content_adjustment, needs_adjustment: true, user:)
+    message = build(:message, body: "1", status: "received", user:)
+
+    create(:auto_response, trigger_phrase: "1",
+      response: "Thanks for the feedback. Are you one of these groups? 1. Tiny elephant, 2. Tiny kangaroo, 3. I'm not sure",
+      user_conditions: '{"contactable": true}',
+      content_adjustment_conditions: '{"needs_adjustment": true}',
+      update_content_adjustment: '{"direction": "up"}')
+
+    assert_enqueued_with(job: SendCustomMessageJob) do
+      ResponseMatcherService.new(message).match_response
+    end
+
+    assert_equal user.messages.last.body, "Thanks for the feedback. Are you one of these groups? 1. Tiny elephant, 2. Tiny kangaroo, 3. I'm not sure"
+    assert_equal content_adjustment.reload.direction, "up"
   end
 end

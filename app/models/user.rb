@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :contents, through: :messages
   has_many :diary_entries, dependent: :destroy
   has_one :demographic_data, dependent: :destroy
+  has_one :content_adjustment, dependent: :destroy
   belongs_to :local_authority, optional: true
 
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
@@ -105,6 +106,10 @@ class User < ApplicationRecord
     else
       Rollbar.error("User in study could not be updated", user_info: attributes)
     end
+  end
+
+  def needs_content_group_suggestions?
+    content_adjustment&.needs_adjustment? && content_adjustment.direction.nil?
   end
 
   private

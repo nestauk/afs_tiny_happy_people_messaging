@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_144023) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_25_115001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,9 +60,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_144023) do
     t.string "trigger_phrase", null: false
     t.string "response"
     t.jsonb "update_user", default: "{}"
-    t.jsonb "conditions", default: "{}"
+    t.jsonb "user_conditions", default: "{}"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "update_content_adjustment", default: "{}"
+    t.jsonb "content_adjustment_conditions", default: "{}"
   end
 
   create_table "blazer_audits", force: :cascade do |t|
@@ -119,6 +121,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_144023) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
+  end
+
+  create_table "content_adjustments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "needs_adjustment"
+    t.string "direction"
+    t.datetime "adjusted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_content_adjustments_on_user_id"
   end
 
   create_table "contents", force: :cascade do |t|
@@ -374,6 +386,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_144023) do
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 
+  add_foreign_key "content_adjustments", "users"
   add_foreign_key "demographic_data", "users"
   add_foreign_key "diary_entries", "users"
   add_foreign_key "interests", "users"
