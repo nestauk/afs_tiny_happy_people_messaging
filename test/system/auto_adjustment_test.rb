@@ -25,7 +25,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
+    assert @user.latest_adjustment
     assert @user.asked_for_feedback
 
     Message.create(user: @user, body: "Yes", status: "received")
@@ -34,9 +34,9 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
+    assert @user.latest_adjustment
     refute @user.asked_for_feedback
-    assert_nil @user.content_adjustment.needs_adjustment
+    assert_nil @user.latest_adjustment.needs_adjustment
   end
 
   test "User can say they need an adjustment up" do
@@ -46,7 +46,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
+    assert @user.latest_adjustment
     assert @user.asked_for_feedback
 
     Message.create(user: @user, body: "no", status: "received")
@@ -55,9 +55,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
     refute @user.asked_for_feedback
-    assert @user.content_adjustment.needs_adjustment
+    assert @user.latest_adjustment.needs_adjustment
 
     Message.create(user: @user, body: "1", status: "received")
 
@@ -65,8 +64,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment.needs_adjustment
-    assert_equal "up", @user.content_adjustment.direction
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal "up", @user.latest_adjustment.direction
     assert_nil @user.last_content_id
 
     Message.create(user: @user, body: "1", status: "received")
@@ -76,8 +75,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     perform_enqueued_jobs
     assert_equal Message.last.body, "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right."
 
-    refute @user.content_adjustment.needs_adjustment
-    refute_nil @user.content_adjustment.adjusted_at
+    refute @user.latest_adjustment.needs_adjustment
+    refute_nil @user.latest_adjustment.adjusted_at
     assert_equal @upper_content.id, @user.last_content_id
   end
 
@@ -88,7 +87,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
+    assert @user.latest_adjustment
     assert @user.asked_for_feedback
 
     Message.create(user: @user, body: "no", status: "received")
@@ -97,9 +96,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
     refute @user.asked_for_feedback
-    assert @user.content_adjustment.needs_adjustment
+    assert @user.latest_adjustment.needs_adjustment
     assert_nil @user.last_content_id
 
     Message.create(user: @user, body: "2", status: "received")
@@ -108,8 +106,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment.needs_adjustment
-    assert_equal "down", @user.content_adjustment.direction
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal "down", @user.latest_adjustment.direction
 
     Message.create(user: @user, body: "1", status: "received")
 
@@ -118,8 +116,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     perform_enqueued_jobs
     assert_equal Message.last.body, "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right."
 
-    refute @user.content_adjustment.needs_adjustment
-    refute_nil @user.content_adjustment.adjusted_at
+    refute @user.latest_adjustment.needs_adjustment
+    refute_nil @user.latest_adjustment.adjusted_at
     assert_equal @lower_content.id, @user.last_content_id
   end
 
@@ -130,7 +128,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
+    assert @user.latest_adjustment
     assert @user.asked_for_feedback
 
     Message.create(user: @user, body: "My child is not saying anything and they're 2", status: "received")
@@ -138,7 +136,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     perform_enqueued_jobs
 
     assert_equal Message.last.body, "My child is not saying anything and they're 2"
-    assert @user.content_adjustment
+    assert @user.latest_adjustment
     assert @user.asked_for_feedback
   end
 
@@ -149,7 +147,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
+    assert @user.latest_adjustment
     assert @user.asked_for_feedback
 
     Message.create(user: @user, body: "no", status: "received")
@@ -158,19 +156,18 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
     refute @user.asked_for_feedback
-    assert @user.content_adjustment.needs_adjustment
-    
+    assert @user.latest_adjustment.needs_adjustment
+
     Message.create(user: @user, body: "2", status: "received")
-    
+
     stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups? 1. Tiny Koala, 2. Tiny Bumblebee, 3. I'm not sure", @user)
-    
+
     perform_enqueued_jobs
-    
-    assert @user.content_adjustment.needs_adjustment
-    assert_equal "down", @user.content_adjustment.direction
-    assert_equal @user.content_adjustment.number_options, 2
+
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal "down", @user.latest_adjustment.direction
+    assert_equal @user.latest_adjustment.number_options, 2
 
     Message.create(user: @user, body: "3", status: "received")
 
@@ -179,8 +176,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     perform_enqueued_jobs
     assert_equal Message.last.body, "Thanks, a member of the team will be in touch to discuss your child's needs."
 
-    assert @user.content_adjustment.needs_adjustment
-    assert_equal @user.content_adjustment.direction, "not_sure"
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal @user.latest_adjustment.direction, "not_sure"
     assert_nil @user.last_content_id
   end
 
@@ -192,7 +189,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
+    assert @user.latest_adjustment
     assert @user.asked_for_feedback
 
     Message.create(user: @user, body: "no", status: "received")
@@ -201,9 +198,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment
     refute @user.asked_for_feedback
-    assert @user.content_adjustment.needs_adjustment
+    assert @user.latest_adjustment.needs_adjustment
 
     Message.create(user: @user, body: "2", status: "received")
 
@@ -211,9 +207,9 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs
 
-    assert @user.content_adjustment.needs_adjustment
-    assert_equal "down", @user.content_adjustment.direction
-    assert_equal @user.content_adjustment.number_options, 1
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal "down", @user.latest_adjustment.direction
+    assert_equal @user.latest_adjustment.number_options, 1
 
     Message.create(user: @user, body: "2", status: "received")
 
@@ -222,8 +218,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     perform_enqueued_jobs
     assert_equal Message.last.body, "Thanks, a member of the team will be in touch to discuss your child's needs."
 
-    assert @user.content_adjustment.needs_adjustment
-    assert_equal @user.content_adjustment.direction, "not_sure"
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal @user.latest_adjustment.direction, "not_sure"
     assert_nil @user.last_content_id
   end
 

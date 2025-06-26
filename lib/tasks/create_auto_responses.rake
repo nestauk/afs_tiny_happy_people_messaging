@@ -34,7 +34,7 @@ namespace :create_auto_responses do
       response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.",
       user_conditions: '{"contactable": true}',
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil"}',
-      update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now", "direction": null, "number_options": null}'
+      update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now"}'
     )
 
     #  They specify the group that they belong to (2)
@@ -43,7 +43,7 @@ namespace :create_auto_responses do
       response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.",
       user_conditions: '{"contactable": true}',
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": 2}',
-      update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now", "direction": null, "number_options": null}'
+      update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now"}'
     )
 
     #  They're not sure which group they belong to (3)

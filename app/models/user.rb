@@ -3,8 +3,8 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   has_many :diary_entries, dependent: :destroy
+  has_many :content_adjustments, dependent: :destroy
   has_one :demographic_data, dependent: :destroy
-  has_one :content_adjustment, dependent: :destroy
   belongs_to :local_authority, optional: true
 
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
@@ -19,6 +19,7 @@ class User < ApplicationRecord
 
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
+  has_one :latest_adjustment, -> { order(created_at: :desc) }, class_name: "ContentAdjustment"
   scope :with_preference_for_day, ->(day) { where(day_preference: day) }
   scope :wants_morning_message, -> { where(hour_preference: "morning") }
   scope :wants_afternoon_message, -> { where(hour_preference: "afternoon") }
@@ -109,13 +110,11 @@ class User < ApplicationRecord
   end
 
   def needs_content_group_suggestions?
-    content_adjustment&.needs_adjustment? && !content_adjustment.direction.nil?
+    latest_adjustment&.needs_adjustment? && !latest_adjustment.direction.nil?
   end
 
   def needs_new_content_group?
-    content_adjustment.needs_adjustment? && 
-      !content_adjustment.direction.nil? &&
-      content_adjustment.number_options >= messages.last.body.to_i
+    needs_content_group_suggestions? && latest_adjustment.number_options >= messages.last.body.to_i
   end
 
   private

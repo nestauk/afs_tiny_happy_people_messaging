@@ -1,30 +1,36 @@
 class ResponseMatcherService
+  WORKING_HOURS_MESSAGE = "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
+
   def initialize(message)
     @message = message
     @user = message.user
   end
 
   def match_response
-    responses = AutoResponse.where(trigger_phrase: @message.body.downcase.strip)
-
-    return unless responses.any?
+    responses = AutoResponse.where(trigger_phrase: normalized_message_body)
 
     responses.each do |response|
-      process_response(response) and return
+      if conditions_met?(response)
+        process_response(response) and break
+      elsif weekend?
+        send_message(WORKING_HOURS_MESSAGE)
+      end
     end
   end
 
   private
 
-  def process_response(response)
-    if conditions_met?(response)
-      apply_updates(response)
+  def normalized_message_body
+    @message.body.downcase.strip
+  end
 
-      send_message(create_response_message(response)) if response.response.present?
-    elsif Time.current.wday == 6 || Time.current.wday == 0
-      # Send a out of office message on weekends
-      send_message("The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can.")
-    end
+  def process_response(response)
+    apply_updates(response)
+    send_message(create_response_message(response)) if response.response.present?
+  end
+
+  def weekend?
+    Time.current.saturday? || Time.current.sunday?
   end
 
   def send_message(body)
@@ -32,62 +38,50 @@ class ResponseMatcherService
     SendCustomMessageJob.perform_later(reply) if reply.save
   end
 
-  def conditions_met?(conditions)
-    check_conditions(conditions.user_conditions, @user) &&
-      check_conditions(conditions.content_adjustment_conditions, @user.content_adjustment)
+  def conditions_met?(response)
+    check_conditions(response.user_conditions, @user) &&
+      check_conditions(response.content_adjustment_conditions, @user.latest_adjustment)
   end
 
   def check_conditions(conditions, object)
-    conditions = JSON.parse(conditions)
-    return true unless conditions.any?
+    parsed_conditions = JSON.parse(conditions)
+    return true if parsed_conditions.empty?
 
-    conditions.each do |key, value|
+    parsed_conditions.all? do |key, value|
       if key == "direction" && value == "not_nil"
-        return false if object[key].nil?
-      elsif object[key] != value
-        return false
+        object[key].present?
+      else
+        object[key] == value
       end
     end
-
-    true
   end
 
   def apply_updates(response)
-    apply_user_updates(response)
-    apply_content_adjustment_updates(response)
-  end
-
-  def apply_user_updates(response)
-    if @user.needs_new_content_group?
-      months = find_groups[response.trigger_phrase.to_i - 1].min_months
-
-      @user.update(last_content_id: Content.where(age_in_months: months).min_by(&:position).id)
-    end
+    update_user_content_group if @user.needs_new_content_group?
 
     updates = JSON.parse(response.update_user)
-    return unless updates.any?
+    updates.each { |key, value| update_attribute(key, value, @user) } if updates.any?
 
-    updates.each do |key, value|
-      if key == "restart_at"
-        @user.update(restart_at: 4.weeks.from_now.noon)
-      else
-        @user.update(key => value)
-      end
-    end
+    updates = JSON.parse(response.update_content_adjustment)
+    updates.each { |key, value| update_attribute(key, value, @user.latest_adjustment) } if updates.any?
   end
 
-  def apply_content_adjustment_updates(response)
-    updates = JSON.parse(response.update_content_adjustment)
-    return unless updates.any?
+  def update_user_content_group
+    months = find_groups[@message.body.to_i - 1].min_months
+    content_id = Content.where(age_in_months: months).min_by(&:position).id
 
-    updates.each do |key, value|
-      if key == "adjusted_at"
-        @user.content_adjustment.update(adjusted_at: Time.current)
-      elsif value == "number_options"
-        @user.content_adjustment.update(number_options: find_groups.size)
-      else
-        @user.content_adjustment.update(key => value)
-      end
+    @user.update(last_content_id: content_id)
+  end
+
+  def update_attribute(key, value, object)
+    if key == "restart_at"
+      object.update(restart_at: 4.weeks.from_now.noon)
+    elsif key == "adjusted_at"
+      object.update(adjusted_at: Time.current)
+    elsif value == "number_options"
+      object.update(number_options: find_groups.size)
+    else
+      object.update(key => value)
     end
   end
 
@@ -101,19 +95,15 @@ class ResponseMatcherService
 
   def substitute_variables(content)
     sentences = generate_sentences
-
     content.gsub("{{content_age_groups}}", "#{sentences.join(", ")}, #{sentences.length + 1}. I'm not sure")
   end
 
   def find_groups
-    direction = @user.content_adjustment.needs_older_content? ? ">" : "<"
-
+    direction = @user.latest_adjustment.needs_older_content? ? ">" : "<"
     ContentAgeGroup.return_two_groups(direction, @user.child_age_in_months_today)
   end
 
   def generate_sentences
-    find_groups.map.each_with_index do |group, index|
-      "#{index + 1}. #{group.description}"
-    end
+    find_groups.map.with_index(1) { |group, index| "#{index}. #{group.description}" }
   end
 end
