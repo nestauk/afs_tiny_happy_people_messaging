@@ -1,40 +1,35 @@
 class AutoResponse < ApplicationRecord
   validates :trigger_phrase, presence: true
 
-  before_validation :validate_conditions, :validate_update_user
+  before_validation :validate_condition_and_update_fields
 
   private
 
-  def validate_conditions
-    validate_json(conditions)
-    parsed = JSON.parse(conditions)
-    return true if parsed.empty?
+  def validate_condition_and_update_fields
+    %i[update_user user_conditions].each { |attr| validate_and_check_fields(attr, User) }
+    %i[update_content_adjustment content_adjustment_conditions].each { |attr| validate_and_check_fields(attr, ContentAdjustment) }
+  end
 
-    check_fields(:conditions, parsed)
+  def validate_and_check_fields(attribute, model)
+    parsed = parse_json(attribute)
+    return if parsed.empty? || errors.any?
+
+    check_fields(attribute, parsed, model)
     true
   end
 
-  def validate_update_user
-    validate_json(update_user)
-    parsed = JSON.parse(update_user)
-    return true if parsed.empty?
-
-    check_fields(:update_user, parsed)
-    true
+  def parse_json(field)
+    JSON.parse(send(field))
+  rescue JSON::ParserError
+    errors.add(field, "must be a valid JSON object")
+    []
   end
 
-  def check_fields(attribute, fields)
+  def check_fields(attribute, fields, model)
     fields.each do |field, _value|
-      unless User.column_names.include?(field.to_s) || User.reflect_on_association(field)
-        errors.add(attribute, "invalid field '#{field}' - not found in User model")
-        next
+      unless model.column_names.include?(field.to_s) || model.reflect_on_association(field)
+        errors.add(attribute, "invalid field '#{field}' - not found in #{model.name} model")
       end
     end
-  end
-
-  def validate_json(field)
-    JSON.parse(field)
-  rescue JSON::ParserError
-    errors.add(:"#{field}", "must be a valid JSON object")
   end
 end

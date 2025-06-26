@@ -10,6 +10,7 @@ class SendFeedbackMessageJob < ApplicationJob
 
     if message.save
       SendCustomMessageJob.perform_later(message)
+      user.content_adjustments.create
       user.update(asked_for_feedback: true)
     end
   end
