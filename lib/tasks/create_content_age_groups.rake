@@ -12,7 +12,7 @@ namespace :create_content_age_groups do
 
     ContentAgeGroup.find_or_create_by!(min_months: 7, max_months: 9) do |group|
       group.description = "🐝 Tiny Bumblebee - Babbles & Giggles
-        Your little one is starting to make different sounds and movements. They may babble, reach for things, or even crawl toward their favorite toys. 
+        Your little one is starting to make different sounds and movements. They may babble, reach for things, or even crawl toward their favorite toys.
         Ideal for babies who are active and social but not yet using real words.
         Example content: Peekaboo, bubbles, object exploration, snack-time chat"
       group.min_months = 7
@@ -31,7 +31,7 @@ namespace :create_content_age_groups do
     ContentAgeGroup.find_or_create_by!(min_months: 13, max_months: 18) do |group|
       group.description = "🐧 Tiny Penguin - Waddling & exploring
         Your little one might be stringing two or more words together, following simple instructions or expressing themselves  (sometimes loudly!).
-        Best for toddlers who may have started walking and are beginning to understand what you mean when you talk to them. 
+        Best for toddlers who may have started walking and are beginning to understand what you mean when you talk to them.
         Example content: Outdoor activities, Clapping games, Singing and lots of play with random objects"
       group.min_months = 13
       group.max_months = 18
@@ -39,7 +39,7 @@ namespace :create_content_age_groups do
 
     ContentAgeGroup.find_or_create_by!(min_months: 19, max_months: 27) do |group|
       group.description = "🐬 Tiny Dolphin - playing with imagination
-        Your child is using short phrases or sentences, enjoying pretend play, and showing strong preferences. 
+        Your child is using short phrases or sentences, enjoying pretend play, and showing strong preferences.
         Perfect for chatty toddlers who are exploring language with more confidence.
         Example content: Pretend play, hide and seek, cooking games, naming feelings and reading time."
       group.min_months = 19
