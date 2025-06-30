@@ -16,31 +16,31 @@ class ContentAgeGroupTest < ActiveSupport::TestCase
   test ".return_two_groups returns next two oldest groups" do
     group2 = create(:content_age_group, min_months: 8, max_months: 10)
     group3 = create(:content_age_group, min_months: 11, max_months: 13)
-    group4 = create(:content_age_group, min_months: 14, max_months: 16)
+    create(:content_age_group, min_months: 14, max_months: 16)
 
     assert_equal [group2, group3], ContentAgeGroup.return_two_groups(">", 6)
   end
 
   test ".return_two_groups returns one older group if only one available" do
-    group2 = create(:content_age_group, min_months: 8, max_months: 10)
-    group3 = create(:content_age_group, min_months: 11, max_months: 13)
-    group4 = create(:content_age_group, min_months: 14, max_months: 16)
+    create(:content_age_group, min_months: 8, max_months: 10)
+    create(:content_age_group, min_months: 11, max_months: 13)
+    group = create(:content_age_group, min_months: 14, max_months: 16)
 
-    assert_equal [group4], ContentAgeGroup.return_two_groups(">", 12)
+    assert_equal [group], ContentAgeGroup.return_two_groups(">", 12)
   end
 
   test ".return_two_groups returns next two younger groups" do
-    group2 = create(:content_age_group, min_months: 8, max_months: 10)
-    group3 = create(:content_age_group, min_months: 11, max_months: 13)
-    group4 = create(:content_age_group, min_months: 14, max_months: 16)
+    group = create(:content_age_group, min_months: 8, max_months: 10)
+    create(:content_age_group, min_months: 11, max_months: 13)
+    create(:content_age_group, min_months: 14, max_months: 16)
 
-    assert_equal [@subject, group2], ContentAgeGroup.return_two_groups("<", 11)
+    assert_equal [@subject, group], ContentAgeGroup.return_two_groups("<", 11)
   end
 
   test ".return_two_groups returns one younger group if only available" do
-    group2 = create(:content_age_group, min_months: 8, max_months: 10)
-    group3 = create(:content_age_group, min_months: 11, max_months: 13)
-    group4 = create(:content_age_group, min_months: 14, max_months: 16)
+    create(:content_age_group, min_months: 8, max_months: 10)
+    create(:content_age_group, min_months: 11, max_months: 13)
+    create(:content_age_group, min_months: 14, max_months: 16)
 
     assert_equal [@subject], ContentAgeGroup.return_two_groups("<", 10)
   end

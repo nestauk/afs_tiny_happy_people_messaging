@@ -61,19 +61,7 @@ class User < ApplicationRecord
   }
   scope :needs_assessment, -> {
     joins(:latest_adjustment)
-    .joins(<<~SQL)
-      INNER JOIN messages latest_messages ON
-        latest_messages.id = (
-          SELECT id FROM messages
-          WHERE messages.user_id = users.id
-          AND messages.status = 'received'
-          ORDER BY created_at DESC
-          LIMIT 1
-        )
-    SQL
-    .where(latest_adjustment: { needs_adjustment: true })
-    .where("latest_messages.body ~ '[^0-9]'")
-    .or(User.joins(:latest_adjustment).joins(<<~SQL)
+      .joins(<<~SQL)
         INNER JOIN messages latest_messages ON
           latest_messages.id = (
             SELECT id FROM messages
@@ -83,7 +71,19 @@ class User < ApplicationRecord
             LIMIT 1
           )
       SQL
-      .where(latest_adjustment: { direction: "not_sure" }))
+      .where(latest_adjustment: {needs_adjustment: true})
+      .where("latest_messages.body ~ '[^0-9]'")
+      .or(User.joins(:latest_adjustment).joins(<<~SQL)
+        INNER JOIN messages latest_messages ON
+          latest_messages.id = (
+            SELECT id FROM messages
+            WHERE messages.user_id = users.id
+            AND messages.status = 'received'
+            ORDER BY created_at DESC
+            LIMIT 1
+          )
+    SQL
+      .where(latest_adjustment: {direction: "not_sure"}))
   }
 
   attribute :hour_preference,
@@ -144,7 +144,7 @@ class User < ApplicationRecord
   end
 
   def all_adjustment_messages
-    messages.where('created_at > ?', latest_adjustment.created_at).order(:created_at)
+    messages.where("created_at > ?", latest_adjustment.created_at).order(:created_at)
   end
 
   private

@@ -50,6 +50,8 @@ class ResponseMatcherService
     parsed_conditions.all? do |key, value|
       if key == "direction" && value == "not_nil"
         object[key].present?
+      elsif value == "> 0"
+        object[key].to_i > 0
       else
         object[key] == value
       end

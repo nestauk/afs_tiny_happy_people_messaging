@@ -13,7 +13,7 @@ Rails.application.routes.draw do
         patch "archive", on: :member
       end
     end
-  
+
     resources :admins, except: %i[show destroy]
 
     resources :content_adjustments, only: %i[index] do

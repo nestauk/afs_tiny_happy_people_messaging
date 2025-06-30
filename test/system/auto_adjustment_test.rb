@@ -36,7 +36,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     assert @user.latest_adjustment
     refute @user.asked_for_feedback
-    assert_nil @user.latest_adjustment.needs_adjustment
+    refute @user.latest_adjustment.needs_adjustment
   end
 
   test "User can say they need an adjustment up" do
@@ -183,7 +183,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
   test "User can give more context if they're not sure which group they belong to and there are two options" do
     stub_successful_twilio_call("Are the activities we send you suitable for your child? Respond Yes or No to let us know.", @user)
-    @user.update(child_birthday: 6.months.ago)
+    @user.update(child_birthday: 7.months.ago)
 
     SendFeedbackMessageJob.new.perform(@user)
 
@@ -221,6 +221,38 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     assert @user.latest_adjustment.needs_adjustment
     assert_equal @user.latest_adjustment.direction, "not_sure"
     assert_nil @user.last_content_id
+  end
+
+  test "User gets appropriate message if there aren't any options to adjust" do
+    stub_successful_twilio_call("Are the activities we send you suitable for your child? Respond Yes or No to let us know.", @user)
+    @user.update(child_birthday: 6.months.ago)
+
+    SendFeedbackMessageJob.new.perform(@user)
+
+    perform_enqueued_jobs
+
+    assert @user.latest_adjustment
+    assert @user.asked_for_feedback
+
+    Message.create(user: @user, body: "no", status: "received")
+
+    stub_successful_twilio_call("We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if too easy, 2 if too hard, or reply with your message if you want to give more context.", @user)
+
+    perform_enqueued_jobs
+
+    refute @user.asked_for_feedback
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal @user.latest_adjustment.number_options, 0
+
+    Message.create(user: @user, body: "2", status: "received")
+
+    stub_successful_twilio_call("Thanks, a member of the team will be in touch to discuss your child's needs.", @user)
+
+    perform_enqueued_jobs
+
+    refute @user.asked_for_feedback
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal @user.latest_adjustment.direction, "not_sure"
   end
 
   # test "User can start adjustment process in the middle again"

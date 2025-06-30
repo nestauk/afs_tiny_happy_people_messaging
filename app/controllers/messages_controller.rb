@@ -19,8 +19,8 @@ class MessagesController < ApplicationController
 
   def incoming
     # if valid_twilio_request?(request)
-      user = User.find_by(phone_number: params["From"])
-      Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
+    user = User.find_by(phone_number: params["From"])
+    Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
     # end
 
     head :no_content
