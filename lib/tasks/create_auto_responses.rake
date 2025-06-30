@@ -30,7 +30,7 @@ namespace :create_auto_responses do
     # They say content is too hard (1)
     AutoResponse.find_or_create_by!(
       trigger_phrase: "1",
-      response: "Every baby develops at their own pace, and we’ve designed our content to match a range of developmental stages. To adjust, pick the animal that sounds most like your little one right now. {{content_age_groups}}",
+      response: "Every baby develops at their own pace, and we’ve designed our content to match a range of developmental stages. To adjust, pick the animal that sounds most like your little one right now.\n{{content_age_groups}}",
       user_conditions: '{"contactable": true}',
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": null, "number_options": "> 0"}',
       update_content_adjustment: '{"direction": "up"}'
@@ -39,7 +39,7 @@ namespace :create_auto_responses do
     # They say content is too easy (2)
     AutoResponse.find_or_create_by!(
       trigger_phrase: "2",
-      response: "Every baby develops at their own pace, and we’ve designed our content to match a range of developmental stages. To adjust, pick the animal that sounds most like your little one right now. Thanks for the feedback. Are you one of these groups? {{content_age_groups}}",
+      response: "Every baby develops at their own pace, and we’ve designed our content to match a range of developmental stages. To adjust, pick the animal that sounds most like your little one right now.\n{{content_age_groups}}",
       user_conditions: '{"contactable": true}',
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": null, "number_options": "> 0"}',
       update_content_adjustment: '{"direction": "down"}'

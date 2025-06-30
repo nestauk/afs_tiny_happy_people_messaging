@@ -60,7 +60,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     Message.create(user: @user, body: "1", status: "received")
 
-    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups? 1. Tiny Penguin, 2. Tiny Dolphin, 3. I'm not sure", @user)
+    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups?\n1. Tiny Penguin\n2. Tiny Dolphin\n3. I'm not sure", @user)
 
     perform_enqueued_jobs
 
@@ -102,7 +102,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     Message.create(user: @user, body: "2", status: "received")
 
-    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups? 1. Tiny Koala, 2. Tiny Bumblebee, 3. I'm not sure", @user)
+    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups?\n1. Tiny Koala\n2. Tiny Bumblebee\n3. I'm not sure", @user)
 
     perform_enqueued_jobs
 
@@ -161,7 +161,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     Message.create(user: @user, body: "2", status: "received")
 
-    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups? 1. Tiny Koala, 2. Tiny Bumblebee, 3. I'm not sure", @user)
+    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups?\n1. Tiny Koala\n2. Tiny Bumblebee\n3. I'm not sure", @user)
 
     perform_enqueued_jobs
 
@@ -203,7 +203,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     Message.create(user: @user, body: "2", status: "received")
 
-    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups? 1. Tiny Koala, 2. I'm not sure", @user)
+    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups?\n1. Tiny Koala\n2. I'm not sure", @user)
 
     perform_enqueued_jobs
 

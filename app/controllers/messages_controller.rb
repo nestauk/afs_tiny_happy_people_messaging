@@ -18,10 +18,10 @@ class MessagesController < ApplicationController
   end
 
   def incoming
-    # if valid_twilio_request?(request)
-    user = User.find_by(phone_number: params["From"])
-    Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
-    # end
+    if valid_twilio_request?(request)
+      user = User.find_by(phone_number: params["From"])
+      Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
+    end
 
     head :no_content
   end

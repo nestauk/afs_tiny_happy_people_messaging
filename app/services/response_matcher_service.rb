@@ -97,7 +97,7 @@ class ResponseMatcherService
 
   def substitute_variables(content)
     sentences = generate_sentences
-    content.gsub("{{content_age_groups}}", "#{sentences.join(", ")}, #{sentences.length + 1}. I'm not sure")
+    content.gsub("{{content_age_groups}}", "#{sentences.join("\n")}\n#{sentences.length + 1}. I'm not sure")
   end
 
   def find_groups
