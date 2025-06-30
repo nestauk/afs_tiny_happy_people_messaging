@@ -2,8 +2,8 @@
   <thead>
     <tr class="bg-blue-300 text-left">
       <th class="px-4 py-4">Name</th>
-      <td>
-        &nbsp;
+      <td class="px-4 py-4">
+        Adjustment direction
       </td>
     </tr>
   </thead>
@@ -14,7 +14,7 @@
           <%= link_to "#{adjustment.user.first_name} #{adjustment.user.last_name}", user_path(adjustment.user), class: "underline hover:no-underline" %>
         </td>
         <td class="px-4 py-4 bg-white">
-          <%= adjustment.direction %>
+          <%= adjustment.direction.nil? ? "Not specified" : adjustment.direction.capitalize %>
         </td>
       </tr>
     <% end %>

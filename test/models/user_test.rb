@@ -179,6 +179,20 @@ class UserTest < ActiveSupport::TestCase
     assert_includes User.not_finished_content, @subject
   end
 
+  test "needs_assessment scope" do
+    user1 = create(:user)
+    create(:message, user: user1, body: "I'm not sure what option I need", status: "received")
+    create(:content_adjustment, user: user1, needs_adjustment: true)
+
+    user2 = create(:user)
+    create(:message, user: user2, body: "3", status: "received")
+    create(:content_adjustment, user: user2, needs_adjustment: true, direction: "not_sure")
+
+    assert_equal 2, User.needs_assessment.size
+    assert_includes User.needs_assessment, user1
+    assert_includes User.needs_assessment, user2
+  end
+
   test "full_name method" do
     user = create(:user, first_name: "John", last_name: "Doe")
 

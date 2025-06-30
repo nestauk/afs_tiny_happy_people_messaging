@@ -2,8 +2,8 @@
   <thead>
     <tr class="bg-blue-300 text-left">
       <th class="px-4 py-4">Name</th>
-      <td>
-        &nbsp;
+      <td class="px-4 py-4">
+        Messages
       </td>
     </tr>
   </thead>
@@ -15,7 +15,7 @@
         </td>
         <td class="px-4 py-4 bg-white w-3/4">
           <% user.all_adjustment_messages.each do |message| %>
-            <p class="border-b py-2 <%= 'font-bold' if message.status == "received" %>">
+            <p class="last:border-b-0 border-b py-2 <%= 'font-bold' if message.status == "received" %>">
               <%= message.body %>
             </p>
           <% end %>

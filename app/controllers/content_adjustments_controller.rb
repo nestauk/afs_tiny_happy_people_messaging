@@ -7,14 +7,12 @@ class ContentAdjustmentsController < ApplicationController
   end
 
   def automated
-    @content_adjustments = ContentAdjustment.select("DISTINCT ON (user_id) *").where.not(adjusted_at: nil).order("user_id, created_at DESC")
+    @content_adjustments = ContentAdjustment.complete
     render :index
   end
 
   def incomplete
-    @content_adjustments = ContentAdjustment.select("DISTINCT ON (user_id) *")
-      .where("adjusted_at IS NULL AND needs_adjustment = 'true' AND (direction != 'not_sure' OR direction IS NULL)")
-      .order("user_id, created_at DESC")
+    @content_adjustments = ContentAdjustment.incomplete
     render :index
   end
 end

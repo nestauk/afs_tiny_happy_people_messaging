@@ -59,31 +59,28 @@ class User < ApplicationRecord
     where.not(last_content_id: Content.order(:position).last&.id)
       .or(User.where(last_content_id: nil))
   }
-  scope :needs_assessment, -> {
-    joins(:latest_adjustment)
-      .joins(<<~SQL)
-        INNER JOIN messages latest_messages ON
-          latest_messages.id = (
-            SELECT id FROM messages
-            WHERE messages.user_id = users.id
-            AND messages.status = 'received'
-            ORDER BY created_at DESC
-            LIMIT 1
-          )
-      SQL
-      .where(latest_adjustment: {needs_adjustment: true})
-      .where("latest_messages.body ~ '[^0-9]'")
-      .or(User.joins(:latest_adjustment).joins(<<~SQL)
-        INNER JOIN messages latest_messages ON
-          latest_messages.id = (
-            SELECT id FROM messages
-            WHERE messages.user_id = users.id
-            AND messages.status = 'received'
-            ORDER BY created_at DESC
-            LIMIT 1
-          )
+  scope :with_latest_message_received, -> {
+    joins(<<~SQL)
+      INNER JOIN messages latest_messages ON
+        latest_messages.id = (
+          SELECT id FROM messages
+          WHERE messages.user_id = users.id
+          AND messages.status = 'received'
+          ORDER BY created_at DESC
+          LIMIT 1
+        )
     SQL
-      .where(latest_adjustment: {direction: "not_sure"}))
+  }
+  scope :needs_assessment, -> {
+    # User has picked option "not_sure" or there aren't adjustment options available
+    joins(:latest_adjustment).with_latest_message_received
+      .where(latest_adjustment: {needs_adjustment: true, direction: "not_sure"})
+      .or(
+        # User has written back to give more context
+        User.joins(:latest_adjustment).with_latest_message_received
+        .where(latest_adjustment: {needs_adjustment: true, direction: nil})
+        .where("latest_messages.body ~ '[^0-9]'")
+      )
   }
 
   attribute :hour_preference,
