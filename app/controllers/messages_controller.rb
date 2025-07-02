@@ -88,8 +88,4 @@ class MessagesController < ApplicationController
     # Validate the request using the Twilio helper
     validator.validate(url, params, twilio_signature)
   end
-
-  def check_admin_role
-    redirect_to root_path unless current_admin.role == "admin"
-  end
 end

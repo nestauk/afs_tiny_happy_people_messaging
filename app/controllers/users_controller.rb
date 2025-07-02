@@ -97,10 +97,6 @@ class UsersController < ApplicationController
     @show_footer = true
   end
 
-  def check_admin_role
-    redirect_to root_path unless current_admin.role == "admin"
-  end
-
   def check_token_session
     if !session_token_valid?
       redirect_to root_path, notice: "Your session has expired. Contact info@thp-text.uk if you need further help."

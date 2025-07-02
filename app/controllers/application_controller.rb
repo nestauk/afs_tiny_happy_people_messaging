@@ -8,4 +8,10 @@ class ApplicationController < ActionController::Base
       dashboard_users_path
     end
   end
+
+  private
+
+  def check_admin_role
+    redirect_to root_path unless current_admin.role == "admin"
+  end
 end
