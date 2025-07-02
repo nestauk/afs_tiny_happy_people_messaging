@@ -49,8 +49,4 @@ class AdminsController < ApplicationController
   def admin_params
     params.require(:admin).permit(:email)
   end
-
-  def check_admin_role
-    redirect_to root_path unless current_admin.role == "admin"
-  end
 end
