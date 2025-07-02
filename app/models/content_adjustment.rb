@@ -8,6 +8,8 @@ class ContentAdjustment < ApplicationRecord
     where("adjusted_at IS NULL AND needs_adjustment = 'true' AND (direction != 'not_sure' OR direction IS NULL)")
   }
 
+  attr_accessor :content_age
+
   def needs_older_content?
     needs_adjustment? && direction == "up"
   end

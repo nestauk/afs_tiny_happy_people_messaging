@@ -1,0 +1,14 @@
+<h1 class="text-4xl"><%= @user.full_name %></h1>
+
+<p>Child's age: <%= @user.child_age_in_months_today %> months</p>
+<p>Current content: <%= Content.find(@user.last_content_id).body.gsub("{{link}}", Content.find(@user.last_content_id).link) %> </p>
+
+<div class="mt-8">
+  <p class="mb-4">
+    Once you update the content, a message will be sent automatically informing the user.
+  </p>
+  <%= simple_form_for @content_adjustment do |f| %>
+    <%= f.input :content_age, wrapper_html: { class: "w-1/4" } %>
+    <%= f.submit "Update", class: "btn bg-bbc-blue text-white mt-4" %>
+  <% end %>
+</div>

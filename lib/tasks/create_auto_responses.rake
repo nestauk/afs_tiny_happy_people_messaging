@@ -34,7 +34,7 @@ namespace :create_auto_responses do
       trigger_phrase: "1",
       response: "Every baby develops at their own pace, and we’ve designed our content to match a range of developmental stages. To adjust, pick the animal that sounds most like your little one right now.\n{{content_age_groups}}",
       user_conditions: '{"contactable": true}',
-      update_user: '{}',
+      update_user: "{}",
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": null, "number_options": "> 0"}',
       update_content_adjustment: '{"direction": "up"}'
     )
@@ -44,7 +44,7 @@ namespace :create_auto_responses do
       trigger_phrase: "2",
       response: "Every baby develops at their own pace, and we’ve designed our content to match a range of developmental stages. To adjust, pick the animal that sounds most like your little one right now.\n{{content_age_groups}}",
       user_conditions: '{"contactable": true}',
-      update_user: '{}',
+      update_user: "{}",
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": null, "number_options": "> 0"}',
       update_content_adjustment: '{"direction": "down"}'
     )
@@ -54,7 +54,7 @@ namespace :create_auto_responses do
       trigger_phrase: "1",
       response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.",
       user_conditions: '{"contactable": true}',
-      update_user: '{}',
+      update_user: "{}",
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": "> 0"}',
       update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now"}'
     )
@@ -64,7 +64,7 @@ namespace :create_auto_responses do
       trigger_phrase: "2",
       response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.",
       user_conditions: '{"contactable": true}',
-      update_user: '{}',
+      update_user: "{}",
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": 2}',
       update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now"}'
     )
@@ -74,7 +74,7 @@ namespace :create_auto_responses do
       trigger_phrase: "3",
       response: "Thanks, a member of the team will be in touch to discuss your child's needs.",
       user_conditions: '{"contactable": true}',
-      update_user: '{}',
+      update_user: "{}",
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": 2}',
       update_content_adjustment: '{"direction": "not_sure"}'
     )
@@ -84,7 +84,7 @@ namespace :create_auto_responses do
       trigger_phrase: "2",
       response: "Thanks, a member of the team will be in touch to discuss your child's needs.",
       user_conditions: '{"contactable": true}',
-      update_user: '{}',
+      update_user: "{}",
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": 1}',
       update_content_adjustment: '{"direction": "not_sure"}'
     )
@@ -93,7 +93,7 @@ namespace :create_auto_responses do
       trigger_phrase: "adjust",
       response: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.",
       user_conditions: '{"contactable": true}',
-      content_adjustment_conditions: '{}',
+      content_adjustment_conditions: "{}",
       update_user: '{"asked_for_feedback": true}',
       update_content_adjustment: '{"id": true}'
     )

@@ -1,0 +1,16 @@
+<h1 class="text-4xl"><%= @user.full_name %></h1>
+
+<p>Child's age: <%= @user.child_age_in_months_today %> months</p>
+<p>Current content: <%= Content.find(@user.last_content_id).body.gsub("{{link}}", Content.find(@user.last_content_id).link) %> </p>
+
+<h2 class="mt-8">Messages</h2>
+<% @user.all_adjustment_messages.each do |message| %>
+  <p class="last:border-b-0 border-b py-2 <%= 'font-bold' if message.status == "received" %>">
+    <%= message.body %>
+  </p>
+<% end %>
+
+<div class="mt-8">
+  <%= link_to "Send message", new_user_message_path(@user), class: "btn bg-bbc-blue text-white" %>
+  <%= link_to "Update content", edit_content_adjustment_path(@content_adjustment), class: "btn bg-bbc-blue text-white" %>
+</div>

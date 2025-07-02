@@ -141,7 +141,8 @@ class User < ApplicationRecord
   end
 
   def all_adjustment_messages
-    messages.where("created_at > ?", latest_adjustment.created_at).order(:created_at)
+    adjustment = messages.where(body: "Are the activities we send you suitable for your child? Respond Yes or No to let us know.").last
+    [adjustment, messages.where("created_at > ?", adjustment.created_at).order(:created_at)].flatten
   end
 
   private
