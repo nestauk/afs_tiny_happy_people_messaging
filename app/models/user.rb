@@ -9,8 +9,9 @@ class User < ApplicationRecord
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
   validates_uniqueness_of :phone_number
   validates_plausible_phone :phone_number
-  validates :child_birthday, inclusion: {in: ((Date.today - 27.months)...(Date.today - 3.months))}, on: :create
-
+  validates :child_birthday, inclusion: {
+    in: ->(_) { (Date.current - 27.months)...(Date.current - 3.months) }
+  }, on: :create
   phony_normalize :phone_number, default_country_code: "UK"
 
   accepts_nested_attributes_for :interests, :demographic_data
