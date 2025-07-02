@@ -1,65 +1,63 @@
-<div class="flex justify-around" data-controller="users">
-  <div class="w-3/4">
-    <h1 class="text-3xl">Users</h1>
-    <p>
-      Filter by name:
-    </p>
-    <div class="w-full flex justify-around flex-wrap mt-2 mb-5">
-      <%= link_to "All", users_path, class: (params[:letter].present? ? 'bg-gray-200 text-gray-700 p-3 rounded' : 'bg-bbc-blue text-white p-3 rounded') %>
-      <% ("A".."Z").each do |letter| %>
-        <%= link_to letter, users_path(letter: letter), class: (letter == params[:letter] ? 'bg-bbc-blue text-white p-3 rounded' : 'bg-gray-200 text-gray-700 p-3 rounded') %>
-      <% end %>
-    </div>
-    <table class="table-auto w-full">
-      <thead>
-        <tr class="bg-blue-300 text-left">
-          <th class="px-4 py-4">Name</th>
-          <th class="px-4 py-4">Phone number</th>
-          <th class="px-4 py-4">Child's current age</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @current_users.contactable.order(:last_name, :first_name).each do |user| %>
-          <tr class="border-b-2">
-            <td class="px-4 py-4 bg-white">
-              <%= link_to user.full_name, user_path(user), class: "underline hover:no-underline" %>
-            </td>
-            <td class="px-4 py-4 bg-white">
-              <%= user.phone_number %>
-            </td>
-            <td class="px-4 py-4 bg-white">
-              <%= user.child_age_in_months_today %> months
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <div class="text-center mt-10 text-lg">
-      <%= paginate @current_users.contactable, remote:true %>
-    </div>
-
-    <p class="mt-10 mb-5">
-      <%= link_to "> Users who have stopped the service (#{@opted_out_users.count})", "#", class: "underline hover:no-underline", "data-action": "click->users#toggle" %>
-    <p>
-    <table class="table-auto w-full hidden users-table">
-      <thead>
-        <tr class="bg-blue-300 text-left">
-          <th class="px-4 py-4">Name</th>
-          <th class="px-4 py-4">Child's current age</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @opted_out_users.each do |user| %>
-          <tr class="border-b-2">
-            <td class="px-4 py-4 bg-white">
-              <%= link_to user.full_name, user_path(user), class: "underline hover:no-underline" %>
-            </td>
-            <td class="px-4 py-4 bg-white">
-              <%= user.child_age_in_months_today %> months
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<div data-controller="users">
+  <h1 class="text-3xl">Users</h1>
+  <p>
+    Filter by name:
+  </p>
+  <div class="w-full flex justify-around flex-wrap mt-2 mb-5">
+    <%= link_to "All", users_path, class: (params[:letter].present? ? 'bg-gray-200 text-gray-700 p-3 rounded' : 'bg-bbc-blue text-white p-3 rounded') %>
+    <% ("A".."Z").each do |letter| %>
+      <%= link_to letter, users_path(letter: letter), class: (letter == params[:letter] ? 'bg-bbc-blue text-white p-3 rounded' : 'bg-gray-200 text-gray-700 p-3 rounded') %>
+    <% end %>
   </div>
+  <table class="table-auto w-full">
+    <thead>
+      <tr class="bg-blue-300 text-left">
+        <th class="px-4 py-4">Name</th>
+        <th class="px-4 py-4">Phone number</th>
+        <th class="px-4 py-4">Child's current age</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @current_users.contactable.order(:last_name, :first_name).each do |user| %>
+        <tr class="border-b-2">
+          <td class="px-4 py-4 bg-white">
+            <%= link_to user.full_name, user_path(user), class: "underline hover:no-underline" %>
+          </td>
+          <td class="px-4 py-4 bg-white">
+            <%= user.phone_number %>
+          </td>
+          <td class="px-4 py-4 bg-white">
+            <%= user.child_age_in_months_today %> months
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="text-center mt-10 text-lg">
+    <%= paginate @current_users.contactable, remote:true %>
+  </div>
+
+  <p class="mt-10 mb-5">
+    <%= link_to "> Users who have stopped the service (#{@opted_out_users.count})", "#", class: "underline hover:no-underline", "data-action": "click->users#toggle" %>
+  <p>
+  <table class="table-auto w-full hidden users-table">
+    <thead>
+      <tr class="bg-blue-300 text-left">
+        <th class="px-4 py-4">Name</th>
+        <th class="px-4 py-4">Child's current age</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @opted_out_users.each do |user| %>
+        <tr class="border-b-2">
+          <td class="px-4 py-4 bg-white">
+            <%= link_to user.full_name, user_path(user), class: "underline hover:no-underline" %>
+          </td>
+          <td class="px-4 py-4 bg-white">
+            <%= user.child_age_in_months_today %> months
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
