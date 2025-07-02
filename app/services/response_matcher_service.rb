@@ -82,6 +82,8 @@ class ResponseMatcherService
       object.update(adjusted_at: Time.current)
     elsif value == "number_options"
       object.update(number_options: find_groups.size)
+    elsif key == "id" && value
+      @user.content_adjustments.create
     else
       object.update(key => value)
     end

@@ -14,6 +14,7 @@ namespace :create_auto_responses do
     AutoResponse.find_or_create_by!(
       trigger_phrase: "1",
       response: "Thanks, a member of the team will be in touch to discuss your child's needs.",
+      user_conditions: '{"contactable": true}',
       update_user: '{"asked_for_feedback": false}',
       update_content_adjustment: '{"direction": "not_sure"}',
       content_adjustment_conditions: '{"needs_adjustment": true, "number_options": 0}'
@@ -21,6 +22,7 @@ namespace :create_auto_responses do
     AutoResponse.find_or_create_by!(
       trigger_phrase: "2",
       response: "Thanks, a member of the team will be in touch to discuss your child's needs.",
+      user_conditions: '{"contactable": true}',
       update_user: '{"asked_for_feedback": false}',
       update_content_adjustment: '{"direction": "not_sure"}',
       content_adjustment_conditions: '{"needs_adjustment": true, "number_options": 0}'
@@ -79,6 +81,14 @@ namespace :create_auto_responses do
       user_conditions: '{"contactable": true}',
       content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": 1}',
       update_content_adjustment: '{"direction": "not_sure"}'
+    )
+
+    AutoResponse.find_or_create_by!(
+      trigger_phrase: "adjust",
+      response: "Are the activities we send you suitable for your child? Respond Yes or No to let us know.",
+      user_conditions: '{"contactable": true}',
+      update_user: '{"asked_for_feedback": true}',
+      update_content_adjustment: '{"id": true}'
     )
   end
 end

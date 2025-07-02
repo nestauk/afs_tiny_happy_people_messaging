@@ -40,7 +40,7 @@ class ContentAdjustmentTest < ApplicationSystemTestCase
     click_on "Needs assessing"
 
     # User needs assessing, but is also not completed so shows in this tab as well
-    refute_selector "td", text: @user.full_name
+    assert_selector "td", text: @user.full_name
 
     click_on "Completed"
 
