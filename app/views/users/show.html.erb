@@ -1,37 +1,34 @@
-<div class="flex justify-around">
-  <div class="w-3/4">
-    <div class="bg-white px-4 py-4">
-      <div class="flex justify-between items-center mb-4">
-        <h1 class="mb-0"><%= @user.full_name %></h1>
-        <%= link_to "Send message", new_user_message_path(@user), class: "btn btn-primary bg-bbc-blue text-white" %>
-      </div>
-      <p><%= @user.postcode %></p>
-      <p><%= @user.phone_number %></p>
-      <p><%= @user.child_age_in_months_today %> month old child</p>
-    </div>
-    <table class="table-auto mt-5 w-full">
-      <thead>
-        <tr class="bg-blue-300">
-          <th class="px-4 py-4 text-left">Messages</th>
-          <th class="px-4 py-4 text-left w-1/6">Sent at</th>
-          <th class="px-4 py-4 text-left">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% if @user.messages.any? %>
-          <% @user.messages.order(created_at: :asc).each do |message| %>
-            <tr class="border-b-2">
-              <td class="px-4 py-4 bg-white"><%= message.body %></td>
-              <td class="px-4 py-4 bg-white"><%= message.sent_at&.strftime("%H:%M %d/%m/%y") %></td>
-              <td class="px-4 py-4 bg-white"><%= message.admin_status %></td>
-            </tr>
-          <% end %>
-        <% else %>
-          <tr class="border-b-2">
-            <td class="px-4 py-4 bg-white">No messages sent or received yet</td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<div class="bg-white px-4 py-4">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="mb-0"><%= @user.full_name %></h1>
+    <%= link_to "Send message", new_user_message_path(@user), class: "btn btn-primary bg-bbc-blue text-white" %>
   </div>
+  <p><%= @user.postcode %></p>
+  <p><%= @user.phone_number %></p>
+  <p><%= @user.child_age_in_months_today %> month old child</p>
 </div>
+<table class="table-auto mt-5 w-full">
+  <thead>
+    <tr class="bg-blue-300">
+      <th class="px-4 py-4 text-left">Messages</th>
+      <th class="px-4 py-4 text-left w-1/6">Sent at</th>
+      <th class="px-4 py-4 text-left">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @user.messages.any? %>
+      <% @user.messages.order(created_at: :asc).each do |message| %>
+        <tr class="border-b-2">
+          <td class="px-4 py-4 bg-white"><%= message.body %></td>
+          <td class="px-4 py-4 bg-white"><%= message.sent_at&.strftime("%H:%M %d/%m/%y") %></td>
+          <td class="px-4 py-4 bg-white"><%= message.admin_status %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr class="border-b-2">
+        <td class="px-4 py-4 bg-white">No messages sent or received yet</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
