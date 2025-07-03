@@ -3,7 +3,6 @@ require "application_system_test_case"
 class ContentAdjustmentTest < ApplicationSystemTestCase
   setup do
     @user = create(:user, contactable: true, child_birthday: 10.months.ago)
-    create(:message, user: @user, status: "received")
     @admin = create(:admin)
   end
 
@@ -39,8 +38,7 @@ class ContentAdjustmentTest < ApplicationSystemTestCase
 
     click_on "Needs assessing"
 
-    # User needs assessing, but is also not completed so shows in this tab as well
-    assert_selector "td", text: @user.full_name
+    refute_selector "td", text: @user.full_name
 
     click_on "Completed"
 
@@ -60,7 +58,6 @@ class ContentAdjustmentTest < ApplicationSystemTestCase
 
     click_on "Needs assessing"
 
-    # User needs assessing, but is also not completed so shows in this tab as well
     refute_selector "td", text: @user.full_name
 
     click_on "Incomplete"

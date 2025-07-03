@@ -4,7 +4,7 @@
 <p>Current content: <%= Content.find(@user.last_content_id).body.gsub("{{link}}", Content.find(@user.last_content_id).link) %> </p>
 
 <h2 class="mt-8">Messages</h2>
-<% @user.all_adjustment_messages.each do |message| %>
+<% @content_adjustment.messages.each do |message| %>
   <p class="last:border-b-0 border-b py-2 <%= 'font-bold' if message.status == "received" %>">
     <%= message.body %>
   </p>

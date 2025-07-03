@@ -59,28 +59,21 @@ class User < ApplicationRecord
     where.not(last_content_id: Content.order(:position).last&.id)
       .or(User.where(last_content_id: nil))
   }
-  scope :with_latest_message_received, -> {
-    joins(<<~SQL)
-      INNER JOIN messages latest_messages ON
-        latest_messages.id = (
-          SELECT id FROM messages
-          WHERE messages.user_id = users.id
-          AND messages.status = 'received'
-          ORDER BY created_at DESC
-          LIMIT 1
-        )
-    SQL
+  scope :with_latest_adjustment, -> {
+    with(latest_adjustments: ContentAdjustment.select("DISTINCT ON (user_id) *").order("user_id, created_at DESC"))
+      .joins("INNER JOIN latest_adjustments ON latest_adjustments.user_id = users.id")
   }
-  scope :needs_assessment, -> {
-    # User has picked option "not_sure" or there aren't adjustment options available
-    joins(:latest_adjustment).with_latest_message_received
-      .where(latest_adjustment: {needs_adjustment: true, direction: "not_sure"})
-      .or(
-        # User has written back to give more context
-        User.joins(:latest_adjustment).with_latest_message_received
-        .where(latest_adjustment: {needs_adjustment: true, direction: nil})
-        .where("latest_messages.body ~ '[^0-9]'")
-      )
+  scope :needs_adjustment_assessment, -> {
+    with_latest_adjustment
+      .where(latest_adjustments: {needs_adjustment: true, direction: "not_sure", adjusted_at: nil})
+  }
+  scope :completed_adjustment_assessment, -> {
+    with_latest_adjustment
+      .where.not("latest_adjustments.adjusted_at IS NULL")
+  }
+  scope :incomplete_adjustment_assessment, -> {
+    with_latest_adjustment
+      .where(latest_adjustments: {adjusted_at: nil, direction: nil})
   }
 
   attribute :hour_preference,
@@ -138,11 +131,6 @@ class User < ApplicationRecord
 
   def needs_new_content_group?
     needs_content_group_suggestions? && latest_adjustment.number_options >= messages.last.body.to_i
-  end
-
-  def all_adjustment_messages
-    adjustment = messages.where(body: "Are the activities we send you suitable for your child? Respond Yes or No to let us know.").last
-    [adjustment, messages.where("created_at > ?", adjustment.created_at).order(:created_at)].flatten
   end
 
   private

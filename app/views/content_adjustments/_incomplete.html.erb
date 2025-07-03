@@ -8,13 +8,13 @@
     </tr>
   </thead>
   <tbody>
-    <% @content_adjustments.order(:created_at).each do |adjustment| %>
+    <% @users.each do |user| %>
       <tr class="border-b-2">
         <td class="px-4 py-4 bg-white">
-          <%= link_to "#{adjustment.user.first_name} #{adjustment.user.last_name}", user_path(adjustment.user), class: "underline hover:no-underline" %>
+          <%= link_to "#{user.first_name} #{user.last_name}", user_path(user), class: "underline hover:no-underline" %>
         </td>
         <td class="px-4 py-4 bg-white">
-          <%= adjustment.direction.nil? ? "Not specified" : adjustment.direction.capitalize %>
+          <%= user.latest_adjustment.direction.nil? ? "Not specified" : user.latest_adjustment.direction.capitalize %>
         </td>
       </tr>
     <% end %>

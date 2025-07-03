@@ -5,16 +5,16 @@ class ContentAdjustmentsController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
 
   def index
-    @content_adjustment_users = User.needs_assessment.includes([:latest_adjustment])
+    @users = User.needs_adjustment_assessment.includes([:latest_adjustment])
   end
 
   def automated
-    @content_adjustments = ContentAdjustment.complete
+    @users = User.completed_adjustment_assessment
     render :index
   end
 
   def incomplete
-    @content_adjustments = ContentAdjustment.incomplete
+    @users = User.incomplete_adjustment_assessment
     render :index
   end
 
@@ -44,7 +44,7 @@ class ContentAdjustmentsController < ApplicationController
 
   def set_content_adjustment
     @content_adjustment = ContentAdjustment.find(params[:id])
-  end 
+  end
 
   def set_user
     @user = @content_adjustment.user

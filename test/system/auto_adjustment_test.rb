@@ -140,7 +140,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     Message.create(user: @user, body: "My child is not saying anything and they're 2", status: "received")
 
     stub_successful_twilio_call("Thanks, a member of the team will be in touch to discuss your child's needs.", @user)
-  
+
     perform_enqueued_jobs
 
     assert_equal Message.last.body, "Thanks, a member of the team will be in touch to discuss your child's needs."
@@ -148,7 +148,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     # Check we don't get in a loop of sending the same message
     Message.create(user: @user, body: "Thank you", status: "received")
-  
+
     perform_enqueued_jobs
 
     assert_equal Message.last.body, "Thank you"
