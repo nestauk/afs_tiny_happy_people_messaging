@@ -1,7 +1,9 @@
 <h1 class="text-4xl"><%= @user.full_name %></h1>
 
 <p>Child's age: <%= @user.child_age_in_months_today %> months</p>
-<p>Current content: <%= Content.find(@user.last_content_id).body.gsub("{{link}}", Content.find(@user.last_content_id).link) %> </p>
+<% if @user.last_content_id %>
+  <p>Current content: <%= Content.find(@user.last_content_id).body.gsub("{{link}}", Content.find(@user.last_content_id).link) %> </p>
+<% end %>
 
 <div class="mt-8">
   <p class="mb-4">
