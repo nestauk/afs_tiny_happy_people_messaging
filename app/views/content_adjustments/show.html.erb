@@ -1,0 +1,31 @@
+<div class="bg-blue-50 p-8">
+  <h1 class="text-4xl"><%= @user.full_name %></h1>
+
+  <p>Child's age: <%= @user.child_age_in_months_today %> months</p>
+  <% if @user.last_content_id %>
+    <p>Current content age: <%= Content.find(@user.last_content_id).age_in_months %> months</p>
+    <p>Current content: <%= Content.find(@user.last_content_id).body.gsub("{{link}}", Content.find(@user.last_content_id).link) %> </p>
+  <% end %>
+</div>
+
+<table class="table-auto mt-8 w-full">
+  <thead>
+    <tr class="bg-blue-300">
+      <th class="px-4 py-4 text-left">Messages</th>
+      <th class="px-4 py-4 text-left w-1/6">Sent at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @content_adjustment.messages.order(created_at: :asc).each do |message| %>
+      <tr class="border-b-2">
+        <td class="px-4 py-4 bg-white <%= 'font-bold' if message.status == "received" %>"><%= message.body %></td>
+        <td class="px-4 py-4 bg-white"><%= message.sent_at&.strftime("%H:%M %d/%m/%y") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="mt-8">
+  <%= link_to "Send message", new_user_message_path(@user), class: "btn bg-bbc-blue text-white" %>
+  <%= link_to "Update content", edit_content_adjustment_path(@content_adjustment), class: "btn bg-bbc-blue text-white" %>
+</div>

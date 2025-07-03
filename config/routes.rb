@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
     resources :admins, except: %i[show destroy]
 
-    resources :content_adjustments, only: %i[index] do
+    resources :content_adjustments, only: %i[index show edit update] do
       get "automated", on: :collection
       get "incomplete", on: :collection
     end
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[new create index show edit update] do
     get "dashboard", on: :collection
     get "thank_you", on: :collection
+    get "assess", on: :member
     resources :messages
   end
 

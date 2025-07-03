@@ -1,12 +1,7 @@
 class ContentAdjustment < ApplicationRecord
   belongs_to :user
 
-  scope :complete, -> {
-    where.not(adjusted_at: nil).order("created_at DESC")
-  }
-  scope :incomplete, -> {
-    where("adjusted_at IS NULL AND needs_adjustment = 'true' AND (direction != 'not_sure' OR direction IS NULL)")
-  }
+  attr_accessor :content_age
 
   def needs_older_content?
     needs_adjustment? && direction == "up"
@@ -18,5 +13,9 @@ class ContentAdjustment < ApplicationRecord
 
   def given_more_content?
     needs_adjustment? && direction.nil?
+  end
+
+  def messages
+    user.messages.where("created_at > ?", created_at).order(:created_at)
   end
 end

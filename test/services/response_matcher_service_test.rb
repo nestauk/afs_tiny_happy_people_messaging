@@ -172,8 +172,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
       response: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.",
       user_conditions: '{"contactable": true}',
       update_user: '{"asked_for_feedback": true}',
-      update_content_adjustment: '{"id": true}'
-    )
+      update_content_adjustment: '{"id": true}')
 
     message = build(:message, body: "ADJUST", status: "received", user:)
 

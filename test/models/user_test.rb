@@ -179,18 +179,43 @@ class UserTest < ActiveSupport::TestCase
     assert_includes User.not_finished_content, @subject
   end
 
-  test "needs_assessment scope" do
+  test "needs_adjustment_assessment scope" do
     user1 = create(:user)
-    create(:message, user: user1, body: "I'm not sure what option I need", status: "received")
-    create(:content_adjustment, user: user1, needs_adjustment: true)
+    create(:content_adjustment, user: user1, needs_adjustment: true, direction: nil)
 
     user2 = create(:user)
-    create(:message, user: user2, body: "3", status: "received")
+    create(:content_adjustment, user: user2, needs_adjustment: true, direction: "not_sure", adjusted_at: Time.now)
     create(:content_adjustment, user: user2, needs_adjustment: true, direction: "not_sure")
 
-    assert_equal 2, User.needs_assessment.size
-    assert_includes User.needs_assessment, user1
-    assert_includes User.needs_assessment, user2
+    assert_equal 1, User.needs_adjustment_assessment.size
+    assert_includes User.needs_adjustment_assessment, user2
+    refute_includes User.needs_adjustment_assessment, user1
+  end
+
+  test "completed_adjustment_assessment scope" do
+    user1 = create(:user)
+    create(:content_adjustment, user: user1, needs_adjustment: true, direction: "not_sure")
+    create(:content_adjustment, user: user1, needs_adjustment: true, direction: "not_sure", adjusted_at: Time.now)
+    
+    user2 = create(:user)
+    create(:content_adjustment, user: user2, needs_adjustment: true, direction: nil)
+
+
+    assert_equal 1, User.completed_adjustment_assessment.size
+    assert_includes User.completed_adjustment_assessment, user1
+    refute_includes User.completed_adjustment_assessment, user2
+  end
+
+  test "incomplete_adjustment_assessment scope" do
+    user1 = create(:user)
+    create(:content_adjustment, user: user1, needs_adjustment: true, direction: nil)
+
+    user2 = create(:user)
+    create(:content_adjustment, user: user2, needs_adjustment: true, direction: "not_sure")
+
+    assert_equal 1, User.incomplete_adjustment_assessment.size
+    assert_includes User.incomplete_adjustment_assessment, user1
+    refute_includes User.incomplete_adjustment_assessment, user2
   end
 
   test "full_name method" do

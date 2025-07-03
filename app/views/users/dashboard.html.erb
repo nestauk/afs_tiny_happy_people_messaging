@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @messages.order(:created_at).each do |message| %>
+    <% @messages.includes([:user]).order(:created_at).each do |message| %>
       <tr class="border-b-2">
         <td class="px-4 py-4 bg-white">
           <%= link_to "#{message.user.first_name} #{message.user.last_name}", user_path(message.user), class: "underline hover:no-underline" %>
