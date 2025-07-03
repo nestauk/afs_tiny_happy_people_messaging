@@ -1,0 +1,26 @@
+<table class="table-auto w-full">
+  <thead>
+    <tr class="bg-blue-300 text-left">
+      <th class="px-4 py-4">Name</th>
+      <td class="px-4 py-4">
+        Messages
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @content_adjustment_users.each do |user| %>
+      <tr class="border-b-2">
+        <td class="px-4 py-4 bg-white w-1/4">
+          <%= link_to "#{user.first_name} #{user.last_name}", user_path(user), class: "underline hover:no-underline" %>
+        </td>
+        <td class="px-4 py-4 bg-white w-3/4">
+          <% user.all_adjustment_messages.each do |message| %>
+            <p class="last:border-b-0 border-b py-2 <%= 'font-bold' if message.status == "received" %>">
+              <%= message.body %>
+            </p>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

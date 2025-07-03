@@ -1,0 +1,22 @@
+<table class="table-auto w-full">
+  <thead>
+    <tr class="bg-blue-300 text-left">
+      <th class="px-4 py-4">Name</th>
+      <td class="px-4 py-4">
+        Adjustment direction
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @content_adjustments.order(:created_at).each do |adjustment| %>
+      <tr class="border-b-2">
+        <td class="px-4 py-4 bg-white">
+          <%= link_to "#{adjustment.user.first_name} #{adjustment.user.last_name}", user_path(adjustment.user), class: "underline hover:no-underline" %>
+        </td>
+        <td class="px-4 py-4 bg-white">
+          <%= adjustment.direction.nil? ? "Not specified" : adjustment.direction.capitalize %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
