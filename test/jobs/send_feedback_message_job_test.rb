@@ -12,7 +12,7 @@ class SendFeedbackMessageJobTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, Message.count
-    assert_match("Are the activities we send you suitable for your child? Respond Yes or No to let us know.", Message.last.body)
+    assert_match("Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.", Message.last.body)
     assert user.asked_for_feedback
   end
 

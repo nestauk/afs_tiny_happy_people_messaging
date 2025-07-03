@@ -1,5 +1,6 @@
 class ResponseMatcherService
   WORKING_HOURS_MESSAGE = "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
+  ASSESSMENT_MESSAGE = "Thanks, a member of the team will be in touch to discuss your child's needs."
 
   def initialize(message)
     @message = message
@@ -13,6 +14,9 @@ class ResponseMatcherService
       responses.each do |response|
         process_response(response) and break if conditions_met?(response)
       end
+    elsif responses.empty? && @user&.latest_adjustment&.given_more_content?
+      send_message(ASSESSMENT_MESSAGE)
+      @user.latest_adjustment.update(direction: "not_sure")
     elsif weekend?
       send_message(WORKING_HOURS_MESSAGE)
     end

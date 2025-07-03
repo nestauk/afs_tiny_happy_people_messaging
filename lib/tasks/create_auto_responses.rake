@@ -91,7 +91,7 @@ namespace :create_auto_responses do
 
     AutoResponse.find_or_create_by!(
       trigger_phrase: "adjust",
-      response: "Are the activities we send you suitable for your child? Respond Yes or No to let us know.",
+      response: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.",
       user_conditions: '{"contactable": true}',
       content_adjustment_conditions: '{}',
       update_user: '{"asked_for_feedback": true}',

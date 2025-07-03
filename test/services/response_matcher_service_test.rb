@@ -169,7 +169,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     user = create(:user, contactable: true)
     create(:auto_response,
       trigger_phrase: "adjust",
-      response: "Are the activities we send you suitable for your child? Respond Yes or No to let us know.",
+      response: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.",
       user_conditions: '{"contactable": true}',
       update_user: '{"asked_for_feedback": true}',
       update_content_adjustment: '{"id": true}'
@@ -181,7 +181,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
       ResponseMatcherService.new(message).match_response
     end
 
-    assert_equal user.messages.last.body, "Are the activities we send you suitable for your child? Respond Yes or No to let us know."
+    assert_equal user.messages.last.body, "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
     assert user.content_adjustments.last.present?
     assert user.asked_for_feedback
   end
