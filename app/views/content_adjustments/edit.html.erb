@@ -2,7 +2,8 @@
 
 <p>Child's age: <%= @user.child_age_in_months_today %> months</p>
 <% if @user.last_content_id %>
-  <p>Current content: <%= Content.find(@user.last_content_id).body.gsub("{{link}}", Content.find(@user.last_content_id).link) %> </p>
+  <p>Current content age: <%= Content.find(@user.last_content_id).age_in_months %> months</p>
+  <p>Current content: <%= Content.find(@user.last_content_id).body.gsub("{{link}}", Content.find(@user.last_content_id).link) %></p>
 <% end %>
 
 <div class="mt-8">
