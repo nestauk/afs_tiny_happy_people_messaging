@@ -130,7 +130,7 @@ class User < ApplicationRecord
   end
 
   def needs_new_content_group?
-    needs_content_group_suggestions? && 
+    needs_content_group_suggestions? &&
       (
         (latest_adjustment.needs_younger_content? && latest_adjustment.number_down_options >= messages.last.body.to_i) ||
         (latest_adjustment.needs_older_content? && latest_adjustment.number_up_options >= messages.last.body.to_i)

@@ -71,7 +71,7 @@ class ResponseMatcherService
   end
 
   def update_user_content_group
-    direction = (@user.latest_adjustment.direction == "up" ? ">" : "<" )
+    direction = ((@user.latest_adjustment.direction == "up") ? ">" : "<")
     months = find_groups(direction)[@message.body.to_i - 1].min_months
     content_id = Content.where(age_in_months: months).min_by(&:position).id
 
@@ -108,7 +108,8 @@ class ResponseMatcherService
   end
 
   def find_groups(direction)
-    ContentAgeGroup.return_two_groups(direction, @user.child_age_in_months_today)
+    age = @user.last_content_id.nil? ? @user.child_age_in_months_today : Content.find(@user.last_content_id).age_in_months
+    ContentAgeGroup.return_two_groups(direction, age)
   end
 
   def generate_sentences

@@ -5,7 +5,9 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
   include Rails.application.routes.url_helpers
 
   setup do
-    @user = create(:user, contactable: true, child_birthday: 10.months.ago)
+    stub_request(:any, /www.example.com/).to_return(status: 200)
+    content = create(:content, age_in_months: 10, group: create(:group))
+    @user = create(:user, contactable: true, child_birthday: 10.months.ago, last_content_id: content.id)
     create_all_auto_responses
     create(:content_age_group, min_months: 3, max_months: 6, description: "Tiny Koala")
     create(:content_age_group, min_months: 7, max_months: 9, description: "Tiny Bumblebee")
@@ -66,7 +68,6 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     assert @user.latest_adjustment.needs_adjustment
     assert_equal "up", @user.latest_adjustment.direction
-    assert_nil @user.last_content_id
 
     Message.create(user: @user, body: "1", status: "received")
 
@@ -98,7 +99,6 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     refute @user.asked_for_feedback
     assert @user.latest_adjustment.needs_adjustment
-    assert_nil @user.last_content_id
 
     Message.create(user: @user, body: "2", status: "received")
 
@@ -123,7 +123,8 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
   test "User can say they need an adjustment up and they have a young child" do
     stub_successful_twilio_call("Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.", @user)
-    @user.update(child_birthday: 4.months.ago)
+    content = create(:content, age_in_months: 4, group: create(:group))
+    @user.update(child_birthday: 4.months.ago, last_content_id: content.id)
 
     SendFeedbackMessageJob.new.perform(@user)
 
@@ -214,6 +215,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     assert @user.latest_adjustment.needs_adjustment
     assert_equal "down", @user.latest_adjustment.direction
     assert_equal 2, @user.latest_adjustment.number_down_options
+    content_id = @user.last_content_id
 
     Message.create(user: @user, body: "3", status: "received")
 
@@ -224,12 +226,13 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     assert @user.latest_adjustment.needs_adjustment
     assert_equal @user.latest_adjustment.direction, "not_sure"
-    assert_nil @user.last_content_id
+    assert_equal content_id, @user.last_content_id
   end
 
   test "User can give more context if they're not sure which group they belong to and there are two options" do
     stub_successful_twilio_call("Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.", @user)
-    @user.update(child_birthday: 7.months.ago)
+    content = create(:content, age_in_months: 7, group: create(:group))
+    @user.update(child_birthday: 7.months.ago, last_content_id: content.id)
 
     SendFeedbackMessageJob.new.perform(@user)
 
@@ -256,6 +259,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     assert @user.latest_adjustment.needs_adjustment
     assert_equal "down", @user.latest_adjustment.direction
     assert_equal 1, @user.latest_adjustment.number_down_options
+    content_id = @user.last_content_id
 
     Message.create(user: @user, body: "2", status: "received")
 
@@ -266,12 +270,12 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     assert @user.latest_adjustment.needs_adjustment
     assert_equal @user.latest_adjustment.direction, "not_sure"
-    assert_nil @user.last_content_id
+    assert_equal content_id, @user.last_content_id
   end
 
   test "User gets appropriate message if there aren't any options to adjust" do
     stub_successful_twilio_call("Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.", @user)
-    @user.update(child_birthday: 6.months.ago)
+    @user.update(child_birthday: 6.months.ago, last_content_id: nil)
 
     SendFeedbackMessageJob.new.perform(@user)
 
