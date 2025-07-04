@@ -7,7 +7,7 @@ namespace :create_auto_responses do
       user_conditions: '{"asked_for_feedback": true, "contactable": true}',
       update_user: '{"asked_for_feedback": false}',
       content_adjustment_conditions: '{"needs_adjustment": null}',
-      update_content_adjustment: '{"needs_adjustment": true, "number_options": "number_options"}'
+      update_content_adjustment: '{"needs_adjustment": true, "number_up_options": "number_up_options", "number_down_options": "number_down_options"}'
     )
 
     # There aren't any adjustments available
@@ -17,7 +17,7 @@ namespace :create_auto_responses do
       user_conditions: '{"contactable": true}',
       update_user: '{"asked_for_feedback": false}',
       update_content_adjustment: '{"direction": "not_sure"}',
-      content_adjustment_conditions: '{"needs_adjustment": true, "number_options": 0}'
+      content_adjustment_conditions: '{"needs_adjustment": true, "number_up_options": 0}'
     )
     AutoResponse.find_or_create_by!(
       trigger_phrase: "2",
@@ -25,7 +25,7 @@ namespace :create_auto_responses do
       user_conditions: '{"contactable": true}',
       update_user: '{"asked_for_feedback": false}',
       update_content_adjustment: '{"direction": "not_sure"}',
-      content_adjustment_conditions: '{"needs_adjustment": true, "number_options": 0}'
+      content_adjustment_conditions: '{"needs_adjustment": true, "number_down_options": 0}'
     )
 
     # There are adjustments available
@@ -35,7 +35,7 @@ namespace :create_auto_responses do
       response: "Every baby develops at their own pace, and we’ve designed our content to match a range of developmental stages. To adjust, pick the animal that sounds most like your little one right now.\n{{content_age_groups}}",
       user_conditions: '{"contactable": true}',
       update_user: "{}",
-      content_adjustment_conditions: '{"needs_adjustment": true, "direction": null, "number_options": "> 0"}',
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": null, "number_up_options": "> 0"}',
       update_content_adjustment: '{"direction": "up"}'
     )
 
@@ -45,7 +45,7 @@ namespace :create_auto_responses do
       response: "Every baby develops at their own pace, and we’ve designed our content to match a range of developmental stages. To adjust, pick the animal that sounds most like your little one right now.\n{{content_age_groups}}",
       user_conditions: '{"contactable": true}',
       update_user: "{}",
-      content_adjustment_conditions: '{"needs_adjustment": true, "direction": null, "number_options": "> 0"}',
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": null, "number_down_options": "> 0"}',
       update_content_adjustment: '{"direction": "down"}'
     )
 
@@ -55,7 +55,15 @@ namespace :create_auto_responses do
       response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.",
       user_conditions: '{"contactable": true}',
       update_user: "{}",
-      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": "> 0"}',
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "down", "number_down_options": "> 0"}',
+      update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now"}'
+    )
+    AutoResponse.find_or_create_by!(
+      trigger_phrase: "1",
+      response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.",
+      user_conditions: '{"contactable": true}',
+      update_user: "{}",
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "up", "number_up_options": "> 0"}',
       update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now"}'
     )
 
@@ -65,7 +73,15 @@ namespace :create_auto_responses do
       response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.",
       user_conditions: '{"contactable": true}',
       update_user: "{}",
-      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": 2}',
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "up", "number_up_options": 2}',
+      update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now"}'
+    )
+    AutoResponse.find_or_create_by!(
+      trigger_phrase: "2",
+      response: "Thanks, we've adjusted the content you'll receive. We'll check back in in a few weeks to make sure it's right.",
+      user_conditions: '{"contactable": true}',
+      update_user: "{}",
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "down", "number_down_options": 2}',
       update_content_adjustment: '{"needs_adjustment": false, "adjusted_at": "now"}'
     )
 
@@ -75,7 +91,15 @@ namespace :create_auto_responses do
       response: "Thanks, a member of the team will be in touch to discuss your child's needs.",
       user_conditions: '{"contactable": true}',
       update_user: "{}",
-      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": 2}',
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "up", "number_up_options": 2}',
+      update_content_adjustment: '{"direction": "not_sure"}'
+    )
+    AutoResponse.find_or_create_by!(
+      trigger_phrase: "3",
+      response: "Thanks, a member of the team will be in touch to discuss your child's needs.",
+      user_conditions: '{"contactable": true}',
+      update_user: "{}",
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "down", "number_down_options": 2}',
       update_content_adjustment: '{"direction": "not_sure"}'
     )
 
@@ -85,7 +109,15 @@ namespace :create_auto_responses do
       response: "Thanks, a member of the team will be in touch to discuss your child's needs.",
       user_conditions: '{"contactable": true}',
       update_user: "{}",
-      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "not_nil", "number_options": 1}',
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "up", "number_up_options": 1}',
+      update_content_adjustment: '{"direction": "not_sure"}'
+    )
+    AutoResponse.find_or_create_by!(
+      trigger_phrase: "2",
+      response: "Thanks, a member of the team will be in touch to discuss your child's needs.",
+      user_conditions: '{"contactable": true}',
+      update_user: "{}",
+      content_adjustment_conditions: '{"needs_adjustment": true, "direction": "down", "number_down_options": 1}',
       update_content_adjustment: '{"direction": "not_sure"}'
     )
 

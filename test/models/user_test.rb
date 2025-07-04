@@ -196,10 +196,9 @@ class UserTest < ActiveSupport::TestCase
     user1 = create(:user)
     create(:content_adjustment, user: user1, needs_adjustment: true, direction: "not_sure")
     create(:content_adjustment, user: user1, needs_adjustment: true, direction: "not_sure", adjusted_at: Time.now)
-    
+
     user2 = create(:user)
     create(:content_adjustment, user: user2, needs_adjustment: true, direction: nil)
-
 
     assert_equal 1, User.completed_adjustment_assessment.size
     assert_includes User.completed_adjustment_assessment, user1

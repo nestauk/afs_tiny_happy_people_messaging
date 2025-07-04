@@ -121,6 +121,38 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     assert_equal @lower_content.id, @user.last_content_id
   end
 
+  test "User can say they need an adjustment up and they have a young child" do
+    stub_successful_twilio_call("Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.", @user)
+    @user.update(child_birthday: 4.months.ago)
+
+    SendFeedbackMessageJob.new.perform(@user)
+
+    perform_enqueued_jobs
+
+    assert @user.latest_adjustment
+    assert @user.asked_for_feedback
+
+    Message.create(user: @user, body: "no", status: "received")
+
+    stub_successful_twilio_call("We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if too easy, 2 if too hard, or reply with your message if you want to give more context.", @user)
+
+    perform_enqueued_jobs
+
+    refute @user.asked_for_feedback
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal @user.latest_adjustment.number_down_options, 0
+    assert_equal @user.latest_adjustment.number_up_options, 2
+
+    Message.create(user: @user, body: "1", status: "received")
+
+    stub_successful_twilio_call("Thanks for the feedback. Are you one of these groups?\n1. Tiny Bumblebee\n2. Tiny Elephant\n3. I'm not sure", @user)
+
+    perform_enqueued_jobs
+
+    assert @user.latest_adjustment.needs_adjustment
+    assert_equal "up", @user.latest_adjustment.direction
+  end
+
   test "User can give more context if they're not sure if they want easier or harder content" do
     stub_successful_twilio_call("Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.", @user)
 
@@ -181,7 +213,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     assert @user.latest_adjustment.needs_adjustment
     assert_equal "down", @user.latest_adjustment.direction
-    assert_equal @user.latest_adjustment.number_options, 2
+    assert_equal 2, @user.latest_adjustment.number_down_options
 
     Message.create(user: @user, body: "3", status: "received")
 
@@ -223,7 +255,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     assert @user.latest_adjustment.needs_adjustment
     assert_equal "down", @user.latest_adjustment.direction
-    assert_equal @user.latest_adjustment.number_options, 1
+    assert_equal 1, @user.latest_adjustment.number_down_options
 
     Message.create(user: @user, body: "2", status: "received")
 
@@ -256,7 +288,7 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
 
     refute @user.asked_for_feedback
     assert @user.latest_adjustment.needs_adjustment
-    assert_equal @user.latest_adjustment.number_options, 0
+    assert_equal 0, @user.latest_adjustment.number_down_options
 
     Message.create(user: @user, body: "2", status: "received")
 
@@ -268,7 +300,4 @@ class AutoAdjustmentTest < ApplicationSystemTestCase
     assert @user.latest_adjustment.needs_adjustment
     assert_equal @user.latest_adjustment.direction, "not_sure"
   end
-
-  # test "User can start adjustment process in the middle again"
-  # test "User can start adjustment process after they've completed once"
 end
