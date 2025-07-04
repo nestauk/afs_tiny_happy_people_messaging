@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_26_083257) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_04_130210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -128,9 +128,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_083257) do
     t.boolean "needs_adjustment"
     t.string "direction"
     t.datetime "adjusted_at"
-    t.integer "number_options"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "number_up_options"
+    t.integer "number_down_options"
     t.index ["user_id"], name: "index_content_adjustments_on_user_id"
   end
 

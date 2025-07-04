@@ -76,11 +76,11 @@ class ContentAdjustmentTest < ApplicationSystemTestCase
     assert_text @user.full_name
     click_on "Assess"
 
-    assert_selector "h1", text: "#{@user.full_name}"
+    assert_selector "h1", text: @user.full_name
 
     click_on "Update content"
 
-    assert_selector "h1", text: "#{@user.full_name}"
+    assert_selector "h1", text: @user.full_name
 
     fill_in "Content age", with: 9
     click_on "Update"

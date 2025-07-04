@@ -52,9 +52,7 @@ class ResponseMatcherService
     return true if parsed_conditions.empty?
 
     parsed_conditions.all? do |key, value|
-      if key == "direction" && value == "not_nil"
-        object[key].present?
-      elsif value == "> 0"
+      if value == "> 0"
         object[key].to_i > 0
       else
         object[key] == value
@@ -73,7 +71,8 @@ class ResponseMatcherService
   end
 
   def update_user_content_group
-    months = find_groups[@message.body.to_i - 1].min_months
+    direction = ((@user.latest_adjustment.direction == "up") ? ">" : "<")
+    months = find_groups(direction)[@message.body.to_i - 1].min_months
     content_id = Content.where(age_in_months: months).min_by(&:position).id
 
     @user.update(last_content_id: content_id)
@@ -84,8 +83,10 @@ class ResponseMatcherService
       object.update(restart_at: 4.weeks.from_now.noon)
     elsif key == "adjusted_at"
       object.update(adjusted_at: Time.current)
-    elsif value == "number_options"
-      object.update(number_options: find_groups.size)
+    elsif value == "number_down_options"
+      object.update(number_down_options: find_groups("<").size)
+    elsif value == "number_up_options"
+      object.update(number_up_options: find_groups(">").size)
     elsif key == "id" && value
       @user.content_adjustments.create
     else
@@ -106,12 +107,13 @@ class ResponseMatcherService
     content.gsub("{{content_age_groups}}", "#{sentences.join("\n")}\n#{sentences.length + 1}. I'm not sure")
   end
 
-  def find_groups
-    direction = @user.latest_adjustment.needs_older_content? ? ">" : "<"
-    ContentAgeGroup.return_two_groups(direction, @user.child_age_in_months_today)
+  def find_groups(direction)
+    age = @user.last_content_id.nil? ? @user.child_age_in_months_today : Content.find(@user.last_content_id).age_in_months
+    ContentAgeGroup.return_two_groups(direction, age)
   end
 
   def generate_sentences
-    find_groups.map.with_index(1) { |group, index| "#{index}. #{group.description}" }
+    direction = (@user.latest_adjustment.direction == "up") ? ">" : "<"
+    find_groups(direction).map.with_index(1) { |group, index| "#{index}. #{group.description}" }
   end
 end
