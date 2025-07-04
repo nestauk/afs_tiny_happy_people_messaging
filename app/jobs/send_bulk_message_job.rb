@@ -15,6 +15,9 @@ class SendBulkMessageJob < ApplicationJob
     when "restart"
       users = User.opted_out.where("restart_at < ?", Time.now)
       users.map { |user| RestartMessagesJob.new(user) }
+    when "check_adjustment"
+      users = User.contactable.where("last_adjustment_check < ?", 1.week.ago)
+      users.map { |user| CheckAdjustmentJob.new(user) }
     end
 
     return if message_jobs.nil? || message_jobs.empty?
