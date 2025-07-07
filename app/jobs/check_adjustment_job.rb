@@ -1,16 +1,11 @@
 class CheckAdjustmentJob < ApplicationJob
-  queue_as :default
+  queue_as :background
 
-  def perform
-    # Check for adjustments that need to be made
-    adjustments = Adjustment.where(checked: false)
+  def perform(user)
+    message = Message.build(user:, body: "You adjusted the content you receive from us a few weeks ago. How is it going? If it's good, no need to do anything. If you'd like to change it, text back 'ADJUST' to start the process again.")
 
-    adjustments.each do |adjustment|
-      # Perform the adjustment logic here
-      adjustment.perform_adjustment
-
-      # Mark the adjustment as checked
-      adjustment.update(checked: true)
+    if message.save
+      SendCustomMessageJob.perform_later(message)
     end
   end
 end
