@@ -75,6 +75,10 @@ class User < ApplicationRecord
     with_latest_adjustment
       .where(latest_adjustments: {adjusted_at: nil, direction: nil})
   }
+  scope :adjusted_2_weeks_ago, -> {
+    with_latest_adjustment
+      .where(latest_adjustments: {adjusted_at: 3.weeks.ago..2.weeks.ago})
+  }
 
   attribute :hour_preference,
     morning: "morning",
