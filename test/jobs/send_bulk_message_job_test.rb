@@ -107,6 +107,30 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
+  test "#perform creates jobs to check with users about their content adjustment" do
+    user = create(:user, contactable: true)
+    create(:content_adjustment, user:, adjusted_at: 17.days.ago)
+    user2 = create(:user, contactable: true)
+    create(:content_adjustment, user: user2, adjusted_at: nil)
+
+    assert_enqueued_with(job: CheckAdjustmentJob, args: [user]) do
+      SendBulkMessageJob.perform_now("check_adjustment")
+    end
+  end
+
+  test "#perform creates jobs to ask users to finish their content adjustment" do
+    user = create(:user, contactable: true)
+    create(:content_adjustment, user:, adjusted_at: nil, created_at: 8.days.ago)
+    user2 = create(:user, contactable: true)
+    create(:content_adjustment, user: user2, adjusted_at: 1.week.ago, created_at: 8.days.ago)
+    user3 = create(:user, contactable: true)
+    create(:content_adjustment, user: user3, needs_adjustment: false, created_at: 8.days.ago)
+
+    assert_enqueued_with(job: ChaseAdjustmentJob, args: [user]) do
+      SendBulkMessageJob.perform_now("chase_adjustment")
+    end
+  end
+
   test "#perform does not create jobs if not passed a valid message type" do
     create_list(:user, 3, child_birthday: 7.months.ago)
 

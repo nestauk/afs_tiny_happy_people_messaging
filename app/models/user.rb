@@ -79,6 +79,10 @@ class User < ApplicationRecord
     with_latest_adjustment
       .where(latest_adjustments: {adjusted_at: 3.weeks.ago..2.weeks.ago})
   }
+  scope :started_not_finished_adjustment_last_week, -> {
+    incomplete_adjustment_assessment
+      .where(latest_adjustments: {created_at: 2.week.ago..1.week.ago})
+  }
 
   attribute :hour_preference,
     morning: "morning",

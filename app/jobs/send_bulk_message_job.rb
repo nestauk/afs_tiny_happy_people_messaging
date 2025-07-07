@@ -18,6 +18,9 @@ class SendBulkMessageJob < ApplicationJob
     when "check_adjustment"
       users = User.contactable.adjusted_2_weeks_ago
       users.map { |user| CheckAdjustmentJob.new(user) }
+    when "chase_adjustment"
+      users = User.contactable.started_not_finished_adjustment_last_week
+      users.map { |user| ChaseAdjustmentJob.new(user) }
     end
 
     return if message_jobs.nil? || message_jobs.empty?

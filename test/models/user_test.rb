@@ -217,6 +217,18 @@ class UserTest < ActiveSupport::TestCase
     refute_includes User.incomplete_adjustment_assessment, user2
   end
 
+  test "started_not_finished_adjustment_last_week scope" do
+    user1 = create(:user)
+    create(:content_adjustment, user: user1, created_at: 8.days.ago)
+
+    user2 = create(:user)
+    create(:content_adjustment, user: user2, created_at: 15.days.ago)
+
+    assert_equal 1, User.started_not_finished_adjustment_last_week.size
+    assert_includes User.started_not_finished_adjustment_last_week, user1
+    refute_includes User.started_not_finished_adjustment_last_week, user2
+  end
+
   test "adjusted_2_weeks_ago scope" do
     user1 = create(:user)
     create(:content_adjustment, user: user1, adjusted_at: 3.weeks.ago)
