@@ -14,7 +14,7 @@ class ResponseMatcherService
       responses.each do |response|
         process_response(response) and break if conditions_met?(response)
       end
-    elsif responses.empty? && @user&.latest_adjustment&.given_more_content?
+    elsif responses.empty? && @user&.latest_adjustment&.given_more_context?
       send_message(ASSESSMENT_MESSAGE)
       @user.latest_adjustment.update(direction: "not_sure")
     elsif weekend?

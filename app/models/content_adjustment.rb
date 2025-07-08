@@ -11,7 +11,7 @@ class ContentAdjustment < ApplicationRecord
     needs_adjustment? && direction == "down"
   end
 
-  def given_more_content?
+  def given_more_context?
     needs_adjustment? && direction.nil?
   end
 
