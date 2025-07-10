@@ -145,43 +145,4 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     assert_equal user.messages.last.body, "You're all set to start receiving messages again!"
     refute user.contactable
   end
-
-  test "should update user and content adjustment fields" do
-    user = create(:user, contactable: true)
-    content_adjustment = create(:content_adjustment, needs_adjustment: true, user:)
-    message = build(:message, body: "1", status: "received", user:)
-
-    create(:auto_response, trigger_phrase: "1",
-      response: "Thanks for the feedback. Are you one of these groups? 1. Tiny elephant, 2. Tiny kangaroo, 3. I'm not sure",
-      user_conditions: '{"contactable": true}',
-      content_adjustment_conditions: '{"needs_adjustment": true}',
-      update_content_adjustment: '{"direction": "up"}')
-
-    assert_enqueued_with(job: SendCustomMessageJob) do
-      ResponseMatcherService.new(message).match_response
-    end
-
-    assert_equal user.messages.last.body, "Thanks for the feedback. Are you one of these groups? 1. Tiny elephant, 2. Tiny kangaroo, 3. I'm not sure"
-    assert_equal content_adjustment.reload.direction, "up"
-  end
-
-  test "user can start auto adjustment process" do
-    user = create(:user, contactable: true)
-    create(:auto_response,
-      trigger_phrase: "adjust",
-      response: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.",
-      user_conditions: '{"contactable": true}',
-      update_user: '{"asked_for_feedback": true}',
-      update_content_adjustment: '{"id": true}')
-
-    message = build(:message, body: "ADJUST", status: "received", user:)
-
-    assert_enqueued_with(job: SendCustomMessageJob) do
-      ResponseMatcherService.new(message).match_response
-    end
-
-    assert_equal user.messages.last.body, "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
-    assert user.content_adjustments.last.present?
-    assert user.asked_for_feedback
-  end
 end

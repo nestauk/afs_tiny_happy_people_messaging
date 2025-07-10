@@ -14,9 +14,6 @@ class ResponseMatcherService
       responses.each do |response|
         process_response(response) and break if conditions_met?(response)
       end
-    elsif responses.empty? && @user&.latest_adjustment&.given_more_context?
-      send_message(ASSESSMENT_MESSAGE)
-      @user.latest_adjustment.update(direction: "not_sure")
     elsif weekend?
       send_message(WORKING_HOURS_MESSAGE)
     end
@@ -30,7 +27,7 @@ class ResponseMatcherService
 
   def process_response(response)
     apply_updates(response)
-    send_message(create_response_message(response)) if response.response.present?
+    send_message(response.response) if response.response.present?
   end
 
   def weekend?
@@ -43,8 +40,7 @@ class ResponseMatcherService
   end
 
   def conditions_met?(response)
-    check_conditions(response.user_conditions, @user) &&
-      check_conditions(response.content_adjustment_conditions, @user.latest_adjustment)
+    check_conditions(response.user_conditions, @user)
   end
 
   def check_conditions(conditions, object)
@@ -61,21 +57,8 @@ class ResponseMatcherService
   end
 
   def apply_updates(response)
-    update_user_content_group if @user.needs_new_content_group?
-
     updates = JSON.parse(response.update_user)
     updates.each { |key, value| update_attribute(key, value, @user) } if updates.any?
-
-    updates = JSON.parse(response.update_content_adjustment)
-    updates.each { |key, value| update_attribute(key, value, @user.latest_adjustment) } if updates.any?
-  end
-
-  def update_user_content_group
-    direction = ((@user.latest_adjustment.direction == "up") ? ">" : "<")
-    months = find_groups(direction)[@message.body.to_i - 1].min_months
-    content_id = Content.where(age_in_months: months).min_by(&:position).id
-
-    @user.update(last_content_id: content_id)
   end
 
   def update_attribute(key, value, object)
@@ -83,37 +66,8 @@ class ResponseMatcherService
       object.update(restart_at: 4.weeks.from_now.noon)
     elsif key == "adjusted_at"
       object.update(adjusted_at: Time.current)
-    elsif value == "number_down_options"
-      object.update(number_down_options: find_groups("<").size)
-    elsif value == "number_up_options"
-      object.update(number_up_options: find_groups(">").size)
-    elsif key == "id" && value
-      @user.content_adjustments.create
     else
       object.update(key => value)
     end
-  end
-
-  def create_response_message(response)
-    if @user.needs_content_group_suggestions?
-      substitute_variables(response.response)
-    else
-      response.response
-    end
-  end
-
-  def substitute_variables(content)
-    sentences = generate_sentences
-    content.gsub("{{content_age_groups}}", "#{sentences.join("\n")}\n#{sentences.length + 1}. I'm not sure")
-  end
-
-  def find_groups(direction)
-    age = @user.last_content_id.nil? ? @user.child_age_in_months_today : Content.find(@user.last_content_id).age_in_months
-    ContentAgeGroup.return_two_groups(direction, age)
-  end
-
-  def generate_sentences
-    direction = (@user.latest_adjustment.direction == "up") ? ">" : "<"
-    find_groups(direction).map.with_index(1) { |group, index| "#{index}. #{group.description}" }
   end
 end

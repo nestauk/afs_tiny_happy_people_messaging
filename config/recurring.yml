@@ -27,14 +27,6 @@ production:
     class: SendBulkMessageJob
     args: [ nudge ]
     schedule: 0 11 * * 2
-  check_adjustment:
-    class: SendBulkMessageJob
-    args: [ check_adjustment ]
-    schedule: 0 11 * * 4
-  chase_adjustment:
-    class: SendBulkMessageJob
-    args: [ chase_adjustment ]
-    schedule: 0 11 * * 4
   update_all_las:
     command: "AllLasDashboard.refresh"
     schedule: 0 * * * *
