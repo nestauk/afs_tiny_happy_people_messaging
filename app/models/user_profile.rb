@@ -137,7 +137,7 @@ class UserProfile
 
   def create_interests
     interests.each do |title|
-      interest = Interest.find_or_create_by(title:)
+      interest = Interest.create(title:)
       @user.interests << interest
     end
   end
