@@ -16,19 +16,37 @@
 
       <%= form.input :postcode, wrapper_html: { class: "md:w-1/2 mt-3" }, hint: "We use this to identify your local authority who will cover the cost of this service." %>
 
-      <%= 
-        form.input :child_birthday,
-        label: "Your child's birthday",
-        hint: "We use this to start suggesting activities, and ask you to tell us if they are suitable for your child.",
-        as: :date,
-        order: [:month, :year],
-        wrapper_html: { class: "mt-3" },
-        input_html: { class: "md:w-1/4 mt-3" } 
-      %>
+      <fieldset class="mt-3 <%= 'input field_with_errors' if @user.errors[:child_birthday].any? %>">
+        <legend>* Your child's birthday</legend>
+        <p class="hint">We use this to start suggesting activities, and ask you to tell us if they are suitable for your child.</p>
+        <% if @user.errors[:child_birthday].any? %>
+          <p class="text-red-600 text-sm">
+            <%= @user.errors[:child_birthday].first %>
+          </p>
+        <% end %>
+        <div class="flex gap-1 align-middle">
+          <input type="hidden" id="user_child_birthday_3i" name="user[child_birthday(3i)]" value="1" autocomplete="off">
+          <div>
+            <select id="user_child_birthday_2i" name="user[child_birthday(2i)]" aria-label="Month">
+              <% (1..12).each do |m| %>
+                <option value="<%= m %>"><%= Date::MONTHNAMES[m] %></option>
+              <% end %>
+            </select>
+          </div>
+          <div>
+            <select id="user_child_birthday_1i" name="user[child_birthday(1i)]" aria-label="Year">
+              <% (DateTime.current.year - 2..DateTime.current.year).each do |y| %>
+                <option value="<%= y %>"><%= y %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </fieldset>
 
       <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: "I accept the #{link_to("terms of service", terms_path, class: "underline hover:no-underline", target: "_blank")} and #{link_to("privacy policy", privacy_policy_path, class: "underline hover:no-underline", target: "_blank")}".html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-4 mb-2 md:mt-8 text-xs md:text-base" }  %>
 
-      <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-bbc-blue text-white w-full", "data-turbolinks": "false" %>
+      <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full", "data-turbolinks": "false" %>
     <% end %>
   <% end %>
+  <div class="hidden text-red-600"></div>
 </div>
