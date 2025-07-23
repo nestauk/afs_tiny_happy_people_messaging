@@ -78,6 +78,9 @@ GEM
       activesupport (>= 6.1)
       device_detector (>= 1)
       safely_block (>= 0.4)
+    appsignal (4.5.17)
+      logger
+      rack (>= 2.0.0)
     ast (2.4.2)
     base64 (0.2.0)
     bcrypt (3.1.20)
@@ -456,6 +459,7 @@ PLATFORMS
 
 DEPENDENCIES
   ahoy_matey
+  appsignal
   blazer
   bootsnap
   brakeman

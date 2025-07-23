@@ -69,6 +69,7 @@ group :test do
 end
 
 gem "ahoy_matey"
+gem "appsignal"
 gem "blazer"
 gem "devise"
 gem "devise-passwordless"
