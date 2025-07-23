@@ -1,3 +1,5 @@
+<% content_for(:page_title) { "Personalise your experience" } %>
+
 <%= f.input :referral_source, as: :hidden %>
 <%= f.input :new_language_preference, as: :hidden %>
 <%= hidden_field_tag :token, params[:token] %>
@@ -22,6 +24,6 @@
   <%= f.input :hour_preference, label: "What time of day would you like to get the texts? (optional)", as: :select, collection: [["Morning, 8am", "morning"], ["Afternoon, 12pm", "afternoon"], ["Evening, 8pm", "evening"], ["No preference, send them any time", "no_preference"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false %>
 
   <div class="mt-5">
-    <%= f.button :submit, "Next", class: 'btn bg-bbc-blue text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
+    <%= f.button :submit, "Next", class: 'btn bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
   </div>
 </div>

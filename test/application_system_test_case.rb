@@ -15,8 +15,4 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
     assert_text "success"
   end
-
-  def assert_field_has_errors(label_text)
-    find_field(label_text).assert_ancestor(".input.field_with_errors")
-  end
 end
