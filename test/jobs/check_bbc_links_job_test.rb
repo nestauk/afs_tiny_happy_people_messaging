@@ -16,7 +16,7 @@ class CheckBbcLinksJobTest < ActiveSupport::TestCase
     stub_request(:get, "https://www.bbc.co.uk/some-invalid-link")
       .to_return(status: 404, body: "Not Found")
 
-    Rollbar.expects(:error).once.with do |message|
+    Appsignal.expects(:report_error).once.with do |message|
       message.include?("Link https://www.bbc.co.uk/some-invalid-link returned status code 404")
     end
 

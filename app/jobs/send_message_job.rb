@@ -28,7 +28,10 @@ class SendMessageJob < ApplicationJob
       user.update!(last_content_id: content.id)
       message.save!
     rescue ActiveRecord::RecordInvalid => e
-      Rollbar.error(e, user_info: user.attributes, message_info: message.attributes)
+      Appsignal.report_error(e) do
+        Appsignal.add_tags(user_info: user.attributes, message_info: message.attributes)
+      end
+
       false
     end
   end

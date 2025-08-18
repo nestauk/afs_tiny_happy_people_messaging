@@ -129,7 +129,9 @@ class User < ApplicationRecord
     if update(contactable: false, restart_at: DateTime.new(2025, 9, 15))
       SendWaitlistMessageJob.perform_now(self)
     else
-      Rollbar.error("User in study could not be updated", user_info: attributes)
+      Appsignal.report_error("User in study could not be updated") do
+        Appsignal.add_tags(user_info: attributes)
+      end
     end
   end
 

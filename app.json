@@ -10,8 +10,7 @@
   ],
   "addons": [
     "heroku-postgresql",
-    "scheduler",
-    "rollbar"
+    "scheduler"
   ],
   "env": {
     "PRODUCTION_DOMAIN": {
