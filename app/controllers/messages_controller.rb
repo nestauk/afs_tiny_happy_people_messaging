@@ -9,7 +9,9 @@ class MessagesController < ApplicationController
 
   def status
     if valid_twilio_request?(request) && twilio_message_params[:MessageStatus] == "failed"
-      Rollbar.error("Twilio message failed", twilio_message_params: twilio_message_params)
+      Appsignal.report_error("Twilio message failed") do
+        Appsignal.add_tags(twilio_message_params: twilio_message_params)
+      end
 
       UpdateMessageStatusJob.perform_later(twilio_message_params)
     end

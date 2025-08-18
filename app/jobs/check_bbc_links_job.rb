@@ -12,10 +12,10 @@ class CheckBbcLinksJob < ApplicationJob
         response = Net::HTTP.get_response(uri)
 
         if response.code != "200"
-          Rollbar.error("Link #{link} returned status code #{response.code}")
+          Appsignal.report_error("Link #{link} returned status code #{response.code}")
         end
       rescue => e
-        Rails.logger.error("Error checking link #{link}: #{e.message}")
+        Appsignal.report_error(e)
       end
     end
   end
