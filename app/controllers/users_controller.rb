@@ -49,7 +49,7 @@ class UsersController < ApplicationController
       redirect_to edit_user_path(@user, token:)
     else
       @no_padding = true
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     else
       check_token_session
 
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
