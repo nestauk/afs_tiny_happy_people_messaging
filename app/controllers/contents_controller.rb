@@ -14,7 +14,7 @@ class ContentsController < ApplicationController
     if @content.save
       redirect_to group_path(@content.group), notice: "Content for message was successfully created"
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -25,7 +25,7 @@ class ContentsController < ApplicationController
     if @content.update(content_params)
       redirect_to group_path(@content.group), notice: "Content updated!"
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -38,7 +38,7 @@ class ContentsController < ApplicationController
     if @content.update(archived_at: Time.now)
       redirect_to group_path(@content.group), notice: "Content archived"
     else
-      render group_path(@content.group), status: :unprocessable_entity
+      render group_path(@content.group), status: :unprocessable_content
     end
   end
 

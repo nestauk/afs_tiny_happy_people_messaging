@@ -19,7 +19,7 @@ class GroupsController < ApplicationController
     if @group.save
       redirect_to groups_path, notice: "Content group successfully created"
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
     if @group.update(group_params)
       redirect_to groups_path, notice: "Content group updated"
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

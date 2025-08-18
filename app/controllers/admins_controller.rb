@@ -23,7 +23,7 @@ class AdminsController < ApplicationController
     if @admin.save
       redirect_to admins_path, notice: "Admin was successfully created."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -34,7 +34,7 @@ class AdminsController < ApplicationController
 
       redirect_to admins_path, notice: "Admin was successfully updated."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
