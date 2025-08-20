@@ -381,7 +381,9 @@ class UserTest < ActiveSupport::TestCase
     user = create(:user, contactable: true, restart_at: nil)
 
     User.any_instance.stubs(:update).returns(false)
-    Appsignal.expects(:report_error).with("User in study could not be updated")
+    Appsignal.expects(:report_error).once.with do |error|
+      error.message == "User in study could not be updated"
+    end
 
     user.put_on_waitlist
   end

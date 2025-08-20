@@ -8,19 +8,18 @@ class SendBulkMessageJob < ApplicationJob
       users.map { |user| SendFeedbackMessageJob.new(user) }
     when "weekly_message"
       users = set_users(time)
-      users.map { |user| SendMessageJob.new(user) }
+
+      Appsignal::CheckIn.cron("send_#{time}_job") do
+        users.map do |user|
+          SendMessageJob.new(user)
+        end
+      end
     when "nudge"
       users = User.contactable.not_nudged.not_clicked_last_x_messages(3)
       users.map { |user| NudgeUsersJob.new(user) }
     when "restart"
       users = User.opted_out.where("restart_at < ?", Time.now)
       users.map { |user| RestartMessagesJob.new(user) }
-    when "check_adjustment"
-      users = User.contactable.adjusted_2_weeks_ago
-      users.map { |user| CheckAdjustmentJob.new(user) }
-    when "chase_adjustment"
-      users = User.contactable.started_not_finished_adjustment_last_week
-      users.map { |user| ChaseAdjustmentJob.new(user) }
     end
 
     return if message_jobs.nil? || message_jobs.empty?
