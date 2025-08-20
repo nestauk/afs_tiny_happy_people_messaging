@@ -13,7 +13,8 @@ class CheckBbcLinksJob < ApplicationJob
           response = Net::HTTP.get_response(uri)
 
           if response.code != "200"
-            Appsignal.report_error("Link #{link} returned status code #{response.code}")
+            error = StandardError.new("Link #{link} returned status code #{response.code}")
+            Appsignal.report_error(error)
           end
         rescue => e
           Appsignal.report_error(e)
