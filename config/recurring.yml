@@ -38,5 +38,5 @@ production:
     schedule: 0 2 * * *
   check_bbc_links:
     class: CheckBbcLinksJob
-    schedule: */10 * * * *
+    schedule: 0 1 * * 3
 
