@@ -39,5 +39,12 @@ module ActiveSupport
         )
         .to_return(status: 500, body: {"body" => message, "status" => "failed", "sid" => "123"}.to_json)
     end
+
+    def teardown
+      super
+
+      Rails.cache.clear
+      ActionMailer::Base.deliveries.clear
+    end
   end
 end

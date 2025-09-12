@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  rate_limit to: 5, within: 5.minutes, by: -> { request.ip }, only: :create, with: -> { rate_limit_exceeded }
+
   skip_before_action :authenticate_admin!, except: [:index, :show, :dashboard]
   before_action :show_footer, only: [:new, :edit, :thank_you]
   before_action :check_admin_role, only: [:index, :dashboard, :show]
@@ -110,5 +112,11 @@ class UsersController < ApplicationController
     Time.at(data["exp"]) > Time.current
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     false
+  end
+
+  def rate_limit_exceeded
+    @user = User.new
+    flash.now[:notice] = "Too many attempts. Try again later."
+    render :new, status: :unprocessable_content
   end
 end
