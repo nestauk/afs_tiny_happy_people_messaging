@@ -29,6 +29,6 @@ module AfsTinyHappyPeople
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Clear out old finished jobs from the SolidQueue database.
-    config.solid_queue.clear_finished_jobs_after = 2.months
+    config.solid_queue.clear_finished_jobs_after = 1.month
   end
 end
