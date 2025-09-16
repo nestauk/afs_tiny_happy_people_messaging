@@ -1,6 +1,6 @@
 <%= simple_form_for @group do |form| %>
   <div class="mt-3">
-    <%= form.input :name %>
+    <%= form.input :name, input_html: { class: "w-full" } %>
   </div>
 
   <%= form.submit (action_name == "edit" ? "Update" : "Create"), class: "btn btn-primary mt-5 bg-bbc-blue text-white w-full" %>

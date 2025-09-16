@@ -114,7 +114,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_field_has_errors("First name")
     assert_field_has_errors("Last name")
     assert_field_has_errors("Phone number")
-    assert_field_has_errors("Your child's birthday")
+    assert_text "Your child must be between 3 and 24 months old, but we're working to expand our content"
     assert_field_has_errors("I accept the terms of service and privacy policy")
   end
 
