@@ -32,7 +32,7 @@
         <td class="p-4">
           <%= link_to "Edit", edit_group_content_path(@group, content), class: "underline hover:no-underline" %>
           <%= simple_form_for content, url: archive_group_content_path(@group, content) do |f| %>
-            <%= f.button :submit, "Archive", class: "underline hover:no-underline" %>
+            <%= f.submit "Archive", class: "link underline hover:no-underline" %>
           <% end %>
         </td>
       </tr>

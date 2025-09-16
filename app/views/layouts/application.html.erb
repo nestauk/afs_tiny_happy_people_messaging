@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>BBC Tiny Happy People Text Messaging</title>
+    <title><%= content_for?(:page_title) ? yield(:page_title) + " | BBC Tiny Happy People Text Messaging" : "BBC Tiny Happy People Text Messaging" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Free texts sent weekly to your phone for fun activities to try out with your child from BBC's Tiny Happy People">
     <%= csrf_meta_tags %>
@@ -15,14 +15,14 @@
 
   <body>
     <%= render "layouts/navbar" %>
-    <% if flash[:notice] %>
-      <div class="md:px-28 px-3 py-5">
-        <p class="">
-          <%= flash[:notice] %>
-        </p>
-      </div>
-    <% end %>
-    <main class="w-full">
+    <main class="w-full" role="main" id="main">
+      <% if flash[:notice] %>
+        <div class="md:px-28 px-3 py-5">
+          <p class="">
+            <%= flash[:notice] %>
+          </p>
+        </div>
+      <% end %>
       <% if current_admin && !current_page?(root_path) %>
         <div class="grid grid-cols-4 gap-10 px-24">
           <%= render "layouts/sidebar" %>
