@@ -23,7 +23,7 @@
           </p>
         </div>
       <% end %>
-      <% if current_admin && !current_page?(root_path) %>
+      <% if current_admin && @hide_sidebar.blank? %>
         <div class="grid grid-cols-4 gap-10 px-24">
           <%= render "layouts/sidebar" %>
           <div class="mt-10 col-span-3 px-10">

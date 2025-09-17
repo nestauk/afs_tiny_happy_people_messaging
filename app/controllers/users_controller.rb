@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   rate_limit to: 5, within: 5.minutes, by: -> { request.ip }, only: :create, with: -> { rate_limit_exceeded }
 
   skip_before_action :authenticate_admin!, except: [:index, :show, :dashboard]
-  before_action :show_footer, only: [:new, :edit, :thank_you]
+  before_action :set_page_variables, only: [:new, :edit, :thank_you]
   before_action :check_admin_role, only: [:index, :dashboard, :show]
   before_action :check_token_session, only: [:edit, :update]
   after_action :track_action, only: [:edit, :create, :thank_you]
@@ -51,6 +51,7 @@ class UsersController < ApplicationController
       redirect_to edit_user_path(@user, token:)
     else
       @no_padding = true
+      @hide_sidebar = true
       render :new, status: :unprocessable_content
     end
   end
@@ -72,6 +73,7 @@ class UsersController < ApplicationController
       redirect_to thank_you_users_path
     else
       check_token_session
+      @hide_sidebar = true
 
       render :edit, status: :unprocessable_content
     end
@@ -95,8 +97,9 @@ class UsersController < ApplicationController
     ahoy.track request.path_parameters[:action], request.path_parameters
   end
 
-  def show_footer
+  def set_page_variables
     @show_footer = true
+    @hide_sidebar = true
   end
 
   def check_token_session
