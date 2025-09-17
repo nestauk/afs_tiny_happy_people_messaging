@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_admin!
-  before_action :show_footer
+  before_action :set_page_variables
   after_action :track_action
 
   def privacy_policy
@@ -24,7 +24,8 @@ class PagesController < ApplicationController
     ahoy.track request.path_parameters[:action], request.path_parameters
   end
 
-  def show_footer
+  def set_page_variables
+    @hide_sidebar = true
     @show_footer = true
   end
 end
