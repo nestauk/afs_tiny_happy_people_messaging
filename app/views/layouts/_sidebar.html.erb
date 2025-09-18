@@ -9,6 +9,10 @@
               class: 'link text-lg sm:text-xl no-underline hover:underline text-zinc-600'
               %>
   
+  <%= link_to 'Opted out users', users_path(opted_out: true),
+              class: 'link text-lg sm:text-xl no-underline hover:underline text-zinc-600'
+              %>
+
   <%= link_to 'Message contents', groups_path,
               class: 'link text-lg sm:text-xl no-underline hover:underline text-zinc-600'
               %>

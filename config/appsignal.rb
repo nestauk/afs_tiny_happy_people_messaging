@@ -15,7 +15,6 @@ Appsignal.configure do |config|
     'Started GET "\/assets\/.+'
   ]
 
-
   # Configure actions that should not be monitored by AppSignal.
   # For more information see our docs:
   # https://docs.appsignal.com/ruby/configuration/ignore-actions.html

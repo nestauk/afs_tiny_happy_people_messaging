@@ -40,6 +40,19 @@ module ActiveSupport
         .to_return(status: 500, body: {"body" => message, "status" => "failed", "sid" => "123"}.to_json)
     end
 
+    def assert_see(text)
+      document = ActionView::Base.full_sanitizer.sanitize(@response.body.gsub(/^.*<body>(.*)<\/body>.*$/mi, "\\1")).gsub(/\s{2,}/, "\n").strip
+      match = document.match(text)
+      assert document.match(text), "Expected to see \"#{text}\" in:\n#{document}"
+
+      match
+    end
+
+    def assert_dont_see(text)
+      document = ActionView::Base.full_sanitizer.sanitize(@response.body.gsub(/^.*<body>(.*)<\/body>.*$/mi, "\\1")).gsub(/\s{2,}/, "\n").strip
+      assert !document.match(text), "Expected not to see \"#{text}\" in:\n#{document}"
+    end
+
     def teardown
       super
 
