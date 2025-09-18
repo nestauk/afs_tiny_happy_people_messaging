@@ -37,6 +37,8 @@ jobs:
       - name: Set up database schema
         run: bin/rails db:schema:load
       # Add or replace test runners here
+      - name: Run rake standard
+        run: bundle exec rake standard
       - name: Run brakeman
         run: bundle exec brakeman
       - name: Run basic tests

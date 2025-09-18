@@ -5,7 +5,6 @@ class NudgeUsersJob < ApplicationJob
 
   def perform(user)
     Appsignal::CheckIn.cron("nudge_users_job") do
-
       message = Message.build(user:, body: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'END' to stop them entirely.")
 
       if message.save
