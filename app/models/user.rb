@@ -59,30 +59,6 @@ class User < ApplicationRecord
     where.not(last_content_id: Content.order(:position).last&.id)
       .or(User.where(last_content_id: nil))
   }
-  scope :with_latest_adjustment, -> {
-    with(latest_adjustments: ContentAdjustment.select("DISTINCT ON (user_id) *").order("user_id, created_at DESC"))
-      .joins("INNER JOIN latest_adjustments ON latest_adjustments.user_id = users.id")
-  }
-  scope :needs_adjustment_assessment, -> {
-    with_latest_adjustment
-      .where(latest_adjustments: {needs_adjustment: true, direction: "not_sure", adjusted_at: nil})
-  }
-  scope :completed_adjustment_assessment, -> {
-    with_latest_adjustment
-      .where.not("latest_adjustments.adjusted_at IS NULL")
-  }
-  scope :incomplete_adjustment_assessment, -> {
-    with_latest_adjustment
-      .where(latest_adjustments: {adjusted_at: nil, direction: nil})
-  }
-  scope :adjusted_2_weeks_ago, -> {
-    with_latest_adjustment
-      .where(latest_adjustments: {adjusted_at: 3.weeks.ago..2.weeks.ago})
-  }
-  scope :started_not_finished_adjustment_last_week, -> {
-    incomplete_adjustment_assessment
-      .where(latest_adjustments: {created_at: 2.week.ago..1.week.ago})
-  }
 
   attribute :hour_preference,
     morning: "morning",
@@ -133,18 +109,6 @@ class User < ApplicationRecord
         Appsignal.add_tags(user_info: attributes)
       end
     end
-  end
-
-  def needs_content_group_suggestions?
-    latest_adjustment&.needs_adjustment? && !latest_adjustment.direction.nil?
-  end
-
-  def needs_new_content_group?
-    needs_content_group_suggestions? &&
-      (
-        (latest_adjustment.needs_younger_content? && latest_adjustment.number_down_options >= messages.last.body.to_i) ||
-        (latest_adjustment.needs_older_content? && latest_adjustment.number_up_options >= messages.last.body.to_i)
-      )
   end
 
   private
