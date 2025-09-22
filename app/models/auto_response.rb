@@ -7,7 +7,6 @@ class AutoResponse < ApplicationRecord
 
   def validate_condition_and_update_fields
     %i[update_user user_conditions].each { |attr| validate_and_check_fields(attr, User) }
-    %i[update_content_adjustment content_adjustment_conditions].each { |attr| validate_and_check_fields(attr, ContentAdjustment) }
   end
 
   def validate_and_check_fields(attribute, model)
