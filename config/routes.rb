@@ -15,14 +15,9 @@ Rails.application.routes.draw do
     end
 
     resources :admins, except: %i[show destroy]
-
-    resources :content_adjustments, only: %i[index show edit update] do
-      get "automated", on: :collection
-      get "incomplete", on: :collection
-    end
   end
 
-  devise_for :admins, skip: :registrations, controllers: {sessions: "devise/passwordless/sessions"}
+  devise_for :admins, skip: :registrations, controllers: {sessions: "sessions"}
   get "up" => "rails/health#show", :as => :rails_health_check
 
   # Defines the root path route ("/")
