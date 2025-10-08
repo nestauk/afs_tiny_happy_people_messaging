@@ -6,9 +6,9 @@
     <meta name="description" content="Free texts sent weekly to your phone for fun activities to try out with your child from BBC's Tiny Happy People">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload", nonce: true %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload", nonce: true %>
     <%= favicon_link_tag asset_path('thumbnail.png') %>
     <%= javascript_importmap_tags %>
   </head>
