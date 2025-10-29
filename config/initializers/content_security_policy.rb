@@ -11,7 +11,7 @@ Rails.application.configure do
     policy.img_src :self, :https, :data
     policy.object_src :none
     policy.script_src :self, :https
-    policy.style_src :self, :unsafe_inline, :https
+    policy.style_src :self, :https
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"
   end
@@ -22,4 +22,11 @@ Rails.application.configure do
 
   # Report violations without enforcing the policy.
   # config.content_security_policy_report_only = true
+end
+
+Rails.application.config.after_initialize do
+  Blazer::QueriesController.content_security_policy do |policy|
+    policy.script_src :self, :unsafe_inline, :unsafe_eval
+    policy.style_src :self, :unsafe_inline
+  end
 end
