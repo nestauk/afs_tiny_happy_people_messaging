@@ -107,6 +107,9 @@ class UsersTest < ApplicationSystemTestCase
   test "form shows errors" do
     visit new_user_path
 
+    select DateTime.current.strftime("%B")
+    select DateTime.current.strftime("%Y")
+
     within("#sign-up-form") do
       click_on "Sign up"
     end
