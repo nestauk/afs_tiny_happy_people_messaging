@@ -3,16 +3,16 @@
 <div class="relative">
   <div class="absolute left-0 top-0 w-full h-full hidden md:block thank-you-banner">
   </div>
-  <div class="bg-bbc-dark-blue md:bg-transparent md:flex md:flex-col p-5 relative md:px-24 md:justify-around h-85svh">
-    <div class="lg:w-3/4 xl:w-1/2 md:bg-bbc-dark-blue md:p-6 xl:p-8 flex flex-col justify-between h-fit">
+  <div class="bg-bbc-dark-blue md:bg-transparent md:flex md:flex-col p-5 relative hero-banner md:px-24 md:justify-around">
+    <div class="lg:w-3/4 xl:w-1/2 md:bg-bbc-dark-blue  md:p-6 xl:p-8 flex flex-col justify-between h-fit">
       <h1 class="text-4xl lg:text-5xl text-bbc-yellow">
-        Thank you for signing up!
+        <%= t('pages.thank_you.title') %>
       </h1>
       <h2 class="text-2xl lg:text-3xl text-white mb-5">
-        You will receive your first text very soon
+        <%= t('pages.thank_you.subtitle') %>
       </h2>
       <p class="text-md text-lg l:text-xl text-white xl:w-5/6">
-        If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <%= link_to "resources page", resources_path, class: "underline hover:no-underline" %> to know where you might find UK-based support.
+        <%= t('pages.thank_you.text').html_safe %>
       </p>
     </div>
   </div>

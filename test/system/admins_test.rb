@@ -45,11 +45,11 @@ class AdminsTest < ApplicationSystemTestCase
     @admin = create(:admin, role: "local_authority", email: "local@authority.com")
     sign_in(@admin)
 
-    assert_current_path dashboard_path
+    assert_current_path dashboard_path(locale: I18n.default_locale)
     visit users_path
-    assert_current_path root_path
+    assert_current_path root_path(locale: I18n.default_locale)
 
     visit groups_path
-    assert_current_path root_path
+    assert_current_path root_path(locale: I18n.default_locale)
   end
 end
