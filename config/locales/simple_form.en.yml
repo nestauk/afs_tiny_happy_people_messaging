@@ -14,7 +14,6 @@ en:
         phone_number: 'Phone number'
         postcode: 'Postcode'
         terms_agreed_at: "I accept the %{terms} and %{privacy}"
-      user_profile:
         child_name: "Your child's name, or nickname (optional)"
         day_preference: "What day would you like to get the texts each week? (optional)"
         interests: "What are you interested in?"
@@ -22,7 +21,7 @@ en:
         referral_source: "How did you hear about us?"
         time_preference: "What time of day would you like to get the texts? (optional)"
     options:
-      user_profile:
+      user:
         day_preference:
           monday: "Monday"
           tuesday: "Tuesday"
