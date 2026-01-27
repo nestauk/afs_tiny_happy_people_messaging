@@ -19,11 +19,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  private
+
   def check_admin_role
     redirect_to root_path unless current_admin.role == "admin"
   end
-
-  private
 
   def extract_locale_from_params
     parsed_locale = params[:locale].to_s
