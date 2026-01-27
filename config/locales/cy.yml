@@ -26,8 +26,10 @@ cy:
     application: "Negeseuon Testun Tiny Happy People"
   messages:
     feedback: "Ydy'r gweithgareddau rydyn ni'n eu hanfon atoch yn addas i’ch plentyn? Atebwch Ie neu Na i roi gwybod i ni."
+    nudge: "Nid ydych wedi rhyngweithio ag unrhyw fideos yn ddiweddar. Gallwch anfon ‘PAUSE’ am seibiant neu ‘END’ i’w stopio’n llwyr."  
     restart: "Croeso yn ôl i Tiny Happy People! Anfonwch ‘END’ i ddad-danysgrifio unrhyw bryd."
     welcome: "Helo {{parent_name}}, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad {{child_name}}. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘Tiny Happy People’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?"
+    your_child: "eich plentyn"
   pages:
     about_us:
       page_title: "Amdanom ni"
