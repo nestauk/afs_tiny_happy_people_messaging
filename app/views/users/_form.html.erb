@@ -12,8 +12,8 @@
       <%= form.input :postcode, wrapper_html: { class: "md:w-1/2" }, hint: "We use postcode information (and nothing else) to get a rough idea of which areas/communities we’re reaching. This helps us understand if there’s any areas we’re missing/ we need to do some more outreach.", input_html: { autocomplete: "postal-code" } %>
 
       <fieldset class="mt-3 <%= 'input_wrapper field_with_errors' if @user.errors[:child_birthday].any? %>">
-        <legend>* Your child's birthday</legend>
-        <p class="hint">This helps make sure the texts we send fit your child's age and stage.</p>
+        <legend>* <%= t("simple_form.labels.user.child_birthday") %></legend>
+        <p class="hint"><%= t("simple_form.hints.user.child_birthday") %></p>
         <% if @user.errors[:child_birthday].any? %>
           <p class="text-red-600 text-sm">
             <%= @user.errors[:child_birthday].first %>

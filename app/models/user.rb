@@ -121,8 +121,7 @@ class User < ApplicationRecord
   end
 
   def find_next_unseen_content
-    last_content = Content.find(last_content_id)
-    last_position = last_content.position if last_content
+    last_position = Content.find(last_content_id).position
     seen_ids = messages.where.not(content_id: nil).select(:content_id)
 
     group
