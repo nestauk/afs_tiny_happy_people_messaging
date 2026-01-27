@@ -1,4 +1,4 @@
-<% content_for(:page_title) { "Personalise your experience" } %>
+<% content_for(:page_title) { I18n.t("pages.form.personalisation.page_title") } %>
 
 <div class="bg-bbc-dark-blue p-5 md:p-10 mx-2">
   <h1 class="text-4xl text-bbc-yellow">
@@ -42,6 +42,6 @@
   <%= f.input :education_status, label: "What is the highest level of education you have completed?", as: :select, collection: [["No qualifications", "no_qualifications"], ["Comprehensive/Secondary", "comprehensive_secondary"], ["Post-school qualifications", "post_school"], ["I don't want to say", "prefer_not_to_say"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: true, hint: "To make sure this service works well for everyone, we look at whether it is equally helpful for parents with different education experiences." %>
 
   <div class="mt-5">
-    <%= f.button :submit, class: 'btn bg-purple-600 text-white w-full', data: { turbo_submits_with: t("pages.form.personalisation.saving") } %>
+    <%= f.button :submit, t("pages.form.personalisation.save"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: t("pages.form.personalisation.saving") } %>
   </div>
 </div>

@@ -42,7 +42,7 @@
 
       <%= form.input :group_id, as: :hidden, input_html: { value: Group.first.id } %>
 
-      <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full", "data-turbolinks": "false" %>
+      <%= form.submit I18n.t("pages.home.submit"), class: "btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full", "data-turbolinks": "false" %>
     <% end %>
   <% end %>
   <div class="hidden text-red-600"></div>

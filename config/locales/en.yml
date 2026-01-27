@@ -24,6 +24,8 @@ en:
     feedback: "Are the activities we send you suitable for your child? Respond Yes or No to let us know."
     restart: "Welcome back to Tiny Happy People! Text 'END' to unsubscribe at any time."
     welcome: "Hi {{parent_name}}, welcome to our programme of weekly texts with fun activities for {{child_name}}'s development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?"
+  titles:
+    application: "BBC Tiny Happy People Text Messaging"
   pages:
     about_us:
       title: "About us"
@@ -52,6 +54,7 @@ en:
         title: "Thanks for signing up!"
         blurb: "Tell us about your preferences for a better and more meaningful experience"
         saving: "Saving..."
+        save: "Next"
         skip: "Skip this section"
       about_service:
         back: "Back"
@@ -87,6 +90,7 @@ en:
       free: "This service is and will always be free to use."
       terms: "terms of service"
       privacy: "privacy policy"
+      submit: "Sign up"
     privacy_policy:
       title: "Privacy policy"
       para1: "This website is owned and operated by Nesta - you can find our full details below. This privacy policy explains how Nesta uses personal information we collect via this site. We are committed to protecting your privacy and we take all reasonable precautions to safeguard personal information."

@@ -22,20 +22,15 @@ cy:
         create: 'Cofrestru'
       user_profile:
         update: "Nesaf"
-  images:
-    home:
-      mobile: "Ffôn symudol"
-      text: "Neges destun"
-      child: "Plentyn hapus"
-      family: "Teulu'n chwarae gyda frisbi"
-    thank_you:
-      family: "Teulu'n chwarae yn y parc"
+  titles:
+    application: "Negeseuon Testun Tiny Happy People"
   messages:
     feedback: "Ydy'r gweithgareddau rydyn ni'n eu hanfon atoch yn addas i’ch plentyn? Atebwch Ie neu Na i roi gwybod i ni."
     restart: "Croeso yn ôl i Tiny Happy People! Anfonwch ‘END’ i ddad-danysgrifio unrhyw bryd."
     welcome: "Helo {{parent_name}}, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad {{child_name}}. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘Tiny Happy People’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?"
   pages:
     about_us:
+      page_title: "Amdanom ni"
       title: "Amdanom ni"
       para1_title: "Magu twf eich plentyn gyda gweithgareddau hwyliog, am ddim"
       para1_text: "Dewch o hyd i weithgareddau bach ond pwerus, wedi’u creu gan arbenigwyr – a’u hanfon at eich ffôn bob wythnos."
@@ -59,11 +54,14 @@ cy:
       email: "info@thp-text.uk"
     form:
       personalisation: 
+        page_title: "Diolch am gofrestru!"
         title: "Diolch am gofrestru!"
         blurb: "Dwedwch wrthym am eich dewisiadau ar gyfer profiad gwell ac ystyrlon"
         saving: "Yn cadw..."
         skip: "Hepgor yr adran hon"
+        save: "Nesaf"
       about_service:
+        page_title: "Rydych bron wedi gorffen"
         back: "Yn ôl"
         title: "Rydych bron wedi gorffen"
         blurb: "Dwedwch wrthym sut gwnaethoch glywed am ein gwasanaeth, a beth sy'n eich diddori"
@@ -71,6 +69,7 @@ cy:
         saving: "Yn cadw..."
         skip: "Hepgor yr adran hon"
     home:
+      page_title: "Magu twf eich plentyn gyda gweithgareddau hwyliog, am ddim"
       title: "Magu twf eich plentyn gyda gweithgareddau hwyliog, am ddim"
       subtitle: "Dewch o hyd i weithgareddau wythnosol, bach ond pwerus, i ysbrydoli dychymyg, wedi'u hanfon i’ch ffôn ar gyfer oedran 3–24 mis"
       sign_up: "Cofrestru"
@@ -97,7 +96,9 @@ cy:
       free: "Mae’r gwasanaeth hwn yn rhad ac am ddim i’w ddefnyddio, a bydd hynny wastad yn wir."
       terms: "telerau gwasanaeth"
       privacy: "polisi preifatrwydd"
+      submit: "Cofrestru"
     privacy_policy:
+      page_title: "Polisi Preifatrwydd"
       title: "Polisi Preifatrwydd"
       para1: "Mae’r wefan hon yn cael ei berchnogi a’i gweithredu gan Nesta – gallwch ddod o hyd i’n manylion llawn isod. Mae’r polisi preifatrwydd hwn yn egluro sut mae Nesta yn defnyddio gwybodaeth bersonol a gasglwn drwy’r wefan hon. Rydym wedi ymrwymo i ddiogelu eich preifatrwydd ac rydym yn cymryd pob cam rhesymol i warchod gwybodaeth bersonol."
       para2_title: "Pa fath o wybodaeth ydym ni’n ei chasglu?"
@@ -148,6 +149,7 @@ cy:
       para7_text1: "Efallai y byddwn yn newid y polisi preifatrwydd hwn o bryd i’w gilydd. Byddwn yn eich hysbysu o unrhyw newidiadau sy’n ymwneud â gwybodaeth sydd gennym eisoes amdanoch, lle bo hynny’n ymarferol. Dylech wirio’r polisi hwn o bryd i’w gilydd i sicrhau eich bod yn ymwybodol o’r fersiwn fwyaf diweddar a fydd yn berthnasol bob tro rydych yn defnyddio’r wefan hon."
       para7_text2: "Nesta, cwmni cyfyngedig trwy warant wedi’i gofrestru yn Lloegr a Chymru rhif cwmni 7706036 a rhif elusen 1144091.<br>Wedi’i gofrestru fel elusen yn yr Alban rhif SC042833.<br>Swyddfa gofrestredig: 58 Victoria Embankment, Llundain, EC4Y 0DS<br>E-bost: information@nesta.org.uk"
     resources:
+      page_title: "Adnoddau i ofalwyr"
       title: "Adnoddau i ofalwyr"
       text: "Rydym wedi llunio rhestr o adnoddau defnyddiol isod i'ch cefnogi wrth lywio unrhyw heriau y gallech eu hwynebu wrth ofalu am eich rhai bach."
       mental_health:
@@ -175,10 +177,12 @@ cy:
         para3: "<span class='font-bold'>Cymorth meddygol nad yw'n peryglu bywyd:</span> Ffoniwch 111 i gael help gyda'ch symptomau meddygol neu os nad ydych yn siŵr ble i gael cymorth ar gyfer pryder meddygol brys. Mae'r llinell gymorth ar gael 24/7."
         para4: "<span class='font-bold'>Gwasanaethau Brys:</span> Ffoniwch 999 mewn sefyllfaoedd sy’n peryglu bywyd, ar gael 24/7 ac yn rhad ac am ddim ledled y DU."
     thank_you: 
+      page_title: "Diolch am gofrestru!"
       title: "Diolch am gofrestru!"
       subtitle: "Byddwch yn derbyn eich neges gyntaf yn fuan iawn"
       text: "Os ydych yn chwilio am gymorth gyda iechyd chi neu eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>tudalen adnoddau</a> i ddarganfod ble gallwch ddod o hyd i gymorth yn y DU."
     terms:
+      page_title: "Telerau Defnyddio"
       title: "Telerau Defnyddio"
       para1: "Pwrpas y wefan hon yw galluogi rhieni a gofalwyr plant 3–24 mis oed i gofrestru ar raglen negeseuon testun sy’n darparu awgrymiadau a chyngor ynglŷn â themâu datblygiad plant."
       para2: "Mae’r wefan hon yn eiddo i <a href='https://www.nesta.org.uk/' target='_blank' class='link'>Nesta</a> ac yn cael ei gweithredu ganddi – gallwch ddod o hyd i’n manylion llawn isod. Mae defnyddio’r wefan yn amodol ar y Telerau hyn. Mae ein <a href='/privacy_policy' class='link'>Hysbysiad Preifatrwydd</a> yn esbonio sut rydym yn defnyddio gwybodaeth bersonol a gasglwn drwy’r wefan. Os nad ydych yn cytuno â’r Telerau hyn nac â’n Polisi Preifatrwydd, peidiwch â defnyddio’r wefan."
