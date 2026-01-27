@@ -6,7 +6,7 @@ class SendFeedbackMessageJob < ApplicationJob
       message = Message.build do |m|
         m.token = m.send(:generate_token)
         m.user = user
-        m.body = I18n.t(".messages.feedback")
+        m.body = I18n.t(".messages.feedback", locale: user.language || I18n.default_locale)
       end
 
       if message.save

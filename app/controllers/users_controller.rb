@@ -102,6 +102,9 @@ class UsersController < ApplicationController
 
   def rate_limit_exceeded
     @user = User.new
+    @no_padding = true
+    @hide_sidebar = true
+    set_languages
     flash.now[:notice] = "Too many attempts. Try again later."
     render :new, status: :unprocessable_content
   end
