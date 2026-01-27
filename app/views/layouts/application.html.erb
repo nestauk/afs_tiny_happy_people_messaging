@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title><%= content_for?(:page_title) ? yield(:page_title) + " | BBC Tiny Happy People Text Messaging" : "BBC Tiny Happy People Text Messaging" %></title>
+    <title><%= content_for?(:page_title) ? yield(:page_title) + " | #{I18n.t('titles.application')}" : I18n.t('titles.application') %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Free texts sent weekly to your phone for fun activities to try out with your child from BBC's Tiny Happy People">
     <%= csrf_meta_tags %>
