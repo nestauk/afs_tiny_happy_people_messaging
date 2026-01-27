@@ -8,7 +8,7 @@ class SendWelcomeMessageJob < ApplicationJob
     message = Message.build do |m|
       m.token = m.send(:generate_token)
       m.user = user
-      m.body = substitute_variables(I18n.t(".messages.welcome"), user)
+      m.body = substitute_variables(I18n.t(".messages.welcome", locale: user.language || I18n.default_locale), user)
     end
 
     Twilio::Client.new.send_message(message) if message.save

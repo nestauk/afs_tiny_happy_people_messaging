@@ -21,9 +21,11 @@ en:
       user_profile:
         update: "Next"
   messages:
-    feedback: "Are the activities we send you suitable for your child? Respond Yes or No to let us know."
+    feedback: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
+    nudge: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'END' to stop them entirely."
     restart: "Welcome back to Tiny Happy People! Text 'END' to unsubscribe at any time."
     welcome: "Hi {{parent_name}}, welcome to our programme of weekly texts with fun activities for {{child_name}}'s development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?"
+    your_child: "your child"
   titles:
     application: "BBC Tiny Happy People Text Messaging"
   pages:
