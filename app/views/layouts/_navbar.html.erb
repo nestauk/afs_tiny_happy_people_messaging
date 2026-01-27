@@ -20,10 +20,8 @@
           </div>
         </div>
       </div>
-    <% else %>
-      <%# Show on mobile %>
-      <%= link_to (I18n.locale == :en ? "Cymraeg" : "English"), url_for(params.permit!.merge(locale: I18n.locale == :en ? :cy : :en)) %>
     <% end %>
   </div>
+  <%= link_to (I18n.locale == :en ? "Cymraeg" : "English"), url_for(params.permit!.merge(locale: I18n.locale == :en ? :cy : :en)) %>
 </nav>
     
