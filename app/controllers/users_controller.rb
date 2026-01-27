@@ -82,7 +82,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :phone_number, :child_birthday,
-      :postcode, :child_name, :terms_agreed_at
+      :postcode, :child_name, :terms_agreed_at, :language
     )
   end
 
@@ -118,17 +118,20 @@ class UsersController < ApplicationController
     false
   end
 
+  def rate_limit_exceeded
+    @user = User.new
+    @no_padding = true
+    @hide_sidebar = true
+    set_languages
+    flash.now[:notice] = I18n.t("controllers.users.rate_limit_exceeded.notice")
+    render :new, status: :unprocessable_content
+  end
+
   def set_languages
     @languages = if params[:locale] == "cy"
       [["Cymraeg", "cy"], ["English", "en"]]
     else
       [["English", "en"], ["Cymraeg", "cy"]]
     end
-  end
-
-  def rate_limit_exceeded
-    @user = User.new
-    flash.now[:notice] = "Too many attempts. Try again later."
-    render :new, status: :unprocessable_content
   end
 end

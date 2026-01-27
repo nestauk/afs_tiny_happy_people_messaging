@@ -20,7 +20,7 @@ class GroupsTest < ApplicationSystemTestCase
 
   test "can choose another language" do
     sign_in
-    visit groups_path
+    visit admin_groups_path
 
     click_on "Create content group"
 
