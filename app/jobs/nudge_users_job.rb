@@ -4,7 +4,7 @@ class NudgeUsersJob < ApplicationJob
   queue_as :background
 
   def perform(user)
-    message = Message.build(user:, body: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'END' to stop them entirely.")
+    message = Message.build(user:, body: I18n.t(".messages.nudge", locale: user.language || I18n.default_locale))
 
     if message.save
       SendCustomMessageJob.perform_later(message)
