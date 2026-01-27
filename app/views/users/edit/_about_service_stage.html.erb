@@ -1,4 +1,4 @@
-<% content_for(:page_title) { "How did you find out about us?" } %>
+<% content_for(:page_title) { I18n.t("pages.form.about_service.page_title") } %>
 
 <div class="bg-bbc-dark-blue p-5 md:p-10 mx-2">
   <h1 class="text-4xl text-bbc-yellow">
@@ -9,7 +9,7 @@
     <%= t("pages.form.about_service.blurb") %>
   </h2>
 
-  <%= f.button :submit, t("pages.form.about_service.skip"), class: 'link text-white', data: { turbo_submits_with: 'Skipping...' } %>
+  <%= f.button :submit, t("pages.form.about_service.skip"), class: 'link text-white !p-0 shadow-none', data: { turbo_submits_with: 'Skipping...' } %>
 </div>
 
 <div class="mt-8 w-full px-5">
@@ -20,7 +20,7 @@
   <%= f.input :new_language_preference, required: false, input_html: { class: "w-full" }, wrapper_html: { class: "mt-5" } %>
 
   <div class="mt-5 flex flex-col gap-2">
-    <%= f.button :submit, t("pages.form.about_service.save"), class: 'btn bg-purple-600 text-white', data: { turbo_submits_with: t("pages.form.about_service.saving") } %>
-    <%= f.button :submit, t("pages.form.about_service.back"), class: 'btn bg-purple-200 text-black', name: "move_back" %>
+    <%= f.button :submit, t("pages.form.about_service.save"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: t("pages.form.about_service.saving") } %>
+    <%= f.button :submit, t("pages.form.about_service.back"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', name: "move_back" %>
   </div>
 </div>
