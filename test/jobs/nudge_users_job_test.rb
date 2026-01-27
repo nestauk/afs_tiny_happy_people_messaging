@@ -16,4 +16,17 @@ class NudgeUsersJobTest < ActiveSupport::TestCase
     assert_equal 1, Message.count
     assert_not_nil user.reload.nudged_at
   end
+
+  test "#perform sends nudge message in user's preferred language" do
+    user = create(:user, language: "cy")
+
+    stub_successful_twilio_call("Rydych chi heb ryngweithio gyda fideos yn ddiweddar. Gallwch destun 'PAUSE' am seibiant neu 'END' i roi'r gorau iddynt yn gyfan gwbl.", user)
+
+    assert_enqueued_jobs 1, only: SendCustomMessageJob do
+      NudgeUsersJob.new.perform(user)
+    end
+
+    assert_equal 1, Message.count
+    assert_not_nil user.reload.nudged_at
+  end
 end

@@ -39,7 +39,7 @@ class SendMessageJob < ApplicationJob
   def substitute_variables(content, message)
     translations = {
       "{{parent_name}}": message.user.first_name,
-      "{{child_name}}": message.user.child_name.presence || "your child",
+      "{{child_name}}": message.user.child_name.presence || I18n.t("messages.your_child", locale: message.user.language || I18n.default_locale),
       "{{link}}": track_link_url(message.token),
     }
 
