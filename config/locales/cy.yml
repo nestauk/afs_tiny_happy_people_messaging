@@ -14,6 +14,8 @@ cy:
         notice: "Diolch am eich diddordeb. Oherwydd y galw mawr, rydym wedi cyrraedd ein capasiti uchaf ar gyfer cofrestru ar hyn o bryd. Edrychwch yn ôl ymhen ychydig fisoedd"
       edit: 
         notice: "Mae eich sesiwn wedi dod i ben. Cysylltwch â info@thp-text.uk os oes angen rhagor o gymorth arnoch."
+      rate_limit_exceeded:
+        notice: "Gormod o ymdrechion. Ceisiwch eto yn ddiweddarach."
   date:
     month_names: [~, "Ionawr", "Chwefror", "Mawrth", "Ebrill", "Mai", "Mehefin", "Gorffennaf", "Awst", "Medi", "Hydref", "Tachwedd", "Rhagfyr"]
   helpers:

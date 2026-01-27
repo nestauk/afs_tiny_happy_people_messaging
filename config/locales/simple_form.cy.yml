@@ -14,7 +14,6 @@ cy:
         phone_number: 'Rhif ffôn'
         postcode: 'Cod post'
         terms_agreed_at: "Derbyniaf y %{terms} a'r %{privacy}"
-      user_profile:
         child_name: "Enw eich plentyn, neu enw ar hap (dewisol)"
         day_preference: "Pa ddiwrnod hoffech chi dderbyn y negeseuon testun bob wythnos? (dewisol)"
         interests: "Beth sydd o ddiddordeb i chi?"
@@ -22,7 +21,7 @@ cy:
         referral_source: "Sut clywsoch chi amdano ni?"
         time_preference: "Pa amser o'r dydd hoffech chi dderbyn y negeseuon testun? (dewisol)"
     options:
-      user_profile:
+      user:
         day_preference:
           monday: "Dydd Llun"
           tuesday: "Dydd Mawrth"
