@@ -14,6 +14,8 @@ en:
         notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
       edit: 
         notice: "Your session has expired. Contact info@thp-text.uk if you need further help."
+      rate_limit_exceeded:
+        notice: "Too many attempts. Try again later."
   helpers:
     submit:
       user:
