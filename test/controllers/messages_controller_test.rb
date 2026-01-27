@@ -11,18 +11,18 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
   test "#index local authority admins can't access" do
     admin = create(:admin, role: "local_authority", email: "local_authority@email.com")
     sign_in admin
-    get user_messages_path(@user)
+    get admin_user_messages_path(@user)
     assert_response :redirect
   end
 
   test "#create should create message" do
     assert_difference("Message.count", 1) do
-      post user_messages_path(@user), params: {message: {body: "Test message", user_id: @user.id}}
+      post admin_user_messages_path(@user), params: {message: {body: "Test message", user_id: @user.id}}
     end
 
     assert_enqueued_jobs 1
 
-    assert_redirected_to user_path(@user)
+    assert_redirected_to admin_user_path(@user)
   end
 
   test "#status should queue job if message failed" do

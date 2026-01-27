@@ -1,4 +1,4 @@
-class ContentsController < ApplicationController
+class Admin::ContentsController < ApplicationController
   before_action :check_admin_role
   before_action :set_content, except: %i[new create]
 
@@ -12,7 +12,7 @@ class ContentsController < ApplicationController
     @content = @group.contents.new(content_params)
 
     if @content.save
-      redirect_to group_path(@content.group), notice: "Content for message was successfully created"
+      redirect_to admin_group_path(@content.group), notice: "Content for message was successfully created"
     else
       render :new, status: :unprocessable_content
     end
@@ -23,7 +23,7 @@ class ContentsController < ApplicationController
 
   def update
     if @content.update(content_params)
-      redirect_to group_path(@content.group), notice: "Content updated!"
+      redirect_to admin_group_path(@content.group), notice: "Content updated!"
     else
       render :edit, status: :unprocessable_content
     end
@@ -36,9 +36,9 @@ class ContentsController < ApplicationController
 
   def archive
     if @content.update(archived_at: Time.now)
-      redirect_to group_path(@content.group), notice: "Content archived"
+      redirect_to admin_group_path(@content.group), notice: "Content archived"
     else
-      render group_path(@content.group), status: :unprocessable_content
+      render admin_group_path(@content.group), status: :unprocessable_content
     end
   end
 

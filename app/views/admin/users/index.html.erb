@@ -4,9 +4,9 @@
     Filter by name:
   </p>
   <div class="w-full flex justify-around flex-wrap mt-2 mb-5">
-    <%= link_to "All", users_path(opted_out: params[:opted_out]), class: (params[:letter].present? ? 'bg-gray-200 text-gray-700 p-3 rounded' : 'bg-bbc-blue text-white p-3 rounded') %>
+    <%= link_to "All", admin_users_path(opted_out: params[:opted_out]), class: (params[:letter].present? ? 'bg-gray-200 text-gray-700 p-3 rounded' : 'bg-bbc-blue text-white p-3 rounded') %>
     <% ("A".."Z").each do |letter| %>
-      <%= link_to letter, users_path(letter: letter, opted_out: params[:opted_out]), class: (letter == params[:letter] ? 'bg-bbc-blue text-white p-3 rounded' : 'bg-gray-200 text-gray-700 p-3 rounded') %>
+      <%= link_to letter, admin_users_path(letter: letter, opted_out: params[:opted_out]), class: (letter == params[:letter] ? 'bg-bbc-blue text-white p-3 rounded' : 'bg-gray-200 text-gray-700 p-3 rounded') %>
     <% end %>
   </div>
   <table class="table-auto w-full">
@@ -21,7 +21,7 @@
       <% @current_users.order(:last_name, :first_name).each do |user| %>
         <tr class="border-b-2">
           <td class="px-4 py-4 bg-white">
-            <%= link_to user.full_name, user_path(user), class: "underline hover:no-underline" %>
+            <%= link_to user.full_name, admin_user_path(user), class: "underline hover:no-underline" %>
           </td>
           <td class="px-4 py-4 bg-white">
             <%= user.phone_number %>

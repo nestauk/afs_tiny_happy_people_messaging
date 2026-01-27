@@ -9,7 +9,7 @@ class MessagesTest < ApplicationSystemTestCase
   test "sending a message to a user" do
     sign_in
 
-    visit users_path
+    visit admin_users_path
 
     click_on "#{@user.first_name} #{@user.last_name}"
 

@@ -7,7 +7,7 @@ class GroupsTest < ApplicationSystemTestCase
 
   test "creating new group" do
     sign_in
-    visit groups_path
+    visit admin_groups_path
 
     click_on "Create content group"
 
@@ -20,7 +20,7 @@ class GroupsTest < ApplicationSystemTestCase
 
   test "shows errors" do
     sign_in
-    visit groups_path
+    visit admin_groups_path
 
     click_on "Create content group"
 
@@ -33,7 +33,7 @@ class GroupsTest < ApplicationSystemTestCase
     create(:group, name: "Old group name")
 
     sign_in
-    visit groups_path
+    visit admin_groups_path
 
     assert_text "Old group name"
 
@@ -51,7 +51,7 @@ class GroupsTest < ApplicationSystemTestCase
     create(:message, user: create(:user), content: group.contents.first)
 
     sign_in
-    visit groups_path
+    visit admin_groups_path
 
     assert_text "Group to delete"
 

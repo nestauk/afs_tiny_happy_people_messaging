@@ -13,7 +13,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       create(:user, local_authority: @local_authority)
       create(:user, local_authority: @local_authority, created_at: Date.new(2024, 12, 31))
 
-      get dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "year"}
+      get admin_dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "year"}
 
       assert_response :success
 
@@ -50,7 +50,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       # 30 Jan 2022
       create(:user, local_authority: @local_authority, created_at: Date.new(2022, 1, 30), child_birthday: Date.new(2023, 4, 1))
 
-      get dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "month"}
+      get admin_dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "month"}
 
       assert_response :success
 
@@ -104,7 +104,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       # 30 Jan 2022
       create(:user, local_authority: @local_authority, created_at: Date.new(2022, 1, 30), child_birthday: Date.new(2023, 4, 1))
 
-      get dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "week"}
+      get admin_dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "week"}
 
       assert_response :success
 
@@ -134,7 +134,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       # 7 Jan 2022
       create(:user, local_authority: @local_authority, created_at: Date.new(2022, 1, 7), child_birthday: Date.new(2023, 4, 1))
 
-      get dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "week"}
+      get admin_dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "week"}
 
       assert_response :success
 
@@ -162,7 +162,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       create(:message, content:, user:, created_at: Date.new(2024, 12, 31))
       create(:message, content:, user:, created_at: Date.new(2025, 1, 31), clicked_at: Date.new(2025, 1, 1))
 
-      get dashboards_fetch_click_through_data_path, params: {q: @local_authority.name, timeframe: "year"}
+      get admin_dashboards_fetch_click_through_data_path, params: {q: @local_authority.name, timeframe: "year"}
 
       assert_response :success
 
@@ -196,7 +196,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       create(:message, content:, user:, created_at: Date.new(2023, 12, 31))
       create(:message, content:, user:, created_at: Date.new(2024, 1, 30), clicked_at: Date.new(2025, 1, 1))
 
-      get dashboards_fetch_click_through_data_path, params: {q: @local_authority.name, timeframe: "month"}
+      get admin_dashboards_fetch_click_through_data_path, params: {q: @local_authority.name, timeframe: "month"}
 
       assert_response :success
 
@@ -249,7 +249,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       create(:message, content:, user:, created_at: Date.new(2024, 1, 5))
       create(:message, content:, user:, created_at: Date.new(2023, 12, 30), clicked_at: Date.new(2025, 1, 1))
 
-      get dashboards_fetch_click_through_data_path, params: {q: @local_authority.name, timeframe: "week"}
+      get admin_dashboards_fetch_click_through_data_path, params: {q: @local_authority.name, timeframe: "week"}
 
       assert_response :success
 
@@ -278,7 +278,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
       create(:message, content:, user:, created_at: Date.new(2024, 1, 8))
       create(:message, content:, user:, created_at: Date.new(2023, 12, 30), clicked_at: Date.new(2025, 1, 1))
 
-      get dashboards_fetch_click_through_data_path, params: {q: @local_authority.name, timeframe: "week"}
+      get admin_dashboards_fetch_click_through_data_path, params: {q: @local_authority.name, timeframe: "week"}
 
       assert_response :success
 
@@ -302,7 +302,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
   test "cannot fetch data without signing in" do
     sign_out :admin
 
-    get dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "year"}
+    get admin_dashboards_fetch_sign_up_data_path, params: {q: @local_authority.name, timeframe: "year"}
 
     assert_response :redirect
     assert_redirected_to new_admin_session_path

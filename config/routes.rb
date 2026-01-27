@@ -5,16 +5,29 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
 
   authenticate :admin do
-    mount Blazer::Engine, at: "admin"
+    mount Blazer::Engine, at: "blazer"
     mount MissionControl::Jobs::Engine, at: "jobs"
 
-    resources :groups do
-      resources :contents, except: %i[index destroy] do
-        patch "archive", on: :member
+    namespace :admin do
+      resources :groups do
+        resources :contents, except: %i[index destroy] do
+          patch "archive", on: :member
+        end
       end
-    end
 
-    resources :admins, except: %i[show destroy]
+      resources :users, only: %i[index show] do
+        get "dashboard", on: :collection
+        resources :messages
+      end
+
+      resources :admins, except: %i[show destroy]
+
+      get "dashboard", to: "dashboards#show"
+      get "dashboards/fetch_sign_up_data", to: "dashboards#fetch_sign_up_data"
+      get "dashboards/fetch_click_through_data", to: "dashboards#fetch_click_through_data"
+
+      patch "/admin/update_position/:id/", to: "contents#update_position", as: "update_position"
+    end
   end
 
   devise_for :admins, skip: :registrations, controllers: {sessions: "sessions"}
@@ -33,16 +46,7 @@ Rails.application.routes.draw do
   get "/diary_study", to: "pages#diary_study"
   get "/about_us", to: "pages#about_us"
 
-  resources :users, only: %i[new create index show edit update] do
-    get "dashboard", on: :collection
+  resources :users, only: %i[new create edit update] do
     get "thank_you", on: :collection
-    get "assess", on: :member
-    resources :messages
   end
-
-  get "dashboard", to: "dashboards#show"
-  get "dashboards/fetch_sign_up_data", to: "dashboards#fetch_sign_up_data"
-  get "dashboards/fetch_click_through_data", to: "dashboards#fetch_click_through_data"
-
-  patch "/update_position/:id/", to: "contents#update_position", as: "update_position"
 end

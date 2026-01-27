@@ -61,9 +61,9 @@ class MessagesController < ApplicationController
     @message.assign_attributes(marked_as_seen_at: Time.now) if params[:seen] == "true"
 
     if @message.save
-      redirect_to dashboard_users_path, notice: "Message marked as seen"
+      redirect_to dashboard_admin_users_path, notice: "Message marked as seen"
     else
-      redirect_to dashboard_users_path, alert: "Message not updated"
+      redirect_to dashboard_admin_users_path, alert: "Message not updated"
     end
   end
 

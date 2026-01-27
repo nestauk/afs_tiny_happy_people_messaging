@@ -1,4 +1,4 @@
-class DashboardsController < ApplicationController
+class Admin::DashboardsController < ApplicationController
   before_action :set_local_authority, except: [:show]
   before_action :set_timeframe, except: [:show]
 

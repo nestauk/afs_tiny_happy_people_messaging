@@ -10,14 +10,14 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
   test "admins can access" do
     admin = create(:admin)
     sign_in admin
-    get group_path(@group)
+    get admin_group_path(@group)
     assert_response :success
   end
 
   test "local authority admins can't access" do
     admin = create(:admin, role: "local_authority")
     sign_in admin
-    get group_path(@group)
+    get admin_group_path(@group)
     assert_response :redirect
   end
 end

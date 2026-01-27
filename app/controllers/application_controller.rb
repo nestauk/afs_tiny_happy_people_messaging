@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.role == "local_authority"
-      dashboard_path
+      admin_dashboard_path
     elsif resource.role == "admin"
-      dashboard_users_path
+      dashboard_admin_users_path
     end
   end
 

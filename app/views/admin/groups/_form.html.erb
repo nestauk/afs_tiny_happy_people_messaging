@@ -1,4 +1,4 @@
-<%= simple_form_for @group do |form| %>
+<%= simple_form_for @group, url: (@group.persisted? ? admin_group_path(@group) : admin_groups_path) do |form| %>
   <div class="mt-3">
     <%= form.input :name, input_html: { class: "w-full" } %>
   </div>

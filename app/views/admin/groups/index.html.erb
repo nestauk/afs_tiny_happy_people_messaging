@@ -1,6 +1,6 @@
 <div class="flex justify-between items-baseline">
   <h1 class="text-4xl mb-8">Message contents</h1>
-  <%= link_to "Create content group", new_group_path, class: "btn btn-primary bg-bbc-blue text-white" %>
+  <%= link_to "Create content group", new_admin_group_path, class: "btn btn-primary bg-bbc-blue text-white" %>
 </div>
 <p>The messages we send caregivers.</p>
 <table class="table-auto mt-5">
@@ -14,11 +14,11 @@
   <tbody class="bg-white">
     <% @groups.each do |group| %>
       <tr class="border-b-2">
-        <td class="p-4"><%= link_to group.name, group, class: "underline hover:no-underline" %></td>
+        <td class="p-4"><%= link_to group.name, admin_group_path(group), class: "underline hover:no-underline" %></td>
         <td class="p-4"><%= group.contents.active.size %></td>
         <td class="p-4">
-          <%= link_to "Edit", edit_group_path(group), class: "underline hover:no-underline" %>
-          <%= link_to "Delete", group_path(group), class: "underline hover:no-underline", data: {turbo_method: :delete, turbo_confirm: 'Are you sure? This will also delete all the content in this group'} %>
+          <%= link_to "Edit", edit_admin_group_path(group), class: "underline hover:no-underline" %>
+          <%= link_to "Delete", admin_group_path(group), class: "underline hover:no-underline", data: {turbo_method: :delete, turbo_confirm: 'Are you sure? This will also delete all the content in this group'} %>
         </td>
       </tr>
     <% end %>

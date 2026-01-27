@@ -1,34 +1,10 @@
 class UsersController < ApplicationController
   rate_limit to: 5, within: 5.minutes, by: -> { request.ip }, only: :create, with: -> { rate_limit_exceeded }
 
-  skip_before_action :authenticate_admin!, except: [:index, :show, :dashboard]
+  skip_before_action :authenticate_admin!
   before_action :set_page_variables, only: [:new, :edit, :thank_you]
-  before_action :check_admin_role, only: [:index, :dashboard, :show]
   before_action :check_token_session, only: [:edit, :update]
   after_action :track_action, only: [:edit, :create, :thank_you]
-
-  def index
-    users = if params[:opted_out].present?
-      User.opted_out
-    else
-      User.contactable
-    end
-
-    if params[:letter].present?
-      @letter = params[:letter].upcase
-      @current_users = users.where("last_name LIKE ?", "#{@letter}%").order(:last_name, :first_name).page(params[:page]).per(25)
-    else
-      @current_users = users.order(:last_name, :first_name).page(params[:page]).per(25)
-    end
-  end
-
-  def dashboard
-    @messages = Message.where(status: "received", marked_as_seen_at: nil)
-  end
-
-  def show
-    @user = User.find(params[:id])
-  end
 
   def new
     @no_padding = true
