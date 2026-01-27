@@ -14,7 +14,7 @@ class LocalAuthority < ApplicationRecord
   def percentage_messages_clicked_by_created_at(timeframe)
     messages.with_content
       .group_by { |message| message.created_at.strftime(timeframe) }
-      .transform_values { |values| ((values.select { |m| !m.clicked_at.nil? }).count.to_f / values.count.to_f) * 100 }
+      .transform_values { |values| (values.count { |m| !m.clicked_at.nil? }.to_f / values.count.to_f) * 100 }
   end
 
   def count_messages_by_created_at(timeframe)
