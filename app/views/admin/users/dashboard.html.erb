@@ -23,11 +23,11 @@
           <%= message.created_at.strftime("%d/%m/%y") %>
         </td>
         <td class="px-4 py-4 bg-white text-right">
-          <%= simple_form_for message, url: user_message_path(user_id: message.user, id: message.id) do |f| %>
+          <%= simple_form_for message, url: admin_user_message_path(user_id: message.user, id: message.id) do |f| %>
             <%= hidden_field_tag 'seen', 'true'  %>
             <%= f.submit "Mark as seen", class: "link" %>
           <% end %>
-          <%= link_to "Reply", new_user_message_path(message.user), class: "underline hover:no-underline" %>
+          <%= link_to "Reply", new_admin_user_message_path(message.user), class: "underline hover:no-underline" %>
         </td>
       </tr>
     <% end %>

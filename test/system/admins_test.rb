@@ -8,7 +8,7 @@ class AdminsTest < ApplicationSystemTestCase
   test "creating an admin" do
     sign_in
 
-    visit admins_path
+    visit admin_admins_path
     assert_text "Admins"
     click_on "Create admin"
 
@@ -24,7 +24,7 @@ class AdminsTest < ApplicationSystemTestCase
 
     sign_in(@admin)
 
-    visit admins_path
+    visit admin_admins_path
 
     within("tr", text: "admin2@example.com") do
       refute_text "Edit"
@@ -45,11 +45,11 @@ class AdminsTest < ApplicationSystemTestCase
     @admin = create(:admin, role: "local_authority", email: "local@authority.com")
     sign_in(@admin)
 
-    assert_current_path dashboard_path
-    visit users_path
+    assert_current_path admin_dashboard_path
+    visit admin_users_path
     assert_current_path root_path
 
-    visit groups_path
+    visit admin_groups_path
     assert_current_path root_path
   end
 end

@@ -2,7 +2,7 @@
   <div class="w-3/4">
     <div class="flex justify-between items-center">
       <h1 class="text-3xl">Admins</h1>
-      <%= link_to "Create admin", new_admin_path, class: "btn bg-bbc-blue text-white" %>
+      <%= link_to "Create admin", new_admin_admin_path, class: "btn bg-bbc-blue text-white" %>
     </div>
     <table class="table-auto w-full">
       <thead>
@@ -19,7 +19,7 @@
             </td>
             <td class="px-4 py-4 bg-white">
               <% if admin == current_admin %>
-                <%= link_to "Edit", edit_admin_path(admin), class: "underline hover:no-underline" %>
+                <%= link_to "Edit", edit_admin_admin_path(admin), class: "underline hover:no-underline" %>
               <% end %>
             </td>
           </tr>

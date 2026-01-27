@@ -1,4 +1,4 @@
-class AdminsController < ApplicationController
+class Admin::AdminsController < ApplicationController
   before_action :set_admin, only: [:edit, :update]
   before_action :check_admin_role
 
@@ -21,7 +21,7 @@ class AdminsController < ApplicationController
     @admin = Admin.new(admin_params)
 
     if @admin.save
-      redirect_to admins_path, notice: "Admin was successfully created."
+      redirect_to admin_admins_path, notice: "Admin was successfully created."
     else
       render :new, status: :unprocessable_content
     end
@@ -32,7 +32,7 @@ class AdminsController < ApplicationController
     if @admin.update(admin_params)
       bypass_sign_in(@admin) if @admin == current_admin
 
-      redirect_to admins_path, notice: "Admin was successfully updated."
+      redirect_to admin_admins_path, notice: "Admin was successfully updated."
     else
       render :edit, status: :unprocessable_content
     end

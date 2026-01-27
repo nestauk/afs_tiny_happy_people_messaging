@@ -28,7 +28,7 @@ class UsersTest < ApplicationSystemTestCase
     @admin = create(:admin)
     sign_in
 
-    visit users_path
+    visit admin_users_path
     click_on "Jo Smith"
     assert_text "+447444930200"
     assert_text "ABC123"
@@ -94,7 +94,7 @@ class UsersTest < ApplicationSystemTestCase
     @admin = create(:admin)
     sign_in
 
-    visit users_path
+    visit admin_users_path
     click_on "Jo Smith"
     assert_text "+447444930200"
     assert_text "ABC123"

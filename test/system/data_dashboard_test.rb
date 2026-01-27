@@ -22,7 +22,7 @@ class DataDashboardTest < ApplicationSystemTestCase
   test "shows all local authority data" do
     sign_in
 
-    visit dashboard_path
+    visit admin_dashboard_path
 
     assert_selector "div.border-blue-500" do
       assert_text "Total number of sign ups"
@@ -53,7 +53,7 @@ class DataDashboardTest < ApplicationSystemTestCase
   test "shows local authority specific data" do
     sign_in
 
-    visit dashboard_path
+    visit admin_dashboard_path
 
     select "York"
 

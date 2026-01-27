@@ -10,7 +10,7 @@ class ContentsTest < ApplicationSystemTestCase
 
   test "creating new content" do
     sign_in
-    visit group_path(@group)
+    visit admin_group_path(@group)
 
     assert_text @group.name
 
@@ -29,7 +29,7 @@ class ContentsTest < ApplicationSystemTestCase
     create(:content, body: "Old Content", group: @group)
 
     sign_in
-    visit group_path(@group)
+    visit admin_group_path(@group)
 
     click_on "Add new message"
 
@@ -44,7 +44,7 @@ class ContentsTest < ApplicationSystemTestCase
     create(:content, body: "Old Content", group: @group)
 
     sign_in
-    visit group_path(@group)
+    visit admin_group_path(@group)
 
     assert_text "Old Content"
 
@@ -62,7 +62,7 @@ class ContentsTest < ApplicationSystemTestCase
     message = create(:message, user: create(:user), content:)
 
     sign_in
-    visit group_path(@group)
+    visit admin_group_path(@group)
 
     assert_text "Content to archive"
 
