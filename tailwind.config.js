@@ -4,14 +4,11 @@ module.exports = {
   content: [
     './public/*.html',
     './app/helpers/**/*.rb',
-    './app/javascript/**/*.js',
-    './app/views/**/*.{erb,haml,html,slim}'
+    './app/frontend/**/*.{js,ts,vue}',
+    './app/views/**/*.{erb,haml,html,slim}',
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-      },
       colors: {
         'bbc-blue': '#1079EB',
         'bbc-dark-blue': '#0561c9',
@@ -25,12 +22,10 @@ module.exports = {
         'bbc-orange': '#FF7300',
         'bbc-orange-50': '#ffe3cc',
         'bbc-green': '#18CF48',
+      },
+      fontFamily: {
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       }
-    },
-  },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/container-queries'),
-  ]
+    }
+  }
 }

@@ -51,11 +51,7 @@ class UserProfile
         create_interests if interests.any?
       end
 
-      if done?
-        true
-      else
-        @stage = next_stage and return false
-      end
+      done? || (@stage = next_stage and return false)
     else
       false
     end

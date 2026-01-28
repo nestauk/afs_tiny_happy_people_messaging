@@ -1,20 +1,28 @@
 <div class="bg-blue-50 p-8">
-  <div class="flex justify-between items-center mb-4">
-    <h1 class="mb-0 text-4xl"><%= @user.full_name %></h1>
-    <%= link_to "Send message", new_admin_user_message_path(@user), class: "btn btn-primary bg-bbc-blue text-white" %>
+  <div class="flex justify-between mb-4">
+    <div>
+      <h1 class="mb-4 text-4xl"><%= @user.full_name %></h1>
+
+      <% unless @user.contactable? %>
+        <p class="text-red-600 font-bold mb-2">This user has opted out</p>
+      <% end %>
+      <p><%= @user.postcode %></p>
+      <p><%= @user.phone_number %></p>
+      <p><%= @user.child_age_in_months_today %> month old child</p>
+    </div>
+    <div>
+      <%= link_to "Send message", new_admin_user_message_path(@user), class: "btn btn-primary bg-bbc-blue text-white" %>
+      <%= simple_form_for @user, url: admin_user_path(@user), method: :patch do |f| %>
+        <%= f.input :contactable, as: :hidden, input_html: {value: false} %>
+        <%= f.submit "Stop sending texts", class: "btn text-white mt-3 bg-bbc-red" %>
+      <% end %>
+    </div>
   </div>
-  <% unless @user.contactable? %>
-    <p class="text-red-600 font-bold mb-2">This user has opted out</p>
-  <% end %>
-  <p><%= @user.postcode %></p>
-  <p><%= @user.phone_number %></p>
-  <p><%= @user.child_age_in_months_today %> month old child</p>
 </div>
 <table class="table-auto mt-8 w-full">
   <thead>
     <tr class="bg-blue-300">
       <th class="px-4 py-4 text-left">Messages</th>
-      <th class="px-4 py-4 text-left w-1/6">Sent at</th>
       <th class="px-4 py-4 text-left">Status</th>
     </tr>
   </thead>
@@ -23,7 +31,6 @@
       <% @user.messages.order(created_at: :asc).each do |message| %>
         <tr class="border-b-2">
           <td class="px-4 py-4 bg-white"><%= message.body %></td>
-          <td class="px-4 py-4 bg-white"><%= message.sent_at&.strftime("%H:%M %d/%m/%y") %></td>
           <td class="px-4 py-4 bg-white"><%= message.admin_status %></td>
         </tr>
       <% end %>

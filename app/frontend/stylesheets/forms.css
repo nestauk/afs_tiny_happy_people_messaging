@@ -1,0 +1,35 @@
+@layer base {
+  form {
+    @apply w-full max-w-full flex flex-col;
+  }
+
+  label:not([type="checkbox"]) {
+    @apply !font-normal max-w-full;
+  }
+
+  input:not([type="submit"]),
+  textarea,
+  select {
+    @apply grow
+      px-2.5 py-2.5
+      max-w-full
+      bg-white
+      border border-gray-500 rounded
+      ring-0 ring-offset-black
+      hover:border-black
+      focus:border-black focus:outline-none focus:ring-offset-1
+      focus:ring-2 
+      font-normal text-base sm:text-lg;
+  }
+  input:not([type="submit"]),
+  select {
+    /* Remove leading to make these elements play better with inline buttons */
+    @apply leading-none sm:leading-none;
+  }
+
+  input:not([type="submit"]),
+  textarea {
+    @apply read-only:bg-gray-50/25 read-only:border-gray-100 read-only:text-gray-800
+      read-only:ring-0 read-only:ring-offset-0;
+  }
+}

@@ -1,5 +1,5 @@
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.2
+ARG RUBY_VERSION=3.4.5
 
 FROM ruby:$RUBY_VERSION
 
@@ -7,18 +7,18 @@ FROM ruby:$RUBY_VERSION
 RUN mkdir /var/source
 WORKDIR /var/source
 
-# Install rails and dependencies
-RUN gem install rails bundler
+# Install ruby package manager
+RUN gem install bundler
 
 # Install the Heroku CLI
-RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | bash
 
 # Install node 22
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash
 RUN apt-get install -y nodejs
 
-# Install playwright driver
-RUN npx playwright install chromium --with-deps
+# Install Chromium for Cuprite
+RUN apt install -y chromium
 
 COPY docker/rails_entrypoint.sh /entrypoint.sh
 
