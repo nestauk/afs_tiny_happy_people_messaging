@@ -8,7 +8,10 @@ module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods
 
-    WebMock.disable_net_connect!(allow_localhost: true)
+    WebMock.disable_net_connect!(
+      allow_localhost: true,
+      allow: ["vite-test:3037", "chromedriver.storage.googleapis.com"]
+    )
 
     def assert_present(key, msg: "can't be blank", subject: @subject, value: nil)
       subject.send(:"#{key}=", value)

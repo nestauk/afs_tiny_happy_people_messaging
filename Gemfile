@@ -55,7 +55,7 @@ group :test do
   gem "brakeman", require: false
   gem "capybara"
   gem "mocha"
-  gem "selenium-webdriver"
+  gem "cuprite"
   gem "webmock"
 end
 

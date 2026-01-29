@@ -18,7 +18,15 @@
         <td class="p-4"><%= group.contents.active.size %></td>
         <td class="p-4">
           <%= link_to "Edit", edit_admin_group_path(group), class: "underline hover:no-underline" %>
-          <%= link_to "Delete", admin_group_path(group), class: "underline hover:no-underline", data: {turbo_method: :delete, turbo_confirm: 'Are you sure? This will also delete all the content in this group'} %>
+          <div x-data>
+            <%= link_to "Delete", "#",
+              class: "underline hover:no-underline",
+              "@click.prevent": "if (confirm('Are you sure?')) { 
+                $refs.deleteForm.submit() 
+              }" %>
+              <%= form_with url: admin_group_path(group), method: :delete, html: { "x-ref": "deleteForm", class: "hidden" } do %>
+            <% end %>
+          </div>
         </td>
       </tr>
     <% end %>
