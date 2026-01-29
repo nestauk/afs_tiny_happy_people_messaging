@@ -56,6 +56,15 @@ services:
     depends_on:
       rails:
         condition: service_healthy
+  
+  vite-test:
+    <<: *vite
+    entrypoint: ["/var/source/bin/vite", "dev", "--mode=test"]
+    ports: []
+    healthcheck:
+      test: curl --fail http://vite-test:3037
+      start_interval: 2s
+      start_period: 30s
 
   pgadmin:
     image: dpage/pgadmin4
