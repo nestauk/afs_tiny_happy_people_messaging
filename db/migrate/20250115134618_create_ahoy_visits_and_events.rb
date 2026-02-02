@@ -1,6 +1,6 @@
 class CreateAhoyVisitsAndEvents < ActiveRecord::Migration[8.0]
   def change
-    create_table :ahoy_visits do |t|
+    create_table :ahoy_visits do |t| # rubocop:disable Rails/CreateTableWithTimestamps
       t.string :visit_token
       t.string :visitor_token
 
@@ -27,7 +27,7 @@ class CreateAhoyVisitsAndEvents < ActiveRecord::Migration[8.0]
     add_index :ahoy_visits, :visit_token, unique: true
     add_index :ahoy_visits, [:visitor_token, :started_at]
 
-    create_table :ahoy_events do |t|
+    create_table :ahoy_events do |t| # rubocop:disable Rails/CreateTableWithTimestamps
       t.references :visit
       t.references :user, type: :uuid
 

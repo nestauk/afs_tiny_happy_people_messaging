@@ -35,7 +35,7 @@ class Admin::ContentsController < ApplicationController
   end
 
   def archive
-    if @content.update(archived_at: Time.now)
+    if @content.update(archived_at: Time.zone.now)
       redirect_to admin_group_path(@content.group), notice: "Content archived"
     else
       render admin_group_path(@content.group), status: :unprocessable_content

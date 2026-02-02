@@ -24,7 +24,7 @@ class Admin::MessagesController < ApplicationController
 
   def update
     @message = Message.find(params[:id])
-    @message.assign_attributes(marked_as_seen_at: Time.now) if params[:seen] == "true"
+    @message.assign_attributes(marked_as_seen_at: Time.zone.now) if params[:seen] == "true"
 
     if @message.save
       redirect_to dashboard_admin_users_path, notice: "Message marked as seen"

@@ -41,14 +41,14 @@ class ContentTest < ActiveSupport::TestCase
   test ".active" do
     assert_includes Content.active, @content
 
-    @content.update(archived_at: Time.now)
+    @content.update(archived_at: Time.zone.now)
     assert_not_includes Content.active, @content
   end
 
   test "#archived?" do
     assert_not @content.archived?
 
-    @content.archived_at = Time.now
+    @content.archived_at = Time.zone.now
     assert @content.archived?
   end
 end

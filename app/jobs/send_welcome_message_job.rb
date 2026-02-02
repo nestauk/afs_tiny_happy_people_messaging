@@ -18,7 +18,7 @@ class SendWelcomeMessageJob < ApplicationJob
   def substitute_variables(content, user)
     translations = {
       "{{parent_name}}": user.first_name,
-      "{{child_name}}": user.child_name.present? ? user.child_name : "your child"
+      "{{child_name}}": user.child_name.presence || "your child",
     }
 
     content.gsub(/({{parent_name}}|{{child_name}})/) do |match|

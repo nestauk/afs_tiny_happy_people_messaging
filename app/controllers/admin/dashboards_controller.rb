@@ -25,23 +25,23 @@ class Admin::DashboardsController < ApplicationController
 
   def create_labels
     if @timeframe == "year"
-      current_month = Date.today.month
+      current_month = Time.zone.today.month
 
       ((current_month + 1)..12).map { |month| create_date(1.year.ago.year, month, 1) } +
-        (1..current_month).map { |month| create_date(Date.today.year, month, 1) }
+        (1..current_month).map { |month| create_date(Time.zone.today.year, month, 1) }
     elsif @timeframe == "month"
-      current_day = Date.today.day
+      current_day = Time.zone.today.day
 
       ((1.month.ago.day + 1)..1.month.ago.end_of_month.day).map { |day| create_date(1.month.ago.year, 1.month.ago.month, day) } +
-        (1..current_day).map { |day| create_date(Date.today.year, Date.today.month, day) }
+        (1..current_day).map { |day| create_date(Time.zone.today.year, Time.zone.today.month, day) }
     elsif @timeframe == "week"
-      current_day = Date.today.day
+      current_day = Time.zone.today.day
 
       if current_day <= 7
         ((1.week.ago.day + 1)..1.week.ago.end_of_month.day).map { |day| create_date(1.week.ago.year, 1.week.ago.month, day) } +
-          (1..current_day).map { |day| create_date(Date.today.year, Date.today.month, day) }
+          (1..current_day).map { |day| create_date(Time.zone.today.year, Time.zone.today.month, day) }
       else
-        ((current_day - 6)..current_day).map { |day| create_date(Date.today.year, Date.today.month, day) }
+        ((current_day - 6)..current_day).map { |day| create_date(Time.zone.today.year, Time.zone.today.month, day) }
       end
     end
   end
@@ -57,24 +57,24 @@ class Admin::DashboardsController < ApplicationController
           fill: false,
           backgroundColor: "#3B82F6",
           borderColor: "#3B82F6",
-          tension: 0.1
-        }]
+          tension: 0.1,
+        }],
       },
       options: {
         plugins: {
           title: {
             display: true,
-            text: "Number of sign ups"
-          }
+            text: "Number of sign ups",
+          },
         },
         scales: {
           y: {
             ticks: {
-              beginAtZero: true
-            }
-          }
-        }
-      }
+              beginAtZero: true,
+            },
+          },
+        },
+      },
     }
   end
 
@@ -89,7 +89,7 @@ class Admin::DashboardsController < ApplicationController
           fill: false,
           borderColor: "rgb(75, 192, 192)",
           backgroundColor: "rgb(75, 192, 192)",
-          yAxisID: "y"
+          yAxisID: "y",
         },
           {
             label: "Number of messages",
@@ -97,37 +97,37 @@ class Admin::DashboardsController < ApplicationController
             fill: false,
             borderColor: "rgb(255, 99, 132)",
             backgroundColor: "rgb(255, 99, 132)",
-            yAxisID: "y1"
-          }]
+            yAxisID: "y1",
+          }],
       },
       options: {
         responsive: true,
         interaction: {
           mode: "index",
-          intersect: false
+          intersect: false,
         },
         stacked: false,
         plugins: {
           title: {
             display: true,
-            text: "Percentage of messages clicked"
-          }
+            text: "Percentage of messages clicked",
+          },
         },
         scales: {
           y: {
             type: "linear",
             display: true,
             position: "left",
-            min: 0
+            min: 0,
           },
           y1: {
             type: "linear",
             display: true,
             position: "right",
-            min: 0
-          }
-        }
-      }
+            min: 0,
+          },
+        },
+      },
     }
   end
 

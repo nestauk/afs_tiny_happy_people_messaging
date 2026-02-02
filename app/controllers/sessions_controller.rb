@@ -1,6 +1,14 @@
 class SessionsController < Devise::Passwordless::SessionsController
   prepend_before_action :check_ip, only: [:new, :create]
 
+  def new
+    super
+  end
+
+  def create
+    super
+  end
+
   private
 
   def check_ip

@@ -41,7 +41,10 @@ group :development, :test do
   gem "debug", platforms: %i[mri windows]
   gem "dotenv-rails", "~> 2.8"
   gem "factory_bot_rails"
-  gem "standard"
+  gem "standard", ">= 1.35.1", require: false
+  gem "standard-rails", require: false
+  gem "rubocop"
+  gem "rubocop-rails"
 end
 
 group :development do

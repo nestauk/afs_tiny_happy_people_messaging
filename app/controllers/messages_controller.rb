@@ -32,7 +32,7 @@ class MessagesController < ApplicationController
     message = Message.find_by(token: params[:token])
 
     if message.present?
-      message.update(clicked_at: Time.now)
+      message.update(clicked_at: Time.zone.now)
       redirect_to message.link, allow_other_host: true
     else
       redirect_to "https://www.bbc.co.uk/tiny-happy-people", allow_other_host: true
@@ -58,7 +58,7 @@ class MessagesController < ApplicationController
 
   def update
     @message = Message.find(params[:id])
-    @message.assign_attributes(marked_as_seen_at: Time.now) if params[:seen] == "true"
+    @message.assign_attributes(marked_as_seen_at: Time.zone.now) if params[:seen] == "true"
 
     if @message.save
       redirect_to dashboard_admin_users_path, notice: "Message marked as seen"

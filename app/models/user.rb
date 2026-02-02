@@ -8,10 +8,10 @@ class User < ApplicationRecord
   belongs_to :local_authority, optional: true
 
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
-  validates_uniqueness_of :phone_number
+  validates :phone_number, uniqueness: true
   validates_plausible_phone :phone_number
   validates :child_birthday, inclusion: {
-    in: ->(_) { (Date.current - 27.months)...(Date.current - 3.months) }
+    in: ->(_) { (Date.current - 27.months)...(Date.current - 3.months) },
   }, on: :create
   phony_normalize :phone_number, default_country_code: "UK"
 
@@ -36,8 +36,8 @@ class User < ApplicationRecord
             .where.not(content_id: nil)
             .where("body LIKE ?", "%https://thp-text.uk/m%")
             .order(created_at: :desc)
-            .limit(x)
-        }
+            .limit(x),
+        },
       )
       .group("users.id")
       .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = #{x.to_i}")
@@ -49,8 +49,8 @@ class User < ApplicationRecord
           id: Message
             .select(:id)
             .where("messages.user_id = users.id")
-            .where.not(content_id: nil)
-        }
+            .where.not(content_id: nil),
+        },
       )
       .group("users.id")
       .having("COUNT(*) = 2")
@@ -69,7 +69,7 @@ class User < ApplicationRecord
   before_validation :set_uuid
 
   def child_age_in_months_today
-    (Time.now.year * 12 + Time.now.month) - (child_birthday.year * 12 + child_birthday.month)
+    (Time.zone.now.year * 12 + Time.zone.now.month) - (child_birthday.year * 12 + child_birthday.month)
   end
 
   def full_name

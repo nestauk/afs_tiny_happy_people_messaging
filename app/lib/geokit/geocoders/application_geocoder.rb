@@ -6,7 +6,7 @@ module Geokit
       private_class_method
 
       def self.do_geocode(address)
-        if key.nil? || key.empty?
+        if key.blank?
           raise(Geokit::Geocoders::GeocodeError, "Mapbox requires a key to use their service.")
         end
 

@@ -11,10 +11,10 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       window_size: [1200, 800],
       headless: true,
       browser_options: {
-        "no-sandbox": nil
+        "no-sandbox": nil,
       },
-      timeout: 10
-    }
+      timeout: 10,
+    },
   )
 
   def sign_in(admin = @admin)
@@ -23,8 +23,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     visit admin_magic_link_url(
       admin: {
         email: @admin.email,
-        token:
-      }
+        token:,
+      },
     )
 
     assert_text "success"
