@@ -12,16 +12,33 @@ Rails.application.configure do
     policy.object_src :none
     policy.script_src :self, :https
     policy.style_src :self, :https
-    # Specify URI for violation reports
-    # policy.report_uri "/csp-violation-report-endpoint"
+
+    if Rails.env.development?
+      # Vite requires connect_src for Hot Module Replacement
+      policy.connect_src :self, :https, "http://localhost:3036", "ws://localhost:3036"
+
+      # Vite needs script_src for the dev server and eval for sourcemaps
+      policy.script_src :self, :https, "http://localhost:3036", :unsafe_eval, :blob
+
+      # Vite/Tailwind need unsafe_inline for HMR style injection
+      policy.style_src :self, :https, "http://localhost:3036", :unsafe_inline
+    end
+
+    if Rails.env.test?
+      policy.script_src :self, :https, :unsafe_eval, :unsafe_inline
+    end
   end
 
-  # Generate session nonces for permitted importmap, inline scripts, and inline styles.
+  # 1. Generate the nonce
   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-  config.content_security_policy_nonce_directives = %w[script-src style-src]
 
-  # Report violations without enforcing the policy.
-  # config.content_security_policy_report_only = true
+  # 2. FIX: Only apply the nonce to styles if we ARE NOT in development.
+  # If we are in dev, we only apply it to script-src.
+  config.content_security_policy_nonce_directives = if Rails.env.development?
+    %w[script-src]
+  else
+    %w[script-src style-src]
+  end
 end
 
 Rails.application.config.after_initialize do

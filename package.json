@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@alpinejs/collapse": "^3.14.9",
+    "@alpinejs/focus": "^3.14.9",
+    "@alpinejs/persist": "^3.14.9",
+    "@hotwired/turbo": "^8.0.5",
+    "@vitejs/plugin-vue": "^6.0.3",
+    "ahoy.js": "^0.4.4",
+    "alpinejs": "^3.14.1",
+    "autoprefixer": "^10.4.20",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4",
+    "vite": "^7.3.1",
+    "vite-plugin-rails": "^0.5.0",
+    "vite-plugin-ruby": "^5.1.2",
+    "vue": "^3.4.37",
+    "vue-tsc": "^2.0.29"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "axe-core": "^4.10.2"
+  }
+}

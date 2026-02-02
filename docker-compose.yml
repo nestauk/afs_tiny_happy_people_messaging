@@ -1,39 +1,98 @@
 services:
-  app.local:
+  rails:
     build: .
     restart: unless-stopped
     ports:
       - "3000:3000"
     volumes:
       - ".:/var/source"
-      - "./storage/bundle:/usr/local/bundle"
+      - "ruby-gems:/usr/local/bundle"
+      # Store profile data where Heroku credentials are kept
+      - "profile:/root/"
     environment:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: true
       DATABASE_URL: "postgres://pgsql:password@pgsql:5432"
-      USE_MAILHOG: true
-      MAILHOG_HOST: mailhog
-      SYSTEM_TEST_DRIVER: playwright
+      SMTP_HOST: mailpit
+      PIDFILE: "tmp/pids/server.pid"
+      RAILS_MAX_THREADS: 100
+    healthcheck:
+      test: 'pumactl status | grep "Puma is started" && exit 0 || exit 1'
+      start_period: 120s
+      start_interval: 1s
+      interval: 15s
     depends_on:
-      - pgsql
+      pgsql:
+        condition: service_healthy
 
   pgsql:
-    image: postgres
+    image: postgres:17
     restart: unless-stopped
     ports:
       - 5433:5432
     volumes:
-      - ./storage/postgres:/var/lib/postgresql/data
-      - ./docker/postgres_setup.sql:/docker-entrypoint-initdb.d/10-database-setup.sql
+      - pgsql-data:/var/lib/postgresql/data
+      - ./docker/postgres_setup.sql:/docker-entrypoint-initdb.d/10-database-setup.sql:ro
     environment:
       POSTGRES_USER: pgsql
       POSTGRES_PASSWORD: password
-
-  tailwind:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      start_period: 60s
+      start_interval: 1s
+  
+  vite: &vite
     build: .
-    entrypoint: /var/source/bin/rails tailwindcss:watch[always]
+    entrypoint: ["/var/source/bin/vite", "dev"]
     restart: unless-stopped
+    ports:
+      - 3036:3036
     volumes:
       - ".:/var/source"
-      - "./storage/bundle:/usr/local/bundle"
+      - "ruby-gems:/usr/local/bundle"
+    healthcheck:
+      test: curl --fail http://vite:3036
+      start_interval: 2s
+      start_period: 30s
     depends_on:
-      - app.local
+      rails:
+        condition: service_healthy
+  
+  vite-test:
+    <<: *vite
+    entrypoint: ["/var/source/bin/vite", "dev", "--mode=test"]
+    ports: []
+    healthcheck:
+      test: curl --fail http://vite-test:3037
+      start_interval: 2s
+      start_period: 30s
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5000:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@example.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+    volumes:
+      - "./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro"
+      - "./docker/pgadmin/preferences.json:/pgadmin4/preferences.json:ro"
+    configs:
+      - source: pgadmin.password
+        target: /pgpass
+        mode: 0400
+        uid: "5050"
+    profiles:
+      - pgadmin
+    depends_on:
+      - pgsql
+
+volumes:
+  pgsql-data:
+  ruby-gems:
+  profile:
+
+configs:
+  pgadmin.password:
+    content: pgsql:5432:*:pgsql:password

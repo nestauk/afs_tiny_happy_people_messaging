@@ -56,6 +56,7 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   config.assets.css_compressor = nil
+  config.public_file_server.enabled = true
 
   config.active_job.queue_adapter = :test
 
