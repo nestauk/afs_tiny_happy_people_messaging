@@ -23,6 +23,10 @@ Rails.application.configure do
       # Vite/Tailwind need unsafe_inline for HMR style injection
       policy.style_src :self, :https, "http://localhost:3036", :unsafe_inline
     end
+
+    if Rails.env.test?
+      policy.script_src :self, :https, :unsafe_eval, :unsafe_inline
+    end
   end
 
   # 1. Generate the nonce

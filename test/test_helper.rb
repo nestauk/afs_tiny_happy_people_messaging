@@ -10,7 +10,7 @@ module ActiveSupport
 
     WebMock.disable_net_connect!(
       allow_localhost: true,
-      allow: ["vite-test:3037", "chromedriver.storage.googleapis.com"]
+      allow: /vite-test/
     )
 
     def assert_present(key, msg: "can't be blank", subject: @subject, value: nil)

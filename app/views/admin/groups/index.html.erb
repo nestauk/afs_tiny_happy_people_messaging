@@ -18,15 +18,19 @@
         <td class="p-4"><%= group.contents.active.size %></td>
         <td class="p-4">
           <%= link_to "Edit", edit_admin_group_path(group), class: "underline hover:no-underline" %>
-          <div x-data>
-            <%= link_to "Delete", "#",
-              class: "underline hover:no-underline",
-              "@click.prevent": "if (confirm('Are you sure?')) { 
-                $refs.deleteForm.submit() 
-              }" %>
-              <%= form_with url: admin_group_path(group), method: :delete, html: { "x-ref": "deleteForm", class: "hidden" } do %>
-            <% end %>
-          </div>
+          <div x-data="{
+            deleteGroup() {
+              if (window.confirm('Are you sure?')) {
+                this.$refs.deleteForm.requestSubmit();
+              }
+            }
+        }">
+          <a href="#" @click.prevent="deleteGroup()">Delete</a>
+
+          <%= form_with url: admin_group_path(group), method: :delete, 
+              html: { "x-ref": "deleteForm", class: "hidden" } do %>
+          <% end %>
+        </div>
         </td>
       </tr>
     <% end %>
