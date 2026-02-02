@@ -8,7 +8,7 @@ class SendMessageJob < ApplicationJob
     return if user.had_content_this_week?
 
     content = user.next_content
-    return unless content.present?
+    return if content.blank?
 
     message = Message.build do |m|
       m.token = m.send(:generate_token)
@@ -39,8 +39,8 @@ class SendMessageJob < ApplicationJob
   def substitute_variables(content, message)
     translations = {
       "{{parent_name}}": message.user.first_name,
-      "{{child_name}}": message.user.child_name.present? ? message.user.child_name : "your child",
-      "{{link}}": track_link_url(message.token)
+      "{{child_name}}": message.user.child_name.presence || "your child",
+      "{{link}}": track_link_url(message.token),
     }
 
     content.gsub(/({{parent_name}}|{{child_name}}|{{link}})/) do |match|

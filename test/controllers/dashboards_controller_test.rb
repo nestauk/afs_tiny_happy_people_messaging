@@ -32,7 +32,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
         "October 2024",
         "November 2024",
         "December 2024",
-        "January 2025"
+        "January 2025",
       ], body["data"]["labels"]
       assert_equal [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], body["data"]["datasets"].first["data"]
     end
@@ -88,7 +88,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
         "27 January 2024",
         "28 January 2024",
         "29 January 2024",
-        "30 January 2024"
+        "30 January 2024",
       ], body["data"]["labels"]
       assert_equal [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2], body["data"]["datasets"].first["data"]
     end
@@ -118,7 +118,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
         "02 January 2024",
         "03 January 2024",
         "04 January 2024",
-        "05 January 2024"
+        "05 January 2024",
       ], body["data"]["labels"]
       assert_equal [0, 1, 0, 0, 0, 0, 2], body["data"]["datasets"].first["data"]
     end
@@ -148,7 +148,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
         "05 January 2024",
         "06 January 2024",
         "07 January 2024",
-        "08 January 2024"
+        "08 January 2024",
       ], body["data"]["labels"]
       assert_equal [0, 0, 0, 0, 0, 0, 2], body["data"]["datasets"].first["data"]
     end
@@ -181,7 +181,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
         "October 2024",
         "November 2024",
         "December 2024",
-        "January 2025"
+        "January 2025",
       ], body["data"]["labels"]
       assert_equal [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50.0, 100.0], body["data"]["datasets"].first["data"]
       assert_equal [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1], body["data"]["datasets"].second["data"]
@@ -234,7 +234,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
         "27 January 2024",
         "28 January 2024",
         "29 January 2024",
-        "30 January 2024"
+        "30 January 2024",
       ], body["data"]["labels"]
       assert_equal [50.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100.0], body["data"]["datasets"].first["data"]
       assert_equal [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], body["data"]["datasets"].second["data"]
@@ -263,7 +263,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
         "02 January 2024",
         "03 January 2024",
         "04 January 2024",
-        "05 January 2024"
+        "05 January 2024",
       ], body["data"]["labels"]
       assert_equal [100.0, 0, 0, 0, 0, 0, 50.0], body["data"]["datasets"].first["data"]
       assert_equal [1, 0, 0, 0, 0, 0, 2], body["data"]["datasets"].second["data"]
@@ -292,7 +292,7 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
         "05 January 2024",
         "06 January 2024",
         "07 January 2024",
-        "08 January 2024"
+        "08 January 2024",
       ], body["data"]["labels"]
       assert_equal [0, 0, 0, 0, 0, 0, 50.0], body["data"]["datasets"].first["data"]
       assert_equal [0, 0, 0, 0, 0, 0, 2], body["data"]["datasets"].second["data"]

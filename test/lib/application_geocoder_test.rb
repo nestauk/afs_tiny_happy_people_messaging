@@ -31,9 +31,9 @@ class ApplicationGeocoderTest < ActiveSupport::TestCase
         "context" => {
           "district" => {"name" => "Greater London"},
           "locality" => {"name" => "London"},
-          "region" => {"name" => "UK"}
-        }
-      }
+          "region" => {"name" => "UK"},
+        },
+      },
     }
 
     geoloc = Geokit::Geocoders::ApplicationGeocoder.send(:extract_geoloc, result_json)
@@ -48,9 +48,9 @@ class ApplicationGeocoderTest < ActiveSupport::TestCase
       "properties" => {
         "context" => {
           "district" => {"name" => "Manchester"},
-          "region" => {"name" => "UK"}
-        }
-      }
+          "region" => {"name" => "UK"},
+        },
+      },
     }
 
     geoloc = Geokit::Geocoders::ApplicationGeocoder.send(:extract_geoloc, result_json)
@@ -68,11 +68,11 @@ class ApplicationGeocoderTest < ActiveSupport::TestCase
             "context" => {
               "district" => {"name" => "Greater London"},
               "locality" => {"name" => "London"},
-              "region" => {"name" => "UK"}
-            }
-          }
-        }
-      ]
+              "region" => {"name" => "UK"},
+            },
+          },
+        },
+      ],
     }
 
     geoloc = Geokit::Geocoders::ApplicationGeocoder.send(:parse_json, results)

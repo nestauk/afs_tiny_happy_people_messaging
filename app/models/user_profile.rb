@@ -7,7 +7,7 @@ class UserProfile
 
   USER_PARAMS = [
     :hour_preference, :day_preference, :referral_source, :id, :new_language_preference,
-    :child_name, interests: []
+    :child_name, interests: [],
   ]
   PERMITTED_PARAMS = [:stage, :move_back, :move_next, :commit, :token, user_profile: USER_PARAMS]
 
@@ -64,13 +64,13 @@ class UserProfile
   def hour_preference
     preference = user_profile_params[:hour_preference].to_s.strip
 
-    preference.blank? ? "no_preference" : preference
+    preference.presence || "no_preference"
   end
 
   def day_preference
     preference = user_profile_params[:day_preference].to_s.strip
 
-    preference.blank? ? 2 : preference
+    preference.presence || 2
   end
 
   def referral_source

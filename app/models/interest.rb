@@ -10,6 +10,6 @@ class Interest < ApplicationRecord
     "Sharing special moments together",
     "Finding fresh ideas for activities with my child",
     "Feeling supported through parenting ups and downs",
-    "Building on my existing parenting skills"
+    "Building on my existing parenting skills",
   ]
 end

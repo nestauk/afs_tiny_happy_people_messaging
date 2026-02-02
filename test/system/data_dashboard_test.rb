@@ -12,7 +12,7 @@ class DataDashboardTest < ApplicationSystemTestCase
     create(:user, local_authority: york, created_at: 1.year.ago)
 
     content = create(:content)
-    create(:message, user: user1, clicked_at: Time.now, content:)
+    create(:message, user: user1, clicked_at: Time.zone.now, content:)
     create(:message, user: user2, created_at: 1.year.ago, content:)
 
     AllLasDashboard.refresh

@@ -17,7 +17,7 @@ class SendWaitlistMessageJob < ApplicationJob
 
   def substitute_variables(content, user)
     translations = {
-      "{{parent_name}}": user.first_name
+      "{{parent_name}}": user.first_name,
     }
 
     content.gsub(/{{parent_name}}/) do |match|

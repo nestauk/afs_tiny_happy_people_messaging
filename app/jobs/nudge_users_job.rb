@@ -9,7 +9,7 @@ class NudgeUsersJob < ApplicationJob
 
       if message.save
         SendCustomMessageJob.perform_later(message)
-        user.update(nudged_at: Time.now)
+        user.update(nudged_at: Time.zone.now)
       end
     end
   end

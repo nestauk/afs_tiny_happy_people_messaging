@@ -90,7 +90,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     create(:message, user: users[1], body: "https://thp-text.uk/m", content:)
 
     create(:message, user: users[2], body: "https://thp-text.uk/m", content:)
-    create(:message, user: users[2], clicked_at: Time.now, body: "https://thp-text.uk/m", content:)
+    create(:message, user: users[2], clicked_at: Time.zone.now, body: "https://thp-text.uk/m", content:)
 
     assert_enqueued_jobs 1, only: NudgeUsersJob do
       SendBulkMessageJob.perform_now("nudge")
@@ -98,8 +98,8 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
   end
 
   test "#perform creates jobs to restart messages for opted-out users" do
-    user = create(:user, contactable: false, restart_at: Time.now - 1.day)
-    create(:user, contactable: false, restart_at: Time.now + 1.day)
+    user = create(:user, contactable: false, restart_at: 1.day.ago)
+    create(:user, contactable: false, restart_at: 1.day.from_now)
     create(:user, contactable: true)
 
     assert_enqueued_with(job: RestartMessagesJob, args: [user]) do

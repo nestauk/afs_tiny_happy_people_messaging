@@ -26,18 +26,18 @@ class UserTest < ActiveSupport::TestCase
 
   test "child_birthday is within the last 27 months on create" do
     assert_raises ActiveRecord::RecordInvalid do
-      create(:user, child_birthday: Time.now - 28.months)
+      create(:user, child_birthday: 28.months.ago)
     end
   end
 
   test "child_birthday is not less than 3 months on create" do
     assert_raises ActiveRecord::RecordInvalid do
-      create(:user, child_birthday: Time.now - 2.months)
+      create(:user, child_birthday: 2.months.ago)
     end
   end
 
   test "child_birthday is not validated on update" do
-    @subject.update(child_birthday: Time.now + 28.months)
+    @subject.update(child_birthday: 28.months.from_now)
 
     assert @subject.valid?
   end
@@ -117,16 +117,16 @@ class UserTest < ActiveSupport::TestCase
 
     user2 = create(:user)
     create(:message, user: user2, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.now, content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
     create(:message, user: user2, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.now, content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
     create(:message, user: user2, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.now, content:)
+    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
 
     user3 = create(:user)
     create(:message, user: user3, body: "https://thp-text.uk/m", content:)
     create(:message, user: user3, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user3, body: "https://thp-text.uk/m", content:, clicked_at: Time.now)
+    create(:message, user: user3, body: "https://thp-text.uk/m", content:, clicked_at: Time.zone.now)
     create(:message, user: user3, body: "https://thp-text.uk/m", content:)
 
     user4 = create(:user)
@@ -186,7 +186,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "child_age_in_months_today method" do
-    user = create(:user, child_birthday: Time.now - 7.months)
+    user = create(:user, child_birthday: 7.months.ago)
 
     assert_equal user.child_age_in_months_today, 7
   end
@@ -234,7 +234,7 @@ class UserTest < ActiveSupport::TestCase
   test "#next_content does not return archived content" do
     group = create(:group)
     content1 = create(:content, group:, position: 1)
-    create(:content, group:, position: 2, archived_at: Time.now)
+    create(:content, group:, position: 2, archived_at: Time.zone.now)
     content3 = create(:content, group:, position: 3)
     @subject.update(last_content_id: content1.id)
 
@@ -243,7 +243,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content returns correct next content if user is on archived content" do
     group = create(:group)
-    content1 = create(:content, group:, position: 1, archived_at: Time.now)
+    content1 = create(:content, group:, position: 1, archived_at: Time.zone.now)
     content2 = create(:content, group:, position: 2)
     create(:content, group:, position: 3)
     @subject.update(last_content_id: content1.id)
@@ -254,7 +254,7 @@ class UserTest < ActiveSupport::TestCase
   test "#had_content_this_week? method returns true if user has had content" do
     user = create(:user)
     content = create(:content)
-    create(:message, user: user, content: content, created_at: Time.now - 1.day)
+    create(:message, user: user, content: content, created_at: 1.day.ago)
 
     assert_equal true, user.had_content_this_week?
   end

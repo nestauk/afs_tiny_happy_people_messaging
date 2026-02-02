@@ -13,7 +13,7 @@ module Twilio
           body: message.body,
           messaging_service_sid: ENV.fetch("TWILIO_MESSAGING_SERVICE_SID"),
           to: message.user.phone_number,
-          status_callback: "#{ENV.fetch("CALLBACK_URL")}/messages/status"
+          status_callback: "#{ENV.fetch("CALLBACK_URL")}/messages/status",
         )
 
       message.update(status: sms.status, message_sid: sms.sid)

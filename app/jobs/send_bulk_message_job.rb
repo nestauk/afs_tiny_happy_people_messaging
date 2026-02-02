@@ -18,11 +18,11 @@ class SendBulkMessageJob < ApplicationJob
       users = User.contactable.not_nudged.not_clicked_last_x_messages(3)
       users.map { |user| NudgeUsersJob.new(user) }
     when "restart"
-      users = User.opted_out.where("restart_at < ?", Time.now)
+      users = User.opted_out.where("restart_at < ?", Time.zone.now)
       users.map { |user| RestartMessagesJob.new(user) }
     end
 
-    return if message_jobs.nil? || message_jobs.empty?
+    return if message_jobs.blank?
 
     ActiveJob.perform_all_later(message_jobs)
   end
@@ -30,7 +30,7 @@ class SendBulkMessageJob < ApplicationJob
   private
 
   def set_users(time)
-    users = User.not_finished_content.contactable.with_preference_for_day(Date.today.wday)
+    users = User.not_finished_content.contactable.with_preference_for_day(Time.zone.today.wday)
 
     if time == "morning"
       users.wants_morning_message

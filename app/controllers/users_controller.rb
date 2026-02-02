@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @no_padding = true
     @user = User.new
 
-    ahoy.track "#{request.path_parameters[:action]} - #{params[:q].blank? ? "no-referrer" : params[:q]}", request.path_parameters
+    ahoy.track "#{request.path_parameters[:action]} - #{params[:q].presence || "no-referrer"}", request.path_parameters
   end
 
   def create
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
     @user = User.new(user_params)
 
-    @user.terms_agreed_at = Time.now if user_params[:terms_agreed_at] == "1"
+    @user.terms_agreed_at = Time.zone.now if user_params[:terms_agreed_at] == "1"
 
     if @user.save
       @user.update_local_authority
@@ -92,7 +92,7 @@ class UsersController < ApplicationController
     verifier = ActiveSupport::MessageVerifier.new(Rails.application.secret_key_base)
     data = verifier.verify(params[:token])
 
-    Time.at(data["exp"]) > Time.current
+    Time.zone.at(data["exp"]) > Time.current
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     false
   end

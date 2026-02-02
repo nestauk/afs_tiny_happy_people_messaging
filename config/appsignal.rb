@@ -12,7 +12,7 @@ Appsignal.configure do |config|
 
   config.ignore_logs += [
     "Rendered layout layouts/application.html.erb",
-    'Started GET "\/assets\/.+'
+    'Started GET "\/assets\/.+',
   ]
 
   # Configure actions that should not be monitored by AppSignal.

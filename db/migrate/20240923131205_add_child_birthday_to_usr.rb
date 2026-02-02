@@ -3,7 +3,7 @@ class AddChildBirthdayToUsr < ActiveRecord::Migration[7.1]
     add_column :users, :child_birthday, :date
 
     User.find_each do |user|
-      user.update(child_birthday: Time.now - user.child_age.months)
+      user.update(child_birthday: Time.zone.now - user.child_age.months)
     end
 
     remove_column :users, :child_age, :date

@@ -47,7 +47,7 @@ jobs:
         run: bin/rails assets:precompile
       
       - name: Run rake standard
-        run: bundle exec rake standard
+        run: bundle exec rubocop
       
       - name: Run brakeman
         run: bundle exec brakeman
