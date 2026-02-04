@@ -30,7 +30,11 @@ Rails.application.configure do
   end
 
   # 1. Generate the nonce
-  config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
+  config.content_security_policy_nonce_generator = lambda { |request|
+    # FIX: Do not generate a nonce for Blazer requests.
+    return nil if request.path.start_with?("/blazer")
+    SecureRandom.base64(16)
+  }
 
   # 2. FIX: Only apply the nonce to styles if we ARE NOT in development.
   # If we are in dev, we only apply it to script-src.
