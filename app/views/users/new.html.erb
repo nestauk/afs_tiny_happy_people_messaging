@@ -138,7 +138,7 @@
     <h2 class="text-3xl md:text-5xl font-bold">
       Sign up
     </h2>
-    <% if ENV.fetch("SIGN_UP_OPEN", true) %>
+    <% if ENV.fetch("SIGN_UP_OPEN", "true") == "true" %>
       <p>
         This service is and will always be free to use.
       </p>
