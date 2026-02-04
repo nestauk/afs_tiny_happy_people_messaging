@@ -138,9 +138,19 @@
     <h2 class="text-3xl md:text-5xl font-bold">
       Sign up
     </h2>
-    <p>
-      This service is and will always be free to use.
-    </p>
-    <%= render "form" %>
+    <% if ENV.fetch("SIGN_UP_OPEN", true) %>
+      <p>
+        This service is and will always be free to use.
+      </p>
+      <%= render "form" %>
+    <% else %>
+      <p class="mb-2">
+        We're currently closed for new sign-ups.
+      </p>
+
+      <p>
+        Visit <a href="https://www.bbc.co.uk/tiny-happy-people/activities" class="link">CBeebies Parenting</a> for activity inspiration.
+      </p>
+    <% end %>
   </div>
 </div>
