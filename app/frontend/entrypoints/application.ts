@@ -36,6 +36,10 @@ Alpine.data('groupManager', () => ({
     if (window.confirm('Are you sure? This will also delete all the content in this group')) {
       this.$refs.deleteForm.requestSubmit();
     }
+  },
+
+  logOut() {
+    this.$refs.logoutForm.requestSubmit();
   }
 }))
 
