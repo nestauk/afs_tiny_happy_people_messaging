@@ -19,7 +19,6 @@
         <td class="p-4">
           <%= link_to "Edit", edit_admin_group_path(group), class: "underline hover:no-underline" %>
           <div x-data="groupManager()">
-
             <%= form_with url: admin_group_path(group), method: :delete, html: { "x-ref": "deleteForm" } do %>
               <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
               <%= hidden_field_tag :_method, :delete %>
