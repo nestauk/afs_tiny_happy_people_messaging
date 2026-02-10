@@ -3,6 +3,7 @@
   "type": "module",
   "dependencies": {
     "@alpinejs/collapse": "^3.14.9",
+    "@alpinejs/csp": "^3.14.9",
     "@alpinejs/focus": "^3.14.9",
     "@alpinejs/persist": "^3.14.9",
     "@hotwired/stimulus": "^3.2.2",
