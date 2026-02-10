@@ -25,10 +25,10 @@
               }
             }
         }">
-          <a href="#" @click.prevent="deleteGroup()">Delete</a>
+          <a href="#" @click.prevent="deleteGroup()" class="underline hover:no-underline">Delete</a>
 
           <%= form_with url: admin_group_path(group), method: :delete, 
-              html: { "x-ref": "deleteForm", class: "hidden" } do %>
+            html: { "x-ref": "deleteForm", class: "hidden" } do %>
           <% end %>
         </div>
         </td>
