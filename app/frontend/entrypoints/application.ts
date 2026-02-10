@@ -3,10 +3,18 @@ import focus from "@alpinejs/focus";
 import persist from "@alpinejs/persist";
 import Alpine from "alpinejs";
 import "./application.css";
+import { Application } from "@hotwired/stimulus";
+import Sortable from "@stimulus-components/sortable";
+import { registerControllers } from "stimulus-vite-helpers";
 
 Alpine.plugin(collapse);
 Alpine.plugin(focus);
 Alpine.plugin(persist);
+
+const application = Application.start();
+application.register("sortable", Sortable);
+const controllers = import.meta.glob("../controllers/**/*_controller.js", { eager: true });
+registerControllers(application, controllers);
 
 // Add magic method to easily be able to post data to the backend
 Alpine.magic("post", () => {
