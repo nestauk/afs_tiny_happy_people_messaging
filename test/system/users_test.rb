@@ -4,15 +4,23 @@ class UsersTest < ApplicationSystemTestCase
   test "user can sign up" do
     visit new_user_path
 
+    assert_page_is_accessible
+
     sign_up
 
     assert_text "Thanks for signing up!"
+
+    assert_page_is_accessible
+
     fill_in "Your child's name, or nickname", with: "Jack"
     select "Tuesday"
     select "Morning"
     click_button "Next"
 
     assert_text "You're almost done"
+
+    assert_page_is_accessible
+
     select "Social media"
     check "Building a better routine with my child"
     fill_in "We're currently available in English, with more languages on the horizon! Let us know your preferred language to help shape our future offerings", with: "Polish"
@@ -22,6 +30,9 @@ class UsersTest < ApplicationSystemTestCase
     click_button "Next"
 
     assert_text "Thank you for signing up!"
+
+    assert_page_is_accessible
+
     assert_no_text "We will be in touch within 5 working days to explain more about the diary study and get you started."
     assert_equal 1, Message.count
 

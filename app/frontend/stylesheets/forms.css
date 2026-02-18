@@ -1,6 +1,6 @@
 @layer base {
   form {
-    @apply w-full max-w-full flex flex-col;
+    @apply w-full max-w-full flex flex-col gap-2;
   }
 
   label:not([type="checkbox"]) {
@@ -11,7 +11,7 @@
   textarea,
   select {
     @apply grow
-      px-2.5 py-2.5
+      px-2.5 py-3
       max-w-full
       bg-white
       border border-gray-500 rounded

@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       colors: {
         'bbc-blue': '#1079EB',
-        'bbc-dark-blue': '#0561c9',
+        'bbc-dark-blue': '#025fc9',
         'bbc-yellow': '#FFE727',
         'bbc-yellow-50': '#fffde9',
         'bbc-purple': '#4505A8',

@@ -17,11 +17,11 @@
   }
 
   .btn {
-    @apply px-4 py-2;
+    @apply px-6 py-2 pb-1.5;
   }
 
   .btn-sm {
-    @apply px-2 py-1 text-sm;
+    @apply x-4 py-1.5 pb-1 text-sm sm:text-base font-medium;
   }
 
   /* Link */
