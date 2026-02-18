@@ -2,7 +2,6 @@ import collapse from "@alpinejs/collapse";
 import focus from "@alpinejs/focus";
 import persist from "@alpinejs/persist";
 import Alpine from '@alpinejs/csp'
-import "./application.css";
 import { Application } from "@hotwired/stimulus";
 import Sortable from "@stimulus-components/sortable";
 import { registerControllers } from "stimulus-vite-helpers";
