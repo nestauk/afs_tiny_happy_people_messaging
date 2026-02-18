@@ -1,5 +1,12 @@
 <div data-controller="users">
-  <h1 class="text-4xl">Users (<%= @current_users.count %>)</h1>
+  <h1 class="text-4xl">
+    Users
+    <% if params[:opted_out].present? %>
+      (<%= User.where(contactable: false).count %>)
+    <% else %>
+      (<%= User.where(contactable: false).count %>)
+    <% end %>
+  </h1>
   <p>
     Filter by name:
   </p>
