@@ -60,7 +60,8 @@ services:
   vite-test:
     <<: *vite
     entrypoint: ["/var/source/bin/vite", "dev", "--mode=test"]
-    ports: []
+    ports: 
+      - "3037:3037"
     healthcheck:
       test: curl --fail http://vite-test:3037
       start_interval: 2s
