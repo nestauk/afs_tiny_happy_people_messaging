@@ -4,7 +4,7 @@
       <h1 class="mb-4 text-4xl"><%= @user.full_name %></h1>
 
       <% unless @user.contactable? %>
-        <p class="text-red-600 font-bold mb-2">This user has opted out</p>
+        <p class="text-red-600 font-bold mb-2 text-xl">This user has opted out</p>
       <% end %>
       <p><%= @user.postcode %></p>
       <p><%= @user.phone_number %></p>
@@ -12,9 +12,11 @@
     </div>
     <div>
       <%= link_to "Send message", new_admin_user_message_path(@user), class: "btn btn-primary bg-bbc-blue text-white" %>
-      <%= simple_form_for @user, url: admin_user_path(@user), method: :patch do |f| %>
-        <%= f.input :contactable, as: :hidden, input_html: {value: false} %>
-        <%= f.submit "Stop sending texts", class: "btn text-white mt-3 bg-bbc-red" %>
+      <% if @user.contactable? %>
+        <%= simple_form_for @user, url: admin_user_path(@user), method: :patch do |f| %>
+          <%= f.input :contactable, as: :hidden, input_html: {value: false} %>
+          <%= f.submit "Stop sending texts", class: "btn text-white mt-3 bg-bbc-red" %>
+        <% end %>
       <% end %>
     </div>
   </div>

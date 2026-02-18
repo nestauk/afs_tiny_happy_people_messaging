@@ -17,21 +17,28 @@
   <body>
     <%= render "layouts/navbar" %>
     <main class="w-full" role="main" id="main">
-      <% if flash[:notice] %>
-        <div class="md:px-28 px-3 py-5">
-          <p class="">
-            <%= flash[:notice] %>
-          </p>
-        </div>
-      <% end %>
       <% if current_admin && @hide_sidebar.blank? %>
-        <div class="grid grid-cols-4 gap-10 px-24">
+        <div class="grid grid-cols-4 h-svh">
           <%= render "layouts/sidebar" %>
-          <div class="mt-10 col-span-3 px-10">
+          <div class="mt-10 col-span-3 px-20">
+            <% if flash[:notice] %>
+              <div class="px-3 py-5 bg-green-300 mb-10">
+                <p class="">
+                  <%= flash[:notice] %>
+                </p>
+              </div>
+            <% end %>
             <%= yield %>
           </div>
         </div>
       <% else %>
+        <% if flash[:notice] %>
+          <div class="md:px-28 px-3 py-5">
+            <p class="">
+              <%= flash[:notice] %>
+            </p>
+          </div>
+        <% end %>
         <%= yield %>
       <% end %>
     </main>
