@@ -1,26 +1,26 @@
-<% content_for(:page_title) { I18n.t("pages.form.about_service.page_title") } %>
+<% content_for(:page_title) { "How did you find out about us?" } %>
 
 <div class="bg-bbc-dark-blue p-5 md:p-10 mx-2">
   <h1 class="text-4xl text-bbc-yellow">
-    <%= t("pages.form.about_service.title") %>
+    You're almost done
   </h1>
 
   <h2 class="font-normal text-lg text-white">
-    <%= t("pages.form.about_service.blurb") %>
+    Tell us how you found out about our service, and what you are interested in
   </h2>
 
-  <%= f.button :submit, t("pages.form.about_service.skip"), class: 'link text-white !p-0 shadow-none', data: { turbo_submits_with: 'Skipping...' } %>
+  <%= f.button :submit, "Skip this section", class: 'link text-white', data: { turbo_submits_with: 'Skipping...' } %>
 </div>
 
 <div class="mt-8 w-full px-5">
-  <%= f.input :referral_source, required: false, as: :select, include_blank: true, collection: [:social_media, :professional, :flyer, :email, :other], input_html: { class: "w-full" } %>
+  <%= f.input :referral_source, required: false, label: "How did you find out about us?", as: :select, include_blank: true, collection: ["Social media", "Referral by a professional", "Flyer/Poster", "Email", "Other"], input_html: { class: "w-full" } %>
   
-  <%= f.input :interests, as: :check_boxes, collection: [:routine, :sharing, :new_ideas, :support, :build], wrapper_html: { class: "mt-5 flex flex-col gap-2" }, required: false %>
+  <%= f.input :interests, as: :check_boxes, collection: Interest::TITLES, wrapper_html: { class: "mt-5 flex flex-col gap-2" }, label: "What are you interested in?", hint: "You can select more than one", required: false %>
   
-  <%= f.input :new_language_preference, required: false, input_html: { class: "w-full" }, wrapper_html: { class: "mt-5" } %>
+  <%= f.input :new_language_preference, required: false, label: "We're currently available in English, with more languages on the horizon! Let us know your preferred language to help shape our future offerings", input_html: { class: "w-full" }, wrapper_html: { class: "mt-5" } %>
 
   <div class="mt-5 flex flex-col gap-2">
-    <%= f.button :submit, t("pages.form.about_service.save"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: t("pages.form.about_service.saving") } %>
-    <%= f.button :submit, t("pages.form.about_service.back"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', name: "move_back" %>
+    <%= f.button :submit, "Next", class: 'btn bg-bbc-dark-blue text-white', data: { turbo_submits_with: 'Saving...' } %>
+    <%= link_to "Back", edit_user_path(@user, token: params[:token], step: "personalisation"), class: 'btn bg-blue-200 text-black' %>
   </div>
 </div>

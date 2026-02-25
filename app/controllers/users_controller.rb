@@ -11,7 +11,6 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
-    set_languages
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:q].presence || "no-referrer"}", request.path_parameters
   end
@@ -20,7 +19,7 @@ class UsersController < ApplicationController
     redirect_to root_path, notice: "Signups are currently paused. Please check back later." and return if ENV.fetch("SIGN_UP_OPEN", "true") == "false"
 
     if User.not_finished_content.count == 2001
-      return redirect_to root_path, notice: I18n.t("controllers.users.create.notice")
+      return redirect_to root_path, notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
     end
 
     @user = User.new(user_params)
@@ -37,8 +36,6 @@ class UsersController < ApplicationController
     else
       @no_padding = true
       @hide_sidebar = true
-      set_languages
-
       render :new, status: :unprocessable_content
     end
   end
@@ -82,7 +79,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :phone_number, :child_birthday,
-      :postcode, :child_name, :terms_agreed_at, :language
+      :postcode, :child_name, :terms_agreed_at
     )
   end
 
@@ -120,18 +117,7 @@ class UsersController < ApplicationController
 
   def rate_limit_exceeded
     @user = User.new
-    @no_padding = true
-    @hide_sidebar = true
-    set_languages
-    flash.now[:notice] = I18n.t("controllers.users.rate_limit_exceeded.notice")
+    flash.now[:notice] = "Too many attempts. Try again later."
     render :new, status: :unprocessable_content
-  end
-
-  def set_languages
-    @languages = if params[:locale] == "cy"
-      [["Cymraeg", "cy"], ["English", "en"]]
-    else
-      [["English", "en"], ["Cymraeg", "cy"]]
-    end
   end
 end
