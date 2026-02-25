@@ -12,7 +12,19 @@ class SendFeedbackMessageJobTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, Message.count
-    assert_match("Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.", Message.last.body)
+    assert_equal("Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know.", Message.last.body)
+    assert user.asked_for_feedback
+  end
+
+  test "#perform sends message for Welsh speakers" do
+    user = create(:user, child_birthday: 18.months.ago, language: "cy")
+
+    assert_enqueued_jobs 1, only: SendCustomMessageJob do
+      SendFeedbackMessageJob.new.perform(user)
+    end
+
+    assert_equal 1, Message.count
+    assert_equal("Ydy'r gweithgareddau rydyn ni'n eu hanfon atoch yn addas i’ch plentyn? Atebwch Ie neu Na i roi gwybod i ni.", Message.last.body)
     assert user.asked_for_feedback
   end
 

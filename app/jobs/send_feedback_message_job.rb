@@ -4,9 +4,8 @@ class SendFeedbackMessageJob < ApplicationJob
   def perform(user)
     Appsignal::CheckIn.cron("send_feedback_message_job") do
       message = Message.build do |m|
-        m.token = m.send(:generate_token)
         m.user = user
-        m.body = "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
+        m.body = I18n.t(".messages.feedback", locale: user.language || I18n.default_locale)
       end
 
       if message.save

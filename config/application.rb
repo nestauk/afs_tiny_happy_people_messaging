@@ -20,6 +20,9 @@ module AfsTinyHappyPeople
 
     config.mission_control.jobs.http_basic_auth_enabled = false
 
+    config.i18n.available_locales = [:en, :cy]
+    config.i18n.default_locale = :en
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
