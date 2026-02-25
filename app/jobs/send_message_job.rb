@@ -40,7 +40,7 @@ class SendMessageJob < ApplicationJob
     translations = {
       "{{parent_name}}": message.user.first_name,
       "{{child_name}}": message.user.child_name.presence || "your child",
-      "{{link}}": track_link_url(message.token),
+      "{{link}}": message.link? ? track_link_url(message.token) : nil,
     }
 
     content.gsub(/({{parent_name}}|{{child_name}}|{{link}})/) do |match|

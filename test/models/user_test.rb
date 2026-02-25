@@ -56,6 +56,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.opted_out, [user]
   end
 
+  test "due_for_restart scope" do
+    create(:user, contactable: false, restart_at: 1.day.from_now)
+    create(:user, contactable: true, restart_at: 1.day.ago)
+    user = create(:user, contactable: false, restart_at: 2.days.ago)
+
+    assert_equal User.due_for_restart.size, 1
+    assert_equal User.due_for_restart, [user]
+  end
+
   test "wants_morning_message scope" do
     create(:user, hour_preference: "afternoon")
     create(:user, hour_preference: "evening")
@@ -111,31 +120,31 @@ class UserTest < ActiveSupport::TestCase
   test "not_clicked_last_x_messages scope" do
     content = create(:content)
     user1 = create(:user)
-    create(:message, user: user1, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user1, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user1, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user1, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user1, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user1, link: "https://thp-text.uk/m", content:)
 
     user2 = create(:user)
-    create(:message, user: user2, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
-    create(:message, user: user2, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
-    create(:message, user: user2, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, body: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
+    create(:message, user: user2, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user2, link: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
+    create(:message, user: user2, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user2, link: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
+    create(:message, user: user2, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user2, link: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
 
     user3 = create(:user)
-    create(:message, user: user3, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user3, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user3, body: "https://thp-text.uk/m", content:, clicked_at: Time.zone.now)
-    create(:message, user: user3, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user3, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user3, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user3, link: "https://thp-text.uk/m", content:, clicked_at: Time.zone.now)
+    create(:message, user: user3, link: "https://thp-text.uk/m", content:)
 
     user4 = create(:user)
-    create(:message, user: user4, body: "https://thp-text.uk/m")
-    create(:message, user: user4, body: "https://thp-text.uk/m")
+    create(:message, user: user4, link: "https://thp-text.uk/m")
+    create(:message, user: user4, link: "https://thp-text.uk/m")
 
     user5 = create(:user)
-    create(:message, user: user5, body: "https://thp-text.uk/m", content:)
-    create(:message, user: user5, body: "https://thp-text.uk/m", content:)
+    create(:message, user: user5, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user5, link: "https://thp-text.uk/m", content:)
     create(:message, user: user5, body: "hi please fill this out", content:)
 
     assert_equal User.not_clicked_last_x_messages(3).to_a.size, 1

@@ -14,11 +14,6 @@ class ContentTest < ActiveSupport::TestCase
     assert_not @content.valid?
   end
 
-  test "link should be present" do
-    @content.link = ""
-    assert_not @content.valid?
-  end
-
   test "link should be valid URL" do
     content = Content.new(link: "invalid_url")
     content.save

@@ -36,7 +36,6 @@ class ContentsTest < ApplicationSystemTestCase
     click_on "Create"
 
     assert_field_has_errors("Body")
-    assert_field_has_errors("Link")
     assert_field_has_errors("Age in months")
   end
 

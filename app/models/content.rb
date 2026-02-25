@@ -7,8 +7,8 @@ class Content < ApplicationRecord
 
   has_many :messages, dependent: :restrict_with_exception
 
-  validates :body, :link, :age_in_months, presence: true
-  validate :valid_link?
+  validates :body, :age_in_months, presence: true
+  validate :valid_link?, if: -> { link.present? }
 
   scope :active, -> { where(archived_at: nil) }
 

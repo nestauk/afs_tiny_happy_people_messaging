@@ -2,44 +2,33 @@ class SendBulkMessageJob < ApplicationJob
   queue_as :real_time
 
   def perform(message_type, time = nil)
-    message_jobs = case message_type
-    when "feedback"
-      users = User.contactable.received_two_messages
-      users.map { |user| SendFeedbackMessageJob.new(user) }
+    case message_type
     when "weekly_message"
-      users = set_users(time)
-
       Appsignal::CheckIn.cron("send_#{time}_job") do
-        users.map do |user|
-          SendMessageJob.new(user)
-        end
+        jobs = users_for(time).map { |user| SendMessageJob.new(user) }
+        ActiveJob.perform_all_later(jobs) if jobs.any?
       end
+    when "feedback"
+      jobs = User.contactable.received_two_messages.map { |user| SendFeedbackMessageJob.new(user) }
+      ActiveJob.perform_all_later(jobs) if jobs.any?
     when "nudge"
-      users = User.contactable.not_nudged.not_clicked_last_x_messages(3)
-      users.map { |user| NudgeUsersJob.new(user) }
+      jobs = User.contactable.not_nudged.not_clicked_last_x_messages(3).map { |user| NudgeUsersJob.new(user) }
+      ActiveJob.perform_all_later(jobs) if jobs.any?
     when "restart"
-      users = User.opted_out.where("restart_at < ?", Time.zone.now)
-      users.map { |user| RestartMessagesJob.new(user) }
+      jobs = User.due_for_restart.map { |user| RestartMessagesJob.new(user) }
+      ActiveJob.perform_all_later(jobs) if jobs.any?
     end
-
-    return if message_jobs.blank?
-
-    ActiveJob.perform_all_later(message_jobs)
   end
 
   private
 
-  def set_users(time)
-    users = User.not_finished_content.contactable.with_preference_for_day(Time.zone.today.wday)
-
-    if time == "morning"
-      users.wants_morning_message
-    elsif time == "afternoon"
-      users.wants_afternoon_message
-    elsif time == "evening"
-      users.wants_evening_message
-    elsif time == "no_preference"
-      users.no_hour_preference_message
+  def users_for(time)
+    base = User.not_finished_content.contactable.with_preference_for_day(Time.zone.today.wday)
+    case time
+    when "morning" then base.wants_morning_message
+    when "afternoon" then base.wants_afternoon_message
+    when "evening" then base.wants_evening_message
+    when "no_preference" then base.no_hour_preference_message
     end
   end
 end
