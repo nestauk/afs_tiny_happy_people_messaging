@@ -1,9 +1,5 @@
 <% content_for(:page_title) { "How did you find out about us?" } %>
 
-<%= f.input :child_name, as: :hidden %>
-<%= f.input :hour_preference, as: :hidden %>
-<%= f.input :day_preference, as: :hidden %>
-
 <div class="bg-bbc-dark-blue p-5 md:p-10 mx-2">
   <h1 class="text-4xl text-bbc-yellow">
     You're almost done
@@ -25,6 +21,6 @@
 
   <div class="mt-5 flex flex-col gap-2">
     <%= f.button :submit, "Next", class: 'btn bg-bbc-dark-blue text-white', data: { turbo_submits_with: 'Saving...' } %>
-    <%= f.button :submit, "Back", class: 'btn bg-blue-200 text-black', name: "move_back" %>
+    <%= link_to "Back", edit_user_path(@user, token: params[:token], step: "personalisation"), class: 'btn bg-blue-200 text-black' %>
   </div>
 </div>

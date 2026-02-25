@@ -111,8 +111,8 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "ABC123"
     assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development."
     assert_equal "", User.last.child_name
-    assert_equal 2, User.last.day_preference
-    assert_equal "no_preference", User.last.hour_preference
+    assert_equal 1, User.last.day_preference
+    assert_equal "morning", User.last.hour_preference
   end
 
   test "form shows errors" do
