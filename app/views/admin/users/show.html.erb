@@ -6,7 +6,6 @@
       <% unless @user.contactable? %>
         <p class="text-red-600 font-bold mb-2 text-xl">This user has opted out</p>
       <% end %>
-      <p><%= @user.language == "en" ? "English" : "Welsh" %> speaker</p>
       <p><%= @user.postcode %></p>
       <p><%= @user.phone_number %></p>
       <p><%= @user.child_age_in_months_today %> month old child</p>

@@ -1,6 +1,5 @@
 class SendMessageJob < ApplicationJob
   include Rails.application.routes.url_helpers
-  include MessageVariableSubstitution
 
   queue_as :real_time
 
@@ -15,7 +14,7 @@ class SendMessageJob < ApplicationJob
       m.token = m.send(:generate_token)
       m.link = content.link
       m.user = user
-      m.body = substitute_variables(content.body, user, token: m.token)
+      m.body = substitute_variables(content.body, m)
       m.content = content
     end
 
@@ -34,6 +33,18 @@ class SendMessageJob < ApplicationJob
       end
 
       false
+    end
+  end
+
+  def substitute_variables(content, message)
+    translations = {
+      "{{parent_name}}": message.user.first_name,
+      "{{child_name}}": message.user.child_name.presence || "your child",
+      "{{link}}": track_link_url(message.token),
+    }
+
+    content.gsub(/({{parent_name}}|{{child_name}}|{{link}})/) do |match|
+      translations[match.to_sym]
     end
   end
 end

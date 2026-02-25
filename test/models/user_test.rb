@@ -201,24 +201,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal @subject.next_content, content2
   end
 
-  test "#next_content method returns next ranked content for age group in correct language" do
-    # Welsh
-    group = create(:group, language: "cy")
-    content1 = create(:content, group:, position: 1)
-    content2 = create(:content, group:, position: 2)
-    create(:content, group:, position: 3)
-
-    # English
-    group1 = create(:group, language: "en")
-    create(:content, group: group1, position: 1)
-    create(:content, group: group1, position: 2)
-    create(:content, group: group1, position: 3)
-
-    @subject.update(last_content_id: content1.id, language: "cy")
-
-    assert_equal @subject.next_content, content2
-  end
-
   test "#next_content method returns nothing if no appropriate content" do
     group = create(:group)
     create(:content, group:, position: 1)
@@ -237,24 +219,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal @subject.next_content, content
   end
 
-  test "#next_content finds appropriate content if user has not had content before in the correct language" do
-    # Welsh
-    group = create(:group, language: "cy")
-    content = create(:content, group:, position: 1, age_in_months: 18)
-    create(:content, group:, position: 2, age_in_months: 18)
-    create(:content, group:, position: 3, age_in_months: 19)
-
-    # English
-    group1 = create(:group, language: "en")
-    create(:content, group: group1, position: 1, age_in_months: 18)
-    create(:content, group: group1, position: 2, age_in_months: 18)
-    create(:content, group: group1, position: 3, age_in_months: 19)
-
-    @subject.update(language: "cy")
-
-    assert_equal @subject.next_content, content
-  end
-
   test "#next_content does not return content that the user has already seen" do
     # This is in case the content order has been switched around by the admins
     group = create(:group)
@@ -263,24 +227,6 @@ class UserTest < ActiveSupport::TestCase
     content3 = create(:content, group:, position: 3)
     create(:message, user: @subject, content: content2)
     @subject.update(last_content_id: content1.id)
-
-    assert_equal @subject.next_content, content3
-  end
-
-  test "#next_content does not return content that the user has already seen in correct language" do
-    # This is in case the content order has been switched around by the admins
-    group = create(:group, language: "cy")
-    content1 = create(:content, group:, position: 1)
-    content2 = create(:content, group:, position: 2)
-    content3 = create(:content, group:, position: 3)
-    create(:message, user: @subject, content: content2)
-
-    group1 = create(:group, language: "en")
-    create(:content, group: group1, position: 1)
-    create(:content, group: group1, position: 2)
-    create(:content, group: group1, position: 3)
-
-    @subject.update(last_content_id: content1.id, language: "cy")
 
     assert_equal @subject.next_content, content3
   end

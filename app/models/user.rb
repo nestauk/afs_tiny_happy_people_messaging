@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   has_many :diary_entries, dependent: :destroy
+  has_many :content_adjustments, dependent: :destroy
   has_one :demographic_data, dependent: :destroy
   belongs_to :local_authority, optional: true
 
@@ -18,6 +19,7 @@ class User < ApplicationRecord
 
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
+  has_one :latest_adjustment, -> { order(created_at: :desc) }, class_name: "ContentAdjustment"
   scope :with_preference_for_day, ->(day) { where(day_preference: day) }
   scope :wants_morning_message, -> { where(hour_preference: "morning") }
   scope :wants_afternoon_message, -> { where(hour_preference: "afternoon") }
@@ -42,21 +44,20 @@ class User < ApplicationRecord
   }
   scope :received_two_messages, -> {
     joins(:messages)
-      .where.not(messages: {content_id: nil})
+      .where(
+        messages: {
+          id: Message
+            .select(:id)
+            .where("messages.user_id = users.id")
+            .where.not(content_id: nil),
+        },
+      )
       .group("users.id")
-      .having("COUNT(messages.id) = 2")
+      .having("COUNT(*) = 2")
   }
   scope :not_finished_content, -> {
-    where(last_content_id: nil).or(
-      where(
-        "last_content_id != (" \
-          "SELECT contents.id FROM contents " \
-          "INNER JOIN groups ON groups.id = contents.group_id " \
-          "WHERE groups.language = users.language " \
-          "ORDER BY contents.position DESC LIMIT 1" \
-        ")",
-      ),
-    )
+    where.not(last_content_id: Content.order(:position).last&.id)
+      .or(User.where(last_content_id: nil))
   }
 
   attribute :hour_preference,
@@ -79,12 +80,12 @@ class User < ApplicationRecord
     if had_any_content_before?
       find_next_unseen_content
     else
-      Group.find_by(language: language).contents.where(age_in_months: child_age_in_months_today).order(:position).first
+      Content.where(age_in_months: child_age_in_months_today).min_by(&:position)
     end
   end
 
   def had_content_this_week?
-    messages.where("created_at > ?", 6.days.ago).where.not(content_id: nil).exists?
+    messages.any? { |m| m.created_at > 6.days.ago && m.content_id.present? }
   end
 
   def update_local_authority
@@ -121,16 +122,16 @@ class User < ApplicationRecord
   end
 
   def find_next_unseen_content
-    last_position = Content.find(last_content_id).position
-    seen_ids = messages.where.not(content_id: nil).select(:content_id)
+    i = Content.find(last_content_id).position + 1
 
-    Group.find_by(language: language)
-      .contents
-      .active
-      .where.not(id: seen_ids)
-      .where("position > ?", last_position)
-      .order(:position)
-      .first
+    loop do
+      content = Content.find_by(position: i)
+      # Last message in series
+      return nil if content.nil?
+      # Next message
+      return content if not_seen_content?(content) && !content.archived?
+      i += 1
+    end
   end
 
   def set_uuid

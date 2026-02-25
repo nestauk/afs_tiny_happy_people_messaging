@@ -19,11 +19,10 @@ h2, h3, h4, h5, h6, p, a, span, div, li, td, th, label, input, textarea, select,
   margin-right: .5rem !important;
   height: 20px;
   width: 20px;
-  display: block;
 }
 
 .checkbox {
-  display: flex;
+  display: block;
 }
 
 .input.radio_buttons {

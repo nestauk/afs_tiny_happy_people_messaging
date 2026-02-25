@@ -46,6 +46,6 @@ class Admin::GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:name, :language)
+    params.require(:group).permit(:name)
   end
 end
