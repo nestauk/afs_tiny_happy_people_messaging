@@ -1,5 +1,9 @@
 en:
   activerecord:
+    attributes:
+      user:
+        child_birthday: "Your child's birthday"
+        child_birthday_hint: "We use this to start suggesting activities, and ask you to tell us if they are suitable for your child."
     errors:
       messages:
         blank: "can't be blank"

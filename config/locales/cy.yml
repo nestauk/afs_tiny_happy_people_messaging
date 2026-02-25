@@ -1,5 +1,9 @@
 cy:
   activerecord:
+    attributes: 
+      user:
+        child_birthday: "Pen-blwydd eich plentyn"
+        child_birthday_hint: "Defnyddiwn hyn i ddechrau awgrymu gweithgareddau, a gofynnwn i chi ddweud wrthym a ydynt yn addas ar gyfer eich plentyn."
     errors:
       messages:
         blank: "ni all fod yn wag"
