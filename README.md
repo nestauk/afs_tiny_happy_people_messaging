@@ -29,7 +29,7 @@ docker compose up
 
 4. Run the database migrations and seed the database
 ```shell
-docker compose exec app.local bash
+docker compose exec rails bash
 rails db:schema:load
 ```
 
@@ -44,8 +44,8 @@ or contact a maintainer for the keys.
 
 ### Running tests
 
-- `docker compose exec app.local rails test` to run unit tests.
-- `docker compose exec app.local rails test:system` to run system/end-to-end tests.
+- `docker compose exec rails rails test` to run unit tests.
+- `docker compose exec rails rails test:system` to run system/end-to-end tests.
 
 ## Deployment
 
@@ -53,7 +53,7 @@ We use Heroku to host and deploy this app.
 
 ### Heroku Scheduler
 
-The tasks to send messages to parents are set up using Heroku scheduler. See `scheduler.rake` for those tasks.
+The tasks to send messages to parents are set in recurring.yml. To see a list of all jobs queued/ running/ scheduled, go to /jobs.
 
 ### Sending texts
 

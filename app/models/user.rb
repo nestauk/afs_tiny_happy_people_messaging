@@ -26,6 +26,7 @@ class User < ApplicationRecord
   scope :wants_evening_message, -> { where(hour_preference: "evening") }
   scope :no_hour_preference_message, -> { where(hour_preference: ["no_preference", nil]) }
   scope :not_nudged, -> { where(nudged_at: nil) }
+  scope :due_for_restart, -> { opted_out.where("restart_at < ?", Time.zone.now) }
   scope :not_clicked_last_x_messages, ->(x) {
     joins(:messages)
       .where(
@@ -34,7 +35,7 @@ class User < ApplicationRecord
             .select(:id)
             .where("messages.user_id = users.id")
             .where.not(content_id: nil)
-            .where("body LIKE ?", "%https://thp-text.uk/m%")
+            .where.not(link: nil)
             .order(created_at: :desc)
             .limit(x),
         },

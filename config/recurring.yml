@@ -11,10 +11,10 @@ production:
     class: SendBulkMessageJob
     args: [ weekly_message, evening ]
     schedule: 0 18 * * *
-  no_preference_text: 
+  no_preference_text:
     class: SendBulkMessageJob
     args: [ weekly_message, no_preference ]
-    schedule: 0 7 * * *
+    schedule: 1 7 * * *
   send_feedback_message:
     class: SendBulkMessageJob
     args: [ feedback ]
@@ -32,7 +32,7 @@ production:
     schedule: 0 * * * *
   update_las_specific:
     command: "LaSpecificDashboard.refresh"
-    schedule: 0 * * * *
+    schedule: 30 * * * *
   clear_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     schedule: 0 2 * * *
