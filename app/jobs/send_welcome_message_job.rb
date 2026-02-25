@@ -1,5 +1,6 @@
 class SendWelcomeMessageJob < ApplicationJob
   include Rails.application.routes.url_helpers
+  include MessageVariableSubstitution
 
   queue_as :background
 
@@ -11,18 +12,5 @@ class SendWelcomeMessageJob < ApplicationJob
     end
 
     Twilio::Client.new.send_message(message) if message.save
-  end
-
-  private
-
-  def substitute_variables(content, user)
-    translations = {
-      "{{parent_name}}": user.first_name,
-      "{{child_name}}": user.child_name.presence || "your child",
-    }
-
-    content.gsub(/({{parent_name}}|{{child_name}})/) do |match|
-      translations[match.to_sym]
-    end
   end
 end
