@@ -81,12 +81,12 @@ class User < ApplicationRecord
     if had_any_content_before?
       find_next_unseen_content
     else
-      Content.where(age_in_months: child_age_in_months_today).min_by(&:position)
+      Content.where(age_in_months: child_age_in_months_today).order(:position).first
     end
   end
 
   def had_content_this_week?
-    messages.any? { |m| m.created_at > 6.days.ago && m.content_id.present? }
+    messages.where("created_at > ?", 6.days.ago).where.not(content_id: nil).exists?
   end
 
   def update_local_authority
@@ -123,16 +123,17 @@ class User < ApplicationRecord
   end
 
   def find_next_unseen_content
-    i = Content.find(last_content_id).position + 1
+    last_content = Content.find(last_content_id)
+    last_position = last_content.position if last_content
+    seen_ids = messages.where.not(content_id: nil).select(:content_id)
 
-    loop do
-      content = Content.find_by(position: i)
-      # Last message in series
-      return nil if content.nil?
-      # Next message
-      return content if not_seen_content?(content) && !content.archived?
-      i += 1
-    end
+    Group.find(last_content.group_id)
+      .contents
+      .active
+      .where.not(id: seen_ids)
+      .where("position > ?", last_position)
+      .order(:position)
+      .first
   end
 
   def set_uuid
