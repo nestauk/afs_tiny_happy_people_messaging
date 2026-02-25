@@ -1,8 +1,8 @@
 <div class="mx-auto max-w-prose py-8 xl:py-10">
-  <%= simple_form_for @user, url: user_path(@user.user), method: :patch do |form| %>
-    <%= hidden_field_tag :stage, @user.stage %>
-    <%= hidden_field_tag :token, @user.token %>
-    <%= render @user, f: form, user: form.object %>
+  <%= simple_form_for @user, url: user_path(@user), method: :patch do |form| %>
+    <%= hidden_field_tag :step, @step %>
+    <%= hidden_field_tag :token, params[:token] %>
+    <%= render "users/edit/#{@step}_stage", f: form %>
   <% end %>
 </div>
 <% turbo_page_requires_reload %>

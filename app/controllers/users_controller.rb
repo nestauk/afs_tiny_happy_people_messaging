@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  STEPS = %w[personalisation about_service].freeze
+
   rate_limit to: 5, within: 5.minutes, by: -> { request.ip }, only: :create, with: -> { rate_limit_exceeded }
 
   skip_before_action :authenticate_admin!
@@ -39,25 +41,32 @@ class UsersController < ApplicationController
   end
 
   def edit
-    user = User.find(params[:id])
-    @user = UserProfile.new(user, params)
+    @user = User.find(params[:id])
+    @step = params[:step].presence_in(STEPS) || STEPS.first
   end
 
   def update
-    user = User.find(params[:id])
-    @user = UserProfile.new(user, params)
-    ahoy.track @user.stage, request.path_parameters
+    @user = User.find(params[:id])
+    @step = params[:step].presence_in(STEPS) || STEPS.first
+    ahoy.track @step, request.path_parameters
 
-    if @user.save
-      user = @user.user
-      user.is_in_study? ? user.put_on_waitlist : SendWelcomeMessageJob.perform_now(user)
-
-      redirect_to thank_you_users_path
+    if @step == "personalisation"
+      if @user.update(personalisation_params)
+        redirect_to edit_user_path(@user, token: params[:token], step: "about_service")
+      else
+        render :edit, status: :unprocessable_content
+      end
     else
-      check_token_session
-      @hide_sidebar = true
+      service_params = about_service_params
+      interests = service_params.delete(:interests).to_a.compact_blank
 
-      render :edit, status: :unprocessable_content
+      if @user.update(service_params)
+        interests.each { |title| @user.interests.create(title:) }
+        @user.is_in_study? ? @user.put_on_waitlist : SendWelcomeMessageJob.perform_now(@user)
+        redirect_to thank_you_users_path
+      else
+        render :edit, status: :unprocessable_content
+      end
     end
   end
 
@@ -69,10 +78,17 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :phone_number, :child_birthday, :email, :id, :new_language_preference,
-      :postcode, :hour_preference, :day_preference, :referral_source, :child_name,
-      :terms_agreed_at, interests: []
+      :first_name, :last_name, :phone_number, :child_birthday,
+      :postcode, :child_name, :terms_agreed_at
     )
+  end
+
+  def personalisation_params
+    params.require(:user).permit(:child_name, :hour_preference, :day_preference)
+  end
+
+  def about_service_params
+    params.require(:user).permit(:referral_source, :new_language_preference, interests: [])
   end
 
   def track_action
@@ -85,7 +101,7 @@ class UsersController < ApplicationController
   end
 
   def check_token_session
-    if !session_token_valid?
+    unless session_token_valid?
       redirect_to root_path, notice: "Your session has expired. Contact info@thp-text.uk if you need further help."
     end
   end
