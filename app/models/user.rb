@@ -81,7 +81,7 @@ class User < ApplicationRecord
     if had_any_content_before?
       find_next_unseen_content
     else
-      Content.where(age_in_months: child_age_in_months_today).order(:position).first
+      Group.find_by(language: language).contents.where(age_in_months: child_age_in_months_today).min_by(&:position)
     end
   end
 
@@ -123,11 +123,10 @@ class User < ApplicationRecord
   end
 
   def find_next_unseen_content
-    last_content = Content.find(last_content_id)
-    last_position = last_content.position if last_content
+    last_position = Content.find(last_content_id).position
     seen_ids = messages.where.not(content_id: nil).select(:content_id)
 
-    Group.find(last_content.group_id)
+    Group.find_by(language: language)
       .contents
       .active
       .where.not(id: seen_ids)
