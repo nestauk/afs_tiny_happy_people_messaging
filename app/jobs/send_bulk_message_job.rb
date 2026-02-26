@@ -9,20 +9,14 @@ class SendBulkMessageJob < ApplicationJob
         ActiveJob.perform_all_later(jobs) if jobs.any?
       end
     when "feedback"
-      Appsignal::CheckIn.cron("send_feedback_message_job") do
-        jobs = User.contactable.received_two_messages.map { |user| SendFeedbackMessageJob.new(user) }
-        ActiveJob.perform_all_later(jobs) if jobs.any?
-      end
+      jobs = User.contactable.received_two_messages.map { |user| SendFeedbackMessageJob.new(user) }
+      ActiveJob.perform_all_later(jobs) if jobs.any?
     when "nudge"
-      Appsignal::CheckIn.cron("nudge_users_job") do
-        jobs = User.contactable.not_nudged.not_clicked_last_x_messages(3).map { |user| NudgeUsersJob.new(user) }
-        ActiveJob.perform_all_later(jobs) if jobs.any?
-      end
+      jobs = User.contactable.not_nudged.not_clicked_last_x_messages(3).map { |user| NudgeUsersJob.new(user) }
+      ActiveJob.perform_all_later(jobs) if jobs.any?
     when "restart"
-      Appsignal::CheckIn.cron("restart_messages_job") do
-        jobs = User.due_for_restart.map { |user| RestartMessagesJob.new(user) }
-        ActiveJob.perform_all_later(jobs) if jobs.any?
-      end
+      jobs = User.due_for_restart.map { |user| RestartMessagesJob.new(user) }
+      ActiveJob.perform_all_later(jobs) if jobs.any?
     end
   end
 
