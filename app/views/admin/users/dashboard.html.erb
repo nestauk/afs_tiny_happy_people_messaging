@@ -22,10 +22,10 @@
         <td class="px-4 py-4 bg-white">
           <%= message.created_at.strftime("%d/%m/%y") %>
         </td>
-        <td class="px-4 py-4 bg-white text-right">
-          <%= simple_form_for message, url: admin_user_message_path(user_id: message.user, id: message.id) do |f| %>
+        <td class="px-4 py-4 bg-white flex gap-2 justify-end">
+          <%= simple_form_for message, url: admin_user_message_path(user_id: message.user, id: message.id), html: { class: "inline w-fit" } do |f| %>
             <%= hidden_field_tag 'seen', 'true'  %>
-            <%= f.submit "Mark as seen", class: "link" %>
+            <%= f.submit "Mark as seen", class: "link w-fit" %>
           <% end %>
           <%= link_to "Reply", new_admin_user_message_path(message.user), class: "underline hover:no-underline" %>
         </td>
