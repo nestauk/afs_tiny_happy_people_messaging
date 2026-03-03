@@ -4,7 +4,5 @@ FactoryBot.define do
     response { "Thanks, we've paused" }
     update_user { "{}" }
     user_conditions { "{}" }
-    content_adjustment_conditions { "{}" }
-    update_content_adjustment { "{}" }
   end
 end
