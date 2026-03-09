@@ -1,6 +1,5 @@
 class ResponseMatcherService
   WORKING_HOURS_MESSAGE = "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
-  ASSESSMENT_MESSAGE = "Thanks, a member of the team will be in touch to discuss your child's needs."
 
   def initialize(message)
     @message = message
@@ -48,11 +47,7 @@ class ResponseMatcherService
     return true if parsed_conditions.empty?
 
     parsed_conditions.all? do |key, value|
-      if value == "> 0"
-        object[key].to_i > 0
-      else
-        object[key] == value
-      end
+      object[key] == value
     end
   end
 
@@ -64,8 +59,6 @@ class ResponseMatcherService
   def update_attribute(key, value, object)
     if key == "restart_at"
       object.update(restart_at: 4.weeks.from_now.noon)
-    elsif key == "adjusted_at"
-      object.update(adjusted_at: Time.current)
     else
       object.update(key => value)
     end

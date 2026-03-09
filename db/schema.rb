@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_03_112752) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_09_152255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -119,14 +119,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_03_112752) do
     t.string "status"
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
-  end
-
-  create_table "content_age_groups", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "description", null: false
-    t.integer "max_months", null: false
-    t.integer "min_months", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "contents", force: :cascade do |t|
