@@ -2,8 +2,11 @@
   "name": "Tiny Happy People text messaging service",
   "website": "https://thp-text.uk/",
   "repository": "https://github.com/nestauk/afs_tiny_happy_people_messaging",
-  "stack": "heroku-22",
+  "stack": "heroku-24",
   "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
     {
       "url": "heroku/ruby"
     }
