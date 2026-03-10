@@ -1,6 +1,20 @@
 require "application_system_test_case"
 
 class UsersTest < ApplicationSystemTestCase
+  test "user can switch language" do
+    visit new_user_path
+
+    assert_text "Nurture your child's growth with fun, free activities"
+
+    click_on "Cymraeg"
+
+    assert_text "Negeseuon Testun Tiny Happy People"
+
+    click_on "English"
+
+    assert_text "Nurture your child's growth with fun, free activities"
+  end
+
   test "user can sign up" do
     visit new_user_path
 
@@ -23,11 +37,11 @@ class UsersTest < ApplicationSystemTestCase
 
     select "Social media"
     check "Building a better routine with my child"
-    fill_in "We're currently available in English, with more languages on the horizon! Let us know your preferred language to help shape our future offerings", with: "Polish"
+    fill_in "We're currently available in English, with more languages coming soon! Let us know your preferred language to help shape our future offerings", with: "Polish"
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
 
-    click_button "Next"
+    click_button "Finish"
 
     assert_text "Thank you for signing up!"
 
@@ -49,6 +63,30 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "morning", User.last.hour_preference
     assert_equal "Islington", User.last.local_authority.name
     assert_equal "Polish", User.last.new_language_preference
+  end
+
+  test "user can sign up with a different language" do
+    visit new_user_path
+
+    month = 7.months.ago.strftime("%B")
+    year = 7.months.ago.strftime("%Y")
+    fill_in "First name", with: "Jo"
+    fill_in "Last name", with: "Smith"
+    fill_in "Phone number", with: "07444930200"
+    fill_in "Postcode", with: "ABC123"
+    select month
+    select year
+    select "Cymraeg", from: "What language would you like to receive the texts in?"
+    check "I accept the terms of service and privacy policy"
+
+    geocode_payload = Geokit::GeoLoc.new(state: "Islington")
+    LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
+
+    click_button "Sign up"
+
+    assert_text "Thanks for signing up!"
+
+    assert_equal "cy", User.last.language
   end
 
   test "User can't sign up if max capacity reached" do
@@ -136,7 +174,7 @@ class UsersTest < ApplicationSystemTestCase
     user = create(:user)
     visit edit_user_path(user)
 
-    assert_current_path root_path
+    assert_current_path root_path(locale: "en")
     assert_text "Your session has expired"
   end
 
@@ -144,7 +182,7 @@ class UsersTest < ApplicationSystemTestCase
     user = create(:user)
     visit edit_user_path(user, token: "invalid_token")
 
-    assert_current_path root_path
+    assert_current_path root_path(locale: "en")
     assert_text "Your session has expired"
   end
 
@@ -158,7 +196,7 @@ class UsersTest < ApplicationSystemTestCase
     travel_to 16.minutes.from_now do
       click_button "Next"
 
-      assert_current_path root_path
+      assert_current_path root_path(locale: "en")
       assert_text "Your session has expired"
     end
   end
