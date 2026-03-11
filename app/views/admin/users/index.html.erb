@@ -1,6 +1,6 @@
 <div data-controller="users">
   <h1 class="text-4xl">
-    Users (<%= @current_users.count %>)
+    Users (<%= @users.count %>)
   </h1>
   <p>Filters</p>
   <%= form_with url: admin_users_path, method: :get, local: true, class: "mb-4" do %>
