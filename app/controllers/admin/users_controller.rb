@@ -2,18 +2,10 @@ class Admin::UsersController < ApplicationController
   before_action :check_admin_role, only: [:index, :dashboard, :show]
 
   def index
-    users = if params[:opted_out].present?
-      User.opted_out
-    else
-      User.contactable
-    end
-
-    if params[:letter].present?
-      @letter = params[:letter].upcase
-      @current_users = users.where("last_name LIKE ?", "#{@letter}%").order(:last_name, :first_name).page(params[:page]).per(25)
-    else
-      @current_users = users.order(:last_name, :first_name).page(params[:page]).per(25)
-    end
+    @current_users = User.where("first_name ILIKE ? OR last_name ILIKE ? OR CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{params[:name]}%", "%#{params[:name]}%", "%#{params[:name]}%")
+      .where(params[:finished].present? ? {last_content_id: Content.order(:position).last&.id} : {})
+      .where(params[:opted_out].present? ? {contactable: false} : {})
+      .order(:last_name, :first_name).page(params[:page]).per(25)
   end
 
   def dashboard

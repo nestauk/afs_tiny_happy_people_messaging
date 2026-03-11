@@ -6,11 +6,7 @@
               %>
   
   <%= link_to 'Users', admin_users_path,
-              class: "link text-lg sm:text-xl no-underline hover:underline text-zinc-600 #{'font-bold' if current_page?(admin_users_path) && params[:opted_out].blank?}"
-              %>
-  
-  <%= link_to 'Opted out users', admin_users_path(opted_out: true),
-              class: "link text-lg sm:text-xl no-underline hover:underline text-zinc-600 #{'font-bold' if current_page?(admin_users_path(opted_out: true))}"
+              class: "link text-lg sm:text-xl no-underline hover:underline text-zinc-600 #{'font-bold' if current_page?(admin_users_path)}"
               %>
 
   <%= link_to 'Message contents', admin_groups_path,

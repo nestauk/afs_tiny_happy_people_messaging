@@ -3,43 +3,56 @@ require "test_helper"
 class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
-  test "index shows contactable users" do
-    admin = create(:admin)
-    sign_in(admin)
-
-    create(:user, first_name: "Jo", last_name: "Smith", contactable: true)
+  setup do
+    @admin = create(:admin)
+    sign_in(@admin)
+    content = create(:content)
+    create(:user, first_name: "Jo", last_name: "Smith", contactable: true, last_content_id: content.id)
     create(:user, first_name: "Paul", last_name: "Fish", contactable: true)
     create(:user, first_name: "Jane", last_name: "Doe", contactable: false)
+  end
 
+  test "index shows all users" do
     get admin_users_path
     assert_response :success
     assert_see "Jo Smith"
     assert_see "Paul Fish"
+    assert_see "Jane Doe"
+  end
 
-    get admin_users_path(letter: "F")
+  test "index filters users by name" do
+    get admin_users_path(name: "Paul")
     assert_response :success
     assert_see "Paul Fish"
     assert_dont_see "Jo Smith"
+    assert_dont_see "Jane Doe"
+
+    get admin_users_path(name: "Smith")
+    assert_response :success
+    assert_see "Jo Smith"
+    assert_dont_see "Paul Fish"
+    assert_dont_see "Jane Doe"
+
+    get admin_users_path(name: "Jo Smith")
+    assert_response :success
+    assert_see "Jo Smith"
+    assert_dont_see "Paul Fish"
+    assert_dont_see "Jane Doe"
   end
 
-  test "index shows opted out users when opted_out param is set" do
-    admin = create(:admin)
-    sign_in(admin)
-
-    create(:user, first_name: "Jo", last_name: "Smith", contactable: true)
-    create(:user, first_name: "Paul", last_name: "Fish", contactable: true)
-    create(:user, first_name: "Jane", last_name: "Doe", contactable: false)
-
+  test "index filters users by contactable status" do
     get admin_users_path(opted_out: true)
     assert_response :success
     assert_see "Jane Doe"
     assert_dont_see "Jo Smith"
     assert_dont_see "Paul Fish"
+  end
 
-    get admin_users_path(letter: "D", opted_out: true)
+  test "index filters users by finished status" do
+    get admin_users_path(finished: true)
     assert_response :success
-    assert_see "Jane Doe"
-    assert_dont_see "Jo Smith"
+    assert_see "Jo Smith"
     assert_dont_see "Paul Fish"
+    assert_dont_see "Jane Doe"
   end
 end
