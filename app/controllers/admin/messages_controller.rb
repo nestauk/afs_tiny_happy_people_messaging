@@ -1,5 +1,5 @@
 class Admin::MessagesController < ApplicationController
-  before_action :check_admin_role, only: [:index, :new, :create]
+  before_action :check_admin_role
 
   def index
     @messages = Message.all
