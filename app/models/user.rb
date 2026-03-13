@@ -16,6 +16,9 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :interests, :demographic_data
 
+  generates_token_for :profile_token, expires_in: 15.minutes
+  generates_token_for :survey_token
+
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
   has_one :latest_adjustment, -> { order(created_at: :desc) }, class_name: "ContentAdjustment"

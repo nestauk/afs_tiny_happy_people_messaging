@@ -1,0 +1,26 @@
+<div class="flex justify-between items-baseline">
+  <h1 class="text-4xl mb-8">Surveys</h1>
+  <%= link_to "New Survey", new_admin_survey_path, class: "bg-blue-500 text-white rounded p-2" %>
+</div>
+
+<table class="table-auto w-full">
+  <thead>
+    <tr class="bg-blue-300 text-left">
+      <th class="px-4 py-4">Title</th>
+      <th class="px-4 py-4">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @surveys.each do |survey| %>
+      <tr class="border-b-2">
+        <td class="px-4 py-4 bg-white">
+          <%= link_to survey.title, admin_survey_path(survey), class: "underline hover:no-underline" %>
+        </td>
+        <td class="px-4 py-4 bg-white">
+          <%= link_to "Edit", edit_admin_survey_path(survey), class: "text-blue-500 hover:underline" %>
+          <%= link_to "Delete", admin_survey_path(survey), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table> 

@@ -1,0 +1,38 @@
+<div class="mb-2">
+  <%= link_to '< Back', admin_surveys_path, class: 'underline hover:no-underline' %>
+</div>
+<h1 class="text-4xl mb-8"><%= @survey.title %></h1>
+
+<div class="flex justify-between items-baseline">
+  <h2>Questions</h2>
+  <%= link_to "New Question", new_admin_survey_question_path(@survey), class: "bg-blue-500 text-white rounded p-2" %>
+</div>
+<table class="table-auto w-full">
+  <thead>
+    <tr class="bg-blue-300 text-left">
+      <th class="px-4 py-4">&nbsp</th>
+      <th class="px-4 py-4">Title</th>
+      <th class="px-4 py-4">Type</th>
+      <th class="px-4 py-4">Options</th>
+      <th class="px-4 py-4">Actions</th>
+    </tr>
+  </thead>
+  <tbody data-controller="sortable" data-sortable-handle-value=".cursor-grab">
+    <% @survey.questions.order(:position).each do |question| %>
+      <tr class="border-b-2" data-sortable-update-url="<%= update_position_admin_survey_question_path(@survey, question) %>">
+        <td class="p-4">
+          <svg class="cursor-grab" width="20px" height="20px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#ccc"><path d="M3 5H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 12H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 19H21" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </td>
+        <td class="px-4 py-4 bg-white">
+          <%= question.text %>
+        </td>
+        <td class="px-4 py-4 bg-white"><%= question.question_type.humanize %></td>
+        <td class="px-4 py-4 bg-white"><%= question.options.join(", ") %></td>
+        <td class="px-4 py-4 bg-white">
+          <%= link_to "Edit", edit_admin_survey_question_path(@survey, question), class: "text-blue-500 hover:underline" %>
+          <%= link_to "Delete", admin_survey_question_path(@survey, question), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table> 

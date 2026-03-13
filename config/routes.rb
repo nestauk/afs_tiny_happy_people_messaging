@@ -20,6 +20,12 @@ Rails.application.routes.draw do
         resources :messages
       end
 
+      resources :surveys do
+        resources :questions, except: [:index] do
+          patch "update_position", on: :member
+        end
+      end
+
       resources :admins, except: %i[show destroy]
 
       get "dashboard", to: "dashboards#show"
@@ -45,6 +51,8 @@ Rails.application.routes.draw do
   get "/resources", to: "pages#resources"
   get "/diary_study", to: "pages#diary_study"
   get "/about_us", to: "pages#about_us"
+
+  resources :surveys, only: %i[edit update]
 
   resources :users, only: %i[new create edit update] do
     get "thank_you", on: :collection
