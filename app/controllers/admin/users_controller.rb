@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_action :check_admin_role, only: [:index, :dashboard, :show]
+  before_action :check_admin_role
 
   def index
     @users = User.where("phone_number ILIKE ?", "%#{params[:phone_number]}%")

@@ -16,6 +16,9 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :interests
 
+  generates_token_for :profile_token, expires_in: 15.minutes
+  generates_token_for :survey_token
+
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
   scope :with_preference_for_day, ->(day) { where(day_preference: day) }

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   skip_before_action :authenticate_admin!
   before_action :set_page_variables, only: [:new, :edit, :thank_you]
-  before_action :check_token_session, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update]
   after_action :track_action, only: [:edit, :create, :thank_you]
 
   def new
@@ -23,14 +23,11 @@ class UsersController < ApplicationController
     end
 
     @user = User.new(user_params)
-
     @user.terms_agreed_at = Time.zone.now if user_params[:terms_agreed_at] == "1"
 
     if @user.save
       @user.update_local_authority
-
-      verifier = ActiveSupport::MessageVerifier.new(Rails.application.secret_key_base)
-      token = verifier.generate({user_id: @user.id, exp: 15.minutes.from_now.to_i})
+      token = @user.generate_token_for(:profile_token)
 
       redirect_to edit_user_path(@user, token:)
     else
@@ -41,12 +38,10 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
     @step = params[:step].presence_in(STEPS) || STEPS.first
   end
 
   def update
-    @user = User.find(params[:id])
     @step = params[:step].presence_in(STEPS) || STEPS.first
     ahoy.track @step, request.path_parameters
 
@@ -96,19 +91,11 @@ class UsersController < ApplicationController
     @hide_sidebar = true
   end
 
-  def check_token_session
-    unless session_token_valid?
-      redirect_to root_path, notice: "Your session has expired. Contact info@cbeebies-text.uk if you need further help."
+  def set_user
+    @user = User.find_by_token_for(:profile_token, params[:token])
+    unless @user
+      redirect_to root_path, notice: "Your session has expired. Contact info@thp-text.uk if you need further help."
     end
-  end
-
-  def session_token_valid?
-    verifier = ActiveSupport::MessageVerifier.new(Rails.application.secret_key_base)
-    data = verifier.verify(params[:token])
-
-    Time.zone.at(data["exp"]) > Time.current
-  rescue ActiveSupport::MessageVerifier::InvalidSignature
-    false
   end
 
   def rate_limit_exceeded
