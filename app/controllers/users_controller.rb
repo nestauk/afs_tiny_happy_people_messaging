@@ -98,7 +98,7 @@ class UsersController < ApplicationController
 
   def check_token_session
     unless session_token_valid?
-      redirect_to root_path, notice: "Your session has expired. Contact info@thp-text.uk if you need further help."
+      redirect_to root_path, notice: "Your session has expired. Contact info@cbeebies-text.uk if you need further help."
     end
   end
 
