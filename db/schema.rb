@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_09_152255) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_17_140305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -132,45 +132,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_152255) do
     t.datetime "updated_at", null: false
     t.index ["group_id", "position"], name: "index_contents_on_group_id_and_position", unique: true
     t.index ["group_id"], name: "index_contents_on_group_id"
-  end
-
-  create_table "demographic_data", force: :cascade do |t|
-    t.integer "age"
-    t.string "children_ages"
-    t.string "country"
-    t.datetime "created_at", null: false
-    t.string "education"
-    t.string "employment_status"
-    t.string "ethnicity"
-    t.string "gender"
-    t.string "household_income"
-    t.string "marital_status"
-    t.integer "number_of_children"
-    t.boolean "receiving_credit"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_demographic_data_on_user_id"
-  end
-
-  create_table "diary_entries", force: :cascade do |t|
-    t.text "activities_from_previous_weeks"
-    t.text "changes_to_make"
-    t.datetime "completed_at"
-    t.datetime "created_at", null: false
-    t.jsonb "days", default: [], array: true
-    t.boolean "did_previous_week_activity"
-    t.text "enjoyed_least"
-    t.text "enjoyed_most"
-    t.jsonb "feedback", default: [], array: true
-    t.text "feedback_reason"
-    t.boolean "first_week"
-    t.text "reason_for_not_doing_activity"
-    t.jsonb "timings", default: [], array: true
-    t.integer "total_time"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.string "video_message"
-    t.index ["user_id"], name: "index_diary_entries_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -376,8 +337,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_152255) do
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 
-  add_foreign_key "demographic_data", "users"
-  add_foreign_key "diary_entries", "users"
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
