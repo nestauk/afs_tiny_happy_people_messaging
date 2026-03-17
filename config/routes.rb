@@ -43,7 +43,6 @@ Rails.application.routes.draw do
   get "/privacy_policy", to: "pages#privacy_policy"
   get "/terms", to: "pages#terms"
   get "/resources", to: "pages#resources"
-  get "/diary_study", to: "pages#diary_study"
   get "/about_us", to: "pages#about_us"
 
   resources :users, only: %i[new create edit update] do

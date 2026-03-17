@@ -15,9 +15,6 @@ class PagesController < ApplicationController
   def resources
   end
 
-  def diary_study
-  end
-
   private
 
   def track_action

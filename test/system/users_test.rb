@@ -33,7 +33,6 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_page_is_accessible
 
-    assert_no_text "We will be in touch within 5 working days to explain more about the diary study and get you started."
     assert_equal 1, Message.count
 
     @admin = create(:admin)
