@@ -1,5 +1,5 @@
 {
-  "name": "Tiny Happy People text messaging service",
+  "name": "CBeebies Parenting text messaging service",
   "website": "https://cbeebies-text.uk/",
   "repository": "https://github.com/nestauk/afs_tiny_happy_people_messaging",
   "stack": "heroku-24",
