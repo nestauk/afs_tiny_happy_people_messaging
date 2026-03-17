@@ -1,6 +1,6 @@
 {
   "name": "Tiny Happy People text messaging service",
-  "website": "https://thp-text.uk/",
+  "website": "https://cbeebies-text.uk/",
   "repository": "https://github.com/nestauk/afs_tiny_happy_people_messaging",
   "stack": "heroku-24",
   "buildpacks": [

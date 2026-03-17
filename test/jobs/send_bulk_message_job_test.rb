@@ -82,15 +82,15 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
   test "#perform creates jobs to nudge users" do
     content = create(:content)
     users = create_list(:user, 3)
-    create(:message, user: users[0], link: "https://thp-text.uk/m", content:)
-    create(:message, user: users[0], link: "https://thp-text.uk/m", content:)
-    create(:message, user: users[0], link: "https://thp-text.uk/m", content:)
+    create(:message, user: users[0], link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: users[0], link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: users[0], link: "https://cbeebies-text.uk/m", content:)
 
-    create(:message, user: users[1], link: "https://thp-text.uk/m", content:)
-    create(:message, user: users[1], link: "https://thp-text.uk/m", content:)
+    create(:message, user: users[1], link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: users[1], link: "https://cbeebies-text.uk/m", content:)
 
-    create(:message, user: users[2], link: "https://thp-text.uk/m", content:)
-    create(:message, user: users[2], clicked_at: Time.zone.now, body: "https://thp-text.uk/m", content:)
+    create(:message, user: users[2], link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: users[2], clicked_at: Time.zone.now, body: "https://cbeebies-text.uk/m", content:)
 
     assert_enqueued_jobs 1, only: NudgeUsersJob do
       SendBulkMessageJob.perform_now("nudge")
