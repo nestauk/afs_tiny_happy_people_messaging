@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_action :check_admin_role, only: [:index, :dashboard, :show]
+  before_action :check_admin_role
 
   def index
     @users = User.where("first_name ILIKE ? OR last_name ILIKE ? OR CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{params[:name]}%", "%#{params[:name]}%", "%#{params[:name]}%")

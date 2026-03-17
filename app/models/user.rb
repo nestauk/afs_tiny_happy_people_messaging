@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :diary_entries, dependent: :destroy
   has_one :demographic_data, dependent: :destroy
   belongs_to :local_authority, optional: true
+  has_many :survey_sends, dependent: :destroy
+  has_many :surveys, through: :survey_sends
 
   validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
   validates :phone_number, uniqueness: true
@@ -15,6 +17,9 @@ class User < ApplicationRecord
   phony_normalize :phone_number, default_country_code: "UK"
 
   accepts_nested_attributes_for :interests, :demographic_data
+
+  generates_token_for :profile_token, expires_in: 15.minutes
+  generates_token_for :survey_token
 
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
@@ -67,6 +72,10 @@ class User < ApplicationRecord
     no_preference: "no_preference"
 
   before_validation :set_uuid
+
+  def programme_message_count
+    messages.where.not(content_id: nil).count
+  end
 
   def child_age_in_months_today
     (Time.zone.now.year * 12 + Time.zone.now.month) - (child_birthday.year * 12 + child_birthday.month)
