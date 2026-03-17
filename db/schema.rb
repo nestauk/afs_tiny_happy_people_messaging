@@ -146,6 +146,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
 
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "language", default: "en", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
   end
@@ -322,8 +323,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "survey_sends", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "sent_at", null: false
+    t.bigint "survey_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["survey_id"], name: "index_survey_sends_on_survey_id"
+    t.index ["user_id", "survey_id"], name: "index_survey_sends_on_user_id_and_survey_id", unique: true
+    t.index ["user_id"], name: "index_survey_sends_on_user_id"
+  end
+
   create_table "surveys", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.integer "send_after_message_count"
+    t.boolean "send_on_last_message", default: false, null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
   end
@@ -369,7 +383,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "survey_sends", "surveys"
+  add_foreign_key "survey_sends", "users"
   add_foreign_key "users", "contents", column: "last_content_id"
+  add_foreign_key "users", "groups"
   add_foreign_key "users", "local_authorities"
 
   create_view "all_las_dashboards", materialized: true, sql_definition: <<-SQL

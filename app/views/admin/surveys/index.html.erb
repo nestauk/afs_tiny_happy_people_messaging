@@ -7,6 +7,7 @@
   <thead>
     <tr class="bg-blue-300 text-left">
       <th class="px-4 py-4">Title</th>
+      <th class="px-4 py-4">Sent at</th>
       <th class="px-4 py-4">Actions</th>
     </tr>
   </thead>
@@ -16,6 +17,17 @@
         <td class="px-4 py-4 bg-white">
           <%= link_to survey.title, admin_survey_path(survey), class: "underline hover:no-underline" %>
         </td>
+        <td class="px-4 py-4 bg-white">
+          <% if survey.send_after_message_count == 0 %>
+            On signup
+          <% elsif survey.send_after_message_count.present? %>
+            After <%= survey.send_after_message_count %> messages
+          <% else %>
+            Sent manually
+          <% end %>
+          <% if survey.send_on_last_message? %>
+            &middot; At end of programme
+          <% end %>
         <td class="px-4 py-4 bg-white">
           <%= link_to "Edit", edit_admin_survey_path(survey), class: "text-blue-500 hover:underline" %>
           <%= link_to "Delete", admin_survey_path(survey), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>

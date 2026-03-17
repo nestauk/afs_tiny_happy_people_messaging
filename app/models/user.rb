@@ -2,6 +2,8 @@ class User < ApplicationRecord
   has_many :interests, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
+  has_many :survey_sends, dependent: :destroy
+  has_many :surveys, through: :survey_sends
   belongs_to :local_authority, optional: true
   belongs_to :group
 
@@ -69,6 +71,10 @@ class User < ApplicationRecord
     afternoon: "afternoon",
     evening: "evening",
     no_preference: "no_preference"
+
+  def programme_message_count
+    messages.where.not(content_id: nil).count
+  end
 
   def child_age_in_months_today
     (Time.zone.now.year * 12 + Time.zone.now.month) - (child_birthday.year * 12 + child_birthday.month)
