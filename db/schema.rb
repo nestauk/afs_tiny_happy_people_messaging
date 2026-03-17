@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_11_162620) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_17_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -362,8 +362,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_162620) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "survey_sends", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "sent_at", null: false
+    t.bigint "survey_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["survey_id"], name: "index_survey_sends_on_survey_id"
+    t.index ["user_id", "survey_id"], name: "index_survey_sends_on_user_id_and_survey_id", unique: true
+    t.index ["user_id"], name: "index_survey_sends_on_user_id"
+  end
+
   create_table "surveys", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.integer "send_after_message_count"
+    t.boolean "send_on_last_message", default: false, null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
   end
@@ -393,7 +406,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_162620) do
     t.string "postcode", null: false
     t.string "referral_source"
     t.datetime "restart_at"
-    t.datetime "sent_survey_at"
     t.datetime "terms_agreed_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid"
@@ -416,6 +428,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_162620) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "survey_sends", "surveys"
+  add_foreign_key "survey_sends", "users"
   add_foreign_key "users", "contents", column: "last_content_id"
   add_foreign_key "users", "local_authorities"
 

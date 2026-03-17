@@ -19,7 +19,11 @@ class SendMessageJob < ApplicationJob
       m.content = content
     end
 
-    Twilio::Client.new.send_message(message) if save_user_and_message(user, message, content)
+    if save_user_and_message(user, message, content)
+      Twilio::Client.new.send_message(message)
+      last_message = user.next_content.blank?
+      Survey.trigger_for(user, message_count: user.programme_message_count, last_message: last_message)
+    end
   end
 
   private
