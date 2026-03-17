@@ -16,7 +16,6 @@ class User < ApplicationRecord
 
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
-  has_one :latest_adjustment, -> { order(created_at: :desc) }, class_name: "ContentAdjustment"
   scope :with_preference_for_day, ->(day) { where(day_preference: day) }
   scope :wants_morning_message, -> { where(hour_preference: "morning") }
   scope :wants_afternoon_message, -> { where(hour_preference: "afternoon") }

@@ -1,6 +1,6 @@
-# Tiny Happy People text messaging service
+# CBeebies Parenting text messaging service
 
-Sends weekly texts with links to content from BBC's Tiny Happy People to parents.
+Sends weekly texts with links to content from BBC's CBeebies Parenting to parents.
 
 Users can sign up, and then only interact with the service via text.<br />
 Admins maintain content via the admin dashboard.<br />
