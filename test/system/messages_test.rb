@@ -11,7 +11,7 @@ class MessagesTest < ApplicationSystemTestCase
 
     visit admin_users_path
 
-    click_on "#{@user.first_name} #{@user.last_name}"
+    click_on @user.phone_number
 
     click_on "Send message"
     fill_in "Body", with: "Hello, user!"

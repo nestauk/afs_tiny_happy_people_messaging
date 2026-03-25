@@ -14,25 +14,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(1, @subject.messages.size)
   end
 
-  test "has_many interests" do
-    create(:interest, user: @subject)
-    assert_equal(1, @subject.interests.size)
-  end
-
   test("phone_number required") { assert_present(:phone_number) }
-  test("first_name required") { assert_present(:first_name) }
-  test("last_name required") { assert_present(:last_name) }
+  test("postcode required") { assert_present(:postcode) }
   test("child_birthday required") { assert_present(:child_birthday) }
 
-  test "child_birthday is within the last 27 months on create" do
+  test "child_birthday is within the last 18 months on create" do
     assert_raises ActiveRecord::RecordInvalid do
-      create(:user, child_birthday: 28.months.ago)
+      create(:user, child_birthday: 19.months.ago)
     end
   end
 
-  test "child_birthday is not less than 3 months on create" do
+  test "child_birthday is not less than 9 months on create" do
     assert_raises ActiveRecord::RecordInvalid do
-      create(:user, child_birthday: 2.months.ago)
+      create(:user, child_birthday: 8.months.ago)
     end
   end
 
@@ -188,16 +182,10 @@ class UserTest < ActiveSupport::TestCase
     assert_includes User.not_finished_content, @subject
   end
 
-  test "full_name method" do
-    user = create(:user, first_name: "John", last_name: "Doe")
-
-    assert_equal user.full_name, "John Doe"
-  end
-
   test "child_age_in_months_today method" do
-    user = create(:user, child_birthday: 7.months.ago)
+    user = create(:user, child_birthday: 10.months.ago)
 
-    assert_equal user.child_age_in_months_today, 7
+    assert_equal user.child_age_in_months_today, 10
   end
 
   test "#next_content method returns next ranked content for age group" do
@@ -292,20 +280,6 @@ class UserTest < ActiveSupport::TestCase
     LocationGeocoder.any_instance.stubs(:geocode).raises(Geokit::Geocoders::GeocodeError)
 
     assert_nothing_raised { user.update_local_authority }
-  end
-
-  test "#is_in_study? method returns true if user is in study" do
-    user = create(:user, phone_number: "07123456789", postcode: "SW1A 1AA")
-    create(:research_study_user, last_four_digits_phone_number: "6789", postcode: "sw1a1aa")
-
-    assert user.is_in_study?
-  end
-
-  test "#is_in_study? method returns false if user is not in study" do
-    user = create(:user, phone_number: "07123456789", postcode: "SW1A 1AA")
-    create(:research_study_user, last_four_digits_phone_number: "6789", postcode: "sw1a1ab")
-
-    assert_not user.is_in_study?
   end
 
   test "#put_on_waitlist method sets user to waitlist" do

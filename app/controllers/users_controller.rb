@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   def create
     redirect_to root_path, notice: "Signups are currently paused. Please check back later." and return if ENV.fetch("SIGN_UP_OPEN", "true") == "false"
 
-    if User.not_finished_content.count == 2001
+    if User.where("created_at > ?", "2026-03-10").count == 3000
       return redirect_to root_path, notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
     end
 
@@ -56,13 +56,9 @@ class UsersController < ApplicationController
       else
         render :edit, status: :unprocessable_content
       end
-    else
-      service_params = about_service_params
-      interests = service_params.delete(:interests).to_a.compact_blank
-
-      if @user.update(service_params)
-        interests.each { |title| @user.interests.create(title:) }
-        @user.is_in_study? ? @user.put_on_waitlist : SendWelcomeMessageJob.perform_now(@user)
+    elsif @step == "about_service"
+      if @user.update(about_service_params)
+        SendWelcomeMessageJob.perform_now(@user)
         redirect_to thank_you_users_path
       else
         render :edit, status: :unprocessable_content
@@ -78,17 +74,17 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :phone_number, :child_birthday,
+      :first_name, :phone_number, :child_birthday,
       :postcode, :child_name, :terms_agreed_at
     )
   end
 
   def personalisation_params
-    params.require(:user).permit(:child_name, :hour_preference, :day_preference)
+    params.require(:user).permit(:first_name, :child_name, :hour_preference, :day_preference, :language)
   end
 
   def about_service_params
-    params.require(:user).permit(:referral_source, :new_language_preference, interests: [])
+    params.require(:user).permit(referral_sources: [])
   end
 
   def track_action

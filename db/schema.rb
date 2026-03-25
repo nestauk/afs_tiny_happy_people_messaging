@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_17_140305) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_25_091819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -312,29 +312,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_17_140305) do
     t.boolean "contactable", default: true
     t.datetime "created_at", null: false
     t.integer "day_preference", default: 1, null: false
-    t.boolean "diary_study", default: false
-    t.string "email"
-    t.string "first_name", null: false
+    t.string "education_status"
+    t.string "first_name"
     t.string "hour_preference"
-    t.string "incentive_receipt_method"
     t.string "language", default: "en", null: false
     t.bigint "last_content_id"
-    t.string "last_name", null: false
     t.bigint "local_authority_id"
-    t.string "new_language_preference"
     t.datetime "nudged_at"
     t.string "phone_number", null: false
     t.string "postcode", null: false
-    t.string "referral_source"
+    t.jsonb "referral_sources", default: []
     t.datetime "restart_at"
-    t.datetime "sent_survey_at"
     t.datetime "terms_agreed_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "uuid"
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
-    t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 
   add_foreign_key "interests", "users"

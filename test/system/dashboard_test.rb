@@ -12,10 +12,10 @@ class DashboardTest < ApplicationSystemTestCase
 
     sign_in
 
-    assert_text message1.user.full_name
+    assert_text message1.user.phone_number
     assert_text message1.body
 
-    refute_text message2.user.full_name
+    refute_text message2.user.phone_number
     refute_text message2.body
   end
 

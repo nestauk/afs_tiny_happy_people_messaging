@@ -12,7 +12,8 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_page_is_accessible
 
-    fill_in "Your child's name, or nickname", with: "Jack"
+    fill_in "What’s your name?", with: "Jo"
+    fill_in "What’s your child called?", with: "Jack"
     select "Tuesday"
     select "Morning"
     click_button "Next"
@@ -21,9 +22,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_page_is_accessible
 
-    select "Social media"
-    check "Building a better routine with my child"
-    fill_in "We're currently available in English, with more languages on the horizon! Let us know your preferred language to help shape our future offerings", with: "Polish"
+    check "Instagram"
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
 
@@ -39,47 +38,23 @@ class UsersTest < ApplicationSystemTestCase
     sign_in
 
     visit admin_users_path
-    click_on "Jo Smith"
-    assert_text "+447444930200"
+    click_on "+447444930200"
     assert_text "ABC123"
     assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development."
     assert_equal "Jack", User.last.child_name
     assert_equal 2, User.last.day_preference
     assert_equal "morning", User.last.hour_preference
     assert_equal "Islington", User.last.local_authority.name
-    assert_equal "Polish", User.last.new_language_preference
   end
 
   test "User can't sign up if max capacity reached" do
-    create_list(:user, 2001)
+    create_list(:user, 3000)
 
     visit new_user_path
 
     sign_up
 
     assert_text "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
-  end
-
-  test "User put on waitlist if they're part of Sheffield study" do
-    create(:research_study_user, postcode: "abc123", last_four_digits_phone_number: "0200")
-    visit new_user_path
-
-    sign_up
-
-    assert_text "Thanks for signing up!"
-
-    click_button "Skip this section"
-
-    assert_text "You're almost done"
-
-    stub_successful_twilio_call("Hi Jo! Thank you for signing up to the Tiny Happy People text messaging programme. We’re currently receiving a large volume of sign ups, and as a result we unfortunately will have to place you on a waiting list to receive this service. We expect that we will be able to provide the service for you starting in September provided your child is still under 24 months. Please respond STOP if you would like to opt out, otherwise we will send your first text messages in September. We hope that you will join us in the autumn!", User.last)
-
-    click_button "Skip this section"
-
-    assert_text "Thank you for signing up!"
-
-    refute User.last.contactable
-    refute_nil User.last.restart_at
   end
 
   test "user can skip non-essential form fields" do
@@ -93,7 +68,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "You're almost done"
 
-    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?", User.last)
+    stub_successful_twilio_call("Hi , welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?", User.last)
 
     click_button "Skip this section"
 
@@ -105,10 +80,9 @@ class UsersTest < ApplicationSystemTestCase
     sign_in
 
     visit admin_users_path
-    click_on "Jo Smith"
-    assert_text "+447444930200"
+    click_on "+447444930200"
     assert_text "ABC123"
-    assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for your child's development."
+    assert_text "Hi , welcome to our programme of weekly texts with fun activities for your child's development."
     assert_equal "", User.last.child_name
     assert_equal 1, User.last.day_preference
     assert_equal "morning", User.last.hour_preference
@@ -124,10 +98,9 @@ class UsersTest < ApplicationSystemTestCase
       click_on "Sign up"
     end
 
-    assert_field_has_errors("First name")
-    assert_field_has_errors("Last name")
     assert_field_has_errors("Phone number")
-    assert_text "Your child must be between 3 and 24 months old, but we're working to expand our content"
+    assert_field_has_errors("Postcode")
+    assert_text "Your child must be between 9 and 18 months old to sign up for the service."
     assert_field_has_errors("I accept the terms of service and privacy policy")
   end
 
@@ -165,10 +138,8 @@ class UsersTest < ApplicationSystemTestCase
   private
 
   def sign_up
-    month = 7.months.ago.strftime("%B")
-    year = 7.months.ago.strftime("%Y")
-    fill_in "First name", with: "Jo"
-    fill_in "Last name", with: "Smith"
+    month = 9.months.ago.strftime("%B")
+    year = 9.months.ago.strftime("%Y")
     fill_in "Phone number", with: "07444930200"
     fill_in "Postcode", with: "ABC123"
     select month

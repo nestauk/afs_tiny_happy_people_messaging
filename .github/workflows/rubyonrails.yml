@@ -46,7 +46,7 @@ jobs:
       - name: Build vite assets
         run: bin/rails assets:precompile
       
-      - name: Run rake standard
+      - name: Run rubocop
         run: bundle exec rubocop
       
       - name: Run brakeman

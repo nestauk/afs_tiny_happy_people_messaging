@@ -4,11 +4,11 @@ class User < ApplicationRecord
   has_many :contents, through: :messages
   belongs_to :local_authority, optional: true
 
-  validates :phone_number, :first_name, :last_name, :child_birthday, :terms_agreed_at, :postcode, presence: true
+  validates :phone_number, :child_birthday, :terms_agreed_at, :postcode, presence: true
   validates :phone_number, uniqueness: true
   validates_plausible_phone :phone_number
   validates :child_birthday, inclusion: {
-    in: ->(_) { (Date.current - 27.months)...(Date.current - 3.months) },
+    in: ->(_) { (Date.current - 18.months)...(Date.current - 9.months) },
   }, on: :create
   phony_normalize :phone_number, default_country_code: "UK"
 
@@ -64,14 +64,8 @@ class User < ApplicationRecord
     evening: "evening",
     no_preference: "no_preference"
 
-  before_validation :set_uuid
-
   def child_age_in_months_today
     (Time.zone.now.year * 12 + Time.zone.now.month) - (child_birthday.year * 12 + child_birthday.month)
-  end
-
-  def full_name
-    "#{first_name} #{last_name}"
   end
 
   def next_content
@@ -92,11 +86,6 @@ class User < ApplicationRecord
     local_authority.users << self
   rescue Geokit::Geocoders::GeocodeError
     nil
-  end
-
-  def is_in_study?
-    stripped_postcode = postcode.gsub(/[[:space:]]/, "").downcase
-    ResearchStudyUser.find_by(postcode: stripped_postcode, last_four_digits_phone_number: phone_number[-4..]).present?
   end
 
   def put_on_waitlist
@@ -131,19 +120,5 @@ class User < ApplicationRecord
       .where("position > ?", last_position)
       .order(:position)
       .first
-  end
-
-  def set_uuid
-    return unless new_record? && uuid.nil?
-
-    uuid = generate_uuid
-
-    while User.exists?(uuid:)
-      generate_uuid
-    end
-  end
-
-  def generate_uuid
-    self.uuid = SecureRandom.uuid
   end
 end

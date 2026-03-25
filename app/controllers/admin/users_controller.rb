@@ -2,10 +2,10 @@ class Admin::UsersController < ApplicationController
   before_action :check_admin_role, only: [:index, :dashboard, :show]
 
   def index
-    @users = User.where("first_name ILIKE ? OR last_name ILIKE ? OR CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{params[:name]}%", "%#{params[:name]}%", "%#{params[:name]}%")
+    @users = User.where("phone_number ILIKE ?", "%#{params[:phone_number]}%")
       .where(params[:finished].present? ? {last_content_id: Content.order(:position).last&.id} : {})
       .where(params[:opted_out].present? ? {contactable: false} : {})
-      .order(:last_name, :first_name)
+      .order(:first_name)
 
     @current_users = @users.page(params[:page]).per(25)
   end

@@ -108,7 +108,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
   end
 
   test "#perform does not create jobs if not passed a valid message type" do
-    create_list(:user, 3, child_birthday: 7.months.ago)
+    create_list(:user, 3, child_birthday: 10.months.ago)
 
     assert_no_enqueued_jobs do
       SendBulkMessageJob.perform_now("invalid_type")
