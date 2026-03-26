@@ -1,7 +1,7 @@
 <div class="bg-blue-50 p-8">
   <div class="flex justify-between mb-4">
     <div>
-      <h1 class="mb-4 text-4xl"><%= @user.full_name %></h1>
+      <h1 class="mb-4 text-4xl"><%= @user.first_name %></h1>
 
       <% unless @user.contactable? %>
         <p class="text-red-600 font-bold mb-2 text-xl">This user has opted out</p>

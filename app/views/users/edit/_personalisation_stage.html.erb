@@ -13,11 +13,15 @@
 </div>
 
 <div class="mt-6 w-full px-5">
-  <%= f.input :child_name, label: "Your child's name, or nickname (optional)", hint: "We use your child's name to personalize the texts we send you. We take your privacy seriously and only use this information for personalization.", required: false, input_html: { class: "w-full" } %>
-  
+  <%= f.input :first_name, label: "What’s your name? (optional)", hint: "So we know what to call you", required: false, input_html: { class: "w-full" } %>
+
+  <%= f.input :child_name, label: "What’s your child called? (optional)", hint: "We want to personalise this service to you and your little one! Feel free to use a nickname if you’d prefer.", required: false, input_html: { class: "w-full" } %>
+
   <%= f.input :day_preference, label: "What day would you like to get the texts each week? (optional)", as: :select, collection: [["Monday", 1], ["Tuesday", 2], ["Wednesday", 3], ["Thursday", 4], ["Friday", 5], ["Saturday", 6], ["Sunday", 0], ["No preference, send them any day", 2]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false %>
   
   <%= f.input :hour_preference, label: "What time of day would you like to get the texts? (optional)", as: :select, collection: [["Morning, 8am", "morning"], ["Afternoon, 12pm", "afternoon"], ["Evening, 8pm", "evening"], ["No preference, send them any time", "no_preference"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false %>
+
+  <%= f.input :language, label: "Would you like to receive your texts in Welsh or English?", as: :select, collection: [["Welsh", "cy"], ["English", "en"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false, hint: "Our videos are in English. We’re working on bringing Welsh versions soon!" %>
 
   <div class="mt-5">
     <%= f.button :submit, "Next", class: 'btn bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: 'Saving...' } %>

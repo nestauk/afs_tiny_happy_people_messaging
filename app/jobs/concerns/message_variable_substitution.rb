@@ -5,7 +5,7 @@ module MessageVariableSubstitution
 
   def substitute_variables(content, user, token: nil)
     translations = {
-      "{{parent_name}}": user.first_name,
+      "{{parent_name}}": user.first_name.presence || "",
       "{{child_name}}": user.child_name.presence || "your child",
       "{{link}}": token ? track_link_url(token) : nil,
     }
