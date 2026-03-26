@@ -5,7 +5,8 @@ class AddMoreFieldsToUser < ActiveRecord::Migration[8.1]
     add_column :users, :education_status, :string
 
     User.find_each do |user|
-      user.update!(referral_sources: [user.referral_source]) if user.referral_source.present?
+      user.referral_sources = [user.referral_source] if user.referral_source.present?
+      user.save(validate: false)
     end
 
     remove_column :users, :last_name, :string
