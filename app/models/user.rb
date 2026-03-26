@@ -11,7 +11,7 @@ class User < ApplicationRecord
     in: ->(_) { (Date.current - 18.months)...(Date.current - 9.months) },
   }, on: :create
   phony_normalize :phone_number, default_country_code: "UK"
-  validate :has_welsh_postcode?
+  validate :has_welsh_postcode?, on: :create
 
   accepts_nested_attributes_for :interests
 
