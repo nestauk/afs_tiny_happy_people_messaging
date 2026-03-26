@@ -40,7 +40,7 @@ class UserTest < ActiveSupport::TestCase
     LocationGeocoder.any_instance.stubs(:geocode).returns(Geokit::GeoLoc.new(country_code: "England"))
 
     error = assert_raises ActiveRecord::RecordInvalid do
-      create(:user, postcode: "SW1A 1AA")                   
+      create(:user, postcode: "SW1A 1AA")
     end
     assert_includes error.record.errors[:postcode], "You must live in Wales to use this service."
   end
