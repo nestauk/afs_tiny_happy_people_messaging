@@ -5,6 +5,6 @@ FactoryBot.define do
     child_birthday { 18.months.ago }
     terms_agreed_at { Time.zone.now }
     contactable { true }
-    postcode { "ABC123" }
+    postcode { "CF61 1ZH" }
   end
 end

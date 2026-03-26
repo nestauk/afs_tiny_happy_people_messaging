@@ -1,6 +1,9 @@
 require "test_helper"
 
 class LocationGeocoderTest < ActiveSupport::TestCase
+  def stub_location_geocoder
+  end
+
   test "uses geokit to geocode the location" do
     location = "location"
     stub_request(:get, "https://api.mapbox.com/search/geocode/v6/forward?access_token=key&country=uk").with(query: {"q" => "location"})
