@@ -24,7 +24,7 @@ class UsersTest < ApplicationSystemTestCase
 
     check "Instagram"
 
-    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
+    stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
 
     click_button "Next"
 
@@ -68,7 +68,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "You're almost done"
 
-    stub_successful_twilio_call("Hi , welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'Tiny Happy People' so you can easily see when it's us texting you?", User.last)
+    stub_successful_twilio_call("Hi , welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.last)
 
     click_button "Skip this section"
 

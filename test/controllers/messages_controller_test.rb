@@ -129,7 +129,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil message.clicked_at
   end
 
-  test "#next should redirect to Tiny Happy People homepage if system can't find the message" do
+  test "#next should redirect to CBeebies Parenting homepage if system can't find the message" do
     get track_link_url(token: "123")
     assert_redirected_to "https://www.bbc.co.uk/tiny-happy-people"
   end

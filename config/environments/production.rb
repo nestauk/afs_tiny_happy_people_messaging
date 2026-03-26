@@ -67,9 +67,9 @@ Rails.application.configure do
     enable_starttls_auto: true,
   }
 
-  config.action_mailer.default_url_options = {host: ENV.fetch("PRODUCTION_DOMAIN") || "thp-text.uk"}
+  config.action_mailer.default_url_options = {host: ENV.fetch("PRODUCTION_DOMAIN") || "cbeebies-text.uk"}
 
-  Rails.application.routes.default_url_options[:host] = "thp-text.uk"
+  Rails.application.routes.default_url_options[:host] = "cbeebies-text.uk"
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

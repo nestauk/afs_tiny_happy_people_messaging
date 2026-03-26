@@ -114,31 +114,31 @@ class UserTest < ActiveSupport::TestCase
   test "not_clicked_last_x_messages scope" do
     content = create(:content)
     user1 = create(:user)
-    create(:message, user: user1, link: "https://thp-text.uk/m", content:)
-    create(:message, user: user1, link: "https://thp-text.uk/m", content:)
-    create(:message, user: user1, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user1, link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: user1, link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: user1, link: "https://cbeebies-text.uk/m", content:)
 
     user2 = create(:user)
-    create(:message, user: user2, link: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, link: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
-    create(:message, user: user2, link: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, link: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
-    create(:message, user: user2, link: "https://thp-text.uk/m", content:)
-    create(:message, user: user2, link: "https://thp-text.uk/m", clicked_at: Time.zone.now, content:)
+    create(:message, user: user2, link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: user2, link: "https://cbeebies-text.uk/m", clicked_at: Time.zone.now, content:)
+    create(:message, user: user2, link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: user2, link: "https://cbeebies-text.uk/m", clicked_at: Time.zone.now, content:)
+    create(:message, user: user2, link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: user2, link: "https://cbeebies-text.uk/m", clicked_at: Time.zone.now, content:)
 
     user3 = create(:user)
-    create(:message, user: user3, link: "https://thp-text.uk/m", content:)
-    create(:message, user: user3, link: "https://thp-text.uk/m", content:)
-    create(:message, user: user3, link: "https://thp-text.uk/m", content:, clicked_at: Time.zone.now)
-    create(:message, user: user3, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user3, link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: user3, link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: user3, link: "https://cbeebies-text.uk/m", content:, clicked_at: Time.zone.now)
+    create(:message, user: user3, link: "https://cbeebies-text.uk/m", content:)
 
     user4 = create(:user)
-    create(:message, user: user4, link: "https://thp-text.uk/m")
-    create(:message, user: user4, link: "https://thp-text.uk/m")
+    create(:message, user: user4, link: "https://cbeebies-text.uk/m")
+    create(:message, user: user4, link: "https://cbeebies-text.uk/m")
 
     user5 = create(:user)
-    create(:message, user: user5, link: "https://thp-text.uk/m", content:)
-    create(:message, user: user5, link: "https://thp-text.uk/m", content:)
+    create(:message, user: user5, link: "https://cbeebies-text.uk/m", content:)
+    create(:message, user: user5, link: "https://cbeebies-text.uk/m", content:)
     create(:message, user: user5, body: "hi please fill this out", content:)
 
     assert_equal User.not_clicked_last_x_messages(3).to_a.size, 1
@@ -285,7 +285,7 @@ class UserTest < ActiveSupport::TestCase
   test "#put_on_waitlist method sets user to waitlist" do
     user = create(:user, contactable: true, restart_at: nil)
 
-    stub_successful_twilio_call("Hi Ali! Thank you for signing up to the Tiny Happy People text messaging programme. We’re currently receiving a large volume of sign ups, and as a result we unfortunately will have to place you on a waiting list to receive this service. We expect that we will be able to provide the service for you starting in September provided your child is still under 24 months. Please respond STOP if you would like to opt out, otherwise we will send your first text messages in September. We hope that you will join us in the autumn!", user)
+    stub_successful_twilio_call("Hi Ali! Thank you for signing up to the CBeebies Parenting text messaging programme. We’re currently receiving a large volume of sign ups, and as a result we unfortunately will have to place you on a waiting list to receive this service. We expect that we will be able to provide the service for you starting in September provided your child is still under 24 months. Please respond STOP if you would like to opt out, otherwise we will send your first text messages in September. We hope that you will join us in the autumn!", user)
 
     user.put_on_waitlist
 
