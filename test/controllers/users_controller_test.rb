@@ -6,7 +6,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "create is rate limited" do
     ip = "1.2.3.4"
 
-    geocode_payload = Geokit::GeoLoc.new(state: "Islington")
+    geocode_payload = Geokit::GeoLoc.new(country_code: "Wales")
     LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
 
     # Make 5 requests from the same IP

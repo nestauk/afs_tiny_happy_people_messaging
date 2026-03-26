@@ -56,6 +56,15 @@ module ActiveSupport
       assert !document.match(text), "Expected not to see \"#{text}\" in:\n#{document}"
     end
 
+    setup do
+      stub_location_geocoder
+    end
+
+    def stub_location_geocoder
+      geocode_payload = Geokit::GeoLoc.new(country_code: "Wales")
+      LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
+    end
+
     def teardown
       super
 

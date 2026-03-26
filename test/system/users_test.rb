@@ -146,7 +146,7 @@ class UsersTest < ApplicationSystemTestCase
     select year
     check "I accept the terms of service and privacy policy"
 
-    geocode_payload = Geokit::GeoLoc.new(state: "Islington")
+    geocode_payload = Geokit::GeoLoc.new(country_code: "Wales", state: "Islington")
     LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
 
     click_button "Sign up"
