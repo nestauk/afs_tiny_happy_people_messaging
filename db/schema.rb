@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_25_091819) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -136,7 +136,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_091819) do
 
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "language", default: "en", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
   end
@@ -314,6 +313,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_091819) do
     t.integer "day_preference", default: 1, null: false
     t.string "education_status"
     t.string "first_name"
+    t.bigint "group_id", null: false
     t.string "hour_preference"
     t.string "language", default: "en", null: false
     t.bigint "last_content_id"
@@ -325,6 +325,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_091819) do
     t.datetime "restart_at"
     t.datetime "terms_agreed_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true

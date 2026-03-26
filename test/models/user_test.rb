@@ -179,16 +179,28 @@ class UserTest < ActiveSupport::TestCase
     content2 = create(:content, position: 2, group:)
     content3 = create(:content, position: 3, group:)
 
-    create(:user, last_content_id: content3.id)
+    group2 = create(:group)
+    content4 = create(:content, position: 1, group: group2)
+    content5 = create(:content, position: 2, group: group2)
+    content6 = create(:content, position: 3, group: group2)
 
+    user1 = create(:user, last_content_id: content3.id)
     user2 = create(:user, last_content_id: content2.id)
     user3 = create(:user, last_content_id: content1.id)
+    user4 = create(:user, last_content_id: content4.id)
+    user5 = create(:user, last_content_id: content5.id)
+    user6 = create(:user, last_content_id: content6.id)
+
     @subject.update(last_content_id: nil)
 
-    assert_equal 3, User.not_finished_content.length
+    assert_equal 5, User.not_finished_content.length
     assert_includes User.not_finished_content, user2
     assert_includes User.not_finished_content, user3
+    assert_includes User.not_finished_content, user4
+    assert_includes User.not_finished_content, user5
     assert_includes User.not_finished_content, @subject
+    assert_not_includes User.not_finished_content, user1
+    assert_not_includes User.not_finished_content, user6
   end
 
   test "child_age_in_months_today method" do
@@ -199,6 +211,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content method returns next ranked content for age group" do
     group = create(:group)
+    @subject.update(group:)
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
     create(:content, group:, position: 3)
@@ -209,6 +222,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content method returns nothing if no appropriate content" do
     group = create(:group)
+    @subject.update(group:)
     create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
     @subject.update(last_content_id: content2.id)
@@ -218,6 +232,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content finds appropriate content if user has not had content before" do
     group = create(:group)
+    @subject.update(group:)
     content = create(:content, group:, position: 1, age_in_months: 18)
     create(:content, group:, position: 2, age_in_months: 18)
     create(:content, group:, position: 3, age_in_months: 19)
@@ -228,6 +243,7 @@ class UserTest < ActiveSupport::TestCase
   test "#next_content does not return content that the user has already seen" do
     # This is in case the content order has been switched around by the admins
     group = create(:group)
+    @subject.update(group:)
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
     content3 = create(:content, group:, position: 3)
@@ -239,6 +255,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content does not return archived content" do
     group = create(:group)
+    @subject.update(group:)
     content1 = create(:content, group:, position: 1)
     create(:content, group:, position: 2, archived_at: Time.zone.now)
     content3 = create(:content, group:, position: 3)
@@ -249,6 +266,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "#next_content returns correct next content if user is on archived content" do
     group = create(:group)
+    @subject.update(group:)
     content1 = create(:content, group:, position: 1, archived_at: Time.zone.now)
     content2 = create(:content, group:, position: 2)
     create(:content, group:, position: 3)

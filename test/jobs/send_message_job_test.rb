@@ -7,7 +7,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
   test "#perform sends messages with default content" do
     content = create(:content, body: "Hi {{parent_name}}, here is a link for {{child_name}}: {{link}}")
     content2 = create(:content, group: content.group, body: "Hi {{parent_name}}, here is a link for {{child_name}}: {{link}}")
-    user = create(:user, last_content_id: content.id, first_name: "John", child_name: "Billy")
+    user = create(:user, last_content_id: content.id, first_name: "John", child_name: "Billy", group: content.group)
 
     Message.any_instance.stubs(:generate_token).returns("123")
 
@@ -25,7 +25,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
 
   test "#perform sends message if child name is missing" do
     content = create(:content, body: "Hi {{parent_name}}, here is a link for {{child_name}}: {{link}}")
-    user = create(:user, first_name: "John")
+    user = create(:user, first_name: "John", group: content.group)
 
     Message.any_instance.stubs(:generate_token).returns("123")
 
