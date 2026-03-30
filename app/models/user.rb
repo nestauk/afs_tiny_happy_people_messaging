@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   belongs_to :local_authority, optional: true
+  belongs_to :group
 
   validates :phone_number, :child_birthday, :terms_agreed_at, :postcode, presence: true
   validates :phone_number, uniqueness: true
@@ -54,8 +55,10 @@ class User < ApplicationRecord
       .having("COUNT(*) = 2")
   }
   scope :not_finished_content, -> {
-    where.not(last_content_id: Content.order(:position).last&.id)
-      .or(User.where(last_content_id: nil))
+    last_content_per_group = Content.select("DISTINCT ON (group_id) id")
+      .order("group_id, position DESC")
+    joins(:group).where.not(last_content_id: last_content_per_group)
+      .or(User.joins(:group).where(last_content_id: nil))
   }
 
   attribute :hour_preference,
@@ -72,7 +75,7 @@ class User < ApplicationRecord
     if had_any_content_before?
       find_next_unseen_content
     else
-      Content.where(age_in_months: child_age_in_months_today).order(:position).first
+      group.contents.where(age_in_months: child_age_in_months_today).order(:position).first
     end
   end
 
@@ -113,7 +116,7 @@ class User < ApplicationRecord
     last_position = last_content.position if last_content
     seen_ids = messages.where.not(content_id: nil).select(:content_id)
 
-    Group.find(last_content.group_id)
+    group
       .contents
       .active
       .where.not(id: seen_ids)

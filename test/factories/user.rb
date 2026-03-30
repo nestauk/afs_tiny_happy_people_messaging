@@ -6,5 +6,7 @@ FactoryBot.define do
     terms_agreed_at { Time.zone.now }
     contactable { true }
     postcode { "CF61 1ZH" }
+
+    group
   end
 end

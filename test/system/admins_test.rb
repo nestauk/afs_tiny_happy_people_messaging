@@ -42,6 +42,7 @@ class AdminsTest < ApplicationSystemTestCase
   end
 
   test "local authority users can't see users or content" do
+    create(:group)
     @admin = create(:admin, role: "local_authority", email: "local@authority.com")
     sign_in(@admin)
 

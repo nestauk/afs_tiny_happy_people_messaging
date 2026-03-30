@@ -1,6 +1,10 @@
 require "application_system_test_case"
 
 class UsersTest < ApplicationSystemTestCase
+  setup do
+    create(:group)
+  end
+
   test "user can sign up" do
     visit new_user_path
 
