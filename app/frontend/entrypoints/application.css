@@ -67,9 +67,11 @@ ol {
 }
 
 .h-85svh {
-  @media (max-width: 768px) {
+  @media (min-width: 768px) {
     height: fit-content;
   }
   
-  height: 85svh;
+  @media (min-width: 800px) {
+     height: 85svh;
+  }
 }

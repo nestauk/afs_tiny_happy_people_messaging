@@ -142,8 +142,8 @@ class UsersTest < ApplicationSystemTestCase
   private
 
   def sign_up
-    month = 9.months.ago.strftime("%B")
-    year = 9.months.ago.strftime("%Y")
+    month = 10.months.ago.strftime("%B")
+    year = 10.months.ago.strftime("%Y")
     fill_in "Phone number", with: "07444930200"
     fill_in "Postcode", with: "ABC123"
     select month

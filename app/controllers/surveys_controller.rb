@@ -1,4 +1,5 @@
 class SurveysController < ApplicationController
+  skip_before_action :authenticate_admin!
   before_action :set_survey, only: [:edit, :update]
   before_action :set_user, :set_questions, :set_answers, only: [:edit]
 

@@ -31,6 +31,7 @@ class SurveysTest < ApplicationSystemTestCase
   end
 
   test "user can't access survey without token" do
+    create(:group)
     survey = create(:survey)
     visit edit_survey_path(survey)
 
