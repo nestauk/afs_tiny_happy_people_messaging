@@ -13,7 +13,7 @@
 </div>
 
 <div class="mt-6 w-full px-5">
-  <%= f.input :first_name, label: "What’s your name? (optional)", hint: "So we know what to call you", required: false, input_html: { class: "w-full" } %>
+  <%= f.input :first_name, required: false, input_html: { class: "w-full" } %>
 
   <%= f.input :child_name, required: false %>
   
@@ -21,7 +21,7 @@
     f.input :day_preference,
     as: :select, 
     collection: [[:monday, 1], [:tuesday, 2], [:wednesday, 3], [:thursday, 4], [:friday, 5], [:saturday, 6], [:sunday, 0], [:no_preference, 2]],
-    label_method: lambda { |el| t "simple_form.options.user_profile.day_preference.#{el.first}" },
+    label_method: lambda { |el| t "simple_form.options.user.day_preference.#{el.first}" },
     wrapper_html: { class: "flex flex-col mt-5" },
     required: false,
     include_blank: false
@@ -32,14 +32,31 @@
     as: :select,
     collection: [[:morning, "morning"], [:afternoon, "afternoon"], [:evening, "evening"], [:no_preference, "no_preference"]],
     wrapper_html: { class: "flex flex-col mt-5" },
-    label_method: lambda { |el| t "simple_form.options.user_profile.hour_preference.#{el.first}" },
+    label_method: lambda { |el| t "simple_form.options.user.hour_preference.#{el.first}" },
     required: false,
     include_blank: false
   %>
 
-  <%= f.input :language, label: "Would you like to receive your texts in Welsh or English?", as: :select, collection: [["Welsh", "cy"], ["English", "en"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false, hint: "Our videos are in English. We’re working on bringing Welsh versions soon!" %>
+  <%=
+    f.input :language,
+    as: :select,
+    collection: [[:welsh, "cy"], [:english, "en"]],
+    label_method: lambda { |el| t "simple_form.options.user.language.#{el.first}" },
+    selected: I18n.locale.to_s,
+    wrapper_html: { class: "flex flex-col mt-5" },
+    required: false,
+    include_blank: false
+  %>
 
-  <%= f.input :education_status, label: "What is the highest level of education you have completed?", as: :select, collection: [["No qualifications", "no_qualifications"], ["Comprehensive/Secondary", "comprehensive_secondary"], ["Post-school qualifications", "post_school"], ["I don't want to say", "prefer_not_to_say"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: true, hint: "To make sure this service works well for everyone, we look at whether it is equally helpful for parents with different education experiences." %>
+  <%=
+    f.input :education_status,
+    as: :select,
+    collection: [[:no_qualifications, "no_qualifications"], [:comprehensive_secondary, "comprehensive_secondary"], [:post_school, "post_school"], [:prefer_not_to_say, "prefer_not_to_say"]],
+    label_method: lambda { |el| t "simple_form.options.user.education_status.#{el.first}" },
+    wrapper_html: { class: "flex flex-col mt-5" },
+    required: false,
+    include_blank: true
+  %>
 
   <div class="mt-5">
     <%= f.button :submit, t("pages.form.personalisation.save"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: t("pages.form.personalisation.saving") } %>

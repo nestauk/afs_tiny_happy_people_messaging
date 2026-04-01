@@ -7,19 +7,18 @@ en:
       default_message: "Please review the problems below:"
     labels:
       user:
-        child_birthday: "Your child's birthday"
-        first_name: 'First name'
-        last_name: 'Last name'
-        language: 'What language would you like to receive the texts in?'
-        phone_number: 'Phone number'
-        postcode: 'Postcode'
+        child_birthday: "When was your child born?"
+        first_name: "What's your first name?"
+        language: "What language would you like to receive the texts in?"
+        phone_number: "What's your phone number?"
+        postcode: "What's your postcode?"
         terms_agreed_at: "I accept the %{terms} and %{privacy}"
-        child_name: "Your child's name, or nickname (optional)"
-        day_preference: "What day would you like to get the texts each week? (optional)"
-        interests: "What are you interested in?"
-        new_language_preference: "We're currently available in English, with more languages coming soon! Let us know your preferred language to help shape our future offerings"
-        referral_source: "How did you hear about us?"
-        time_preference: "What time of day would you like to get the texts? (optional)"
+        child_name: "What's your child called? (optional)"
+        day_preference: "What day would you like to get your text message? (optional)"
+        hour_preference: "What time of day would you like to get the texts? (optional)"
+        referral_sources: "Where have you seen this service advertised? (optional)"
+        language: "Would you like to receive your texts in Welsh or English?"
+        education_status: "What is the highest level of education you have completed? (optional)"
     options:
       user:
         day_preference:
@@ -42,16 +41,24 @@ en:
           new_ideas: "Finding fresh ideas for activities with my child"
           support: "Feeling supported through parenting ups and downs"
           build: "Building on my existing parenting skills"
-        referral_source:
-          social_media: "Social media"
+        referral_sources:
+          facebook: "Facebook"
+          instagram: "Instagram"
           professional: "Referral by a professional"
           flyer: "Flyer/Poster"
           email: "Email"
           other: "Other"
+        education_status:
+          no_qualifications: "No qualifications"
+          comprehensive_secondary: "Comprehensive/Secondary"
+          post_school: "Post-school qualifications"
+          prefer_not_to_say: "I don't want to say"
     hints:
       user:
-        child_birthday: "We use this to start suggesting activities, and ask you to tell us if they are suitable for your child."
-        postcode: "We use this to identify your local authority who will cover the cost of this service."
-      user_profile:
-        child_name: "We use your child's name to personalize the texts we send you. We take your privacy seriously and only use this information for personalization."
-        interests: "You can select more than one"
+        child_birthday: "This helps make sure the texts we send fit your child's age and stage"
+        postcode: "We use postcode information (and nothing else) to get a rough idea of which areas/communities we’re reaching. This helps us understand if there’s any areas we’re missing/ we need to do some more outreach."
+        phone_number: "So we can text you helpful tips, nothing more!"
+        child_name: "We want to personalise this service to you and your little one! Feel free to use a nickname if you’d prefer."
+        education_status: "To make sure this service works well for everyone, we look at whether it is equally helpful for parents with different education experiences."
+        first_name: "So we know what to call you"
+        referral_sources: "Knowing how you heard about us helps us understand which channels are best and where to focus our efforts."

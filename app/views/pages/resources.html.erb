@@ -1,80 +1,80 @@
 <% content_for(:page_title) { I18n.t("pages.resources.page_title") } %>
-
-<div class="flex justify-around text-center">
-  <div class="md:w-1/2 mb-10">
-    <h1 class="text-purple-900 md:text-4xl text-2xl"><%= t('pages.resources.title') %></h1>
-    <p>
-      <%= t('pages.resources.text') %>
-    </p>
+<div class="p-8 xl:py-10">
+  <div class="flex justify-around text-center">
+    <div class="md:w-1/2 mb-10">
+      <h1 class="text-purple-900 md:text-4xl text-2xl"><%= t('pages.resources.title') %></h1>
+      <p>
+        <%= t('pages.resources.text') %>
+      </p>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="bg-pink-100 p-8 col-span-1">
+      <h2>🧠 <%= t('pages.resources.mental_health.title') %></h2>
+      <ul>
+        <li class="mb-4">
+          <%= t('pages.resources.mental_health.para1').html_safe %>
+        </li>
+        <li class="mb-4">
+          <%= t('pages.resources.mental_health.para2').html_safe %>
+        </li>
+        <li class="mb-4">
+          <%= t('pages.resources.mental_health.para3').html_safe %>
+        </li>
+        <li>
+          <%= t('pages.resources.mental_health.para4').html_safe %>
+        </li>
+    </div>
+    <div class="bg-yellow-100 p-8 col-span-1">
+      <h2>🗣️ <%= t('pages.resources.slt.title') %></h2>
+      <ul>
+        <li class="mb-4">
+          <%= t('pages.resources.slt.para1').html_safe %>
+        </li>
+        <li class="mb-4">
+          <%= t('pages.resources.slt.para2').html_safe %>
+        </li>
+      </ul>
+    </div>
+    <div class="bg-purple-100 p-8 col-span-1">
+      <h2>💰 <%= t('pages.resources.finance.title') %></h2>
+      <ul>
+        <li class="mb-4">
+          <%= t('pages.resources.finance.para1').html_safe %>
+        </li>
+        <li class="mb-4">
+          <%= t('pages.resources.finance.para2').html_safe %>
+        </li>
+      </ul>
+    </div>
+    <div class="bg-orange-100 p-8 col-span-1">
+      <h2>📈 <%= t('pages.resources.development.title') %></h2>
+      <ul>
+        <li class="mb-4">
+          <%= t('pages.resources.development.para1').html_safe %>
+        </li>
+        <li class="mb-4">
+          <%= t('pages.resources.development.para2').html_safe %>
+        </li>
+      </ul>
+    </div>
+    <div class="bg-red-100 p-8 col-span-1">
+      <h2>🚨 <%= t('pages.resources.emergency.title') %></h2>
+      <ul>
+        <li class="mb-4">
+          <%= t('pages.resources.emergency.para1').html_safe %>
+        </li>
+        <li class="mb-4">
+          <%= t('pages.resources.emergency.para2').html_safe %>
+        </li>
+        <li class="mb-4">
+          <%= t('pages.resources.emergency.para3').html_safe %>
+        </li>
+        <li class="mb-4">
+          <%= t('pages.resources.emergency.para4').html_safe %>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-  <div class="bg-pink-100 p-8 col-span-1">
-    <h2>🧠 <%= t('pages.resources.mental_health.title') %></h2>
-    <ul>
-      <li class="mb-4">
-        <%= t('pages.resources.mental_health.para1').html_safe %>
-      </li>
-      <li class="mb-4">
-        <%= t('pages.resources.mental_health.para2').html_safe %>
-      </li>
-      <li class="mb-4">
-        <%= t('pages.resources.mental_health.para3').html_safe %>
-      </li>
-      <li>
-        <%= t('pages.resources.mental_health.para4').html_safe %>
-      </li>
-  </div>
-  <div class="bg-yellow-100 p-8 col-span-1">
-    <h2>🗣️ <%= t('pages.resources.slt.title') %></h2>
-    <ul>
-      <li class="mb-4">
-        <%= t('pages.resources.slt.para1').html_safe %>
-      </li>
-      <li class="mb-4">
-        <%= t('pages.resources.slt.para2').html_safe %>
-      </li>
-    </ul>
-  </div>
-  <div class="bg-purple-100 p-8 col-span-1">
-    <h2>💰 <%= t('pages.resources.finance.title') %></h2>
-    <ul>
-      <li class="mb-4">
-        <%= t('pages.resources.finance.para1').html_safe %>
-      </li>
-      <li class="mb-4">
-        <%= t('pages.resources.finance.para2').html_safe %>
-      </li>
-    </ul>
-  </div>
-  <div class="bg-orange-100 p-8 col-span-1">
-    <h2>📈 <%= t('pages.resources.development.title') %></h2>
-    <ul>
-      <li class="mb-4">
-        <%= t('pages.resources.development.para1').html_safe %>
-      </li>
-      <li class="mb-4">
-        <%= t('pages.resources.development.para2').html_safe %>
-      </li>
-    </ul>
-  </div>
-  <div class="bg-red-100 p-8 col-span-1">
-    <h2>🚨 <%= t('pages.resources.emergency.title') %></h2>
-    <ul>
-      <li class="mb-4">
-        <%= t('pages.resources.emergency.para1').html_safe %>
-      </li>
-      <li class="mb-4">
-        <%= t('pages.resources.emergency.para2').html_safe %>
-      </li>
-      <li class="mb-4">
-        <%= t('pages.resources.emergency.para3').html_safe %>
-      </li>
-      <li class="mb-4">
-        <%= t('pages.resources.emergency.para4').html_safe %>
-      </li>
-    </ul>
-  </div>
-</div>
-
 

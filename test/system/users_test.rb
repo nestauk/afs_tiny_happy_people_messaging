@@ -30,8 +30,8 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_page_is_accessible
 
-    fill_in "What’s your name?", with: "Jo"
-    fill_in "What’s your child called?", with: "Jack"
+    fill_in "What's your first name?", with: "Jo"
+    fill_in "What's your child called?", with: "Jack"
     select "Tuesday"
     select "Morning"
     select "I don't want to say"
@@ -120,8 +120,8 @@ class UsersTest < ApplicationSystemTestCase
       click_on "Sign up"
     end
 
-    assert_field_has_errors("Phone number")
-    assert_field_has_errors("Postcode")
+    assert_field_has_errors("What's your phone number?")
+    assert_field_has_errors("What's your postcode?")
     assert_text "Your child must be between 9 and 18 months old to sign up for the service."
     assert_field_has_errors("I accept the terms of service and privacy policy")
   end
@@ -162,8 +162,8 @@ class UsersTest < ApplicationSystemTestCase
   def sign_up
     month = 10.months.ago.strftime("%B")
     year = 10.months.ago.strftime("%Y")
-    fill_in "Phone number", with: "07444930200"
-    fill_in "Postcode", with: "ABC123"
+    fill_in " What's your phone number?", with: "07444930200"
+    fill_in "What's your postcode?", with: "ABC123"
     select month
     select year
     check "I accept the terms of service and privacy policy"

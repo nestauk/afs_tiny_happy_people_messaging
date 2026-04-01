@@ -75,7 +75,7 @@ cy:
     home:
       page_title: "Magu twf eich plentyn gyda gweithgareddau hwyliog, am ddim"
       title: "Magu twf eich plentyn gyda gweithgareddau hwyliog, am ddim"
-      subtitle: "Dewch o hyd i weithgareddau wythnosol, bach ond pwerus, i ysbrydoli dychymyg, wedi'u hanfon i’ch ffôn ar gyfer oedran 3–24 mis"
+      subtitle: "Dewch o hyd i weithgareddau wythnosol, bach ond pwerus, i ysbrydoli dychymyg, wedi'u hanfon i’ch ffôn ar gyfer oedran 9-18 mis"
       sign_up: "Cofrestru"
       how_it_works: "Sut mae'n gweithio?"
       step_1_title: "Cofrestru"
@@ -188,7 +188,7 @@ cy:
     terms:
       page_title: "Telerau Defnyddio"
       title: "Telerau Defnyddio"
-      para1: "Pwrpas y wefan hon yw galluogi rhieni a gofalwyr plant 3–24 mis oed i gofrestru ar raglen negeseuon testun sy’n darparu awgrymiadau a chyngor ynglŷn â themâu datblygiad plant."
+      para1: "Pwrpas y wefan hon yw galluogi rhieni a gofalwyr plant 9-18 mis oed i gofrestru ar raglen negeseuon testun sy’n darparu awgrymiadau a chyngor ynglŷn â themâu datblygiad plant."
       para2: "Mae’r wefan hon yn eiddo i <a href='https://www.nesta.org.uk/' target='_blank' class='link'>Nesta</a> ac yn cael ei gweithredu ganddi – gallwch ddod o hyd i’n manylion llawn isod. Mae defnyddio’r wefan yn amodol ar y Telerau hyn. Mae ein <a href='/privacy_policy' class='link'>Hysbysiad Preifatrwydd</a> yn esbonio sut rydym yn defnyddio gwybodaeth bersonol a gasglwn drwy’r wefan. Os nad ydych yn cytuno â’r Telerau hyn nac â’n Polisi Preifatrwydd, peidiwch â defnyddio’r wefan."
       para3: "Mae’r wybodaeth, deunyddiau a logos ar y wefan hon yn perthyn i Nesta, ein partneriaid neu drwyddedwyr. Nid ydym yn cynnig unrhyw sicrwydd na gwarant ynghylch y cynnwys, gan gynnwys ynglŷn ag unrhyw dor-cyfraith ar hawliau eiddo deallusol."
       para4: "Pwrpas y cynnwys ar y wefan a’r negeseuon testun yw darparu gwybodaeth yn unig ac ni fydd Nesta yn atebol am unrhyw benderfyniadau a wnewch o ganlyniad i’w ddarllen. Ni all Nesta eich digolledu am unrhyw golled a allai godi o ganlyniad i:"

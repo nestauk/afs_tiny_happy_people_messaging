@@ -65,7 +65,7 @@ class SurveysTest < ApplicationSystemTestCase
     survey = create(:survey)
     visit edit_survey_path(survey)
 
-    assert_current_path root_path
+    assert_current_path root_path(locale: "en")
     assert_text "Invalid survey link."
   end
 end

@@ -97,7 +97,7 @@ class UsersController < ApplicationController
   def set_user
     @user = User.find_by_token_for(:profile_token, params[:token])
     unless @user
-      redirect_to root_path, notice: "Your session has expired. Contact info@cbeebies-text.uk if you need further help."
+      redirect_to root_path, notice: I18n.t("controllers.users.edit.notice")
     end
   end
 
