@@ -85,4 +85,45 @@ class SendMessageJobTest < ActiveSupport::TestCase
 
     assert_equal content.id, user.reload.last_content_id
   end
+
+  test "#perform triggers surveys based on programme message count after sending" do
+    content = create(:content, body: "here is a link: {{link}}")
+    create(:content, group: content.group, body: "here is a link: {{link}}")
+    user = create(:user, last_content_id: content.id, group: content.group)
+    create(:survey, send_after_message_count: 1)
+
+    Message.any_instance.stubs(:generate_token).returns("123")
+    stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
+
+    assert_enqueued_jobs 1, only: SendSurveyJob do
+      SendMessageJob.new.perform(user)
+    end
+  end
+
+  test "#perform triggers send_on_last_message surveys when no more content remains" do
+    content = create(:content, body: "here is a link: {{link}}")
+    user = create(:user, last_content_id: nil, group: content.group)
+    create(:survey, send_on_last_message: true)
+
+    Message.any_instance.stubs(:generate_token).returns("123")
+    stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
+
+    assert_enqueued_jobs 1, only: SendSurveyJob do
+      SendMessageJob.new.perform(user)
+    end
+  end
+
+  test "#perform does not trigger surveys if message fails to send" do
+    content = create(:content, body: "here is a link: {{link}}")
+    create(:content, group: content.group, body: "here is a link: {{link}}")
+    user = build(:user, last_content_id: content.id, phone_number: "234")
+    user.save(validate: false)
+    create(:survey, send_after_message_count: 1)
+
+    Message.any_instance.stubs(:generate_token).returns("123")
+
+    assert_no_enqueued_jobs only: SendSurveyJob do
+      SendMessageJob.new.perform(user)
+    end
+  end
 end

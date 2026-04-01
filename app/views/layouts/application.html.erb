@@ -29,6 +29,13 @@
                 </p>
               </div>
             <% end %>
+            <% if flash[:alert] %>
+              <div class="px-3 py-5 bg-red-300 mb-10">
+                <p class="">
+                  <%= flash[:alert] %>
+                </p>
+              </div>
+            <% end %>
             <%= yield %>
           </div>
         </div>
@@ -37,6 +44,13 @@
           <div class="md:px-28 px-3 py-5">
             <p class="">
               <%= flash[:notice] %>
+            </p>
+          </div>
+        <% end %>
+        <% if flash[:alert] %>
+          <div class="px-3 py-5 bg-red-300 mb-10">
+            <p class="">
+              <%= flash[:alert] %>
             </p>
           </div>
         <% end %>

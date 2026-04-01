@@ -56,6 +56,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
     t.index ["visitor_token", "started_at"], name: "index_ahoy_visits_on_visitor_token_and_started_at"
   end
 
+  create_table "answers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "question_id", null: false
+    t.text "response", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
   create_table "auto_responses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "response"
@@ -136,6 +146,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
 
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "language", default: "en", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
   end
@@ -170,6 +181,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
     t.bigint "user_id"
     t.index ["content_id"], name: "index_messages_on_content_id"
     t.index ["token"], name: "index_messages_on_token", unique: true
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "options", default: [], array: true
+    t.integer "position", null: false
+    t.string "question_type", null: false
+    t.bigint "survey_id", null: false
+    t.string "text", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_questions_on_survey_id"
   end
 
   create_table "research_study_users", force: :cascade do |t|
@@ -301,6 +323,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "survey_sends", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "sent_at", null: false
+    t.bigint "survey_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["survey_id"], name: "index_survey_sends_on_survey_id"
+    t.index ["user_id", "survey_id"], name: "index_survey_sends_on_user_id_and_survey_id", unique: true
+    t.index ["user_id"], name: "index_survey_sends_on_user_id"
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "send_after_message_count"
+    t.boolean "send_on_last_message", default: false, null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "asked_for_feedback", default: false
     t.boolean "can_be_contacted_for_research", default: false
@@ -331,15 +372,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_140858) do
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
   end
 
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
+  add_foreign_key "questions", "surveys"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "survey_sends", "surveys"
+  add_foreign_key "survey_sends", "users"
   add_foreign_key "users", "contents", column: "last_content_id"
+  add_foreign_key "users", "groups"
   add_foreign_key "users", "local_authorities"
 
   create_view "all_las_dashboards", materialized: true, sql_definition: <<-SQL

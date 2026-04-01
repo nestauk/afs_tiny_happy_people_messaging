@@ -1,0 +1,45 @@
+<% content_for(:page_title) { @survey.title } %>
+
+<div class="w-1/2 mx-auto my-10">
+  <h1><%= @survey.title %></h1>
+
+  <%= simple_form_for @survey, url: survey_path(@survey), method: :patch do |f| %>
+    <%= hidden_field_tag :token, params[:token] %>
+    <%= f.simple_fields_for :questions, @questions do |q| %>
+      <%= q.simple_fields_for :answers do |ff| %>
+        <%= ff.input :user_id, as: :hidden, value: @user.id %>
+        <%= ff.input :question_id, as: :hidden, value: q.object.id %>
+        <% case q.object.question_type %>
+        <% when "text" %>
+          <%= ff.input :response, label: (sanitize q.object.text.html_safe) %>
+        
+        <% when "check_boxes" %>
+          <%= ff.input :response, 
+            label: (sanitize q.object.text.html_safe), 
+            collection: q.object.options, 
+            as: :check_boxes, 
+            wrapper_html: { class: 'flex flex-col gap-1' }, 
+            input_html: { 
+              class: 'mr-2', 
+            } 
+          %>
+
+        <% when "radio_buttons" %>
+          <%= ff.input :response, 
+            label: (sanitize q.object.text.html_safe),
+            collection: q.object.options,
+            as: :radio_buttons,
+            wrapper_html: {
+              class: "flex flex-col gap-1"
+            },
+            input_html: { 
+              class: "mr-2",
+            }
+          %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= f.submit "Submit", class: "btn btn-primary bg-bbc-dark-blue text-bbc-yellow" %>
+  <% end %>
+</div>
