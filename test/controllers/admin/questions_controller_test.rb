@@ -13,23 +13,24 @@ class Admin::QuestionsControllerTest < ActionDispatch::IntegrationTest
   test "create creates a question and redirects to survey" do
     assert_difference "Question.count", 1 do
       post admin_survey_questions_path(@survey), params: {
-        question: {text: "New question?", question_type: "text", options_text: "", position: 2},
+        question: {text_en: "New question?", text_cy: "Cwestiwn newydd?", question_type: "text", options_text_en: "", options_text_cy: "", position: 2},
       }
     end
     assert_redirected_to admin_survey_path(@survey)
   end
 
-  test "create parses options_text into array" do
+  test "create parses options_text_en and options_text_cy into arrays" do
     post admin_survey_questions_path(@survey), params: {
-      question: {text: "Pick one", question_type: "check_boxes", options_text: "Option A\nOption B\nOption C", position: 2},
+      question: {text_en: "Pick one", text_cy: "Dewis un", question_type: "check_boxes", options_text_en: "Option A\nOption B\nOption C", options_text_cy: "Opsiwn A\nOpsiwn B\nOpsiwn C", position: 2},
     }
-    assert_equal ["Option A", "Option B", "Option C"], Question.last.options
+    assert_equal ["Option A", "Option B", "Option C"], Question.last.options_en
+    assert_equal ["Opsiwn A", "Opsiwn B", "Opsiwn C"], Question.last.options_cy
   end
 
   test "create re-renders new with invalid params" do
     assert_no_difference "Question.count" do
       post admin_survey_questions_path(@survey), params: {
-        question: {text: "", question_type: "text", options_text: "", position: 2},
+        question: {text_en: "", text_cy: "", question_type: "text", options_text_en: "", options_text_cy: "", position: 2},
       }
     end
     assert_response :unprocessable_entity
@@ -37,10 +38,11 @@ class Admin::QuestionsControllerTest < ActionDispatch::IntegrationTest
 
   test "update updates question and redirects to survey" do
     patch admin_survey_question_path(@survey, @question), params: {
-      question: {text: "Updated?", question_type: "text", options_text: "", position: 2},
+      question: {text_en: "Updated?", text_cy: "Diweddarwyd?", question_type: "text", options_text_en: "", options_text_cy: "", position: 2},
     }
     assert_redirected_to admin_survey_path(@survey)
-    assert_equal "Updated?", @question.reload.text
+    assert_equal "Updated?", @question.reload.text_en
+    assert_equal "Diweddarwyd?", @question.reload.text_cy
   end
 
   test "update_position updates question position" do
