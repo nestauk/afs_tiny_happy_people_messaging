@@ -16,6 +16,8 @@ class User < ApplicationRecord
   phony_normalize :phone_number, default_country_code: "UK"
   validate :has_welsh_postcode?, on: :create
 
+  before_save :assign_group_by_language, if: :language_changed?
+
   accepts_nested_attributes_for :interests
 
   generates_token_for :profile_token, expires_in: 15.minutes
@@ -111,6 +113,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def assign_group_by_language
+    self.group = Group.find_by(language: language)
+  end
 
   def had_any_content_before?
     last_content_id.present?

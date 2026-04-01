@@ -18,6 +18,7 @@ class NudgeUsersJobTest < ActiveSupport::TestCase
   end
 
   test "#perform sends nudge message in user's preferred language" do
+    create(:group, language: "cy")
     user = create(:user, language: "cy")
 
     stub_successful_twilio_call("Rydych chi heb ryngweithio gyda fideos yn ddiweddar. Gallwch destun 'PAUSE' am seibiant neu 'END' i roi'r gorau iddynt yn gyfan gwbl.", user)

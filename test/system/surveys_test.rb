@@ -35,6 +35,7 @@ class SurveysTest < ApplicationSystemTestCase
   end
 
   test "user can fill in a survey in Welsh" do
+    create(:group, language: "cy")
     user = create(:user, language: "cy")
     token = user.generate_token_for(:survey_token)
 

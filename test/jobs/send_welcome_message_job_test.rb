@@ -16,6 +16,7 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
   end
 
   test "#perform sends message for Welsh speakers" do
+    create(:group, language: "cy")
     user = create(:user, child_birthday: 18.months.ago, language: "cy")
 
     stub_successful_twilio_call("Helo Ali, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?", user)

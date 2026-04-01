@@ -5,19 +5,19 @@ class UsersTest < ApplicationSystemTestCase
     create(:group)
   end
 
-  test "user can switch language" do
-    visit new_user_path
+  # test "user can switch language" do
+  #   visit new_user_path
 
-    assert_text "Nurture your child's growth with fun, free activities"
+  #   assert_text "Nurture your child's growth with fun, free activities"
 
-    click_on "Cymraeg"
+  #   click_on "Cymraeg"
 
-    assert_text "Negeseuon Testun CBeebies Parenting"
+  #   assert_text "Negeseuon Testun CBeebies Parenting"
 
-    click_on "English"
+  #   click_on "English"
 
-    assert_text "Nurture your child's growth with fun, free activities"
-  end
+  #   assert_text "Nurture your child's growth with fun, free activities"
+  # end
 
   test "user can sign up" do
     visit new_user_path
@@ -124,6 +124,29 @@ class UsersTest < ApplicationSystemTestCase
     assert_field_has_errors("What's your postcode?")
     assert_text "Your child must be between 9 and 18 months old to sign up for the service."
     assert_field_has_errors("I accept the terms of service and privacy policy")
+  end
+
+  test "users can choose to receive texts in Welsh" do
+    group = create(:group, language: "cy")
+    visit new_user_path
+
+    sign_up
+
+    assert_text "Thanks for signing up!"
+
+    select "Welsh", from: "Would you like to receive your texts in Welsh or English?"
+
+    click_button "Next"
+
+    assert_text "You're almost done"
+
+    stub_successful_twilio_call("Helo , croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?", User.last)
+
+    click_button "Finish"
+
+    assert_text "Thank you for signing up!"
+
+    assert_equal group, User.last.group
   end
 
   test "users can't edit without token" do

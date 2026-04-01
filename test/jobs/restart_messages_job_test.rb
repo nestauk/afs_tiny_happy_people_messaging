@@ -16,6 +16,7 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
   end
 
   test "#perform sends restart message in user's preferred language" do
+    create(:group, language: "cy")
     user = create(:user, contactable: false, language: "cy")
 
     stub_successful_twilio_call("Croeso yn ôl i Bobi Bach Hapus! Anfonwch 'END' i danysgrifio allan unrhyw bryd.", user)

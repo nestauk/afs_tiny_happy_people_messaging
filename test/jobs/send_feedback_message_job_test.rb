@@ -17,6 +17,7 @@ class SendFeedbackMessageJobTest < ActiveSupport::TestCase
   end
 
   test "#perform sends message for Welsh speakers" do
+    create(:group, language: "cy")
     user = create(:user, child_birthday: 18.months.ago, language: "cy")
 
     assert_enqueued_jobs 1, only: SendCustomMessageJob do

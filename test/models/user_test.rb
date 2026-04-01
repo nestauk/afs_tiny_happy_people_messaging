@@ -374,6 +374,22 @@ class UserTest < ActiveSupport::TestCase
     assert_equal DateTime.new(2025, 9, 15), user.restart_at
   end
 
+  test "assign_group_by_language assigns welsh group when language changes to cy" do
+    welsh_group = create(:group, language: "cy")
+
+    @subject.update(language: "cy")
+
+    assert_equal welsh_group, @subject.reload.group
+  end
+
+  test "assign_group_by_language does not reassign group when language is unchanged" do
+    original_group = @subject.group
+
+    @subject.update(first_name: "New Name")
+
+    assert_equal original_group, @subject.reload.group
+  end
+
   test "#put_on_waitlist method raises error if update fails" do
     user = create(:user, contactable: true, restart_at: nil)
 
