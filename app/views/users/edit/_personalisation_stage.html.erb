@@ -23,6 +23,8 @@
 
   <%= f.input :language, label: "Would you like to receive your texts in Welsh or English?", as: :select, collection: [["Welsh", "cy"], ["English", "en"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: false, hint: "Our videos are in English. We’re working on bringing Welsh versions soon!" %>
 
+  <%= f.input :education_status, label: "What is the highest level of education you have completed?", as: :select, collection: [["No qualifications", "no_qualifications"], ["Comprehensive/Secondary", "comprehensive_secondary"], ["Post-school qualifications", "post_school"], ["I don't want to say", "prefer_not_to_say"]], wrapper_html: { class: "flex flex-col mt-5" }, required: false, include_blank: true, hint: "To make sure this service works well for everyone, we look at whether it is equally helpful for parents with different education experiences." %>
+
   <div class="mt-5">
     <%= f.button :submit, "Next", class: 'btn bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: 'Saving...' } %>
   </div>

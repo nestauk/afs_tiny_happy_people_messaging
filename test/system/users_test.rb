@@ -20,6 +20,7 @@ class UsersTest < ApplicationSystemTestCase
     fill_in "What’s your child called?", with: "Jack"
     select "Tuesday"
     select "Morning"
+    select "I don't want to say"
     click_button "Next"
 
     assert_text "You're almost done"
@@ -41,14 +42,17 @@ class UsersTest < ApplicationSystemTestCase
     @admin = create(:admin)
     sign_in
 
+    user = User.last
+
     visit admin_users_path
     click_on "+447444930200"
     assert_text "ABC123"
     assert_text "Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development."
-    assert_equal "Jack", User.last.child_name
-    assert_equal 2, User.last.day_preference
-    assert_equal "morning", User.last.hour_preference
-    assert_equal "Islington", User.last.local_authority.name
+    assert_equal "Jack", user.child_name
+    assert_equal 2, user.day_preference
+    assert_equal "morning", user.hour_preference
+    assert_equal "Islington", user.local_authority.name
+    assert_equal "prefer_not_to_say", user.education_status
   end
 
   test "User can't sign up if max capacity reached" do
