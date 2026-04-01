@@ -11,10 +11,16 @@ class SurveyTest < ActiveSupport::TestCase
     assert @survey.valid?
   end
 
-  test "title must be present" do
-    @survey.title = ""
+  test "title_en must be present" do
+    @survey.title_en = ""
     assert_not @survey.valid?
-    assert_error(:title, "can't be blank", subject: @survey)
+    assert_error(:title_en, "can't be blank", subject: @survey)
+  end
+
+  test "title_cy must be present" do
+    @survey.title_cy = ""
+    assert_not @survey.valid?
+    assert_error(:title_cy, "can't be blank", subject: @survey)
   end
 
   test "destroying survey destroys associated questions" do

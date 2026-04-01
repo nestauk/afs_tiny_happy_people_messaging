@@ -54,8 +54,9 @@ class Admin::QuestionsController < ApplicationController
   end
 
   def question_params
-    permitted = params.require(:question).permit(:text, :position, :question_type, :options_text)
-    options = permitted.delete(:options_text).to_s.split("\n").map(&:strip).reject(&:empty?)
-    permitted.merge(options: options)
+    permitted = params.require(:question).permit(:text_en, :text_cy, :position, :question_type, :options_text_en, :options_text_cy)
+    options_en = permitted.delete(:options_text_en).to_s.split("\n").map(&:strip).reject(&:empty?)
+    options_cy = permitted.delete(:options_text_cy).to_s.split("\n").map(&:strip).reject(&:empty?)
+    permitted.merge(options_en:, options_cy:)
   end
 end

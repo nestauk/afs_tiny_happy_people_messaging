@@ -1,7 +1,7 @@
-<% content_for(:page_title) { @survey.title } %>
+<% content_for(:page_title) { @user.language == "cy" ? @survey.title_cy : @survey.title_en } %>
 
 <div class="w-1/2 mx-auto my-10">
-  <h1><%= @survey.title %></h1>
+  <h1><%= @user.language == "cy" ? @survey.title_cy : @survey.title_en %></h1>
 
   <%= simple_form_for @survey, url: survey_path(@survey), method: :patch do |f| %>
     <%= hidden_field_tag :token, params[:token] %>
@@ -11,12 +11,12 @@
         <%= ff.input :question_id, as: :hidden, value: q.object.id %>
         <% case q.object.question_type %>
         <% when "text" %>
-          <%= ff.input :response, label: (sanitize q.object.text.html_safe) %>
+          <%= ff.input :response, label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe) %>
         
         <% when "check_boxes" %>
-          <%= ff.input :response, 
-            label: (sanitize q.object.text.html_safe), 
-            collection: q.object.options, 
+          <%= ff.input :response,
+            label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+            collection: @user.language == "cy" ? q.object.options_cy : q.object.options_en,
             as: :check_boxes, 
             wrapper_html: { class: 'flex flex-col gap-1' }, 
             input_html: { 
@@ -25,9 +25,9 @@
           %>
 
         <% when "radio_buttons" %>
-          <%= ff.input :response, 
-            label: (sanitize q.object.text.html_safe),
-            collection: q.object.options,
+          <%= ff.input :response,
+            label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+            collection: @user.language == "cy" ? q.object.options_cy : q.object.options_en,
             as: :radio_buttons,
             wrapper_html: {
               class: "flex flex-col gap-1"

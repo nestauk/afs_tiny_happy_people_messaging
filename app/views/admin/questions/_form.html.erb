@@ -1,22 +1,42 @@
 <%= form_with(model: [@survey, @question], local: true, url: (@question.persisted? ? admin_survey_question_path(@survey, @question) : admin_survey_questions_path(@survey))) do |form| %>
   <%= form.hidden_field :position, value: @question.position || @survey.questions.count + 1 %>
 
+  <% if @question.errors.any? %>
+    <div class="mb-4">
+      <ul>
+        <% @question.errors.full_messages.each do |message| %>
+          <li class="text-red-500"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="mb-4">
-    <%= form.label :text, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_area :text, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+    <%= form.label :text_en, "Question in English", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :text_en, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :text_cy, "Question in Welsh", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :text_cy, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>
 
   <div class="mb-4">
     <%= form.label :question_type, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.select :question_type, options_for_select([["Text", "text"], ["Check boxes", "check_boxes"], ["Radio buttons", "radio_buttons"]]), {}, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+    <%= form.select :question_type, options_for_select([["Text", "text"], ["Check boxes", "check_boxes"], ["Radio buttons", "radio_buttons"]], @question.question_type), {}, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :options_text, "Options (one per line)", class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_area :options_text, value: @question.options.join("\n"), class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+    <%= form.label :options_text_en, "Options in English (one per line)", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :options_text_en, value: @question.options_en.join("\n"), class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>
 
   <div class="mb-4">
-    <%= form.submit "Create question", class: "bg-blue-500 text-white rounded p-2" %>
+    <%= form.label :options_text_cy, "Options in Welsh (one per line)", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :options_text_cy, value: @question.options_cy.join("\n"), class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.submit @question.persisted? ? "Update question" : "Create question", class: "bg-blue-500 text-white rounded p-2" %>
   </div>
 <% end %>
