@@ -15,7 +15,7 @@
     <% @surveys.each do |survey| %>
       <tr class="border-b-2">
         <td class="px-4 py-4 bg-white">
-          <%= link_to survey.title, admin_survey_path(survey), class: "underline hover:no-underline" %>
+          <%= link_to survey.title_en, admin_survey_path(survey), class: "underline hover:no-underline" %>
         </td>
         <td class="px-4 py-4 bg-white">
           <% if survey.send_after_message_count == 0 %>

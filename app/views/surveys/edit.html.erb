@@ -1,7 +1,7 @@
-<% content_for(:page_title) { @survey.title } %>
+<% content_for(:page_title) { @user.language == "cy" ? @survey.title_cy : @survey.title_en } %>
 
 <div class="w-1/2 mx-auto my-10">
-  <h1><%= @survey.title %></h1>
+  <h1><%= @user.language == "cy" ? @survey.title_cy : @survey.title_en %></h1>
 
   <%= simple_form_for @survey, url: survey_path(@survey), method: :patch do |f| %>
     <%= hidden_field_tag :token, params[:token] %>

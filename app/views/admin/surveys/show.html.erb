@@ -1,7 +1,7 @@
 <div class="mb-2">
   <%= link_to '< Back', admin_surveys_path, class: 'underline hover:no-underline' %>
 </div>
-<h1 class="text-4xl mb-4"><%= @survey.title %></h1>
+<h1 class="text-4xl mb-4"><%= @survey.title_en %></h1>
 
 <div class="mb-8 text-sm text-gray-600">
   <% if @survey.send_after_message_count == 0 %>
