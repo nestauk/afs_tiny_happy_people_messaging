@@ -12,7 +12,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_on "Cymraeg"
 
-    assert_text "Negeseuon Testun Tiny Happy People"
+    assert_text "Negeseuon Testun CBeebies Parenting"
 
     click_on "English"
 
@@ -67,30 +67,6 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "morning", user.hour_preference
     assert_equal "Islington", user.local_authority.name
     assert_equal "prefer_not_to_say", user.education_status
-  end
-
-  test "user can sign up with a different language" do
-    visit new_user_path
-
-    month = 7.months.ago.strftime("%B")
-    year = 7.months.ago.strftime("%Y")
-    fill_in "First name", with: "Jo"
-    fill_in "Last name", with: "Smith"
-    fill_in "Phone number", with: "07444930200"
-    fill_in "Postcode", with: "ABC123"
-    select month
-    select year
-    select "Cymraeg", from: "What language would you like to receive the texts in?"
-    check "I accept the terms of service and privacy policy"
-
-    geocode_payload = Geokit::GeoLoc.new(state: "Islington")
-    LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
-
-    click_button "Sign up"
-
-    assert_text "Thanks for signing up!"
-
-    assert_equal "cy", User.last.language
   end
 
   test "User can't sign up if max capacity reached" do

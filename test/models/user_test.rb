@@ -233,7 +233,7 @@ class UserTest < ActiveSupport::TestCase
     create(:content, group: group1, position: 2)
     create(:content, group: group1, position: 3)
 
-    @subject.update(last_content_id: content1.id, language: "cy")
+    @subject.update(last_content_id: content1.id, group:)
 
     assert_equal @subject.next_content, content2
   end
@@ -271,7 +271,7 @@ class UserTest < ActiveSupport::TestCase
     create(:content, group: group1, position: 2, age_in_months: 18)
     create(:content, group: group1, position: 3, age_in_months: 19)
 
-    @subject.update(language: "cy")
+    @subject.update(group:)
 
     assert_equal @subject.next_content, content
   end
@@ -302,7 +302,7 @@ class UserTest < ActiveSupport::TestCase
     create(:content, group: group1, position: 2)
     create(:content, group: group1, position: 3)
 
-    @subject.update(last_content_id: content1.id, language: "cy")
+    @subject.update(last_content_id: content1.id, group:)
 
     assert_equal @subject.next_content, content3
   end

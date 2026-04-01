@@ -7,13 +7,13 @@ cy:
         user:
           attributes:
             child_birthday:
-              inclusion: "Rhaid i’ch plentyn fod rhwng 3 a 24 mis oed, ond rydyn ni’n gweithio i ehangu ein cynnwys"
+              inclusion: "Rhaid i’ch plentyn fod rhwng 9 a 18 mis oed i gofrestru ar gyfer y gwasanaeth."
   controllers: 
     users:
       create:
         notice: "Diolch am eich diddordeb. Oherwydd y galw mawr, rydym wedi cyrraedd ein capasiti uchaf ar gyfer cofrestru ar hyn o bryd. Edrychwch yn ôl ymhen ychydig fisoedd"
       edit: 
-        notice: "Mae eich sesiwn wedi dod i ben. Cysylltwch â info@thp-text.uk os oes angen rhagor o gymorth arnoch."
+        notice: "Mae eich sesiwn wedi dod i ben. Cysylltwch â info@cbeebies-text.uk os oes angen rhagor o gymorth arnoch."
       rate_limit_exceeded:
         notice: "Gormod o ymdrechion. Ceisiwch eto yn ddiweddarach."
   date:
@@ -25,12 +25,12 @@ cy:
       user_profile:
         update: "Nesaf"
   titles:
-    application: "Negeseuon Testun Tiny Happy People"
+    application: "Negeseuon Testun CBeebies Parenting Text Messaging"
   messages:
     feedback: "Ydy'r gweithgareddau rydyn ni'n eu hanfon atoch yn addas i’ch plentyn? Atebwch Ie neu Na i roi gwybod i ni."
-    nudge: "Nid ydych wedi rhyngweithio ag unrhyw fideos yn ddiweddar. Gallwch anfon ‘PAUSE’ am seibiant neu ‘END’ i’w stopio’n llwyr."  
-    restart: "Croeso yn ôl i Tiny Happy People! Anfonwch ‘END’ i ddad-danysgrifio unrhyw bryd."
-    welcome: "Helo {{parent_name}}, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad {{child_name}}. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘Tiny Happy People’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?"
+    nudge: "Nid ydych wedi rhyngweithio ag unrhyw fideos yn ddiweddar. Gallwch anfon ‘PAUSE’ am seibiant neu ‘END’ i’w stopio’n llwyr."
+    restart: "Croeso yn ôl i CBeebies Parenting Text Messaging! Anfonwch ‘END’ i ddad-danysgrifio unrhyw bryd."
+    welcome: "Helo {{parent_name}}, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad {{child_name}}. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?"
     your_child: "eich plentyn"
   pages:
     about_us:
@@ -40,22 +40,22 @@ cy:
       para1_text: "Dewch o hyd i weithgareddau bach ond pwerus, wedi’u creu gan arbenigwyr – a’u hanfon at eich ffôn bob wythnos."
       para2_title: "Pam cofrestru?"
       para2_text1: "Mae rhieni’n cael gweithgareddau bach, am ddim, wedi’u datblygu gan arbenigwyr, wedi’u hanfon at eu ffôn bob wythnos."
-      para2_text2: "Mae rhaglen negeseuon testun Tiny Happy People wedi’i chynllunio i gynnig cefnogaeth rhianta a thaith wedi’i theilwra i anghenion unigryw eich teulu, gyda negeseuon ar yr adeg sy’n fwyaf cyfleus i rieni a’u hamserlenni prysur. Mae pob gweithgaredd yn dod o gatalog fideos Tiny Happy People gan BBC Addysg, wedi’u cynllunio gan arbenigwyr i gefnogi iaith a dysgu eich plentyn ac i gryfhau’r bond rhyngoch chi a’ch plentyn."
+      para2_text2: "Mae rhaglen negeseuon testun CBeebies Parenting wedi’i chynllunio i gynnig cefnogaeth rhianta a thaith wedi’i theilwra i anghenion unigryw eich teulu, gyda negeseuon ar yr adeg sy’n fwyaf cyfleus i rieni a’u hamserlenni prysur. Mae pob gweithgaredd yn dod o gatalog fideos CBeebies Parenting gan BBC Addysg, wedi’u cynllunio gan arbenigwyr i gefnogi iaith a dysgu eich plentyn ac i gryfhau’r bond rhyngoch chi a’ch plentyn."
       para3_title: "Amdanom Nesta"
-      para3_text: "Mae rhaglen negeseuon testun Tiny Happy People yn wasanaeth a gynhelir gan Nesta, asiantaeth arloesi’r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield a BBC Addysg. Mae tîm A Fairer Start Nesta yn gweithio i dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd. Erbyn 2030, bydd gan bob plentyn yr un cyfle i ddatblygu i’w lawn botensial yn y blynyddoedd cynnar."
+      para3_text: "Mae rhaglen negeseuon testun CBeebies Parenting yn wasanaeth a gynhelir gan Nesta, asiantaeth arloesi’r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield a BBC Addysg. Mae tîm A Fairer Start Nesta yn gweithio i dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd. Erbyn 2030, bydd gan bob plentyn yr un cyfle i ddatblygu i’w lawn botensial yn y blynyddoedd cynnar."
       para4_title: "Amdanom ein partneriaid"
-      para4_text1: "Datblygwyd rhaglen negeseuon testun Tiny Happy People gyntaf gan yr Athro Danielle Matthews ym Mhrifysgol Sheffield a BBC Addysg i gyflwyno adnoddau ar-lein am ddim THP i ofalwyr, ac i werthuso trwy dreialu a yw anfon fideos THP trwy neges testun at deuluoedd yn cefnogi rhyngweithio rhwng gofalwyr a phlant ac, yn y pen draw, yn arwain at ganlyniadau iaith well i blant."
-      para4_text2: "Ers 2024, mae Nesta wedi bod yn gweithio mewn partneriaeth arloesol gyda’r Athro Danielle Matthews a BBC Addysg i ddatblygu rhaglen negeseuon testun Tiny Happy People (THP) ymhellach. Ers dechrau ein partneriaeth, mae Nesta wedi bod yn gweithio i barhau i ddatblygu, profi a chynyddu’r rhaglen i gyrraedd mwy o rieni ar draws y DU a chyfrannu at ein nod cenhadaeth o dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd."
+      para4_text1: "Datblygwyd rhaglen negeseuon testun CBeebies Parenting gyntaf gan yr Athro Danielle Matthews ym Mhrifysgol Sheffield a BBC Addysg i gyflwyno adnoddau ar-lein am ddim CBeebies Parenting i ofalwyr, ac i werthuso trwy dreialu a yw anfon fideos CBeebies Parenting trwy neges testun at deuluoedd yn cefnogi rhyngweithio rhwng gofalwyr a phlant ac, yn y pen draw, yn arwain at ganlyniadau iaith well i blant."
+      para4_text2: "Ers 2024, mae Nesta wedi bod yn gweithio mewn partneriaeth arloesol gyda’r Athro Danielle Matthews a BBC Addysg i ddatblygu rhaglen negeseuon testun CBeebies Parenting (THP) ymhellach. Ers dechrau ein partneriaeth, mae Nesta wedi bod yn gweithio i barhau i ddatblygu, profi a chynyddu’r rhaglen i gyrraedd mwy o rieni ar draws y DU a chyfrannu at ein nod cenhadaeth o dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd."
       para5_title: "Cysylltwch â ni"
-      para5_text: "Rydym yn gweithio mewn partneriaeth â chynghorau lleol ar draws y DU, Prifysgol Sheffield a BBC Addysg i ddarparu’r gwasanaeth hwn. Cysylltwch â ni os hoffech archwilio sut y gallwch gyfrannu neu sut gallwn wella’r gwasanaeth. Ebostiwch ni yn <a href='mailto:info@thp-text.uk' class='link'>info@thp-text.uk</a>."
+      para5_text: "Rydym yn gweithio mewn partneriaeth â chynghorau lleol ar draws y DU, Prifysgol Sheffield a BBC Addysg i ddarparu’r gwasanaeth hwn. Cysylltwch â ni os hoffech archwilio sut y gallwch gyfrannu neu sut gallwn wella’r gwasanaeth. Ebostiwch ni yn <a href='mailto:info@cbeebies-text.uk' class='link'>info@cbeebies-text.uk</a>."
     footer: 
-      title: "Negeseuon Testun Tiny Happy People"
-      blurb: "Mae rhaglen negeseuon testun Tiny Happy People yn wasanaeth a gynhelir gan Nesta, asiantaeth arloesi’r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield a BBC Addysg. Mae tîm A Fairer Start Nesta yn gweithio i dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd. Erbyn 2030, bydd gan bob plentyn yr un cyfle i ddatblygu i’w lawn botensial yn y blynyddoedd cynnar."
+      title: "Negeseuon Testun CBeebies Parenting"
+      blurb: "Mae rhaglen negeseuon testun CBeebies Parenting yn wasanaeth a gynhelir gan Nesta, asiantaeth arloesi’r DU ar gyfer lles cymdeithasol, mewn partneriaeth â Phrifysgol Sheffield a BBC Addysg. Mae tîm A Fairer Start Nesta yn gweithio i dorri’r cysylltiad rhwng cefndir teuluol a chyfleoedd bywyd. Erbyn 2030, bydd gan bob plentyn yr un cyfle i ddatblygu i’w lawn botensial yn y blynyddoedd cynnar."
       about_us: "Amdanom ni"
       terms: "Telerau defnyddio"
       privacy: "Polisi preifatrwydd"
       partnership: "Partneriaeth â BBC Addysg a Phrifysgol Sheffield"
-      email: "info@thp-text.uk"
+      email: "info@cbeebies-text.uk"
     form:
       personalisation: 
         page_title: "Diolch am gofrestru!"
@@ -111,7 +111,7 @@ cy:
       para2_text3: "<span class='font-bold'>Adborth ac arolygon:</span> Efallai y gofynnwn hefyd am eich adborth neu i chi gwblhau arolygon."
       para2_text4: "<span class='font-bold'>Gweithgarwch ar-lein:</span> Pan fyddwch yn defnyddio’n gwefan, rydym yn casglu gwybodaeth am y ddyfais a ddefnyddiwyd gennych i gael mynediad, eich ymweliadau a’ch defnydd o’r wefan gan gynnwys math a fersiwn eich porwr, cyfeirydd a gweithgarwch. Rydym yn casglu’r wybodaeth hon drwy offer dadansoddi cyntaf barti sydd wedi’u hymgorffori yn ein gwefan, heb ddefnyddio cwcis nac offer trydydd parti."
       para3_title: "Beth ydym ni’n ei wneud gyda’r wybodaeth a gasglwn a beth yw ein sail gyfreithiol ar gyfer hyn?"
-      para3_text1: "<span class='font-bold'>Manylion cofrestru:</span> Os byddwch yn cofrestru ar ein rhaglen negeseuon testun, byddwn yn defnyddio eich gwybodaeth bersonol i anfon negeseuon testun atoch. Ein sail gyfreithiol ar gyfer hyn yw eich caniatâd. Mae gennych hawl i dynnu’r caniatâd hwn yn ôl unrhyw bryd. Byddwn hefyd yn rhannu codau post gyda’n partner, Prifysgol Sheffield, a fydd yn eu cymharu â’r rheini o gyfranogwyr ymchwil Tiny Happy People, yn unol â’n cytundeb rhannu data."
+      para3_text1: "<span class='font-bold'>Manylion cofrestru:</span> Os byddwch yn cofrestru ar ein rhaglen negeseuon testun, byddwn yn defnyddio eich gwybodaeth bersonol i anfon negeseuon testun atoch. Ein sail gyfreithiol ar gyfer hyn yw eich caniatâd. Mae gennych hawl i dynnu’r caniatâd hwn yn ôl unrhyw bryd. Byddwn hefyd yn rhannu codau post gyda’n partner, Prifysgol Sheffield, a fydd yn eu cymharu â’r rheini o gyfranogwyr ymchwil CBeebies Parenting, yn unol â’n cytundeb rhannu data."
       para3_text2: "<span class='font-bold'>Proseswyr trydydd parti:</span> Rydym yn defnyddio prosesydd trydydd parti o’r enw Twilio i gyflwyno negeseuon testun. Wrth ddefnyddio’r trydydd parti hwn rydym yn dilyn ein budd cyfreithlon i ddefnyddio technoleg trydydd parti i sicrhau mwy o effeithlonrwydd yn ein sefydliad. I gydbwyso ein buddiannau â’ch rhai chi, rydym yn ymrwymo i gytundebau cyfreithiol gyda Twilio ac yn cymryd camau i sicrhau eu bod yn cynnal mesurau technegol a threfniadol priodol i gadw eich gwybodaeth bersonol yn ddiogel. Am fwy o wybodaeth, gweler <a href='https://www.twilio.com/en-us/privacy' target='_blank'>polisi preifatrwydd Twilio</a>."
       para3_text3: "<span class='font-bold'>Ymchwil:</span> Os cytunwch i gymryd rhan mewn unrhyw ymchwil, gan gynnwys ein hastudiaeth ddyddiadur, byddwn yn defnyddio’ch gwybodaeth at ddiben y prosiect neu raglen ymchwil honno. Rhoddir manylion llawn i chi am sut y caiff eich gwybodaeth ei defnyddio pan fyddwch yn cytuno i gymryd rhan; gall hyn gynnwys llywio datblygiad gwobr newydd, prosiect, rhaglen neu fenter arall, cael ei gynnwys mewn adroddiadau neu ganlyniadau ymchwil eraill, a gall gynnwys cael ei harddangos yn gyhoeddus ar dudalennau gwe sy’n gysylltiedig â’r prosiect neu raglen ymchwil benodol."
       para3_text4: "<span class='font-bold'>Adborth ac arolygon:</span> Os byddwch yn cytuno i roi adborth neu gwblhau arolwg, byddwn yn defnyddio’r wybodaeth i wella ein gwaith a’n gweithgareddau. Rydym fel arfer yn defnyddio Alchemer i brosesu arolygon, ac maent ond yn prosesu’ch gwybodaeth yn unol â’n cyfarwyddiadau."
@@ -173,7 +173,7 @@ cy:
       development:
         title: "Datblygiad Plant"
         para1: "<span class='font-bold'>Camau datblygu yn ôl oedran:</span> Gwiriwch <a href='https://cambspborochildrenshealth.nhs.uk/child-development-and-growing-up/milestones/' target='_blank' class='link'>tudalen Camau Datblygu'r GIG Cambridgeshire a’r Gymuned</a> am ganllaw bras ar gamau datblygiadol plant a phryd i gysylltu ag ymwelydd iechyd.<br><br>Os nad ydych yn byw yng Nghaergrawnt ond hoffech wybod ble i gael cymorth lleol mewn perthynas â datblygiad eich plentyn, <a href='https://www.gov.uk/find-local-council' target='_blank' class='link'>darganfyddwch wefan eich cyngor lleol</a>."
-        para2: "<span class='font-bold'>Gweithgareddau i hyrwyddo datblygiad plant:</span> Defnyddiwch wefan <a href='https://www.bbc.co.uk/tiny-happy-people' target='_blank' class='link'>Tiny Happy People</a> i gael syniadau ar gyfer gweithgareddau i hybu datblygiad eich plentyn. Dyma un o'r gwefannau y gofynnon ni i chi eu gweld yn eich cyfweliad gyda ni."
+        para2: "<span class='font-bold'>Gweithgareddau i hyrwyddo datblygiad plant:</span> Defnyddiwch wefan <a href='https://www.bbc.co.uk/tiny-happy-people' target='_blank' class='link'>CBeebies Parenting</a> i gael syniadau ar gyfer gweithgareddau i hybu datblygiad eich plentyn. Dyma un o'r gwefannau y gofynnon ni i chi eu gweld yn eich cyfweliad gyda ni."
       emergency:
         title: "Cymorth Brys"
         para1: "<span class='font-bold'>Childline (DU):</span> Ffoniwch 0800 1111 am le diogel, cyfrinachol i siarad â chynghorydd, ar gael 24/7 i unrhyw un o dan 19 oed ledled y DU"
