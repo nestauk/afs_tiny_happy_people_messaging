@@ -35,6 +35,7 @@ class SurveysTest < ApplicationSystemTestCase
   end
 
   test "user can fill in a survey in Welsh" do
+    create(:group, language: "cy")
     user = create(:user, language: "cy")
     token = user.generate_token_for(:survey_token)
 
@@ -65,7 +66,7 @@ class SurveysTest < ApplicationSystemTestCase
     survey = create(:survey)
     visit edit_survey_path(survey)
 
-    assert_current_path root_path
+    assert_current_path root_path(locale: "en")
     assert_text "Invalid survey link."
   end
 end

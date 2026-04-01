@@ -7,13 +7,13 @@
         </p>
       <% end %>
 
-      <%= form.input :phone_number, wrapper_html: { class: "w-full" }, input_html: { class: "md:w-1/3", autocomplete: "tel" }, hint: "So we can text you helpful tips, nothing more!" %>
+      <%= form.input :phone_number, wrapper_html: { class: "w-full" }, input_html: { class: "md:w-1/3", autocomplete: "tel" } %>
 
-      <%= form.input :postcode, wrapper_html: { class: "md:w-1/2" }, hint: "We use postcode information (and nothing else) to get a rough idea of which areas/communities we’re reaching. This helps us understand if there’s any areas we’re missing/ we need to do some more outreach.", input_html: { autocomplete: "postal-code" } %>
+      <%= form.input :postcode, wrapper_html: { class: "md:w-1/2" }, input_html: { autocomplete: "postal-code" } %>
 
       <fieldset class="mt-3 <%= 'input_wrapper field_with_errors' if @user.errors[:child_birthday].any? %>">
-        <legend>* Your child's birthday</legend>
-        <p class="hint">This helps make sure the texts we send fit your child's age and stage.</p>
+        <legend>* <%= t("simple_form.labels.user.child_birthday") %></legend>
+        <p class="hint"><%= t("simple_form.hints.user.child_birthday") %></p>
         <% if @user.errors[:child_birthday].any? %>
           <p class="text-red-600 text-sm">
             <%= @user.errors[:child_birthday].first %>
@@ -38,11 +38,11 @@
         </div>
       </fieldset>
 
-      <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: "I accept the #{link_to("terms of service", terms_path, class: "underline hover:no-underline", target: "_blank")} and #{link_to("privacy policy", privacy_policy_path, class: "underline hover:no-underline", target: "_blank")}".html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-4 mb-2 md:mt-8 text-xs md:text-base" } %>
+      <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: t('simple_form.labels.user.terms_agreed_at', terms: (link_to(t('pages.home.terms'), terms_path, class: 'underline hover:no-underline', target: '_blank')), privacy: (link_to(t('pages.home.privacy'), privacy_policy_path, class: 'underline hover:no-underline', target: '_blank'))).html_safe, input_html: { class: "form-checkbox" }, wrapper_html: { class: "mt-4 mb-2 md:mt-8 text-xs md:text-base" }  %>
 
       <%= form.input :group_id, as: :hidden, input_html: { value: Group.first.id } %>
 
-      <%= form.submit "Sign up", class: "btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full", "data-turbolinks": "false" %>
+      <%= form.submit I18n.t("pages.home.submit"), class: "btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full", "data-turbolinks": "false" %>
     <% end %>
   <% end %>
   <div class="hidden text-red-600"></div>

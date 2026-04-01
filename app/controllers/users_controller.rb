@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
+    set_languages
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:q].presence || "no-referrer"}", request.path_parameters
   end
@@ -19,7 +20,7 @@ class UsersController < ApplicationController
     redirect_to root_path, notice: "Signups are currently paused. Please check back later." and return if ENV.fetch("SIGN_UP_OPEN", "true") == "false"
 
     if User.where("created_at > ?", "2026-03-10").count == 3000
-      return redirect_to root_path, notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
+      return redirect_to root_path, notice: I18n.t("controllers.users.create.notice")
     end
 
     @user = User.new(user_params)
@@ -33,6 +34,8 @@ class UsersController < ApplicationController
     else
       @no_padding = true
       @hide_sidebar = true
+      set_languages
+
       render :new, status: :unprocessable_content
     end
   end
@@ -94,13 +97,24 @@ class UsersController < ApplicationController
   def set_user
     @user = User.find_by_token_for(:profile_token, params[:token])
     unless @user
-      redirect_to root_path, notice: "Your session has expired. Contact info@cbeebies-text.uk if you need further help."
+      redirect_to root_path, notice: I18n.t("controllers.users.edit.notice")
     end
   end
 
   def rate_limit_exceeded
     @user = User.new
-    flash.now[:notice] = "Too many attempts. Try again later."
+    @no_padding = true
+    @hide_sidebar = true
+    set_languages
+    flash.now[:notice] = I18n.t("controllers.users.rate_limit_exceeded.notice")
     render :new, status: :unprocessable_content
+  end
+
+  def set_languages
+    @languages = if params[:locale] == "cy"
+      [["Cymraeg", "cy"], ["English", "en"]]
+    else
+      [["English", "en"], ["Cymraeg", "cy"]]
+    end
   end
 end

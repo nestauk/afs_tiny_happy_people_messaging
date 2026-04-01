@@ -5,6 +5,20 @@ class UsersTest < ApplicationSystemTestCase
     create(:group)
   end
 
+  # test "user can switch language" do
+  #   visit new_user_path
+
+  #   assert_text "Nurture your child's growth with fun, free activities"
+
+  #   click_on "Cymraeg"
+
+  #   assert_text "Negeseuon Testun CBeebies Parenting"
+
+  #   click_on "English"
+
+  #   assert_text "Nurture your child's growth with fun, free activities"
+  # end
+
   test "user can sign up" do
     visit new_user_path
 
@@ -16,8 +30,8 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_page_is_accessible
 
-    fill_in "What’s your name?", with: "Jo"
-    fill_in "What’s your child called?", with: "Jack"
+    fill_in "What's your first name?", with: "Jo"
+    fill_in "What's your child called?", with: "Jack"
     select "Tuesday"
     select "Morning"
     select "I don't want to say"
@@ -31,7 +45,7 @@ class UsersTest < ApplicationSystemTestCase
 
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
 
-    click_button "Next"
+    click_button "Finish"
 
     assert_text "Thank you for signing up!"
 
@@ -106,17 +120,40 @@ class UsersTest < ApplicationSystemTestCase
       click_on "Sign up"
     end
 
-    assert_field_has_errors("Phone number")
-    assert_field_has_errors("Postcode")
+    assert_field_has_errors("What's your phone number?")
+    assert_field_has_errors("What's your postcode?")
     assert_text "Your child must be between 9 and 18 months old to sign up for the service."
     assert_field_has_errors("I accept the terms of service and privacy policy")
+  end
+
+  test "users can choose to receive texts in Welsh" do
+    group = create(:group, language: "cy")
+    visit new_user_path
+
+    sign_up
+
+    assert_text "Thanks for signing up!"
+
+    select "Welsh", from: "Would you like to receive your texts in Welsh or English?"
+
+    click_button "Next"
+
+    assert_text "You're almost done"
+
+    stub_successful_twilio_call("Helo , croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?", User.last)
+
+    click_button "Finish"
+
+    assert_text "Thank you for signing up!"
+
+    assert_equal group, User.last.group
   end
 
   test "users can't edit without token" do
     user = create(:user)
     visit edit_user_path(user)
 
-    assert_current_path root_path
+    assert_current_path root_path(locale: "en")
     assert_text "Your session has expired"
   end
 
@@ -124,7 +161,7 @@ class UsersTest < ApplicationSystemTestCase
     user = create(:user)
     visit edit_user_path(user, token: "invalid_token")
 
-    assert_current_path root_path
+    assert_current_path root_path(locale: "en")
     assert_text "Your session has expired"
   end
 
@@ -138,7 +175,7 @@ class UsersTest < ApplicationSystemTestCase
     travel_to 16.minutes.from_now do
       click_button "Next"
 
-      assert_current_path root_path
+      assert_current_path root_path(locale: "en")
       assert_text "Your session has expired"
     end
   end
@@ -148,8 +185,8 @@ class UsersTest < ApplicationSystemTestCase
   def sign_up
     month = 10.months.ago.strftime("%B")
     year = 10.months.ago.strftime("%Y")
-    fill_in "Phone number", with: "07444930200"
-    fill_in "Postcode", with: "ABC123"
+    fill_in " What's your phone number?", with: "07444930200"
+    fill_in "What's your postcode?", with: "ABC123"
     select month
     select year
     check "I accept the terms of service and privacy policy"
