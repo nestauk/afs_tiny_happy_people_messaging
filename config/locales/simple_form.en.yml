@@ -8,7 +8,7 @@ en:
     labels:
       user:
         child_birthday: "When was your child born?"
-        first_name: "What's your first name?"
+        first_name: "What's your first name? (optional)"
         language: "What language would you like to receive the texts in?"
         phone_number: "What's your phone number?"
         postcode: "What's your postcode?"
@@ -18,7 +18,7 @@ en:
         hour_preference: "What time of day would you like to get the texts? (optional)"
         referral_sources: "Where have you seen this service advertised? (optional)"
         language: "Would you like to receive your texts in Welsh or English?"
-        education_status: "What is the highest level of education you have completed? (optional)"
+        education_status: "Do you have a university degree? (optional)"
     options:
       user:
         day_preference:
@@ -49,9 +49,8 @@ en:
           email: "Email"
           other: "Other"
         education_status:
-          no_qualifications: "No qualifications"
-          comprehensive_secondary: "Comprehensive/Secondary"
-          post_school: "Post-school qualifications"
+          yes: "Yes"
+          no: "No"
           prefer_not_to_say: "I don't want to say"
     hints:
       user:
@@ -62,3 +61,4 @@ en:
         education_status: "To make sure this service works well for everyone, we look at whether it is equally helpful for parents with different education experiences."
         first_name: "So we know what to call you"
         referral_sources: "Knowing how you heard about us helps us understand which channels are best and where to focus our efforts."
+        language: "Our videos are in English. We’re working on bringing Welsh versions soon!"

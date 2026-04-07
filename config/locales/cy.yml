@@ -184,9 +184,9 @@ cy:
         para4: "<span class='font-bold'>Gwasanaethau Brys:</span> Ffoniwch 999 mewn sefyllfaoedd sy’n peryglu bywyd, ar gael 24/7 ac yn rhad ac am ddim ledled y DU."
     thank_you: 
       page_title: "Diolch am gofrestru!"
-      title: "Diolch am gofrestru!"
-      subtitle: "Byddwch yn derbyn eich neges gyntaf yn fuan iawn"
-      para_1: "Oes gennych 2 funud? Helpwch ni i lunio’r gwasanaeth i’ch anghenion chi! Mae gennym 12 cwestiwn cyflym i chi. <a href={{survey_link}} class='link'>Dywedwch wrthym eich barn</a>, ac fel diolch byddwch yn cael cyfle i ennill taleb £50!"
+      title: "Rydych chi wedi cofrestru’n llwyddiannus, llongyfarchiadau!"
+      subtitle: "Bob wythnos, byddwn yn anfon neges destun atoch chi; y cyfan sydd angen i chi ei wneud yw gwylio’r fideo (a rhoi cynnig ar y gweithgaredd!)."
+      para_1: "Oes gennych chi 2 funud? Helpwch ni i lunio’r gwasanaeth i ddiwallu eich anghenion chi yn union! Mae gennym 8 cwestiwn cyflym i chi. <a href={{survey_link}} class='link'>Dywedwch wrthym beth yw eich barn</a>, ac fel diolch, byddwch yn cael cyfle i ennill taleb gwerth £50!"
       para_2: "Os ydych yn chwilio am gymorth gyda iechyd chi neu eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>tudalen adnoddau</a> i ddarganfod ble gallwch ddod o hyd i gymorth yn y DU."
     terms:
       page_title: "Telerau Defnyddio"
