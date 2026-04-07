@@ -8,17 +8,17 @@ cy:
     labels:
       user:
         child_birthday: "Pryd cafodd eich plentyn ei eni?"
-        first_name: ‘Beth yw eich enw cyntaf?’
+        first_name: ‘Beth yw eich enw cyntaf? (dewisol)’
         language: ‘Pa iaith hoffech chi dderbyn y negeseuon testun ynddi?’
         phone_number: ‘Beth yw eich rhif ffôn?’
         postcode: ‘Beth yw eich cod post?’
         terms_agreed_at: "Rwy’n derbyn y %{terms} a’r %{privacy}"
         child_name: "Beth yw enw eich plentyn? (dewisol)"
-        day_preference: "Pa ddiwrnod hoffech chi dderbyn eich neges destun? (dewisol)"
-        hour_preference: "Pa amser o’r dydd hoffech chi dderbyn y negeseuon testun? (dewisol)"
-        referral_sources: "Ble ydych chi wedi gweld y gwasanaeth hwn yn cael ei hysbysebu? (dewisol)"
-        language: "Hoffech chi dderbyn eich negeseuon testun yn Gymraeg neu Saesneg?"
-        education_status: "Beth yw’r lefel uchaf o addysg rydych chi wedi’i chwblhau? (dewisol)"
+        day_preference: "Ar ba ddiwrnod yr hoffech dderbyn eich neges destun? (dewisol)"
+        hour_preference: "Ar ba amser ar [diwrnod]? (dewisol)"
+        referral_sources: "Ble weloch chi’r gwasanaeth hwn yn cael ei hysbysebu? (dewisol)"
+        language: "Hoffech chi dderbyn eich negeseuon testun yn Gymraeg neu’n Saesneg?"
+        education_status: "Oes gennych chi radd prifysgol? (dewisol)"
     options:
       user:
         day_preference:
@@ -29,12 +29,12 @@ cy:
           friday: "Dydd Gwener"
           saturday: "Dydd Sadwrn"
           sunday: "Dydd Sul"
-          no_preference: "Dim dewis, anfonwch nhw unrhyw ddiwrnod"
+          no_preference: "Dim dewis"
         hour_preference:
-          morning: "Bore, 8yb"
-          afternoon: "Prynhawn, 12yp"
-          evening: "Noswaith, 8yh"
-          no_preference: "Dim dewis, anfonwch nhw unrhyw bryd"
+          morning: "Bore 8yb"
+          afternoon: "Prynhawn 12yp"
+          evening: "Noswaith 8yh"
+          no_preference: "Dim dewis"
         referral_sources:
           facebook: "Facebook"
           instagram: "Instagram"
@@ -46,16 +46,16 @@ cy:
           welsh: "Cymraeg"
           english: "Saesneg"
         education_status:
-          no_qualifications: "Dim cymwysterau"
-          comprehensive_secondary: "Cyfun/Uwchradd"
-          post_school: "Cymwysterau ôl-ysgol"
-          prefer_not_to_say: "Nid wyf am ddweud"
+          yes: "Oes"
+          no: "Nac oes"
+          prefer_not_to_say: "Gwell gen i beidio â dweud"
     hints:
       user:
-        child_birthday: "Mae hyn yn helpu i sicrhau bod y negeseuon testun rydym yn eu hanfon yn addas ar gyfer oedran a cham datblygiad eich plentyn"
-        postcode: "Rydym yn defnyddio gwybodaeth cod post (a dim byd arall) i gael syniad bras o ba ardaloedd/cymunedau rydym yn eu cyrraedd. Mae hyn yn ein helpu i ddeall os oes unrhyw ardaloedd rydym yn eu colli/angen mwy o allgymorth."
-        phone_number: "Er mwyn i ni allu anfon negeseuon testun atoch gyda chynghorion defnyddiol, dim byd arall!"
-        child_name: "Rydym am bersonoli’r gwasanaeth hwn i chi a’ch un bach! Mae croeso i chi ddefnyddio llysenw os yw’n well gennych."
+        child_birthday: "Mae hyn yn helpu i sicrhau bod y negeseuon testun rydym yn eu hanfon yn gweddu i oedran a cham eich plentyn."
+        postcode: "Rydym yn defnyddio gwybodaeth cod post (a dim byd arall) i gael syniad bras o ba ardaloedd neu gymunedau rydym yn eu cyrraedd. Mae hyn yn ein helpu i ddeall a oes unrhyw ardaloedd rydym yn eu colli, neu ble mae angen i ni wneud mwy o waith estyn allan."
+        phone_number: "Felly gallwn anfon awgrymiadau defnyddiol atoch chi, a dim byd mwy!"
+        child_name: "Rydym am bersonoli’r gwasanaeth hwn i chi ac i’ch un bach! Mae croeso i chi ddefnyddio llysenw os yw’n well gennych."
         education_status: "Er mwyn sicrhau bod y gwasanaeth hwn yn gweithio’n dda i bawb, rydym yn edrych ar a yw’r un mor ddefnyddiol i rieni â phrofiadau addysg gwahanol."
-        first_name: "Er mwyn i ni wybod sut i’ch cyfarch"
+        first_name: "Felly byddwn yn gwybod beth i’ch galw chi"
         referral_sources: "Mae gwybod sut y clywsoch chi amdanom yn ein helpu i ddeall pa sianeli sydd orau a ble i ganolbwyntio ein hymdrechion."
+        language: "Mae ein fideos yn Saesneg. Rydym yn gweithio ar ddarparu fersiynau Cymraeg yn fuan!"

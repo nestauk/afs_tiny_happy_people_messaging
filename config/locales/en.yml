@@ -176,8 +176,8 @@ en:
         para4: "<span class='font-bold'>Emergency Services:</span> Call 999 for life-threatening situations, available 24/7 free to call for emergencies across the UK."
     thank_you: 
       page_title: "Thank you for signing up!"
-      title: "Thank you for signing up!"
-      subtitle: "You will receive your first text very soon"
+      title: "You're all signed up, congratulations!"
+      subtitle: "Each week, we'll send you a text, all you have to do is watch the video (and give the activity a go!)."
       para_1: "Got 2 minutes? Help us shape the service to your needs! We’ve got 12 quick questions for you. <a href={{survey_link}} class='link'>Tell us your thoughts</a>, and as a thanks you’ll be in for a chance to win a £50 voucher!"
       para_2: "If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <a href='/resources' class='link'>resources page</a> to know where you might find UK-based support."
     terms:

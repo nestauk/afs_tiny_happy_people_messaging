@@ -48,7 +48,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Finish"
 
-    assert_text "Thank you for signing up!"
+    assert_text "You're all signed up, congratulations!"
 
     assert_equal 1, User.last.survey_sends.count
 
@@ -97,7 +97,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Skip this section"
 
-    assert_text "Thank you for signing up!"
+    assert_text "You're all signed up, congratulations!"
 
     assert_equal 1, Message.count
 
@@ -147,7 +147,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Finish"
 
-    assert_text "Thank you for signing up!"
+    assert_text "You're all signed up, congratulations!"
 
     assert_equal group, User.last.group
   end

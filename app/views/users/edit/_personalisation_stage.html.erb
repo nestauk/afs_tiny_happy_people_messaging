@@ -51,7 +51,7 @@
   <%=
     f.input :education_status,
     as: :select,
-    collection: [[:no_qualifications, "no_qualifications"], [:comprehensive_secondary, "comprehensive_secondary"], [:post_school, "post_school"], [:prefer_not_to_say, "prefer_not_to_say"]],
+    collection: [[:no, "no"], [:yes, "yes"], [:prefer_not_to_say, "prefer_not_to_say"]],
     label_method: lambda { |el| t "simple_form.options.user.education_status.#{el.first}" },
     wrapper_html: { class: "flex flex-col mt-5" },
     required: false,
