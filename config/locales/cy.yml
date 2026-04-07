@@ -8,6 +8,8 @@ cy:
           attributes:
             child_birthday:
               inclusion: "Rhaid i’ch plentyn fod rhwng 9 a 18 mis oed i gofrestru ar gyfer y gwasanaeth."
+            postcode:
+              not_welsh: "Mae’r gwasanaeth hwn ddim ond ar gael yng Nghymru ar hyn o bryd. Peidiwch â phoeni – gallwch barhau i fwynhau holl <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>gynnwys Tiny Happy People</a>."
   controllers: 
     users:
       create:

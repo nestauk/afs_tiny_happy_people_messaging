@@ -8,6 +8,8 @@ en:
           attributes:
             child_birthday:
               inclusion: "Your child must be between 9 and 18 months old to sign up for the service."
+            postcode:
+              not_welsh: "This service is only available in Wales currently. Not to worry -  you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
   controllers: 
     users:
       create:
@@ -58,11 +60,13 @@ en:
     form:
       personalisation: 
         title: "Thanks for signing up!"
+        page_title: "Personalise your experience"
         blurb: "Tell us about your preferences for a better and more meaningful experience"
         saving: "Saving..."
         save: "Next"
         skip: "Skip this section"
       about_service:
+        page_title: "About our service"
         back: "Back"
         title: "You're almost done"
         blurb: "Tell us how you found out about our service"
