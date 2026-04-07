@@ -13,13 +13,20 @@
 </div>
 
 <div class="mt-8 w-full px-5">
-  <%=
-    f.input :referral_sources,
-    required: false,
-    as: :check_boxes,
-    collection: [[:facebook, "Facebook"], [:instagram, "Instagram"], [:professional, "Referral by a professional"], [:flyer, "Flyer/Poster"], [:email, "Email"], [:other, "Other"]],
-    label_method: lambda { |el| t "simple_form.options.user.referral_sources.#{el.first}" }
-  %>
+  <fieldset>
+    <legend class="text-lg font-medium text-gray-900"><%= t("simple_form.labels.user.referral_sources") %></legend>
+    <p class="hint"><%= t("simple_form.hints.user.referral_sources") %></p>
+
+    <%= f.collection_check_boxes :referral_sources,
+      [[:facebook, "Facebook"], [:instagram, "Instagram"], [:professional, "Referral by a professional"], [:flyer, "Flyer/Poster"], [:email, "Email"], [:other, "Other"]],
+      :last,
+      ->(el) { t "simple_form.options.user.referral_sources.#{el.first}" } do |b| %>
+      <div class="flex items-center mb-2">
+        <%= b.check_box(class: "form-checkbox focus:!ring-2 focus:!ring-blue-500 !grow-0") %>
+        <%= b.label %>
+      </div>
+    <% end %>
+  </fieldset>
 
   <div class="mt-5 flex flex-col gap-2">
     <%= f.button :submit, t("pages.form.about_service.save"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: t("pages.form.about_service.saving") } %>

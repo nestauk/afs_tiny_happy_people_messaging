@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  has_many :interests, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   has_many :survey_sends, dependent: :destroy
@@ -17,8 +16,6 @@ class User < ApplicationRecord
   validate :has_welsh_postcode?, on: :create
 
   before_save :assign_group_by_language, if: :language_changed?
-
-  accepts_nested_attributes_for :interests
 
   generates_token_for :profile_token, expires_in: 15.minutes
   generates_token_for :survey_token
@@ -144,8 +141,9 @@ class User < ApplicationRecord
   end
 
   def has_welsh_postcode?
+    return if postcode.blank?
     unless PostcodeService.valid_welsh_postcode?(postcode)
-      errors.add(:postcode, "You must live in Wales to use this service.")
+      errors.add(:postcode, :not_welsh)
     end
   end
 end
