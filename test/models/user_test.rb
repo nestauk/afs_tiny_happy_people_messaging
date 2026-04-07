@@ -203,6 +203,20 @@ class UserTest < ActiveSupport::TestCase
     assert_not_includes User.not_finished_content, user6
   end
 
+  test "needs_survey_reminder scope" do
+    survey = create(:survey)
+    create(:user)
+    user2 = create(:user)
+    create(:survey_send, user: user2, survey:, completed_at: Time.zone.now)
+    user3 = create(:user)
+    create(:survey_send, user: user3, survey:, completed_at: nil, sent_at: 1.days.ago)
+    user4 = create(:user)
+    create(:survey_send, user: user4, survey:, completed_at: nil, sent_at: 4.days.ago)
+
+    assert_equal User.needs_survey_reminder(survey.id).to_a.size, 1
+    assert_equal User.needs_survey_reminder(survey.id), [user3]
+  end
+
   test "child_age_in_months_today method" do
     user = create(:user, child_birthday: 10.months.ago)
 

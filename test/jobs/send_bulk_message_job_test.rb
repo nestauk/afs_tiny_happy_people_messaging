@@ -107,6 +107,26 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
+  test "#perform creates jobs to send surveys to users" do
+    user = create(:user)
+    survey = create(:survey, title_en: "Pre-programme survey")
+    create(:survey_send, user:, survey:, sent_at: 1.day.ago)
+
+    assert_enqueued_jobs 1, only: SendSurveyReminderJob do
+      SendBulkMessageJob.perform_now("survey_reminder")
+    end
+  end
+
+  test "#perform doesn't fail if there is no survey with the appropriate name" do
+    user = create(:user)
+    survey = create(:survey, title_en: "Pre-programme")
+    create(:survey_send, user:, survey:)
+
+    assert_no_enqueued_jobs do
+      SendBulkMessageJob.perform_now("survey_reminder")
+    end
+  end
+
   test "#perform does not create jobs if not passed a valid message type" do
     create_list(:user, 3, child_birthday: 10.months.ago)
 

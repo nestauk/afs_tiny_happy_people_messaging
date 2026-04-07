@@ -67,6 +67,10 @@ class User < ApplicationRecord
     joins(:group).where.not(last_content_id: last_content_per_group)
       .or(User.joins(:group).where(last_content_id: nil))
   }
+  scope :needs_survey_reminder, ->(survey_id) {
+    joins(:survey_sends)
+      .where(survey_sends: {completed_at: nil, survey_id: survey_id, sent_at: 2.days.ago..1.days.ago})
+  }
 
   attribute :hour_preference,
     morning: "morning",

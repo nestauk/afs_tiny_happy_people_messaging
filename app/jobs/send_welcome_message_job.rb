@@ -13,7 +13,6 @@ class SendWelcomeMessageJob < ApplicationJob
 
     if message.save
       Twilio::Client.new.send_message(message)
-      Survey.trigger_for(user, message_count: 0)
     end
   end
 end

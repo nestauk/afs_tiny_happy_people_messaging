@@ -20,6 +20,7 @@ class UsersTest < ApplicationSystemTestCase
   # end
 
   test "user can sign up" do
+    create(:survey, title_en: "Pre-programme survey")
     visit new_user_path
 
     assert_page_is_accessible
@@ -48,6 +49,8 @@ class UsersTest < ApplicationSystemTestCase
     click_button "Finish"
 
     assert_text "Thank you for signing up!"
+
+    assert_equal 1, User.last.survey_sends.count
 
     assert_page_is_accessible
 

@@ -28,6 +28,8 @@ en:
     restart: "Welcome back to CBeebies Parenting! Text 'END' to unsubscribe at any time."
     welcome: "Hi {{parent_name}}, welcome to our programme of weekly texts with fun activities for {{child_name}}'s development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?"
     your_child: "your child"
+    survey: "We'd love to hear how you're getting on! Please take a moment to complete this short survey: {{survey_url}}"
+    survey_reminder: "Please take a moment to complete this short survey: {{survey_url}}"
   titles:
     application: "CBeebies Parenting Text Messaging"
   pages:
@@ -173,10 +175,13 @@ en:
         para3: "<span class='font-bold'>Non-life threatening, medical help:</span> Call 111 for help with your medical symptoms or if you’re unsure where to get help for an urgent medical concern. The helpline is available 24/7."
         para4: "<span class='font-bold'>Emergency Services:</span> Call 999 for life-threatening situations, available 24/7 free to call for emergencies across the UK."
     thank_you: 
+      page_title: "Thank you for signing up!"
       title: "Thank you for signing up!"
       subtitle: "You will receive your first text very soon"
-      text: "If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <a href='/resources' class='link'>resources page</a> to know where you might find UK-based support."
+      para_1: "Got 2 minutes? Help us shape the service to your needs! We’ve got 12 quick questions for you. <a href={{survey_link}} class='link'>Tell us your thoughts</a>, and as a thanks you’ll be in for a chance to win a £50 voucher!"
+      para_2: "If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <a href='/resources' class='link'>resources page</a> to know where you might find UK-based support."
     terms:
+      page_title: "Terms of use"
       title: "Terms of use"
       para1: "The purpose of this website is to enable parents and caregivers of children aged 3-24 months old to sign up to a text messaging programme that delivers tips and advice around child development themes."
       para2: "This website is owned and operated by <a href='https://www.nesta.org.uk/'' target='_blank' class='link'>Nesta</a> – you can find our full details below. Use of the site is subject to these Terms. Our <a href='/privacy_policy' class='link'>Privacy Notice</a> explains how we use personal information which we may collect via the site. If you don’t agree with these Terms or our Privacy Policy, please don’t use this site."

@@ -57,7 +57,7 @@ class UsersController < ApplicationController
     elsif @step == "about_service"
       if @user.update(about_service_params)
         SendWelcomeMessageJob.perform_now(@user)
-        redirect_to thank_you_users_path
+        redirect_to thank_you_user_path(@user)
       else
         render :edit, status: :unprocessable_content
       end
@@ -65,7 +65,15 @@ class UsersController < ApplicationController
   end
 
   def thank_you
+    @user = User.find(params[:id])
     @no_padding = true
+    @survey = Survey.find_by(title_en: "Pre-programme survey")
+
+    if @survey
+      SurveySend.find_or_create_by(user: @user, survey: @survey) do |ss|
+        ss.sent_at = Time.zone.now
+      end
+    end
   end
 
   private
