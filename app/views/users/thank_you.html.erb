@@ -11,8 +11,13 @@
       <h2 class="text-2xl lg:text-3xl text-white mb-5">
         <%= t('pages.thank_you.subtitle') %>
       </h2>
+      <% if @survey %>
+        <p class="text-md text-lg l:text-xl text-white xl:w-5/6 mb-2">
+          <%= t('pages.thank_you.para_1').gsub("{{survey_link}}", edit_survey_path(@survey, token: @user.generate_token_for(:survey_token))).html_safe %>
+        </p>
+      <% end %>
       <p class="text-md text-lg l:text-xl text-white xl:w-5/6">
-        <%= t('pages.thank_you.text').html_safe %>
+        <%= t('pages.thank_you.para_2').html_safe %>
       </p>
     </div>
   </div>

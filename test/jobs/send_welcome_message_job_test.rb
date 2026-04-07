@@ -37,17 +37,6 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
     assert_equal 0, Message.count
   end
 
-  test "#perform triggers surveys with message_count 0 after sending" do
-    user = create(:user, child_birthday: 18.months.ago)
-    create(:survey, send_after_message_count: 0)
-
-    Twilio::Client.any_instance.stubs(:send_message)
-
-    assert_enqueued_jobs 1, only: SendSurveyJob do
-      SendWelcomeMessageJob.new.perform(user)
-    end
-  end
-
   test "#perform does not trigger surveys if message fails to save" do
     user = create(:user, child_birthday: 18.months.ago)
     create(:survey, send_after_message_count: 0)

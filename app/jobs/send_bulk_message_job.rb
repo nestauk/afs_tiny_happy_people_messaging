@@ -17,6 +17,12 @@ class SendBulkMessageJob < ApplicationJob
     when "restart"
       jobs = User.due_for_restart.map { |user| RestartMessagesJob.new(user) }
       ActiveJob.perform_all_later(jobs) if jobs.any?
+    when "survey_reminder"
+      survey = Survey.find_by(title_en: "Pre-programme survey")
+      if survey
+        jobs = User.contactable.needs_survey_reminder(survey.id).map { |user| SendSurveyReminderJob.new(user, survey) }
+        ActiveJob.perform_all_later(jobs) if jobs.any?
+      end
     end
   end
 

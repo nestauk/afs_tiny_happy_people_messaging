@@ -54,6 +54,6 @@ Rails.application.routes.draw do
   resources :surveys, only: %i[edit update]
 
   resources :users, only: %i[new create edit update] do
-    get "thank_you", on: :collection
+    get "thank_you", on: :member
   end
 end

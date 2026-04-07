@@ -32,6 +32,8 @@ cy:
     restart: "Croeso yn ôl i CBeebies Parenting Text Messaging! Anfonwch ‘END’ i ddad-danysgrifio unrhyw bryd."
     welcome: "Helo {{parent_name}}, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad {{child_name}}. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?"
     your_child: "eich plentyn"
+    survey: "Hoffem glywed sut rydych chi'n dod ymlaen! Cymerwch funud i gwblhau'r arolwg byr hwn: {{survey_url}}"
+    survey_reminder: "Cymerwch funud i gwblhau'r arolwg byr hwn: {{survey_url}}"
   pages:
     about_us:
       page_title: "Amdanom ni"
@@ -184,7 +186,8 @@ cy:
       page_title: "Diolch am gofrestru!"
       title: "Diolch am gofrestru!"
       subtitle: "Byddwch yn derbyn eich neges gyntaf yn fuan iawn"
-      text: "Os ydych yn chwilio am gymorth gyda iechyd chi neu eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>tudalen adnoddau</a> i ddarganfod ble gallwch ddod o hyd i gymorth yn y DU."
+      para_1: "Oes gennych 2 funud? Helpwch ni i lunio’r gwasanaeth i’ch anghenion chi! Mae gennym 12 cwestiwn cyflym i chi. <a href={{survey_link}} class='link'>Dywedwch wrthym eich barn</a>, ac fel diolch byddwch yn cael cyfle i ennill taleb £50!"
+      para_2: "Os ydych yn chwilio am gymorth gyda iechyd chi neu eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>tudalen adnoddau</a> i ddarganfod ble gallwch ddod o hyd i gymorth yn y DU."
     terms:
       page_title: "Telerau Defnyddio"
       title: "Telerau Defnyddio"

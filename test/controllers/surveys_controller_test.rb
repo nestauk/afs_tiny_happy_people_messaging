@@ -24,6 +24,7 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "update saves answer and redirects" do
+    create(:survey_send, survey: @survey, user: @user)
     answer = create(:answer, question: @question, user: @user, response: "Old answer")
 
     patch survey_path(@survey, token: @token), params: {
@@ -39,7 +40,8 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
       },
     }
 
-    assert_redirected_to thank_you_users_path
+    assert_redirected_to thank_you_user_path(@user)
+    assert_not_nil @survey.survey_sends.find_by(user: @user).completed_at
     assert_equal "New answer", answer.reload.response
   end
 
