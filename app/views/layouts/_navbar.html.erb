@@ -21,7 +21,8 @@
         </div>
       <% end %>
     </div>
-    <%#= link_to (I18n.locale == :en ? "Cymraeg" : "English"), url_for(request.query_parameters.merge(locale: I18n.locale == :en ? :cy : :en)) %>
+    <% if ENV.fetch("ENABLE_WELSH", false) == "true" || Rails.env.test? %>
+      <%= link_to (I18n.locale == :en ? "Cymraeg" : "English"), url_for(request.query_parameters.merge(locale: I18n.locale == :en ? :cy : :en)) %>
+    <% end %>
   </div>
 </nav>
-    
