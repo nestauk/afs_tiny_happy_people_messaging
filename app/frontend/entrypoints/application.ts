@@ -5,6 +5,7 @@ import Alpine from '@alpinejs/csp'
 import { Application } from "@hotwired/stimulus";
 import Sortable from "@stimulus-components/sortable";
 import { registerControllers } from "stimulus-vite-helpers";
+import "@hotwired/turbo";
 
 Alpine.plugin(collapse);
 Alpine.plugin(focus);
