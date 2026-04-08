@@ -7,13 +7,15 @@ en:
         user:
           attributes:
             child_birthday:
-              inclusion: "Your child must be between 9 and 18 months old to sign up for the service."
+              too_young: "Your child is just a bit too young for this service right now - but not for long!<br><br>{{waitlist_link}}<br><br> We’ll use the number you’ve already shared to let you know when they’re ready."
+              too_old: "Your child must be between 9 and 18 months old to sign up for the service."
             postcode:
               not_welsh: "This service is only available in Wales currently. Not to worry -  you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
   controllers: 
     users:
       create:
         notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
+        too_young_notice: "Thanks for joining the waitlist! We’ll send you a text when your child is ready to start receiving the activities."
       edit: 
         notice: "Your session has expired. Contact info@cbeebies-text.uk if you need further help."
       rate_limit_exceeded:
@@ -27,11 +29,13 @@ en:
   messages:
     feedback: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
     nudge: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'END' to stop them entirely."
-    restart: "Welcome back to CBeebies Parenting! Text 'END' to unsubscribe at any time."
+    restart: "Welcome to CBeebies Parenting! Your child is now old enough to start receiving activities. Fill in the registration form to get started {{registration_form}}."
     welcome: "Hi {{parent_name}}, welcome to our programme of weekly texts with fun activities for {{child_name}}'s development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?"
     your_child: "your child"
     survey: "We'd love to hear how you're getting on! Please take a moment to complete this short survey: {{survey_url}}"
     survey_reminder: "Please take a moment to complete this short survey: {{survey_url}}"
+    waitlist: "Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?"
+    out_of_hours_response: "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
   titles:
     application: "CBeebies Parenting Text Messaging"
   pages:
@@ -101,6 +105,7 @@ en:
       terms: "terms of service"
       privacy: "privacy policy"
       submit: "Sign up"
+      waitlist: "Join our waitlist"
     privacy_policy:
       title: "Privacy policy"
       para1: "This website is owned and operated by Nesta - you can find our full details below. This privacy policy explains how Nesta uses personal information we collect via this site. We are committed to protecting your privacy and we take all reasonable precautions to safeguard personal information."
@@ -178,6 +183,11 @@ en:
         para2: "<span class='font-bold'>Samaritans:</span> Call 116 123 for a safe, confidential space to talk, available 24/7 for all ages in the UK and Ireland"
         para3: "<span class='font-bold'>Non-life threatening, medical help:</span> Call 111 for help with your medical symptoms or if you’re unsure where to get help for an urgent medical concern. The helpline is available 24/7."
         para4: "<span class='font-bold'>Emergency Services:</span> Call 999 for life-threatening situations, available 24/7 free to call for emergencies across the UK."
+    surveys:
+      thank_you:
+        page_title: "Thank you for your feedback!"
+        title: "Thank you for your feedback!"
+        subtitle: "Your feedback is really helpful to us as we continue to improve our service."
     thank_you: 
       page_title: "Thank you for signing up!"
       title: "You're all signed up, congratulations!"

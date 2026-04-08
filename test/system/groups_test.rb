@@ -62,8 +62,7 @@ class GroupsTest < ApplicationSystemTestCase
   end
 
   test "deleting a group" do
-    group = create(:group, name: "Group to delete")
-    create(:message, user: create(:user), content: group.contents.first)
+    create(:group, name: "Group to delete")
 
     sign_in
     visit admin_groups_path

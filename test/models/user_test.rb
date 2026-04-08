@@ -18,10 +18,25 @@ class UserTest < ActiveSupport::TestCase
   test("postcode required") { assert_present(:postcode) }
   test("child_birthday required") { assert_present(:child_birthday) }
 
-  test "child_birthday is within the last 18 months on create" do
+  test "child_birthday raises error if child is too young" do
+    user = build(:user, child_birthday: 8.months.ago)
     assert_raises ActiveRecord::RecordInvalid do
-      create(:user, child_birthday: 19.months.ago)
+      user.save!
     end
+    assert_includes user.errors[:child_birthday], "Your child is just a bit too young for this service right now - but not for long!<br><br>{{waitlist_link}}<br><br> We’ll use the number you’ve already shared to let you know when they’re ready."
+  end
+
+  test "child_birthday does not raise error if child is too young but skip_validation is present" do
+    user = build(:user, child_birthday: 8.months.ago, skip_age_validation: true)
+    assert user.save!
+  end
+
+  test "child_birthday raises error if child is too old" do
+    user = build(:user, child_birthday: 20.months.ago)
+    assert_raises ActiveRecord::RecordInvalid do
+      user.save!
+    end
+    assert_includes user.errors[:child_birthday], "Your child must be between 9 and 18 months old to sign up for the service."
   end
 
   test "child_birthday is not less than 9 months on create" do
@@ -380,12 +395,23 @@ class UserTest < ActiveSupport::TestCase
   test "#put_on_waitlist method sets user to waitlist" do
     user = create(:user, contactable: true, restart_at: nil)
 
-    stub_successful_twilio_call("Hi Ali! Thank you for signing up to the CBeebies Parenting text messaging programme. We’re currently receiving a large volume of sign ups, and as a result we unfortunately will have to place you on a waiting list to receive this service. We expect that we will be able to provide the service for you starting in September provided your child is still under 24 months. Please respond STOP if you would like to opt out, otherwise we will send your first text messages in September. We hope that you will join us in the autumn!", user)
+    stub_successful_twilio_call("Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", user)
 
     user.put_on_waitlist
 
     assert_not user.contactable
-    assert_equal DateTime.new(2025, 9, 15), user.restart_at
+    assert_equal (user.child_birthday + 9.months), user.restart_at
+  end
+
+  test "#put_on_waitlist method raises error if update fails" do
+    user = create(:user, contactable: true, restart_at: nil)
+
+    User.any_instance.stubs(:update).returns(false)
+    Appsignal.expects(:report_error).once.with do |error|
+      error.message == "User could not be put on waitlist"
+    end
+
+    user.put_on_waitlist
   end
 
   test "assign_group_by_language assigns welsh group when language changes to cy" do
@@ -402,16 +428,5 @@ class UserTest < ActiveSupport::TestCase
     @subject.update(first_name: "New Name")
 
     assert_equal original_group, @subject.reload.group
-  end
-
-  test "#put_on_waitlist method raises error if update fails" do
-    user = create(:user, contactable: true, restart_at: nil)
-
-    User.any_instance.stubs(:update).returns(false)
-    Appsignal.expects(:report_error).once.with do |error|
-      error.message == "User in study could not be updated"
-    end
-
-    user.put_on_waitlist
   end
 end

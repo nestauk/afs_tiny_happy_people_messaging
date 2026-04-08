@@ -7,15 +7,17 @@ class User < ApplicationRecord
   belongs_to :group
 
   validates :phone_number, :child_birthday, :terms_agreed_at, :postcode, presence: true
+  validates :terms_agreed, acceptance: true, on: :create
   validates :phone_number, uniqueness: true
   validates_plausible_phone :phone_number
-  validates :child_birthday, inclusion: {
-    in: ->(_) { (Date.current - 18.months)...(Date.current - 9.months) },
-  }, on: :create
   phony_normalize :phone_number, default_country_code: "UK"
+  validate :child_is_correct_age?, on: :create
   validate :has_welsh_postcode?, on: :create
 
-  before_save :assign_group_by_language, if: :language_changed?
+  attr_accessor :terms_agreed
+  attr_accessor :skip_age_validation
+
+  before_validation :assign_group_by_language, if: -> { new_record? || language_changed? }
 
   generates_token_for :profile_token, expires_in: 15.minutes
   generates_token_for :survey_token
@@ -104,10 +106,11 @@ class User < ApplicationRecord
   end
 
   def put_on_waitlist
-    if update(contactable: false, restart_at: DateTime.new(2025, 9, 15))
+    restart_date = child_birthday + 9.months
+    if update(contactable: false, restart_at: restart_date)
       SendWaitlistMessageJob.perform_now(self)
     else
-      Appsignal.report_error(StandardError.new("User in study could not be updated")) do
+      Appsignal.report_error(StandardError.new("User could not be put on waitlist")) do
         Appsignal.add_tags(user_info: attributes)
       end
     end
@@ -145,5 +148,11 @@ class User < ApplicationRecord
     unless PostcodeService.valid_welsh_postcode?(postcode)
       errors.add(:postcode, :not_welsh)
     end
+  end
+
+  def child_is_correct_age?
+    return if child_birthday.blank?
+    errors.add(:child_birthday, :too_old) if child_birthday < 18.months.ago.to_date
+    errors.add(:child_birthday, :too_young) if child_birthday > 9.months.ago.to_date && !skip_age_validation
   end
 end

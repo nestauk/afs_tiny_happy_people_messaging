@@ -13,11 +13,11 @@
         <%= form.label :postcode %>
         <p class="hint"><%= t("simple_form.hints.user.postcode") %></p>
         <% if @user.errors[:postcode].any? %>
-          <p class="text-red-600 text-sm">
-            <% @user.errors[:postcode].each do |error| %>
-              <%= error.capitalize.html_safe %><br>
-            <% end %>
-          </p>
+          <% @user.errors[:postcode].each do |error| %>
+            <p class="text-red-600 text-sm">
+              <%= error.capitalize.html_safe %>
+            </p>
+          <% end %>
         <% end %>
         <%= form.text_field :postcode, class: "md:w-1/3", autocomplete: "postal-code" %>
       </fieldset>
@@ -26,32 +26,43 @@
         <legend>* <%= t("simple_form.labels.user.child_birthday") %></legend>
         <p class="hint"><%= t("simple_form.hints.user.child_birthday") %></p>
         <% if @user.errors[:child_birthday].any? %>
-          <p class="text-red-600 text-sm">
-            <%= @user.errors[:child_birthday].first %>
-          </p>
+          <% @user.errors.where(:child_birthday).each do |error| %>
+            <% next if error.type == :too_young %>
+            <p class="text-red-600 text-sm">
+              <%= error.message.html_safe %>
+            </p>
+          <% end %>
+          <% if @user.errors.of_kind?(:child_birthday, :too_young) %>
+            <%= form.hidden_field :skip_age_validation, value: true %>
+            <div class="border-2 border-red-600 p-4 my-2">
+              <p class="text-red-600 text-base">
+                <%= t("activerecord.errors.models.user.attributes.child_birthday.too_young").gsub("{{waitlist_link}}", "<input type='submit' value='#{t("pages.home.waitlist")}' name='commit'>").html_safe %>
+              </p>
+            </div>
+          <% end %>
         <% end %>
         <div class="flex gap-1 align-middle">
           <input type="hidden" id="user_child_birthday_3i" name="user[child_birthday(3i)]" value="1" autocomplete="off">
           <div>
             <select id="user_child_birthday_2i" name="user[child_birthday(2i)]" aria-label="Month">
               <% (1..12).each do |m| %>
-                <option value="<%= m %>"><%= Date::MONTHNAMES[m] %></option>
+                <option value="<%= m %>" <%= 'selected' if m == @user.child_birthday&.month %>><%= Date::MONTHNAMES[m] %></option>
               <% end %>
             </select>
           </div>
           <div>
             <select id="user_child_birthday_1i" name="user[child_birthday(1i)]" aria-label="Year">
               <% (DateTime.current.year - 2..DateTime.current.year).each do |y| %>
-                <option value="<%= y %>"><%= y %></option>
+                <option value="<%= y %>" <%= 'selected' if y == @user.child_birthday&.year %>><%= y %></option>
               <% end %>
             </select>
           </div>
         </div>
       </fieldset>
 
-      <%= form.input :terms_agreed_at, as: :boolean, label: false, inline_label: t('simple_form.labels.user.terms_agreed_at', terms: (link_to(t('pages.home.terms'), terms_path, class: 'underline hover:no-underline', target: '_blank')), privacy: (link_to(t('pages.home.privacy'), privacy_policy_path, class: 'underline hover:no-underline', target: '_blank'))).html_safe, input_html: { class: "form-checkbox focus:!ring-2 focus:!ring-blue-500" }, wrapper_html: { class: "mt-4 mb-2 md:mt-8 text-xs md:text-base" }  %>
+      <%= form.input :terms_agreed, as: :boolean, label: false, inline_label: t('simple_form.labels.user.terms_agreed_at', terms: (link_to(t('pages.home.terms'), terms_path, class: 'underline hover:no-underline', target: '_blank')), privacy: (link_to(t('pages.home.privacy'), privacy_policy_path, class: 'underline hover:no-underline', target: '_blank'))).html_safe, input_html: { class: "form-checkbox focus:!ring-2 focus:!ring-blue-500" }, wrapper_html: { class: "mt-4 mb-2 md:mt-8 text-xs md:text-base" }  %>
 
-      <%= form.input :group_id, as: :hidden, input_html: { value: Group.first.id } %>
+      <%= form.input :language, as: :hidden, input_html: { value: params[:locale] || I18n.default_locale } %>
 
       <%= form.submit I18n.t("pages.home.submit"), class: "btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full", "data-turbolinks": "false" %>
     <% end %>

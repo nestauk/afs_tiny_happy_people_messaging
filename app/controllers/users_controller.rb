@@ -5,13 +5,12 @@ class UsersController < ApplicationController
 
   skip_before_action :authenticate_admin!
   before_action :set_page_variables, only: [:new, :edit, :thank_you]
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :thank_you]
   after_action :track_action, only: [:edit, :create, :thank_you]
 
   def new
     @no_padding = true
     @user = User.new
-    set_languages
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:q].presence || "no-referrer"}", request.path_parameters
   end
@@ -24,17 +23,22 @@ class UsersController < ApplicationController
     end
 
     @user = User.new(user_params)
-    @user.terms_agreed_at = Time.zone.now if user_params[:terms_agreed_at] == "1"
+    @user.terms_agreed_at = Time.zone.now if @user.terms_agreed == "1"
 
     if @user.save
       @user.update_local_authority
-      token = @user.generate_token_for(:profile_token)
 
-      redirect_to edit_user_path(@user, token:)
+      if @user.child_birthday > 9.months.ago.to_date
+        @user.put_on_waitlist
+        redirect_to root_path, notice: I18n.t("controllers.users.create.too_young_notice")
+      else
+        token = @user.generate_token_for(:profile_token)
+
+        redirect_to edit_user_path(@user, token:)
+      end
     else
       @no_padding = true
       @hide_sidebar = true
-      set_languages
 
       render :new, status: :unprocessable_content
     end
@@ -57,7 +61,7 @@ class UsersController < ApplicationController
     elsif @step == "about_service"
       if @user.update(about_service_params)
         SendWelcomeMessageJob.perform_now(@user)
-        redirect_to thank_you_user_path(@user)
+        redirect_to thank_you_user_path(@user, token: params[:token])
       else
         render :edit, status: :unprocessable_content
       end
@@ -65,7 +69,6 @@ class UsersController < ApplicationController
   end
 
   def thank_you
-    @user = User.find(params[:id])
     @no_padding = true
     @survey = Survey.find_by(title_en: "Pre-programme survey")
 
@@ -80,8 +83,8 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :phone_number, :child_birthday, :group_id,
-      :postcode, :child_name, :terms_agreed_at
+      :phone_number, :child_birthday, :language,
+      :postcode, :child_name, :terms_agreed, :skip_age_validation
     )
   end
 
@@ -113,16 +116,8 @@ class UsersController < ApplicationController
     @user = User.new
     @no_padding = true
     @hide_sidebar = true
-    set_languages
+
     flash.now[:notice] = I18n.t("controllers.users.rate_limit_exceeded.notice")
     render :new, status: :unprocessable_content
-  end
-
-  def set_languages
-    @languages = if params[:locale] == "cy"
-      [["Cymraeg", "cy"], ["English", "en"]]
-    else
-      [["English", "en"], ["Cymraeg", "cy"]]
-    end
   end
 end

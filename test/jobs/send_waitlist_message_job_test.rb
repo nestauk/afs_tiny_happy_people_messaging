@@ -7,12 +7,24 @@ class SendWaitlistMessageJobTest < ActiveSupport::TestCase
   test "#perform sends message with default content" do
     user = create(:user, child_birthday: 18.months.ago)
 
-    stub_successful_twilio_call("Hi Ali! Thank you for signing up to the CBeebies Parenting text messaging programme. We’re currently receiving a large volume of sign ups, and as a result we unfortunately will have to place you on a waiting list to receive this service. We expect that we will be able to provide the service for you starting in September provided your child is still under 24 months. Please respond STOP if you would like to opt out, otherwise we will send your first text messages in September. We hope that you will join us in the autumn!", user)
+    stub_successful_twilio_call("Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", user)
 
     SendWaitlistMessageJob.new.perform(user)
 
     assert_equal 1, Message.count
-    assert_match("Hi Ali! Thank you for signing up to the CBeebies Parenting text messaging programme. We’re currently receiving a large volume of sign ups, and as a result we unfortunately will have to place you on a waiting list to receive this service. We expect that we will be able to provide the service for you starting in September provided your child is still under 24 months. Please respond STOP if you would like to opt out, otherwise we will send your first text messages in September. We hope that you will join us in the autumn!", Message.last.body)
+    assert_match("Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", Message.last.body)
+  end
+
+  test "#perform sends message in user's preferred language" do
+    create(:group, language: "cy")
+    user = create(:user, child_birthday: 18.months.ago, language: "cy")
+
+    stub_successful_twilio_call("Helo! Diolch am ymuno â'r rhestr aros ar gyfer ein rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Byddwn mewn cysylltiad pan ddaw'r amser i ddechrau. Yn y cyfamser, beth am gadw'r rhif hwn fel 'CBeebies Parenting' fel eich bod yn gwybod mai ni sy'n anfon negeseuon atoch?", user)
+
+    SendWaitlistMessageJob.new.perform(user)
+
+    assert_equal 1, Message.count
+    assert_match("Helo! Diolch am ymuno â'r rhestr aros ar gyfer ein rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Byddwn mewn cysylltiad pan ddaw'r amser i ddechrau. Yn y cyfamser, beth am gadw'r rhif hwn fel 'CBeebies Parenting' fel eich bod yn gwybod mai ni sy'n anfon negeseuon atoch?", Message.last.body)
   end
 
   test "#perform does not send message if message is not valid" do

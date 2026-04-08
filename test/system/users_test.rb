@@ -2,7 +2,8 @@ require "application_system_test_case"
 
 class UsersTest < ApplicationSystemTestCase
   setup do
-    create(:group)
+    create(:group, language: "en")
+    create(:group, language: "cy")
   end
 
   # test "user can switch language" do
@@ -116,8 +117,10 @@ class UsersTest < ApplicationSystemTestCase
   test "form shows errors" do
     visit new_user_path
 
-    select DateTime.current.strftime("%B")
-    select DateTime.current.strftime("%Y")
+    date = DateTime.current - 19.months
+
+    select date.strftime("%B")
+    select date.strftime("%Y")
 
     within("#sign-up-form") do
       click_on "Sign up"
@@ -130,26 +133,84 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "users can choose to receive texts in Welsh" do
-    group = create(:group, language: "cy")
-    visit new_user_path
+    visit new_user_path(locale: "cy")
 
-    sign_up
+    geocode_payload = Geokit::GeoLoc.new(country_code: "Wales", state: "Islington")
+    LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
 
-    assert_text "Thanks for signing up!"
+    fill_in "Beth yw eich rhif ffôn?", with: "07444930200"
+    fill_in "Beth yw eich cod post?", with: "ABC123"
+    select 10.months.ago.strftime("%B")
+    select 10.months.ago.strftime("%Y")
+    check "Rwy’n derbyn y telerau gwasanaeth a’r polisi preifatrwydd"
+    click_button "Cofrestru"
 
-    select "Welsh", from: "Would you like to receive your texts in Welsh or English?"
+    assert_text "Diolch am gofrestru!"
 
-    click_button "Next"
+    select "Cymraeg", from: "Hoffech chi dderbyn eich negeseuon testun yn Gymraeg neu’n Saesneg?"
 
-    assert_text "You're almost done"
+    click_button "Nesaf"
+
+    assert_text "Rydych bron wedi gorffen"
 
     stub_successful_twilio_call("Helo , croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?", User.last)
 
-    click_button "Finish"
+    click_button "Gorffen"
 
-    assert_text "You're all signed up, congratulations!"
+    assert_text "Rydych chi wedi cofrestru’n llwyddiannus, llongyfarchiadau!"
 
-    assert_equal group, User.last.group
+    assert_equal "cy", User.last.group.language
+    assert_equal "cy", User.last.language
+  end
+
+  test "users can join the waitlist if their child is too young" do
+    visit new_user_path
+
+    month = 8.months.ago.strftime("%B")
+    year = 8.months.ago.strftime("%Y")
+    fill_in " What's your phone number?", with: "07444930200"
+    fill_in "What's your postcode?", with: "ABC123"
+    select month
+    select year
+    check "I accept the terms of service and privacy policy"
+    click_button "Sign up"
+
+    assert_text "Your child is just a bit too young for this service right now - but not for long!"
+
+    stub_successful_twilio_call("Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", build(:user, phone_number: "+447444930200"))
+
+    click_button "Join our waitlist"
+
+    user = User.last
+
+    refute user.contactable?
+    assert_equal user.restart_at, user.child_birthday + 9.months
+  end
+
+  test "users can join the waitlist in Welsh if their child is too young" do
+    visit new_user_path(locale: "cy")
+
+    month = 8.months.ago.strftime("%B")
+    year = 8.months.ago.strftime("%Y")
+    fill_in "Beth yw eich rhif ffôn?", with: "07444930200"
+    fill_in "Beth yw eich cod post?", with: "ABC123"
+    select month
+    select year
+    check "Rwy’n derbyn y telerau gwasanaeth a’r polisi preifatrwydd"
+    click_button "Cofrestru"
+
+    assert_text "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd - ond nid am hir!"
+
+    stub_successful_twilio_call("Helo! Diolch am ymuno â'r rhestr aros ar gyfer ein rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Byddwn mewn cysylltiad pan ddaw'r amser i ddechrau. Yn y cyfamser, beth am gadw'r rhif hwn fel 'CBeebies Parenting' fel eich bod yn gwybod mai ni sy'n anfon negeseuon atoch?", build(:user, phone_number: "+447444930200"))
+
+    click_button "Ymunwch â’n rhestr aros"
+
+    user = User.last
+
+    refute user.contactable?
+    assert_equal user.restart_at, user.child_birthday + 9.months
+    assert_equal "cy", user.language
+    assert_equal "cy", user.group.language
   end
 
   test "users can't edit without token" do
