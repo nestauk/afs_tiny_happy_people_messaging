@@ -138,10 +138,12 @@ class UsersTest < ApplicationSystemTestCase
     geocode_payload = Geokit::GeoLoc.new(country_code: "Wales", state: "Islington")
     LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
 
+    month = I18n.l(10.months.ago, format: "%B", locale: "cy")
+    year = I18n.l(10.months.ago, format: "%Y", locale: "cy")
     fill_in "Beth yw eich rhif ffôn?", with: "07444930200"
     fill_in "Beth yw eich cod post?", with: "ABC123"
-    select 10.months.ago.strftime("%B")
-    select 10.months.ago.strftime("%Y")
+    select month
+    select year
     check "Rwy’n derbyn y telerau gwasanaeth a’r polisi preifatrwydd"
     click_button "Cofrestru"
 
@@ -190,8 +192,8 @@ class UsersTest < ApplicationSystemTestCase
   test "users can join the waitlist in Welsh if their child is too young" do
     visit new_user_path(locale: "cy")
 
-    month = 6.months.ago.strftime("%B")
-    year = 6.months.ago.strftime("%Y")
+    month = I18n.l(6.months.ago, format: "%B", locale: "cy")
+    year = I18n.l(6.months.ago, format: "%Y", locale: "cy")
     fill_in "Beth yw eich rhif ffôn?", with: "07444930200"
     fill_in "Beth yw eich cod post?", with: "ABC123"
     select month

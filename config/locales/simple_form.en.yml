@@ -21,6 +21,19 @@ en:
         education_status: "Do you have a university degree? (optional)"
     options:
       user:
+        month:
+          january: "January"
+          february: "February"
+          march: "March"
+          april: "April"
+          may: "May"
+          june: "June"
+          july: "July"
+          august: "August"
+          september: "September"
+          october: "October"
+          november: "November"
+          december: "December"
         day_preference:
           monday: "Monday"
           tuesday: "Tuesday"
