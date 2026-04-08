@@ -21,6 +21,19 @@ cy:
         education_status: "Oes gennych chi radd prifysgol? (dewisol)"
     options:
       user:
+        month:
+          january: "Ionawr"
+          february: "Chwefror"
+          march: "Mawrth"
+          april: "Ebrill"
+          may: "Mai"
+          june: "Mehefin"
+          july: "Gorffennaf"
+          august: "Awst"
+          september: "Medi"
+          october: "Hydref"
+          november: "Tachwedd"
+          december: "Rhagfyr"
         day_preference:
           monday: "Dydd Llun"
           tuesday: "Dydd Mawrth"

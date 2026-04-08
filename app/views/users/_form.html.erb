@@ -46,7 +46,7 @@
           <div>
             <select id="user_child_birthday_2i" name="user[child_birthday(2i)]" aria-label="Month">
               <% (1..12).each do |m| %>
-                <option value="<%= m %>" <%= 'selected' if m == @user.child_birthday&.month %>><%= Date::MONTHNAMES[m] %></option>
+                <option value="<%= m %>" <%= 'selected' if m == @user.child_birthday&.month %>><%= I18n.t("simple_form.options.user.month.#{Date::MONTHNAMES[m].downcase}") %></option>
               <% end %>
             </select>
           </div>
