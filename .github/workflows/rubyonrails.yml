@@ -13,6 +13,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test_type: [checks, unit, system]
     services:
       postgres:
         image: postgres:11-alpine
@@ -45,17 +48,15 @@ jobs:
 
       - name: Build vite assets
         run: bin/rails assets:precompile
-      
-      - name: Run rubocop
-        run: bundle exec rubocop
-      
-      - name: Run brakeman
-        run: bundle exec brakeman
-      
-      - name: Run basic tests
-        run: bin/rails test
-      
-      - name: Run system tests
-        run: bin/rails test:system
 
+      - name: Run ${{ matrix.test_type }} tests
+        run: |
+          if [ "${{ matrix.test_type }}" = "checks" ]; then
+            bundle exec rubocop
+            bundle exec brakeman
+          elif [ "${{ matrix.test_type }}" = "unit" ]; then
+            bin/rails test
+          elif [ "${{ matrix.test_type }}" = "system" ]; then
+            bin/rails test:system
+          fi
 
