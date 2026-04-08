@@ -6,19 +6,19 @@ class UsersTest < ApplicationSystemTestCase
     create(:group, language: "cy")
   end
 
-  # test "user can switch language" do
-  #   visit new_user_path
+  test "user can switch language" do
+    visit new_user_path
 
-  #   assert_text "Nurture your child's growth with fun, free activities"
+    assert_text "Nurture your child's growth with fun, free activities"
 
-  #   click_on "Cymraeg"
+    click_on "Cymraeg"
 
-  #   assert_text "Negeseuon Testun CBeebies Parenting"
+    assert_text "Negeseuon Testun CBeebies Parenting"
 
-  #   click_on "English"
+    click_on "English"
 
-  #   assert_text "Nurture your child's growth with fun, free activities"
-  # end
+    assert_text "Nurture your child's growth with fun, free activities"
+  end
 
   test "user can sign up" do
     create(:survey, title_en: "Pre-programme survey")
@@ -190,8 +190,8 @@ class UsersTest < ApplicationSystemTestCase
   test "users can join the waitlist in Welsh if their child is too young" do
     visit new_user_path(locale: "cy")
 
-    month = 8.months.ago.strftime("%B")
-    year = 8.months.ago.strftime("%Y")
+    month = 6.months.ago.strftime("%B")
+    year = 6.months.ago.strftime("%Y")
     fill_in "Beth yw eich rhif ffôn?", with: "07444930200"
     fill_in "Beth yw eich cod post?", with: "ABC123"
     select month
