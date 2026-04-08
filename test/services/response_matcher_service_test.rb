@@ -4,24 +4,10 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   setup do
-    create(:auto_response, trigger_phrase: "pause", response: "Thanks, you've paused for 4 weeks.", update_user: '{"contactable": false, "restart_at": "4.weeks.from_now.noon"}')
     create(:auto_response, trigger_phrase: "yes", response: "That's great to hear, thanks for letting us know!", update_user: "{\"asked_for_feedback\": false}", user_conditions: "{\"asked_for_feedback\": true}")
     create(:auto_response, trigger_phrase: "no", response: "We can adjust the activities we send to be more relevant based on your child's needs. Respond 1 if your child is not yet saying words, 2 if they are saying single words, 3 if they are saying whole sentences.", update_user: "{\"asked_for_feedback\": false}", user_conditions: "{\"asked_for_feedback\": true}")
     create(:auto_response, trigger_phrase: "stop", update_user: "{\"contactable\": false}")
     create(:auto_response, trigger_phrase: "end", update_user: "{\"contactable\": false}", response: "Please let us know why")
-    create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
-  end
-
-  test "should match response to 'pause'" do
-    user = create(:user, contactable: true)
-    message = build(:message, body: "pause", status: "received", user:)
-
-    assert_enqueued_with(job: SendCustomMessageJob) do
-      ResponseMatcherService.new(message).match_response
-    end
-
-    refute user.contactable
-    assert_not_nil user.restart_at
   end
 
   test "should match response to 'stop'" do
@@ -121,6 +107,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
 
   test "should match response to unexpected messages on weekends" do
     travel_to Time.current.end_of_week
+    create(:group, language: "en")
     message = build(:message, body: "Hi there", status: "received")
 
     assert_enqueued_with(job: SendCustomMessageJob) do

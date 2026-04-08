@@ -1,6 +1,4 @@
 class ResponseMatcherService
-  WORKING_HOURS_MESSAGE = "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
-
   def initialize(message)
     @message = message
     @user = message.user
@@ -14,7 +12,7 @@ class ResponseMatcherService
         process_response(response) and break if conditions_met?(response)
       end
     elsif weekend?
-      send_message(WORKING_HOURS_MESSAGE)
+      send_message(I18n.t(".messages.out_of_hours_response", locale: @user.language))
     end
   end
 
@@ -57,10 +55,6 @@ class ResponseMatcherService
   end
 
   def update_attribute(key, value, object)
-    if key == "restart_at"
-      object.update(restart_at: 4.weeks.from_now.noon)
-    else
-      object.update(key => value)
-    end
+    object.update(key => value)
   end
 end

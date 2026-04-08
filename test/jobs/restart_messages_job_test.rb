@@ -7,7 +7,9 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
   test "#perform updates user and sends message" do
     user = create(:user, contactable: false)
 
-    stub_successful_twilio_call("Welcome back to CBeebies Parenting! Text 'END' to unsubscribe at any time.", user)
+    User.any_instance.stubs(:generate_profile_token).returns("123")
+
+    stub_successful_twilio_call("Welcome to CBeebies Parenting! Your child is now old enough to start receiving activities. Fill in the registration form to get started #{edit_user_url(user, token: "123")}.", user)
 
     RestartMessagesJob.new.perform(user)
 
@@ -18,8 +20,9 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
   test "#perform sends restart message in user's preferred language" do
     create(:group, language: "cy")
     user = create(:user, contactable: false, language: "cy")
+    User.any_instance.stubs(:generate_profile_token).returns("123")
 
-    stub_successful_twilio_call("Croeso yn ôl i Bobi Bach Hapus! Anfonwch 'END' i danysgrifio allan unrhyw bryd.", user)
+    stub_successful_twilio_call("Croeso i CBeebies Parenting! Mae eich plentyn bellach yn ddigon hen i ddechrau derbyn gweithgareddau. Llenwch y ffurflen gofrestru i ddechrau #{edit_user_url(user, token: "123")}.", user)
 
     RestartMessagesJob.new.perform(user)
 

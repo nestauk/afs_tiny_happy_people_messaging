@@ -1,7 +1,7 @@
 class SurveysController < ApplicationController
   skip_before_action :authenticate_admin!
   before_action :set_survey, only: [:edit, :update]
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :thank_you]
   before_action :set_questions, :set_answers, only: [:edit]
 
   def edit
@@ -10,13 +10,16 @@ class SurveysController < ApplicationController
   def update
     if @survey.update(survey_params)
       @survey.survey_sends.where(user: @user).update_all(completed_at: Time.zone.now)
-      redirect_to thank_you_user_path(@user), notice: "Thank you for completing the survey!"
+      redirect_to thank_you_surveys_path(token: params[:token])
     else
       set_user
       @questions = @survey.questions.sort_by(&:position)
       set_answers
       render :edit
     end
+  end
+
+  def thank_you
   end
 
   private

@@ -27,7 +27,7 @@ class SurveysTest < ApplicationSystemTestCase
 
     click_button "Submit"
 
-    assert_text "Thank you for completing the survey!"
+    assert_text "Thank you for your feedback!"
 
     assert_equal "Really good", Answer.find_by(question: @text_q, user:).response
     assert_equal "Option A, Option C", Answer.find_by(question: @checkbox_q, user:).response
@@ -54,7 +54,7 @@ class SurveysTest < ApplicationSystemTestCase
 
     click_button "Submit"
 
-    assert_text "Thank you for completing the survey!"
+    assert_text "Diolch am eich adborth!"
 
     assert_equal "Yn dda iawn", Answer.find_by(question: @text_q, user:).response
     assert_equal "Opsiwn A, Opsiwn C", Answer.find_by(question: @checkbox_q, user:).response

@@ -8,7 +8,7 @@ class SendWaitlistMessageJob < ApplicationJob
     message = Message.build do |m|
       m.token = m.send(:generate_token)
       m.user = user
-      m.body = substitute_variables(Content::WAITLIST_MESSAGE, user)
+      m.body = substitute_variables(I18n.t(".messages.waitlist", locale: user.language), user)
     end
 
     Twilio::Client.new.send_message(message) if message.save

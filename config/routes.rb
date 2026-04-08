@@ -51,7 +51,9 @@ Rails.application.routes.draw do
   get "/resources", to: "pages#resources"
   get "/about_us", to: "pages#about_us"
 
-  resources :surveys, only: %i[edit update]
+  resources :surveys, only: %i[edit update] do
+    get "thank_you", on: :collection
+  end
 
   resources :users, only: %i[new create edit update] do
     get "thank_you", on: :member
