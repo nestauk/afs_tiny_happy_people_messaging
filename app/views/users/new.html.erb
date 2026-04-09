@@ -110,15 +110,25 @@
   </div>
 </div> 
 
-<div class="flex justify-around md:py-10" id="sign-up-form">
+<div class="flex justify-around md:py-10" id="sign-up-form" x-data="{ showSources: false }">
   <div class="py-8 px-8 md:py-14 lg:w-1/2 w-full">
     <h2 class="text-3xl md:text-5xl font-bold">
       <%= t("pages.home.sign_up") %>
     </h2>
     <% if ENV.fetch("SIGN_UP_OPEN", "true") == "true" %>
-      <p>
-        <%= t("pages.home.free") %>
-      </p>
+      <div class="mt-2">
+        <a 
+          @click="showSources = !showSources" 
+          class="no-underline mb-2 text-black cursor-pointer"
+        >
+          <span  class="flex items-center gap-1">
+            <span x-show="!showSources" class="material-symbols-sharp">keyboard_arrow_down</span>
+            <span x-show="showSources" class="material-symbols-sharp">keyboard_arrow_up</span>
+            What to expect before starting
+          </span>
+        </a>
+      </div>
+      <div x-show="showSources" class="mt-4"><%= t("pages.home.free").html_safe %></div>
       <%= render "form" %>
     <% else %>
       <p class="mb-2">

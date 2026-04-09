@@ -200,7 +200,7 @@ cy:
       page_title: "Diolch am gofrestru!"
       title: "Rydych chi wedi cofrestru’n llwyddiannus, llongyfarchiadau!"
       subtitle: "Bob wythnos, byddwn yn anfon neges destun atoch chi; y cyfan sydd angen i chi ei wneud yw gwylio’r fideo (a rhoi cynnig ar y gweithgaredd!)."
-      para_1: "Oes gennych chi 2 funud? Helpwch ni i lunio’r gwasanaeth i ddiwallu eich anghenion chi yn union! Mae gennym 8 cwestiwn cyflym i chi. <a href={{survey_link}} class='link'>Dywedwch wrthym beth yw eich barn</a>, ac fel diolch, byddwch yn cael cyfle i ennill taleb gwerth £50!"
+      para_1: "Oes gennych chi 2 funud? Helpwch ni i lunio’r gwasanaeth i ddiwallu eich anghenion chi yn union! Mae gennym 8 cwestiwn cyflym i chi. Dywedwch wrthym beth yw eich barn, ac fel diolch, byddwch yn cael cyfle i ennill taleb gwerth £50!<br> <a href='{{survey_url}}' class='btn bg-white text-black mt-4'>Dywedwch wrthym beth yw eich barn</a>"
       para_2: "Os ydych yn chwilio am gymorth gyda iechyd chi neu eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>tudalen adnoddau</a> i ddarganfod ble gallwch ddod o hyd i gymorth yn y DU."
     terms:
       page_title: "Telerau Defnyddio"
