@@ -79,7 +79,7 @@ en:
         skip: "Skip this section"
     home:
       title: "Nurture your child's growth with fun, free activities"
-      subtitle: "Get weekly bite-sized activities that spark imagination delivered to your phone, for ages 3-24 months"
+      subtitle: "Get weekly bite-sized activities that spark imagination delivered to your phone, for ages 9-18 months"
       sign_up: "Sign up"
       how_it_works: "How does it work?"
       step_1_title: "Sign up"
@@ -101,7 +101,7 @@ en:
       reason_5_text: "Strengthen your bond while having fun together."
       quote: '“A great guide and confidence builder knowing we were doing a lot right and then fantastic guidance in what we can do and apply to further develop our child."'
       quote_author: "Ali's mum"
-      free: "This service is and will always be free to use. The activities shown in these videos reflect a typical developmental journey between 9 and 27 months. If your child has been diagnosed with, or you have concerns about, a speech, language or communication difficulty, or developmental delay, their progress may look different from what you see here. If your child was born prematurely, their development may follow a slightly different timeline, which is completely normal. Many of the activities can still be enjoyed and adapted across a wide range of developmental stages. However, we encourage you to consider your child’s individual needs and, where helpful, seek guidance from a relevant professional to make the most of these activities."
+      free: "<p class='mb-2'>This service is and will always be free to use.</p><p class='mb-2'>The activities shown in these videos reflect a typical developmental journey between 9 and 18 months. If your child has been diagnosed with, or you have concerns about, a speech, language or communication difficulty, or developmental delay, their progress may look different from what you see here.</p><p class='mb-2'>If your child was born prematurely, their development may follow a slightly different timeline, which is completely normal.</p><p class='mb-2'>Many of the activities can still be enjoyed and adapted across a wide range of developmental stages. However, we encourage you to consider your child’s individual needs and, where helpful, seek guidance from a relevant professional to make the most of these activities.</p>"
       terms: "terms of service"
       privacy: "privacy policy"
       submit: "Sign up"
@@ -192,7 +192,7 @@ en:
       page_title: "Thank you for signing up!"
       title: "You're all signed up, congratulations!"
       subtitle: "Each week, we'll send you a text, all you have to do is watch the video (and give the activity a go!)."
-      para_1: "Got 2 minutes? Help us shape the service to your needs! We’ve got 12 quick questions for you. <a href={{survey_link}} class='link'>Tell us your thoughts</a>, and as a thanks you’ll be in for a chance to win a £50 voucher!"
+      para_1: "Got 2 minutes? Help us shape the service to your needs! We’ve got 12 quick questions for you. Tell us your thoughts, and as a thanks you’ll be in for a chance to win a £50 voucher!<br> <a href='{{survey_url}}' class='btn bg-white text-black mt-4'>Take the survey</a>"
       para_2: "If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <a href='/resources' class='link'>resources page</a> to know where you might find UK-based support."
     terms:
       page_title: "Terms of use"

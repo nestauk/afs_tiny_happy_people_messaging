@@ -1,6 +1,7 @@
 @import "../stylesheets/tailwind.css";
 @import "../stylesheets/fonts.css";
 @import "../stylesheets/forms.css";
+@import "../../../node_modules/material-symbols/sharp.css";
 
 h1 {
   line-height: 1.4 !important;
@@ -72,6 +73,6 @@ ol {
   }
   
   @media (min-width: 800px) {
-     height: 85svh;
+     height: 88svh;
   }
 }
