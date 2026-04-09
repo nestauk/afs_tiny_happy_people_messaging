@@ -10,8 +10,10 @@ module MessageVariableSubstitution
       "{{link}}": token ? track_link_url(token) : nil,
     }
 
-    content.gsub(/({{parent_name}}|{{child_name}}|{{link}})/) do |match|
+    result = content.gsub(/({{parent_name}}|{{child_name}}|{{link}})/) do |match|
       translations[match.to_sym]
     end
+
+    result.gsub(/\s+([!?,.:])/, '\1').gsub(/\s{2,}/, " ").strip
   end
 end
