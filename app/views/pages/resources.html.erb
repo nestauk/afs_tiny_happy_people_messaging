@@ -1,77 +1,317 @@
 <% content_for(:page_title) { I18n.t("pages.resources.page_title") } %>
-<div class="p-8 xl:py-10">
-  <div class="flex justify-around text-center">
+<div class="p-4 xl:p-8 xl:py-10" x-data="{showWelshResources: true}">
+  <div class="flex justify-around">
     <div class="md:w-1/2 mb-10">
-      <h1 class="text-purple-900 md:text-4xl text-2xl"><%= t('pages.resources.title') %></h1>
-      <p>
+      <h1 class="md:text-4xl text-4xl">🌟<%= t('pages.resources.title') %>🌟</h1>
+      <p class="mb-4">
         <%= t('pages.resources.text') %>
       </p>
+      <a href="#" x-show="!showWelshResources" class="cursor-pointer link" @click.prevent="$event.preventDefault()" @click="showWelshResources = true">
+        <%= t('pages.resources.welsh_resources') %>      
+      </a>
+      <a href="#" x-show="showWelshResources" class="cursor-pointer link" @click.prevent="$event.preventDefault()" @click="showWelshResources = false">
+        <%= t('pages.resources.english_resources') %>
+      </a>
     </div>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+  <div x-show="showWelshResources" class="md:w-1/2 mx-auto">
+    <h2 class="text-3xl">🛡️ Your built-in support in Wales 🛡️</h2>
+    <p class="mb-1">
+      Every family in Wales has access to free support.
+    </p>
+    <p>Start here if you’re unsure where to go:</p>
+    <h3 class="text-2xl mt-6 mb-2">
+      👩‍⚕️ Your Health Visitor
+    </h3>
+    <p class="mb-1">
+      Your main point of contact. 
+    </p>
+    <p>
+      👉 If you’re worried about anything, contact your Health Visitor first.
+    </p>
+    <h3 class="text-2xl mt-6 mb-2">
+      📈 Child Development Checks
+    </h3>
+    <p class="mb-1">
+      All families are supported by the <a href="https://www.abbhealthiertogether.cymru.nhs.uk/professionals/health-visitors/healthy-child-programme">Healthy Child Wales Programme</a>.
+    </p>
+    <p class="mb-1">
+      This means you’ll have <strong>planned check-ins with your Health Visiting team</strong> as your child grows. These usually happen around key times, such as during pregnancy, when baby is born, 6 months, and beyond.
+    </p>
+    <h4 class="font-bold mt-4 mb-1">
+      Guidance and Support for Parents
+    </h4>
+    <p class="mb-1">
+      <a href="https://www.gov.wales/parenting-give-it-time" target="_blank">Parenting. Give it Time</a> → Welsh Government resource that offers both:
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://www.gov.wales/parenting-give-it-time/your-childs-development" target="_blank" class="link">Understanding Your Child’s Development</a> – clear guidance on what to expect from ages 0–5, with tips to support each stage
+      </li>
+      <li>
+        Trusted Parenting Advice – practical, non-judgmental support on common topics such as sleeping and feeding
+      </li>
+    </ul>
+    <p>
+      👉 If something is worrying you, you can contact your Health Visitor team at any time. You don’t need to wait for a review.
+    </p>
+    <h3 class="text-2xl mt-6 mb-2">
+      👨‍👩‍👧 Finding local support
+    </h3>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://www.gov.wales/find-your-local-family-information-service" target="_blank" class="link">Family Information Service (FIS)</a> → your local FIS can give you in-depth advice on childcare, funding, and support for families
+      </li>
+      <li>
+        <a href="https://www.dewis.wales/" target="_blank" class="link">Dewis Cymru</a> → a wider, self-service directory covering general wellbeing, local activities, and community support across Wales
+      </li>
+      <li>
+        Local libraries → free activities, parent support and community hubs
+      </li>
+    </ul>
+    <h3 class="text-2xl mt-6 mb-2">
+      🌱 Extra support (if eligible)
+    </h3>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://www.gov.wales/flying-start-guide-parents-and-carers" target="_blank" class="link">Flying Start (Dechrau’n Deg)</a> can offer:
+        <ul class="list-disc ml-6 mb-4">
+          <li>Free childcare (from age 2)</li>
+          <li>Parenting support</li>
+          <li>Speech & language help</li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      👉 Ask your Health Visitor or <a href="https://www.gov.wales/find-your-local-family-information-service" target="_blank" class="link">FIS</a> if this applies to you.
+    </p>
+    <h2 class="text-3xl mt-8">➕For everyday challenges ➕</h2>
+    <p class="mb-1">
+      You can explore these if you want tailored support or have a specific concern:
+    </p>
+    <h3 class="text-2xl mt-6 mb-2">
+      💬 I’m worried about my child’s talking or communication
+    </h3>
+    <p class="mb-1">
+      Start here:
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        Visit <a href="https://www.gov.wales/talk-with-me" target="_blank" class="link">Talk with Me</a> (Siarad Gyda Fi) → tips and activities
+      </li>
+      <li>
+        Your health visitor (see above)
+      </li>
+    </ul>
+    <p>
+      You can also:
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        Contact your local NHS Speech & Language Therapy team (no GP needed in most areas)
+      </li>
+      <li>
+        Call NHS 111 Wales if you’re unsure how
+      </li>
+    </ul>
+    <p>
+      Helpful resources:
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://speechandlanguage.org.uk/" target="_blank" class="link">Speech and Language UK</a> → advice on speech & language needs
+      </li>
+      <li>
+        Local libraries → free Story & Song sessions
+      </li>
+    </ul>
+    <h3 class="text-2xl mt-6 mb-2">
+      🧠 I’m feeling overwhelmed or worried about mental health
+    </h3>
+    <p class="mb-1">
+      If you need to talk now (24/7):
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        Call 111 (press Option 2)
+      </li>
+      <li>
+        <a href="https://www.callhelpline.org.uk/" target="_blank" class="link">C.A.L.L.</a> Helpline → call or text support, in either English or Welsh
+      </li>
+    </ul>
+    <p>
+      Ongoing support:
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>Your GP</li>
+      <li><a href="https://www.mind.org.uk/about-us/mind-cymru/" target="_blank" class="link">Mind Cymru</a></li>
+      <li><a href="https://parents.actionforchildren.org.uk/parent-talk-cymru/" target="_blank" class="link">Parent Talk Cymru</a> → chat with a parenting coach via Whatsapp</li>
+    </ul>
+    <h3 class="text-2xl mt-6 mb-2">
+      😩 My child cries a lot or feels hard to manage
+    </h3>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://www.cry-sis.org.uk/" target="_blank" class="link">Cry-sis</a> → support with crying and sleepless babies
+      </li>
+      <li>
+        <a href="https://parents.actionforchildren.org.uk/parent-talk-cymru/" target="_blank" class="link">Parent Talk Cymru</a> → chat with a parenting coach via Whatsapp
+      </li>
+      <li>
+        <a href="https://www.annafreud.org/" target="_blank" class="link">Anna Freud Centre</a> → parent guides to support a child experiencing mental health difficulties
+      </li>
+    </ul>
+    <h3 class="text-2xl mt-6 mb-2">
+      🧸 I want ideas to support my child’s development
+    </h3>
+    <p>
+      Easy, everyday ideas:
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://www.bbc.co.uk/cbeebies/parenting" target="_blank" class="link">CBeebies Parenting</a>
+      </li>
+      <li>
+        <a href="https://www.playfulchildhoods.wales/" target="_blank" class="link">Play Wales</a>
+      </li>
+    </ul>
+
+    <h3 class="text-2xl mt-6 mb-2">
+      🏴 I want to raise my child with Welsh
+    </h3>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://meithrin.cymru/irieni/?lang=en" target="_blank" class="link">Mudiad Meithrin</a> → playgroups + support
+      </li>
+      <li>
+        <a href="https://meithrin.cymru/cymraeg-for-kids/?lang=en" target="_blank" class="link">Cymraeg i Blant</a>
+      </li>
+      <li>
+        <a href="https://www.gov.wales/talk-with-me" target="_blank" class="link">Talk with Me (Siarad Gyda Fi)</a> → tips and activities
+      </li>
+    </ul>
+
+    <h3 class="text-2xl mt-6 mb-2">
+      💰 I’m worried about money or benefits
+    </h3>
+    <p>
+      Check what you're entitled to
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://www.turn2us.org.uk/" target="_blank" class="link">Turn2us</a>
+      </li>
+      <li>
+        <a href="https://advicelinkcymru.org.uk/" target="_blank" class="link">Advicelink Cymru</a>
+      </li>
+    </ul>
+
+    <p>
+      Speak to someone
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://www.citizensadvice.org.uk/" target="_blank" class="link">Citizens Advice Wales</a>
+      </li>
+    </ul>
+
+    <p>
+      Additional support
+    </p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <a href="https://applyforhealthystart.nhsbsa.nhs.uk/apply-for-healthy-start/" target="_blank" class="link">Healthy Start Scheme</a> → help with food costs
+      </li>
+    </ul>
+
+    <h3 class="text-2xl mt-6 mb-2">
+      🚨 I need urgent help
+    </h3>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        <strong>Call 999</strong> → life-threatening emergency
+      </li>
+      <li>
+        <strong>Call 111</strong> → urgent medical help
+      </li>
+    </ul>
+    <p>Emotional support (24/7):</p>
+    <ul class="list-disc ml-6 mb-4">
+      <li>
+        Samaritans Cymru → call 116 123
+      </li>
+    </ul>
+
+    <p>Not sure where to start?</p>
+    <p>
+      Begin with your Health Visitor or Family Information Service. They’ll help you find the right next step!
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5" x-show="!showWelshResources">
     <div class="bg-pink-100 p-8 col-span-1">
-      <h2>🧠 <%= t('pages.resources.mental_health.title') %></h2>
+      <h2>🧠 <%= t('pages.resources.england.mental_health.title') %></h2>
       <ul>
         <li class="mb-4">
-          <%= t('pages.resources.mental_health.para1').html_safe %>
+          <%= t('pages.resources.england.mental_health.para1').html_safe %>
         </li>
         <li class="mb-4">
-          <%= t('pages.resources.mental_health.para2').html_safe %>
+          <%= t('pages.resources.england.mental_health.para2').html_safe %>
         </li>
         <li class="mb-4">
-          <%= t('pages.resources.mental_health.para3').html_safe %>
+          <%= t('pages.resources.england.mental_health.para3').html_safe %>
         </li>
         <li>
-          <%= t('pages.resources.mental_health.para4').html_safe %>
+          <%= t('pages.resources.england.mental_health.para4').html_safe %>
         </li>
     </div>
     <div class="bg-yellow-100 p-8 col-span-1">
-      <h2>🗣️ <%= t('pages.resources.slt.title') %></h2>
+      <h2>🗣️ <%= t('pages.resources.england.slt.title') %></h2>
       <ul>
         <li class="mb-4">
-          <%= t('pages.resources.slt.para1').html_safe %>
+          <%= t('pages.resources.england.slt.para1').html_safe %>
         </li>
         <li class="mb-4">
-          <%= t('pages.resources.slt.para2').html_safe %>
+          <%= t('pages.resources.england.slt.para2').html_safe %>
         </li>
       </ul>
     </div>
     <div class="bg-purple-100 p-8 col-span-1">
-      <h2>💰 <%= t('pages.resources.finance.title') %></h2>
+      <h2>💰 <%= t('pages.resources.england.finance.title') %></h2>
       <ul>
         <li class="mb-4">
-          <%= t('pages.resources.finance.para1').html_safe %>
+          <%= t('pages.resources.england.finance.para1').html_safe %>
         </li>
         <li class="mb-4">
-          <%= t('pages.resources.finance.para2').html_safe %>
+          <%= t('pages.resources.england.finance.para2').html_safe %>
         </li>
       </ul>
     </div>
     <div class="bg-orange-100 p-8 col-span-1">
-      <h2>📈 <%= t('pages.resources.development.title') %></h2>
+      <h2>📈 <%= t('pages.resources.england.development.title') %></h2>
       <ul>
         <li class="mb-4">
-          <%= t('pages.resources.development.para1').html_safe %>
+          <%= t('pages.resources.england.development.para1').html_safe %>
         </li>
         <li class="mb-4">
-          <%= t('pages.resources.development.para2').html_safe %>
+          <%= t('pages.resources.england.development.para2').html_safe %>
         </li>
       </ul>
     </div>
     <div class="bg-red-100 p-8 col-span-1">
-      <h2>🚨 <%= t('pages.resources.emergency.title') %></h2>
+      <h2>🚨 <%= t('pages.resources.england.emergency.title') %></h2>
       <ul>
         <li class="mb-4">
-          <%= t('pages.resources.emergency.para1').html_safe %>
+          <%= t('pages.resources.england.emergency.para1').html_safe %>
         </li>
         <li class="mb-4">
-          <%= t('pages.resources.emergency.para2').html_safe %>
+          <%= t('pages.resources.england.emergency.para2').html_safe %>
         </li>
         <li class="mb-4">
-          <%= t('pages.resources.emergency.para3').html_safe %>
+          <%= t('pages.resources.england.emergency.para3').html_safe %>
         </li>
         <li class="mb-4">
-          <%= t('pages.resources.emergency.para4').html_safe %>
+          <%= t('pages.resources.england.emergency.para4').html_safe %>
         </li>
       </ul>
     </div>
