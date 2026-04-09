@@ -16,7 +16,7 @@
       </p>
       <% if @survey %>
         <p class="text-md text-lg l:text-xl text-white mb-2">
-          <%= t('pages.thank_you.para_1').gsub("{{survey_link}}", edit_survey_path(@survey, token: @user.generate_token_for(:survey_token))).html_safe %>
+          <%= t('pages.thank_you.para_1').gsub("{{survey_url}}", edit_survey_path(@survey, token: @user.generate_token_for(:survey_token))).html_safe %>
         </p>
       <% end %>
     </div>
