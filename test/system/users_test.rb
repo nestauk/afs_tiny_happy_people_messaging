@@ -94,7 +94,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "You're almost done"
 
-    stub_successful_twilio_call("Hi , welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.last)
+    stub_successful_twilio_call("Hi, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.last)
 
     click_button "Skip this section"
 
@@ -108,7 +108,7 @@ class UsersTest < ApplicationSystemTestCase
     visit admin_users_path
     click_on "+447444930200"
     assert_text "ABC123"
-    assert_text "Hi , welcome to our programme of weekly texts with fun activities for your child's development."
+    assert_text "Hi, welcome to our programme of weekly texts with fun activities for your child's development."
     assert_equal "", User.last.child_name
     assert_equal 1, User.last.day_preference
     assert_equal "morning", User.last.hour_preference
@@ -155,7 +155,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "Rydych bron wedi gorffen"
 
-    stub_successful_twilio_call("Helo , croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?", User.last)
+    stub_successful_twilio_call("Helo, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?", User.last)
 
     click_button "Gorffen"
 
@@ -168,9 +168,9 @@ class UsersTest < ApplicationSystemTestCase
   test "users can join the waitlist if their child is too young" do
     visit new_user_path
 
-    month = 8.months.ago.strftime("%B")
-    year = 8.months.ago.strftime("%Y")
-    fill_in " What's your phone number?", with: "07444930200"
+    month = 6.months.ago.strftime("%B")
+    year = 6.months.ago.strftime("%Y")
+    fill_in "What's your phone number?", with: "07444930200"
     fill_in "What's your postcode?", with: "ABC123"
     select month
     select year
@@ -182,6 +182,8 @@ class UsersTest < ApplicationSystemTestCase
     stub_successful_twilio_call("Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", build(:user, phone_number: "+447444930200"))
 
     click_button "Join our waitlist"
+
+    assert_text "Thanks for joining the waitlist!"
 
     user = User.last
 
@@ -206,6 +208,8 @@ class UsersTest < ApplicationSystemTestCase
     stub_successful_twilio_call("Helo! Diolch am ymuno â'r rhestr aros ar gyfer ein rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Byddwn mewn cysylltiad pan ddaw'r amser i ddechrau. Yn y cyfamser, beth am gadw'r rhif hwn fel 'CBeebies Parenting' fel eich bod yn gwybod mai ni sy'n anfon negeseuon atoch?", build(:user, phone_number: "+447444930200"))
 
     click_button "Ymunwch â’n rhestr aros"
+
+    assert_text "Diolch am ymuno â'r rhestr aros!"
 
     user = User.last
 
