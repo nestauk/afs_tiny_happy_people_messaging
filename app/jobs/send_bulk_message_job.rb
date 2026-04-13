@@ -8,6 +8,9 @@ class SendBulkMessageJob < ApplicationJob
         jobs = users_for(time).map { |user| SendMessageJob.new(user) }
         ActiveJob.perform_all_later(jobs) if jobs.any?
       end
+    when "bilingual_text"
+      jobs = User.contactable.received_six_messages_without_bilingual_text.map { |user| SendBilingualMessageJob.new(user) }
+      ActiveJob.perform_all_later(jobs) if jobs.any?
     when "feedback"
       jobs = User.contactable.received_two_messages.map { |user| SendFeedbackMessageJob.new(user) }
       ActiveJob.perform_all_later(jobs) if jobs.any?

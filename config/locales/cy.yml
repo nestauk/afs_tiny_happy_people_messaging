@@ -33,6 +33,7 @@ cy:
   titles:
     application: "Negeseuon Testun CBeebies Parenting Text Messaging"
   messages:
+    bilingual_text: "Mae Cymru yn gymysgedd bywiog o lawer o ieithoedd—ac maen nhw i gyd yn perthyn yma! Mae siarad â {{child_name}} yn eich iaith frodorol yn rhodd werthfawr i’w datblygiad. Dysgwch fwy am aelwydydd dwyieithog yma:"
     feedback: "Ydy'r gweithgareddau rydyn ni'n eu hanfon atoch yn addas i’ch plentyn? Atebwch Ie neu Na i roi gwybod i ni."
     nudge: "Nid ydych wedi rhyngweithio ag unrhyw fideos yn ddiweddar. Gallwch anfon ‘PAUSE’ am seibiant neu ‘END’ i’w stopio’n llwyr."
     restart: "Croeso i CBeebies Parenting! Mae eich plentyn bellach yn ddigon hen i ddechrau derbyn gweithgareddau. Llenwch y ffurflen gofrestru i ddechrau {{registration_form}}."

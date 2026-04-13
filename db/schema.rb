@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_094142) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_13_131711) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -368,6 +368,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_094142) do
     t.string "postcode", null: false
     t.jsonb "referral_sources", default: []
     t.datetime "restart_at"
+    t.datetime "sent_bilingual_text_at"
     t.datetime "terms_agreed_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_users_on_group_id"

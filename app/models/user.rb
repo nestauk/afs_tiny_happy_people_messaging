@@ -60,6 +60,20 @@ class User < ApplicationRecord
       .group("users.id")
       .having("COUNT(*) = 2")
   }
+  scope :received_six_messages_without_bilingual_text, -> {
+    where(sent_bilingual_text_at: nil)
+      .joins(:messages)
+      .where(
+        messages: {
+          id: Message
+            .select(:id)
+            .where("messages.user_id = users.id")
+            .where.not(content_id: nil),
+        },
+      )
+      .group("users.id")
+      .having("COUNT(*) >= 6")
+  }
   scope :not_finished_content, -> {
     last_content_per_group = Content.select("DISTINCT ON (group_id) id")
       .order("group_id, position DESC")
