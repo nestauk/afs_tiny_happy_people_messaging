@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   STEPS = %w[personalisation about_service].freeze
 
-  # rate_limit to: 5, within: 5.minutes, by: -> { request.ip }, only: :create, with: -> { rate_limit_exceeded }
+  rate_limit to: 10, within: 5.minutes, by: -> { request.ip }, only: :create, with: -> { rate_limit_exceeded }
 
   skip_before_action :authenticate_admin!
   before_action :set_page_variables, only: [:new, :edit, :thank_you]
