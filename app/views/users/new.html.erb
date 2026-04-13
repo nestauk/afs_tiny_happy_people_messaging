@@ -116,19 +116,6 @@
       <%= t("pages.home.sign_up") %>
     </h2>
     <% if ENV.fetch("SIGN_UP_OPEN", "true") == "true" %>
-      <div class="mt-2">
-        <a 
-          @click="showSources = !showSources" 
-          class="no-underline mb-2 text-black cursor-pointer"
-        >
-          <span  class="flex items-center gap-1">
-            <span x-show="!showSources" class="material-symbols-sharp">keyboard_arrow_down</span>
-            <span x-show="showSources" class="material-symbols-sharp">keyboard_arrow_up</span>
-            <%= t("pages.home.what_to_expect") %>
-          </span>
-        </a>
-      </div>
-      <div x-show="showSources" class="mt-4"><%= t("pages.home.free").html_safe %></div>
       <%= render "form" %>
     <% else %>
       <p class="mb-2">
