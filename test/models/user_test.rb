@@ -188,6 +188,22 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.received_two_messages, [user1]
   end
 
+  test "received_six_messages_without_bilingual_text scope" do
+    content = create(:content)
+
+    user1 = create(:user, sent_bilingual_text_at: nil)
+    6.times { create(:message, user: user1, content:) }
+
+    user2 = create(:user, sent_bilingual_text_at: Time.zone.now)
+    6.times { create(:message, user: user2, content:) }
+
+    user3 = create(:user, sent_bilingual_text_at: nil)
+    5.times { create(:message, user: user3, content:) }
+
+    assert_equal User.received_six_messages_without_bilingual_text.to_a.size, 1
+    assert_equal User.received_six_messages_without_bilingual_text, [user1]
+  end
+
   test "not_finished_content scope" do
     group = create(:group)
     content1 = create(:content, position: 1, group:)

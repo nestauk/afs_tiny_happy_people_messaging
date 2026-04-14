@@ -127,6 +127,15 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
+  test "#perform sends bilingual text messages to users" do
+    user = create(:user)
+    6.times { create(:message, user:, content: create(:content)) }
+
+    assert_enqueued_jobs 1, only: SendBilingualMessageJob do
+      SendBulkMessageJob.perform_now("bilingual_text")
+    end
+  end
+
   test "#perform does not create jobs if not passed a valid message type" do
     create_list(:user, 3, child_birthday: 10.months.ago)
 

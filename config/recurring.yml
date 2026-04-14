@@ -15,6 +15,10 @@ production:
     class: SendBulkMessageJob
     args: [ weekly_message, no_preference ]
     schedule: 1 7 * * *
+  send_bilingual_text:
+    class: SendBulkMessageJob
+    args: [ bilingual_text ]
+    schedule: 0 7 * * 4
   send_feedback_message:
     class: SendBulkMessageJob
     args: [ feedback ]
