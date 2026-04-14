@@ -27,7 +27,7 @@ en:
       user_profile:
         update: "Next"
   messages:
-    bilingual_text: "Wales is a vibrant mix of many languages—and they all belong here! Speaking to {{child_name}} in your native language is a wonderful gift for their development. Learn more about bilingual households here:"
+    bilingual_text: "Wales is a vibrant mix of many languages—and they all belong here! Speaking to {{child_name}} in your native language is a wonderful gift for their development. Learn more about bilingual households here: {{link}}"
     feedback: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
     nudge: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'END' to stop them entirely."
     restart: "Welcome to CBeebies Parenting! Your child is now old enough to start receiving activities. Fill in the registration form to get started {{registration_form}}."
