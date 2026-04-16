@@ -33,10 +33,9 @@ class UsersTest < ApplicationSystemTestCase
     assert_page_is_accessible
 
     fill_in "What's your first name?", with: "Jo"
-    fill_in "What's your child called?", with: "Jack"
+    fill_in "What's your child's first name?", with: "Jack"
     select "Tuesday"
     select "Morning"
-    select "I don't want to say"
     click_button "Next"
 
     assert_text "You're almost done"
@@ -70,7 +69,6 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal 2, user.day_preference
     assert_equal "morning", user.hour_preference
     assert_equal "Islington", user.local_authority.name
-    assert_equal "prefer_not_to_say", user.education_status
   end
 
   test "User can't sign up if max capacity reached" do

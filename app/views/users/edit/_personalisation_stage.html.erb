@@ -48,16 +48,6 @@
     include_blank: false
   %>
 
-  <%=
-    f.input :education_status,
-    as: :select,
-    collection: [[:no, "no"], [:yes, "yes"], [:prefer_not_to_say, "prefer_not_to_say"]],
-    label_method: lambda { |el| t "simple_form.options.user.education_status.#{el.first}" },
-    wrapper_html: { class: "flex flex-col mt-5" },
-    required: false,
-    include_blank: true
-  %>
-
   <div class="mt-5">
     <%= f.button :submit, t("pages.form.personalisation.save"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: t("pages.form.personalisation.saving") } %>
   </div>

@@ -89,7 +89,7 @@ class UsersController < ApplicationController
   end
 
   def personalisation_params
-    params.require(:user).permit(:first_name, :child_name, :hour_preference, :day_preference, :language, :education_status)
+    params.require(:user).permit(:first_name, :child_name, :hour_preference, :day_preference, :language)
   end
 
   def about_service_params
