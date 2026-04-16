@@ -7,6 +7,8 @@ module Twilio
     end
 
     def send_message(message)
+      return unless ENV.fetch("SMS_ENABLED", "false") == "true"
+
       sms = @client
         .messages
         .create(
