@@ -1,7 +1,7 @@
 <div class="relative overflow-hidden">
   <div class="absolute left-0 top-0 w-full h-full hidden md:block hero-banner">
   </div>
-  <div class="bg-bbc-dark-blue md:bg-transparent md:flex md:flex-col p-5 relative md:px-24 md:justify-around h-85svh">
+  <div class="bg-bbc-dark-blue md:bg-transparent md:flex md:flex-col px-6 py-6 relative md:px-24 md:justify-around h-85svh">
     <div class="md:w-4/5 xl:w-3/5 md:bg-bbc-dark-blue md:p-6 xl:p-8 flex flex-col justify-between h-fit">
       <h1 class="text-3xl lg:text-4xl xl:text-5xl text-bbc-yellow">
         <%= t('pages.home.title') %>
@@ -17,56 +17,65 @@
   <%= vite_image_tag "images/children-playing.jpg", alt: "", "aria-hidden": "true" %>
 </div>
 
-<div class="px-3 py-8 md:py-24 items-center">
+<div class="relative overflow-hidden flex justify-around pt-12 md:pt-20 h-[25rem] md:h-[45rem]">
+  <div class="absolute left-0 top-0 w-full h-full block squiggle-banner">
+    <%= vite_image_tag "images/blue-squiggles.png", alt: "", "aria-hidden": "true", class: "block md:hidden" %>
+    <%= vite_image_tag "images/blue-squiggles-lg.png", alt: "", "aria-hidden": "true", class: "hidden md:block" %>
+  </div>
+  <div class="relative w-3/4">
+    <iframe class="w-full h-[12rem] md:h-[500px]" src="https://www.youtube.com/embed/TkfaPsnXHUM?si=AMLEs8QBlDj24lOf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <div class="bg-white flex flex-col">
+      <p class="text-md md:text-xl text-black font-normal p-8 text-center">
+        <%= t('pages.home.sneak_peek') %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="px-6 py-8 md:py-24 items-center bg-slate-50">
   <div class="flex justify-around">
     <h2 class="text-3xl md:text-5xl md:mb-20 mb-8 text-center font-bold">
       <%= t('pages.home.how_it_works') %>
     </h2>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 justify-center gap-10 xl:px-20">
-    <div class="flex flex-col items-center gap-5 bg-bbc-orange-50 border-bbc-orange border-2 p-10 rounded object-fill">
-      <div class="w-24 h-24 md:w-40 md:h-40 flex items-center justify-around">
-        <div>
-          <%= vite_image_tag "images/noun-mobile.png", alt: "", "aria-hidden": "true" %>
-        </div>
+    <div>
+      <div class="flex flex-col items-center gap-5 bg-bbc-pink p-10 object-fill">
+        <%= vite_image_tag "images/mobile.png", alt: "", "aria-hidden": "true", class: "h-36" %>
       </div>
-      <div>
-        <p class="text-lg md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
+      <div class="bg-white flex flex-col items-center p-5">
+        <p class="text-2xl md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
           1. <%= t('pages.home.step_1_title') %>
         </p>
-        <p class="md:text-xl text-center w-64">
+        <p class="text-xl text-center w-full">
           <%= t('pages.home.step_1_text') %>
         </p>
       </div>
     </div>
-    <div class="flex flex-col items-center gap-5 bg-bbc-pink-50 p-10 border-bbc-pink border-2 rounded">
-      <div>
-        <div class="w-24 h-24 md:w-40 md:h-40 flex items-center justify-around">
-          <div>
-            <%= vite_image_tag "images/noun-sms.png", alt: "", "aria-hidden": "true" %>
-          </div>
-        </div>
-      </div> 
-      <div>
-        <p class="text-lg md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
+
+    <div>
+      <div class="flex flex-col items-center gap-5 bg-bbc-green p-8">
+        <%= vite_image_tag "images/sms.png", alt: "", "aria-hidden": "true", class: "h-40" %>
+      </div>
+      <div class="bg-white flex flex-col items-center p-5">
+        <p class="text-2xl md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
           2. <%= t('pages.home.step_2_title') %>
         </p>
-        <p class="md:text-xl text-center w-64">
+        <p class="text-xl text-center w-full">
           <%= t('pages.home.step_2_text') %>
         </p>
       </div>
     </div>
-    <div class="flex flex-col items-center gap-5 bg-bbc-purple-50 p-10 border-bbc-purple border-2 rounded">
-      <div class="w-24 h-24 md:w-40 md:h-40 flex items-center justify-around">
-        <div>
-          <%= vite_image_tag "images/noun-child.png", alt: "", "aria-hidden": "true" %>
-        </div>
+
+    <div>
+      <div class="flex flex-col items-center gap-5 bg-bbc-orange p-8">
+        <%= vite_image_tag "images/child.png", alt: "", "aria-hidden": "true", class: "h-40" %>
       </div>
-      <div>
-        <p class="text-lg md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
+      <div class="bg-white flex flex-col items-center p-5">
+        <p class="text-2xl md:text-3xl text-center w-64 font-bold mb-1 md:mb-3">
           3. <%= t('pages.home.step_3_title') %>
         </p>
-        <p class="md:text-xl text-center w-64">
+        <p class="text-xl text-center w-full">
           <%= t('pages.home.step_3_text') %>
         </p>
       </div>
@@ -74,29 +83,29 @@
   </div>
 </div>
 
-<div class="items-center bg-bbc-yellow-50 w-full">
-  <div class="md:flex md:justify-around px-5 md:px-20">
-    <h2 class="text-3xl md:text-5xl md:mb-20 mb-8 pt-8 md:text-center font-bold">
+<div class="items-center bg-bbc-dark-blue w-full relative">
+  <%= vite_image_tag "images/corner-accent.png", alt: "", "aria-hidden": "true", class: "h-20 md:h-36 absolute top-0 right-0" %>
+  <%= vite_image_tag "images/left-accent.png", alt: "", "aria-hidden": "true", class: "hidden md:block h-full absolute top-0 left-0" %>
+  <div class="md:flex md:justify-around px-6 md:px-20">
+    <h2 class="text-3xl md:text-5xl md:mb-20 mb-6 pt-14 md:text-center font-bold text-bbc-yellow">
       <%= t('pages.home.why_sign_up') %>
     </h2>
   </div>
-  <div class="flex flex-col lg:flex-row flex-wrap">
-    <div class="w-full xl:w-1/2 px-5 md:px-20">
+  <div class="flex flex-col lg:flex-row flex-wrap md:pl-40">
+    <div class="w-full xl:w-1/2 px-5 md:px-20 mb-5">
       <% (1..5).each do |i| %>
         <div class=<%= i == 1 ? "pb-5" : "py-5" %>>
-          <h3 class="font-bold md:text-2xl text-lg"><%= t("pages.home.reason_#{i}_title") %></h3>
-          <p class="mt-1">
+          <h3 class="font-bold md:text-2xl text-lg text-white"><%= t("pages.home.reason_#{i}_title") %></h3>
+          <p class="mt-1 text-white">
             <%= t("pages.home.reason_#{i}_text") %>
           </p>
         </div>
-        <% unless i == 5 %>
-          <hr class="border border-purple-900">
-        <% end %>
       <% end %>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-1 w-full xl:w-1/2 xl:relative">
+      <%= vite_image_tag "images/bottom-accent.png", alt: "", "aria-hidden": "true", class: "left-0 right-0 block md:hidden" %>
       <%= vite_image_tag "images/frisbee.jpg", alt: "", "aria-hidden": "true", class: "lg:col-span-2 xl:col-span-1" %>
-      <div class="bg-bbc-yellow text-black p-8 col-span-1 lg:col-start-3 xl:col-start-1 flex flex-col justify-around xl:absolute xl:bottom-0 xl:w-2/3 xl:right-0">
+      <div class="bg-bbc-yellow text-black p-5 col-span-1 lg:col-start-3 xl:col-start-1 flex flex-col justify-around xl:absolute xl:bottom-0 xl:w-2/3 xl:right-0">
         <div>
           <p class="text-lg md:text-xl font-bold">
             <%= t("pages.home.quote") %>
@@ -110,21 +119,23 @@
   </div>
 </div> 
 
-<div class="flex justify-around md:py-10" id="sign-up-form" x-data="{ showSources: false }">
-  <div class="py-8 px-8 md:py-14 lg:w-1/2 w-full">
-    <h2 class="text-3xl md:text-5xl font-bold">
-      <%= t("pages.home.sign_up") %>
-    </h2>
-    <% if ENV.fetch("SIGN_UP_OPEN", "true") == "true" %>
-      <%= render "form" %>
-    <% else %>
-      <p class="mb-2">
-        We're currently closed for new sign-ups.
-      </p>
+<div class="flex justify-around md:py-20 bg-slate-50" id="sign-up-form" x-data="{ showSources: false }">
+  <div class="bg-white flex justify-around md:w-2/3">
+    <div class="py-8 px-5 md:py-14 lg:w-2/3 w-full">
+      <h2 class="text-3xl md:text-5xl font-bold">
+        <%= t("pages.home.sign_up") %>
+      </h2>
+      <% if ENV.fetch("SIGN_UP_OPEN", "true") == "true" %>
+        <%= render "form" %>
+      <% else %>
+        <p class="mb-2">
+          We're currently closed for new sign-ups.
+        </p>
 
-      <p>
-        Visit <a href="https://www.bbc.co.uk/tiny-happy-people/activities" class="link">CBeebies Parenting</a> for activity inspiration.
-      </p>
-    <% end %>
+        <p>
+          Visit <a href="https://www.bbc.co.uk/tiny-happy-people/activities" class="link">CBeebies Parenting</a> for activity inspiration.
+        </p>
+      <% end %>
+    </div>
   </div>
 </div>

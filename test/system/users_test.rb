@@ -127,7 +127,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_field_has_errors("What's your phone number?")
     assert_field_has_errors("What's your postcode?")
     assert_text "Your child must be between 9 and 18 months old to sign up for the service."
-    assert_field_has_errors("I accept the terms of service and privacy policy")
+    assert_text "You must accept the terms of service and privacy policy to sign up for the service."
   end
 
   test "users can choose to receive texts in Welsh" do

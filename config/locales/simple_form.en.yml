@@ -7,11 +7,10 @@ en:
       default_message: "Please review the problems below:"
     labels:
       user:
-        child_birthday: "When was your child born?"
+        child_birthday: "When was your child born? (required)"
         first_name: "What's your first name? (optional)"
-        language: "What language would you like to receive the texts in?"
-        phone_number: "What's your phone number?"
-        postcode: "What's your postcode?"
+        phone_number: "What's your phone number? (required)"
+        postcode: "What's your postcode? (required)"
         terms_agreed_at: "I accept the %{terms} and %{privacy}"
         child_name: "What's your child's first name? (optional)"
         day_preference: "What day would you like to get your text message? (optional)"

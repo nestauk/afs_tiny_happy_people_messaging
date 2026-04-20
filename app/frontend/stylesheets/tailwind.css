@@ -11,6 +11,10 @@
     @apply inline-block text-center font-semibold rounded shadow transition-all duration-200 cursor-pointer;
   }
 
+  .btn-primary {
+    @apply bg-bbc-dark-blue text-white focus:!ring-4 focus:!ring-blue-500;
+  }
+
   .btn:hover,
   .btn-sm:hover {
     @apply bg-opacity-75;

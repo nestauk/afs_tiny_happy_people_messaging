@@ -12,7 +12,7 @@
       <p><%= @user.child_age_in_months_today %> month old child</p>
     </div>
     <div>
-      <%= link_to "Send message", new_admin_user_message_path(@user), class: "btn btn-primary bg-bbc-blue text-white" %>
+      <%= link_to "Send message", new_admin_user_message_path(@user), class: "btn btn-primary" %>
       <% if @user.contactable? %>
         <%= simple_form_for @user, url: admin_user_path(@user), method: :patch do |f| %>
           <%= f.input :contactable, as: :hidden, input_html: {value: false} %>

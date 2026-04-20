@@ -7,11 +7,10 @@ cy:
       default_message: "Os gwelwch yn dda, adolygwch y problemau isod:"
     labels:
       user:
-        child_birthday: "Pryd cafodd eich plentyn ei eni?"
+        child_birthday: "Pryd cafodd eich plentyn ei eni? (ofynnol)"
         first_name: Beth yw eich enw cyntaf? (dewisol)
-        language: Pa iaith hoffech chi dderbyn y negeseuon testun ynddi?
-        phone_number: Beth yw eich rhif ffôn?
-        postcode: Beth yw eich cod post?
+        phone_number: Beth yw eich rhif ffôn? (ofynnol)
+        postcode: Beth yw eich cod post? (ofynnol)
         terms_agreed_at: "Rwy’n derbyn y %{terms} a’r %{privacy}"
         child_name: "Beth yw enw eich plentyn? (dewisol)"
         day_preference: "Ar ba ddiwrnod yr hoffech dderbyn eich neges destun? (dewisol)"

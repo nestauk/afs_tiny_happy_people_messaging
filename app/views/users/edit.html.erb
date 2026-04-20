@@ -1,4 +1,4 @@
-<div class="mx-auto max-w-prose py-8 xl:py-10">
+<div class="mx-auto md:w-2/3 md:py-20">
   <%= simple_form_for @user, url: user_path(@user), method: :patch do |form| %>
     <%= hidden_field_tag :step, @step %>
     <%= hidden_field_tag :token, params[:token] %>
