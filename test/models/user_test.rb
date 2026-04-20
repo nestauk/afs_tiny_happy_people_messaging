@@ -15,7 +15,19 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test("phone_number required") { assert_present(:phone_number) }
+
+  test "phone_number not required if user is anonymised" do
+    user = build(:user, phone_number: nil, anonymised_at: Time.zone.now)
+    assert user.valid?
+  end
+
   test("postcode required") { assert_present(:postcode) }
+
+  test "postcode not required if user is anonymised" do
+    user = build(:user, postcode: nil, anonymised_at: Time.zone.now)
+    assert user.valid?
+  end
+
   test("child_birthday required") { assert_present(:child_birthday) }
 
   test "child_birthday raises error if child is too young" do
@@ -444,5 +456,25 @@ class UserTest < ActiveSupport::TestCase
     @subject.update(first_name: "New Name")
 
     assert_equal original_group, @subject.reload.group
+  end
+
+  test "anonymised? method returns true if user is anonymised" do
+    user = create(:user, anonymised_at: Time.zone.now)
+    not_anonymised_user = create(:user, anonymised_at: nil)
+
+    assert user.send(:anonymised?)
+    assert_not not_anonymised_user.send(:anonymised?)
+  end
+
+  test "anonymise! method anonymises user data" do
+    user = create(:user, first_name: "Jane", child_name: "John", phone_number: "07123456789", postcode: "SW1A 1AA")
+
+    user.anonymise!
+
+    assert_not_nil user.anonymised_at
+    assert_nil user.first_name
+    assert_nil user.child_name
+    assert_equal user.phone_number, "anonymised"
+    assert_equal user.postcode, "anonymised"
   end
 end
