@@ -77,7 +77,7 @@ cy:
         save: "Nesaf"
       about_service:
         page_title: "Rydych bron wedi gorffen"
-        back: "Yn ôl"
+        back: "Yn ôl i'r adran flaenorol"
         title: "Rydych bron wedi gorffen"
         blurb: "Dwedwch wrthym sut gwnaethoch glywed am ein gwasanaeth, a beth sy'n eich diddori"
         save: "Gorffen"

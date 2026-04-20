@@ -23,7 +23,7 @@ class UserTest < ActiveSupport::TestCase
     assert_raises ActiveRecord::RecordInvalid do
       user.save!
     end
-    assert_includes user.errors[:child_birthday], "Your child is just a bit too young for this service right now - but not for long!<br><br>{{waitlist_link}}<br><br> We’ll use the number you’ve already shared to let you know when they’re ready."
+    assert_includes user.errors[:child_birthday], "Your child is just a bit too young for this service right now - but not for long! We’ll use the number you’ve already shared to let you know when they’re ready. {{waitlist_link}} to stay updated."
   end
 
   test "child_birthday does not raise error if child is too young but skip_validation is present" do

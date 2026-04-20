@@ -74,7 +74,7 @@ en:
         skip: "Skip this section"
       about_service:
         page_title: "About our service"
-        back: "Back"
+        back: "Back to previous section"
         title: "You're almost done"
         blurb: "Tell us how you found out about our service"
         save: "Finish"

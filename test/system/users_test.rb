@@ -201,7 +201,7 @@ class UsersTest < ApplicationSystemTestCase
     check "Rwy’n derbyn y telerau gwasanaeth a’r polisi preifatrwydd"
     click_button "Cofrestru"
 
-    assert_text "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd - ond nid am hir!"
+    assert_text "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd - ond nid am yn hir!"
 
     stub_successful_twilio_call("Helo! Diolch am ymuno â'r rhestr aros ar gyfer ein rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Byddwn mewn cysylltiad pan ddaw'r amser i ddechrau. Yn y cyfamser, beth am gadw'r rhif hwn fel 'CBeebies Parenting' fel eich bod yn gwybod mai ni sy'n anfon negeseuon atoch?", build(:user, phone_number: "+447444930200"))
 

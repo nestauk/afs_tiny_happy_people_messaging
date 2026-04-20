@@ -17,12 +17,12 @@
   <%= vite_image_tag "images/children-playing.jpg", alt: "", "aria-hidden": "true" %>
 </div>
 
-<div class="relative overflow-hidden flex justify-around pt-12 md:pt-20 h-[25rem] md:h-[45rem]">
+<div class="relative overflow-hidden flex flex-col justify-around h-[25rem] md:h-[45rem]">
   <div class="absolute left-0 top-0 w-full h-full block squiggle-banner">
     <%= vite_image_tag "images/blue-squiggles.png", alt: "", "aria-hidden": "true", class: "block md:hidden" %>
     <%= vite_image_tag "images/blue-squiggles-lg.png", alt: "", "aria-hidden": "true", class: "hidden md:block" %>
   </div>
-  <div class="relative w-3/4">
+  <div class="relative px-5 md:px-20 lg:px-40">
     <iframe class="w-full h-[12rem] md:h-[500px]" src="https://www.youtube.com/embed/TkfaPsnXHUM?si=AMLEs8QBlDj24lOf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     <div class="bg-white flex flex-col">
       <p class="text-md md:text-xl text-black font-normal p-8 text-center">
