@@ -1,4 +1,4 @@
-<nav class="py-1 bg-bbc-dark-blue text-white sticky" role="navigation">
+<nav class="py-3 md:py-1 bg-bbc-dark-blue text-white sticky" role="navigation">
   <a href="#main" class="absolute top-auto w-1 h-1 overflow-hidden focus:static focus:w-auto focus:h-auto text-white text-lg">Skip to main content</a>
   <div class="md:px-24 px-3 flex items-center w-full justify-between">
     <%= link_to root_url, class: "md:w-1/2 w-full flex items-center", "aria-label": "BBC logo" do %>
@@ -22,7 +22,7 @@
       <% end %>
     </div>
     <% if ENV.fetch("ENABLE_WELSH", false) == "true" || Rails.env.test? %>
-      <%= link_to (I18n.locale == :en ? "Cymraeg" : "English"), url_for(request.query_parameters.merge(locale: I18n.locale == :en ? :cy : :en)) %>
+      <%= link_to (I18n.locale == :en ? "Cymraeg" : "English"), url_for(request.query_parameters.merge(locale: I18n.locale == :en ? :cy : :en)), class: "border border-2 rounded-full py-1 px-2 md:py-2 md:px-4" %>
     <% end %>
   </div>
 </nav>

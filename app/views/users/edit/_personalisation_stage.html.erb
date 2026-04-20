@@ -1,54 +1,57 @@
 <% content_for(:page_title) { I18n.t("pages.form.personalisation.page_title") } %>
 
-<div class="bg-bbc-dark-blue p-5 md:p-10 mx-2">
-  <h1 class="text-4xl text-bbc-yellow">
-    <%= t("pages.form.personalisation.title") %>
-  </h1>
+<div class="bg-white p-4 py-10 md:px-40 md:py-20">
+  <div class="bg-bbc-dark-blue p-10 md:p-10 mx-2 relative">
+    <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-24" %>
+    <h1 class="text-3xl text-bbc-yellow">
+      <%= t("pages.form.personalisation.title") %>
+    </h1>
 
-  <h2 class="font-normal text-lg text-white">
-    <%= t("pages.form.personalisation.blurb") %>
-  </h2>
+    <h2 class="font-normal text-lg text-white">
+      <%= t("pages.form.personalisation.blurb") %>
+    </h2>
 
-  <%= f.button :submit, t("pages.form.personalisation.skip"), class: 'link text-white', data: { turbo_submits_with: 'Skipping...' } %>
-</div>
+    <%= f.button :submit, t("pages.form.personalisation.skip"), class: 'link text-white p-0 shadow-none', data: { turbo_submits_with:  t("pages.form.personalisation.saving") } %>
+  </div>
 
-<div class="mt-6 w-full px-5">
-  <%= f.input :first_name, required: false, input_html: { class: "w-full" } %>
+  <div class="mt-6 w-full px-5">
+    <%= f.input :first_name, required: false, input_html: { class: "w-full" } %>
 
-  <%= f.input :child_name, required: false %>
-  
-  <%= 
-    f.input :day_preference,
-    as: :select, 
-    collection: [[:monday, 1], [:tuesday, 2], [:wednesday, 3], [:thursday, 4], [:friday, 5], [:saturday, 6], [:sunday, 0], [:no_preference, 2]],
-    label_method: lambda { |el| t "simple_form.options.user.day_preference.#{el.first}" },
-    wrapper_html: { class: "flex flex-col mt-5" },
-    required: false,
-    include_blank: false
-  %>
-  
-  <%= 
-    f.input :hour_preference,
-    as: :select,
-    collection: [[:morning, "morning"], [:afternoon, "afternoon"], [:evening, "evening"], [:no_preference, "no_preference"]],
-    wrapper_html: { class: "flex flex-col mt-5" },
-    label_method: lambda { |el| t "simple_form.options.user.hour_preference.#{el.first}" },
-    required: false,
-    include_blank: false
-  %>
+    <%= f.input :child_name, required: false %>
+    
+    <%= 
+      f.input :day_preference,
+      as: :select, 
+      collection: [[:monday, 1], [:tuesday, 2], [:wednesday, 3], [:thursday, 4], [:friday, 5], [:saturday, 6], [:sunday, 0], [:no_preference, 2]],
+      label_method: lambda { |el| t "simple_form.options.user.day_preference.#{el.first}" },
+      wrapper_html: { class: "flex flex-col mt-5" },
+      required: false,
+      include_blank: false
+    %>
+    
+    <%= 
+      f.input :hour_preference,
+      as: :select,
+      collection: [[:morning, "morning"], [:afternoon, "afternoon"], [:evening, "evening"], [:no_preference, "no_preference"]],
+      wrapper_html: { class: "flex flex-col mt-5" },
+      label_method: lambda { |el| t "simple_form.options.user.hour_preference.#{el.first}" },
+      required: false,
+      include_blank: false
+    %>
 
-  <%=
-    f.input :language,
-    as: :select,
-    collection: [[:welsh, "cy"], [:english, "en"]],
-    label_method: lambda { |el| t "simple_form.options.user.language.#{el.first}" },
-    selected: I18n.locale.to_s,
-    wrapper_html: { class: "flex flex-col mt-5" },
-    required: false,
-    include_blank: false
-  %>
+    <%=
+      f.input :language,
+      as: :select,
+      collection: [[:welsh, "cy"], [:english, "en"]],
+      label_method: lambda { |el| t "simple_form.options.user.language.#{el.first}" },
+      selected: I18n.locale.to_s,
+      wrapper_html: { class: "flex flex-col mt-5" },
+      required: false,
+      include_blank: false
+    %>
 
-  <div class="mt-5">
-    <%= f.button :submit, t("pages.form.personalisation.save"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: t("pages.form.personalisation.saving") } %>
+    <div class="mt-5">
+      <%= f.button :submit, t("pages.form.personalisation.save"), class: 'btn btn-primary mt-2 w-full', data: { turbo_submits_with: t("pages.form.personalisation.saving") } %>
+    </div>
   </div>
 </div>

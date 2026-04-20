@@ -1,35 +1,38 @@
 <% content_for(:page_title) { I18n.t("pages.form.about_service.page_title") } %>
 
-<div class="bg-bbc-dark-blue p-5 md:p-10 mx-2">
-  <h1 class="text-4xl text-bbc-yellow">
-    <%= t("pages.form.about_service.title") %>
-  </h1>
+<div class="bg-white p-4 py-10 md:px-40 md:py-20">
+  <div class="bg-bbc-dark-blue p-5 md:p-10 mx-2 relative">
+    <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-24" %>
+    <h1 class="text-3xl text-bbc-yellow">
+      <%= t("pages.form.about_service.title") %>
+    </h1>
 
-  <h2 class="font-normal text-lg text-white">
-    <%= t("pages.form.about_service.blurb") %>
-  </h2>
+    <h2 class="font-normal text-lg text-white">
+      <%= t("pages.form.about_service.blurb") %>
+    </h2>
 
-  <%= f.button :submit, t("pages.form.about_service.skip"), class: 'link text-white !p-0 shadow-none', data: { turbo_submits_with: 'Skipping...' } %>
-</div>
+    <%= f.button :submit, t("pages.form.about_service.skip"), class: 'link text-white !p-0 shadow-none', data: { turbo_submits_with: 'Skipping...' } %>
+  </div>
 
-<div class="mt-8 w-full px-5">
-  <fieldset>
-    <legend class="text-lg font-medium text-gray-900"><%= t("simple_form.labels.user.referral_sources") %></legend>
-    <p class="hint"><%= t("simple_form.hints.user.referral_sources") %></p>
+  <div class="mt-8 w-full px-5">
+    <fieldset>
+      <legend class="text-lg font-medium text-gray-900"><%= t("simple_form.labels.user.referral_sources") %></legend>
+      <p class="hint"><%= t("simple_form.hints.user.referral_sources") %></p>
 
-    <%= f.collection_check_boxes :referral_sources,
-      [[:facebook, "Facebook"], [:instagram, "Instagram"], [:professional, "Referral by a professional"], [:flyer, "Flyer/Poster"], [:email, "Email"], [:other, "Other"]],
-      :last,
-      ->(el) { t "simple_form.options.user.referral_sources.#{el.first}" } do |b| %>
-      <div class="flex items-center mb-2">
-        <%= b.check_box(class: "form-checkbox focus:!ring-2 focus:!ring-blue-500 !grow-0") %>
-        <%= b.label %>
-      </div>
-    <% end %>
-  </fieldset>
+      <%= f.collection_check_boxes :referral_sources,
+        [[:facebook, "Facebook"], [:instagram, "Instagram"], [:professional, "Referral by a professional"], [:flyer, "Flyer/Poster"], [:email, "Email"], [:other, "Other"]],
+        :last,
+        ->(el) { t "simple_form.options.user.referral_sources.#{el.first}" } do |b| %>
+        <div class="flex items-center mb-2">
+          <%= b.check_box(class: "form-checkbox focus:!ring-2 focus:!ring-blue-500 !grow-0") %>
+          <%= b.label %>
+        </div>
+      <% end %>
+    </fieldset>
 
-  <div class="mt-5 flex flex-col gap-2">
-    <%= f.button :submit, t("pages.form.about_service.save"), class: 'btn btn-primary mt-2 bg-bbc-dark-blue text-white w-full', data: { turbo_submits_with: t("pages.form.about_service.saving") } %>
-    <%= link_to t("pages.form.about_service.back"), edit_user_path(@user, token: params[:token], step: "personalisation"), class: 'btn bg-blue-200 text-black' %>
+    <div class="mt-5 flex flex-col gap-2">
+      <%= f.button :submit, t("pages.form.about_service.save"), class: 'btn btn-primary mt-2 w-full', data: { turbo_submits_with: t("pages.form.about_service.saving") } %>
+      <%= link_to t("pages.form.about_service.back"), edit_user_path(@user, token: params[:token], step: "personalisation"), class: 'btn bg-blue-200 text-black' %>
+    </div>
   </div>
 </div>
