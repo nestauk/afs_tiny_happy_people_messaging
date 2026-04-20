@@ -32,14 +32,6 @@
               <%= error.message.html_safe %>
             </p>
           <% end %>
-          <% if @user.errors.of_kind?(:child_birthday, :too_young) %>
-            <%= form.hidden_field :skip_age_validation, value: true %>
-            <div class="border-2 border-red-600 p-4 my-2">
-              <p class="text-red-600 text-base">
-                <%= t("activerecord.errors.models.user.attributes.child_birthday.too_young").gsub("{{waitlist_link}}", "<input type='submit' value='#{t("pages.home.waitlist")}' name='commit'>").html_safe %>
-              </p>
-            </div>
-          <% end %>
         <% end %>
         <div class="flex gap-1 align-middle">
           <input type="hidden" id="user_child_birthday_3i" name="user[child_birthday(3i)]" value="1" autocomplete="off">
@@ -58,6 +50,12 @@
             </select>
           </div>
         </div>
+         <% if @user.errors.of_kind?(:child_birthday, :too_young) %>
+            <%= form.hidden_field :skip_age_validation, value: true %>
+            <p class="text-red-600 text-base mt-2">
+              <%= t("activerecord.errors.models.user.attributes.child_birthday.too_young").gsub("{{waitlist_link}}", "<input type='submit' value='#{t("pages.home.waitlist")}' name='commit' class='link'>").html_safe %>
+            </p>
+          <% end %>
       </fieldset>
 
       <%= form.input :language, as: :hidden, input_html: { value: params[:locale] || I18n.default_locale } %>
@@ -87,7 +85,7 @@
           </p>
         <% end %>
       <% end %>
-      <div class="flex items-start gap-1">
+      <div class="flex items-center gap-1">
         <%= form.check_box :terms_agreed, class: "form-checkbox focus:!ring-2 focus:!ring-blue-500 !grow-0" %>
         <%= form.label :terms_agreed, t('simple_form.labels.user.terms_agreed_at', terms: (link_to(t('pages.home.terms'), terms_path, class: 'underline hover:no-underline', target: '_blank')), privacy: (link_to(t('pages.home.privacy'), privacy_policy_path, class: 'underline hover:no-underline', target: '_blank'))).html_safe, class: "text-sm md:text-base" %>
       </div>

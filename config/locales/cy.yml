@@ -7,7 +7,7 @@ cy:
         user:
           attributes:
             child_birthday:
-              too_young: "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd - ond nid am hir!<br><br>{{waitlist_link}}<br><br> Byddwn yn defnyddio’r rhif rydych chi eisoes wedi’i rannu â ni i roi gwybod i chi pan fyddant yn barod."
+              too_young: "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd - ond nid am yn hir! Byddwn yn defnyddio’r rhif rydych chi eisoes wedi’i rannu i roi gwybod i chi pan fyddant yn barod. {{waitlist_link}} i gael y diweddaraf."
               too_old: "Rhaid i’ch plentyn fod rhwng 9 a 18 mis oed i gofrestru ar gyfer y gwasanaeth."
             postcode:
               not_welsh: "Mae’r gwasanaeth hwn ddim ond ar gael yng Nghymru ar hyn o bryd. Peidiwch â phoeni – gallwch barhau i fwynhau holl <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>gynnwys Tiny Happy People</a>."
