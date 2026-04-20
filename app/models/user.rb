@@ -6,11 +6,12 @@ class User < ApplicationRecord
   belongs_to :local_authority, optional: true
   belongs_to :group
 
-  validates :phone_number, :child_birthday, :terms_agreed_at, :postcode, presence: true
+  validates :terms_agreed_at, :child_birthday, presence: true
+  validates :phone_number, :postcode, presence: true, unless: :anonymised?
   validates :terms_agreed, acceptance: true, on: :create
-  validates :phone_number, uniqueness: true
-  validates_plausible_phone :phone_number
-  phony_normalize :phone_number, default_country_code: "UK"
+  validates :phone_number, uniqueness: true, unless: :anonymised?
+  validates_plausible_phone :phone_number, unless: :anonymised?
+  phony_normalize :phone_number, default_country_code: "UK", unless: :anonymised?
   validate :child_is_correct_age?, on: :create
   validate :has_welsh_postcode?, on: :create
 
@@ -130,7 +131,23 @@ class User < ApplicationRecord
     end
   end
 
+  def anonymise!
+    return if anonymised?
+
+    update!(
+      anonymised_at: Time.zone.now,
+      first_name: nil,
+      child_name: nil,
+      phone_number: "anonymised",
+      postcode: "anonymised",
+    )
+  end
+
   private
+
+  def anonymised?
+    anonymised_at.present?
+  end
 
   def assign_group_by_language
     self.group = Group.find_by(language: language)

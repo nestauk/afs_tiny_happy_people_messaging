@@ -47,4 +47,7 @@ production:
     class: SendBulkMessageJob
     args: [ survey_reminder ]
     schedule: 0 8 * * *
+  anonymise_user_cleanup:
+    class: AnonymiseUsersJob
+    schedule: 0 3 * * *
 
