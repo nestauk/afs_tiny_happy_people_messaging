@@ -7,7 +7,7 @@ en:
         user:
           attributes:
             child_birthday:
-              too_young: "Your child is just a bit too young for this service right now - but not for long!<br><br>{{waitlist_link}}<br><br> We’ll use the number you’ve already shared to let you know when they’re ready."
+              too_young: "Your child is just a bit too young for this service right now - but not for long! We’ll use the number you’ve already shared to let you know when they’re ready. {{waitlist_link}} to stay updated."
               too_old: "Your child must be between 9 and 18 months old to sign up for the service."
             postcode:
               not_welsh: "This service is only available in Wales currently. Not to worry -  you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
@@ -74,7 +74,7 @@ en:
         skip: "Skip this section"
       about_service:
         page_title: "About our service"
-        back: "Back"
+        back: "Back to previous section"
         title: "You're almost done"
         blurb: "Tell us how you found out about our service"
         save: "Finish"

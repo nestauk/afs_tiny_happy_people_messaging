@@ -5,7 +5,7 @@
 
 h1 {
   line-height: 1.4 !important;
-  font-family: 'ReithSans';
+  font-family: 'ReithSans', sans-serif;
 }
 
 h2 {
@@ -13,7 +13,7 @@ h2 {
 } 
 
 h2, h3, h4, h5, h6, p, a, span, div, li, td, th, label, input, textarea, select, button {
-  font-family: 'ReithSans';
+  font-family: 'ReithSans', sans-serif;
 }
 
 .form-checkbox {

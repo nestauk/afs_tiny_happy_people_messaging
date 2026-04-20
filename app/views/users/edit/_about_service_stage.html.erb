@@ -15,9 +15,13 @@
   </div>
 
   <div class="mt-8 w-full px-5">
+    <div class="mb-4">
+      <%= link_to t("pages.form.about_service.back"), edit_user_path(@user, token: params[:token], step: "personalisation"), class: 'link' %>
+    </div>
+
     <fieldset>
       <legend class="text-lg font-medium text-gray-900"><%= t("simple_form.labels.user.referral_sources") %></legend>
-      <p class="hint"><%= t("simple_form.hints.user.referral_sources") %></p>
+      <p class="hint mb-2"><%= t("simple_form.hints.user.referral_sources") %></p>
 
       <%= f.collection_check_boxes :referral_sources,
         [[:facebook, "Facebook"], [:instagram, "Instagram"], [:professional, "Referral by a professional"], [:flyer, "Flyer/Poster"], [:email, "Email"], [:other, "Other"]],
@@ -32,7 +36,6 @@
 
     <div class="mt-5 flex flex-col gap-2">
       <%= f.button :submit, t("pages.form.about_service.save"), class: 'btn btn-primary mt-2 w-full', data: { turbo_submits_with: t("pages.form.about_service.saving") } %>
-      <%= link_to t("pages.form.about_service.back"), edit_user_path(@user, token: params[:token], step: "personalisation"), class: 'btn bg-blue-200 text-black' %>
     </div>
   </div>
 </div>
