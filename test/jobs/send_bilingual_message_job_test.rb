@@ -29,7 +29,7 @@ class SendBilingualMessageJobTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, Message.count
-    assert_equal("Mae Cymru yn gymysgedd bywiog o lawer o ieithoedd—ac maen nhw i gyd yn perthyn yma! Mae siarad â Harry yn eich iaith frodorol yn rhodd werthfawr i’w datblygiad. Dysgwch fwy am aelwydydd dwyieithog yma: http://localhost:3000/m/ABC", Message.last.body)
+    assert_equal("Mae Cymru'n dathlu pob iaith! Mae siarad eich mamiaith yn anrheg i ddatblygiad Harry. Dysgwch fwy: http://localhost:3000/m/ABC", Message.last.body)
     assert_not_nil user.sent_bilingual_text_at
   end
 

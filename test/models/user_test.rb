@@ -181,7 +181,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.not_clicked_last_x_messages(3), [user1]
   end
 
-  test "received_two_messages scope" do
+  test "received_two_or_eighteen_messages scope works for users who have received two messages" do
     content = create(:content)
 
     user1 = create(:user)
@@ -196,8 +196,25 @@ class UserTest < ActiveSupport::TestCase
     create(:message, user: user3)
     create(:message, user: user3)
 
-    assert_equal User.received_two_messages.to_a.size, 1
-    assert_equal User.received_two_messages, [user1]
+    assert_equal User.received_two_or_eighteen_messages.to_a.size, 1
+    assert_equal User.received_two_or_eighteen_messages, [user1]
+  end
+
+  test "received_two_or_eighteen_messages scope works for users who have received eighteen messages" do
+    content = create(:content)
+
+    user1 = create(:user)
+    18.times { create(:message, user: user1, content:) }
+
+    user2 = create(:user)
+    17.times { create(:message, user: user2, content:) }
+    create(:message, user: user2)
+
+    user3 = create(:user)
+    18.times { create(:message, user: user3) }
+
+    assert_equal User.received_two_or_eighteen_messages.to_a.size, 1
+    assert_equal User.received_two_or_eighteen_messages, [user1]
   end
 
   test "received_six_messages_without_bilingual_text scope" do
@@ -214,6 +231,33 @@ class UserTest < ActiveSupport::TestCase
 
     assert_equal User.received_six_messages_without_bilingual_text.to_a.size, 1
     assert_equal User.received_six_messages_without_bilingual_text, [user1]
+  end
+
+  test "with_four_messages_left scope" do
+    group = create(:group, language: "esp")
+    20.times { create(:content, group:) }
+
+    group2 = create(:group, language: "cy")
+    15.times { create(:content, group: group2) }
+
+    fourth_from_last_group1 = group.contents.order(position: :desc).offset(3).first
+    fourth_from_last_group2 = group2.contents.order(position: :desc).offset(3).first
+
+    user1 = create(:user, group:, language: "esp")
+    create(:message, user: user1, content: fourth_from_last_group1)
+
+    user2 = create(:user, group:, language: "esp")
+    create(:message, user: user2, content: group.contents.order(:position).first)
+
+    user3 = create(:user, group:, language: "esp")
+    create(:message, user: user3, content: group.contents.order(:position).last)
+
+    user4 = create(:user, group: group2, language: "cy")
+    create(:message, user: user4, content: fourth_from_last_group2)
+
+    assert_equal User.with_four_messages_left.to_a.size, 2
+    assert_includes User.with_four_messages_left, user1
+    assert_includes User.with_four_messages_left, user4
   end
 
   test "not_finished_content scope" do

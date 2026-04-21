@@ -136,6 +136,19 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
+  test "#perform sends offboarding text messages to users" do
+    group = create(:group, language: "esp")
+    10.times { create(:content, group:) }
+    fourth_from_last_group1 = group.contents.order(position: :desc).offset(3).first
+
+    user = create(:user, group:, language: "esp")
+    create(:message, user:, content: fourth_from_last_group1)
+
+    assert_enqueued_jobs 1, only: OffboardingMessageJob do
+      SendBulkMessageJob.perform_now("offboarding")
+    end
+  end
+
   test "#perform does not create jobs if not passed a valid message type" do
     create_list(:user, 3, child_birthday: 10.months.ago)
 

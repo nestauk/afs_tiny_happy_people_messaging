@@ -25,7 +25,7 @@ class SendFeedbackMessageJobTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, Message.count
-    assert_equal("Ydy'r gweithgareddau rydyn ni'n eu hanfon atoch yn addas i’ch plentyn? Atebwch Ie neu Na i roi gwybod i ni.", Message.last.body)
+    assert_equal("A yw’r gweithgareddau rydyn ni’n eu hanfon yn addas i’ch plentyn? Atebwch ‘Ie’ neu ‘Na’ i roi gwybod i ni.", Message.last.body)
     assert user.asked_for_feedback
   end
 

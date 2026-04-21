@@ -35,6 +35,7 @@ en:
     restart: "Welcome to CBeebies Parenting! Your child is now old enough to start receiving activities. Fill in the registration form to get started {{registration_form}}."
     welcome: "Hi {{parent_name}}, welcome to our programme of weekly texts with fun activities for {{child_name}}'s development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?"
     your_child: "your child"
+    offboarding: "You're nearly at the end of our videos! A few more videos are coming, the last one in a month. Do you have any feedback or questions for us this month?"
     survey: "We'd love to hear how you're getting on! Please take a moment to complete this short survey: {{survey_url}}"
     survey_reminder: "Please take a moment to complete this short survey: {{survey_url}}"
     waitlist: "Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?"
