@@ -27,10 +27,10 @@
         [[:facebook, "Facebook"], [:instagram, "Instagram"], [:professional, "Referral by a professional"], [:flyer, "Flyer/Poster"], [:email, "Email"], [:other, "Other"]],
         :last,
         ->(el) { t "simple_form.options.user.referral_sources.#{el.first}" } do |b| %>
-        <div class="flex items-center mb-2">
+        <%= b.label(class: "flex items-center mb-2") do %>
           <%= b.check_box(class: "form-checkbox focus:!ring-2 focus:!ring-blue-500 !grow-0") %>
-          <%= b.label %>
-        </div>
+          <%= b.text %>
+        <% end %>
       <% end %>
     </fieldset>
 
