@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for?(:page_title) ? yield(:page_title) + " | #{I18n.t('titles.application')}" : I18n.t('titles.application') %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -16,6 +16,7 @@
   </head>
 
   <body>
+    <a href="#main" class="absolute -top-10 left-0 overflow-hidden focus:z-50 focus:top-0 focus:left-0 focus:p-4 text-white bg-bbc-dark-blue text-lg">Skip to main content</a>
     <%= render "layouts/navbar" %>
     <main class="w-full bg-slate-50" role="main" id="main">
       <% if current_admin && @hide_sidebar.blank? %>
