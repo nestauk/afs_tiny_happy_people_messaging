@@ -124,8 +124,8 @@ class UsersTest < ApplicationSystemTestCase
       click_on "Sign up"
     end
 
-    assert_field_has_errors("What's your phone number?")
-    assert_field_has_errors("What's your postcode?")
+    assert_field_has_errors_not_simple_form("What's your phone number?", "Can't be blank")
+    assert_field_has_errors_not_simple_form("What's your postcode?", "Can't be blank")
     assert_text "Your child must be between 9 and 18 months old to sign up for the service."
     assert_text "You must accept the terms of service and privacy policy to sign up for the service."
   end

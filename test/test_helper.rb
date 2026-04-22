@@ -23,6 +23,14 @@ module ActiveSupport
       find_field(label_text).assert_ancestor(".input_wrapper.field_with_errors")
     end
 
+    def assert_field_has_errors_not_simple_form(label_text, error_message)
+      field = find_field(label_text)
+      error_id = field["aria-describedby"]
+      assert error_id, "Expected field '#{label_text}' to have aria-describedby"
+      error_element = find_by_id(error_id)
+      assert_match(error_message, error_element.text)
+    end
+
     def assert_error(key, msg, subject: @subject)
       assert_includes(subject.errors[key], msg)
     end
