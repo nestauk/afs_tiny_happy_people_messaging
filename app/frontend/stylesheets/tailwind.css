@@ -57,7 +57,6 @@
   .input.date input,
   .input.datetime input,
   .input.text input,
-  .trix-editor input,
   .field input {
     @apply block shadow rounded border-2 border-gray-400 outline-none px-3 py-2 w-full;
   }

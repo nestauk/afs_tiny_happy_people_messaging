@@ -5,6 +5,7 @@ class SurveysController < ApplicationController
   before_action :set_questions, :set_answers, only: [:edit]
 
   def edit
+    @hide_sidebar = true
   end
 
   def update
@@ -20,6 +21,7 @@ class SurveysController < ApplicationController
   end
 
   def thank_you
+    @hide_sidebar = true
   end
 
   private

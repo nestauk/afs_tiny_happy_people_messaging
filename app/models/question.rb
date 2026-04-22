@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
-  belongs_to :survey
-  positioned on: :survey
+  belongs_to :survey_section
+  positioned on: :survey_section
   has_many :answers, dependent: :destroy
   accepts_nested_attributes_for :answers
 

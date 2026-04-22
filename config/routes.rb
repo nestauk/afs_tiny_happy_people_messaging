@@ -21,8 +21,10 @@ Rails.application.routes.draw do
       end
 
       resources :surveys do
-        resources :questions, except: [:index] do
-          patch "update_position", on: :member
+        resources :survey_sections, except: %i[index] do
+          resources :questions, except: [:index] do
+            patch "update_position", on: :member
+          end
         end
       end
 

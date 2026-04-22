@@ -196,9 +196,9 @@ cy:
         para4: "<span class='font-bold'>Gwasanaethau Brys:</span> Ffoniwch 999 mewn sefyllfaoedd sy’n peryglu bywyd, ar gael 24/7 ac yn rhad ac am ddim ledled y DU."
     surveys:
       thank_you:
-        page_title: "Diolch am eich adborth!"
-        title: "Diolch am eich adborth!"
-        subtitle: "Mae eich adborth yn wirioneddol ddefnyddiol i ni wrth i ni barhau i wella ein gwasanaeth."
+        page_title: "Diolch!"
+        title: "Diolch!"
+        subtitle: "Bydd eich atebion yn ein helpu i wneud y rhaglen hon yn well i deuluoedd ym mhobman. Gobeithiwn y byddwch yn mwynhau'r fideos ac yn darganfod awgrymiadau sy'n gwneud gwahaniaeth gwirioneddol i chi a'ch teulu."
     thank_you: 
       page_title: "Diolch am gofrestru!"
       title: "Rydych chi wedi cofrestru’n llwyddiannus, llongyfarchiadau!"

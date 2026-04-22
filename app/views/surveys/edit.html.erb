@@ -1,45 +1,67 @@
 <% content_for(:page_title) { @user.language == "cy" ? @survey.title_cy : @survey.title_en } %>
 
-<div class="w-1/2 mx-auto my-10">
-  <h1><%= @user.language == "cy" ? @survey.title_cy : @survey.title_en %></h1>
+<div class="w-full lg:w-1/2 mx-auto py-10 px-5 bg-white">
+  <div class="bg-bbc-dark-blue p-4 relative pb-14">
+    <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0" %>
+    <h1 class="text-3xl text-bbc-yellow">
+      <%= @user.language == "cy" ? @survey.title_cy : @survey.title_en %>
+    </h1>
+
+    <%= @user.language == "cy" ? @survey.intro_cy : @survey.intro_en %>
+  </div>
 
   <%= simple_form_for @survey, url: survey_path(@survey), method: :patch do |f| %>
     <%= hidden_field_tag :token, params[:token] %>
-    <%= f.simple_fields_for :questions, @questions do |q| %>
-      <%= q.simple_fields_for :answers do |ff| %>
-        <%= ff.input :user_id, as: :hidden, value: @user.id %>
-        <%= ff.input :question_id, as: :hidden, value: q.object.id %>
-        <% case q.object.question_type %>
-        <% when "text" %>
-          <%= ff.input :response, label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe) %>
-        
-        <% when "check_boxes" %>
-          <%= ff.input :response,
-            label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
-            collection: @user.language == "cy" ? q.object.options_cy : q.object.options_en,
-            as: :check_boxes, 
-            wrapper_html: { class: 'flex flex-col gap-1' }, 
-            input_html: { 
-              class: 'mr-2', 
-            } 
-          %>
+    <div class="px-2">
+      <% @survey.survey_sections.order(:position).each do |section| %>
+        <h2 class="mb-0 mt-5"><%= @user.language == "cy" ? section.title_cy : section.title_en %></h2>
+        <%= f.simple_fields_for :questions, @questions.group_by(&:survey_section_id)[section.id].sort_by(&:position) do |q| %>
+          <%= q.simple_fields_for :answers do |ff| %>
+            <%= ff.input :user_id, as: :hidden, value: @user.id %>
+            <%= ff.input :question_id, as: :hidden, value: q.object.id %>
+            <% case q.object.question_type %>
+            <% when "text" %>
+              <%= 
+                ff.input :response,
+                label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+                hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
+                input_html: { class: "w-full" },
+                required: false
+              %>
+            
+            <% when "check_boxes" %>
+              <%= ff.input :response,
+                label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+                collection: @user.language == "cy" ? q.object.options_cy : q.object.options_en,
+                hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
+                as: :check_boxes,
+                required: false,
+                wrapper_html: { class: 'flex flex-col gap-1' }, 
+                input_html: { 
+                  class: 'mr-2', 
+                } 
+              %>
 
-        <% when "radio_buttons" %>
-          <%= ff.input :response,
-            label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
-            collection: @user.language == "cy" ? q.object.options_cy : q.object.options_en,
-            as: :radio_buttons,
-            wrapper_html: {
-              class: "flex flex-col gap-1"
-            },
-            input_html: { 
-              class: "mr-2",
-            }
-          %>
+            <% when "radio_buttons" %>
+              <%= ff.input :response,
+                label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+                collection: @user.language == "cy" ? q.object.options_cy : q.object.options_en,
+                hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
+                as: :radio_buttons,
+                required: false,
+                wrapper_html: {
+                  class: "flex flex-col gap-1"
+                },
+                input_html: { 
+                  class: "mr-2",
+                }
+              %>
+            <% end %>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
 
-    <%= f.submit "Submit", class: "btn btn-primary" %>
+      <%= f.submit "Submit", class: "btn btn-primary mt-6" %>
+    </div>
   <% end %>
 </div>

@@ -1,6 +1,6 @@
 <div class="flex justify-between items-baseline">
   <h1 class="text-4xl mb-8">Surveys</h1>
-  <%= link_to "New Survey", new_admin_survey_path, class: "bg-blue-500 text-white rounded p-2" %>
+  <%= link_to "New survey", new_admin_survey_path, class: "bg-blue-500 text-white rounded p-2" %>
 </div>
 
 <table class="table-auto w-full">
@@ -29,7 +29,7 @@
             &middot; At end of programme
           <% end %>
         <td class="px-4 py-4 bg-white">
-          <%= link_to "Edit", edit_admin_survey_path(survey), class: "text-blue-500 hover:underline" %>
+          <%= link_to "Edit", edit_admin_survey_path(survey), class: "text-blue-500 hover:underline" %><br>
           <%= link_to "Delete", admin_survey_path(survey), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
         </td>
       </tr>

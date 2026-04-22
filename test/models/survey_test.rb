@@ -24,7 +24,7 @@ class SurveyTest < ActiveSupport::TestCase
   end
 
   test "destroying survey destroys associated questions" do
-    create(:question, survey: @survey)
+    create(:question, survey_section: create(:survey_section, survey: @survey))
     assert_difference "Question.count", -1 do
       @survey.destroy
     end

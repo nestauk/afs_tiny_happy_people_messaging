@@ -1,5 +1,5 @@
-<%= form_with(model: [@survey, @question], local: true, url: (@question.persisted? ? admin_survey_question_path(@survey, @question) : admin_survey_questions_path(@survey))) do |form| %>
-  <%= form.hidden_field :position, value: @question.position || @survey.questions.count + 1 %>
+<%= form_with(model: [@survey, @survey_section, @question], local: true, url: (@question.persisted? ? admin_survey_survey_section_question_path(@survey, @survey_section, @question) : admin_survey_survey_section_questions_path(@survey, @survey_section))) do |form| %>
+  <%= form.hidden_field :position, value: @question.position || @survey_section.questions.count + 1 %>
 
   <% if @question.errors.any? %>
     <div class="mb-4">
@@ -22,6 +22,16 @@
   </div>
 
   <div class="mb-4">
+    <%= form.label :hint_en, "Hint in English", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :hint_en, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :hint_cy, "Hint in Welsh", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :hint_cy, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
     <%= form.label :question_type, class: "block text-sm font-medium text-gray-700" %>
     <%= form.select :question_type, options_for_select([["Text", "text"], ["Check boxes", "check_boxes"], ["Radio buttons", "radio_buttons"]], @question.question_type), {}, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>
@@ -35,6 +45,9 @@
     <%= form.label :options_text_cy, "Options in Welsh (one per line)", class: "block text-sm font-medium text-gray-700" %>
     <%= form.text_area :options_text_cy, value: @question.options_cy.join("\n"), class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>
+
+  <%= form.hidden_field :survey_id, value: @survey.id %>
+  <%= form.hidden_field :survey_section_id, value: @survey_section.id %>
 
   <div class="mb-4">
     <%= form.submit @question.persisted? ? "Update question" : "Create question", class: "bg-blue-500 text-white rounded p-2" %>

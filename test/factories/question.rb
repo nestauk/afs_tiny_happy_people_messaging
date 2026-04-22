@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:text_cy) { |n| "Cwestiwn #{n}" }
     sequence(:position) { |n| n }
     question_type { "text" }
-    survey
+    survey_section
 
     trait :check_boxes do
       question_type { "check_boxes" }
