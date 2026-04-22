@@ -85,10 +85,10 @@
           </p>
         <% end %>
       <% end %>
-      <div class="flex items-center gap-1">
+      <%= form.label :terms_agreed, class: "flex items-center gap-1 text-sm md:text-base" do %>
         <%= form.check_box :terms_agreed, class: "form-checkbox focus:!ring-2 focus:!ring-blue-500 !grow-0" %>
-        <%= form.label :terms_agreed, t('simple_form.labels.user.terms_agreed_at', terms: (link_to(t('pages.home.terms'), terms_path, class: 'underline hover:no-underline', target: '_blank')), privacy: (link_to(t('pages.home.privacy'), privacy_policy_path, class: 'underline hover:no-underline', target: '_blank'))).html_safe, class: "text-sm md:text-base" %>
-      </div>
+        <%= t('simple_form.labels.user.terms_agreed_at', terms: (link_to(t('pages.home.terms'), terms_path, class: 'underline hover:no-underline', target: '_blank')), privacy: (link_to(t('pages.home.privacy'), privacy_policy_path, class: 'underline hover:no-underline', target: '_blank'))).html_safe %>
+      <% end %>
 
       <%= form.submit I18n.t("pages.home.submit"), class: "btn btn-primary mt-2 w-full", "data-turbolinks": "false" %>
     <% end %>
