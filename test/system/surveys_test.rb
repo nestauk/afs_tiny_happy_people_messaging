@@ -3,9 +3,12 @@ require "application_system_test_case"
 class SurveysTest < ApplicationSystemTestCase
   setup do
     @survey = create(:survey)
-    @text_q = create(:question, survey: @survey, text_en: "How are you feeling?", text_cy: "Sut ydych chi'n teimlo?", question_type: "text")
-    @checkbox_q = create(:question, :check_boxes, survey: @survey, text_en: "Which activities did you try?", text_cy: "Pa weithgareddau wnaethoch chi roi cynnig arnynt?", options_en: ["Option A", "Option B", "Option C"], options_cy: ["Opsiwn A", "Opsiwn B", "Opsiwn C"])
-    @radio_q = create(:question, :radio_buttons, survey: @survey, text_en: "Would you recommend this service?", text_cy: "A fyddech chi'n argymell y gwasanaeth hwn?", options_en: ["Yes", "No"], options_cy: ["Ydw", "Nac ydw"])
+    @survey_section1 = create(:survey_section, survey: @survey, title_en: "Section 1", title_cy: "Adran 1", position: 1)
+    @survey_section2 = create(:survey_section, survey: @survey, title_en: "Section 2", title_cy: "Adran 2", position: 2)
+    @survey_section3 = create(:survey_section, survey: @survey, title_en: "Section 3", title_cy: "Adran 3", position: 3)
+    @text_q = create(:question, survey_section: @survey_section1, text_en: "How are you feeling?", text_cy: "Sut ydych chi'n teimlo?", question_type: "text")
+    @checkbox_q = create(:question, :check_boxes, survey_section: @survey_section2, text_en: "Which activities did you try?", text_cy: "Pa weithgareddau wnaethoch chi roi cynnig arnynt?", options_en: ["Option A", "Option B", "Option C"], options_cy: ["Opsiwn A", "Opsiwn B", "Opsiwn C"])
+    @radio_q = create(:question, :radio_buttons, survey_section: @survey_section3, text_en: "Would you recommend this service?", text_cy: "A fyddech chi'n argymell y gwasanaeth hwn?", options_en: ["Yes", "No"], options_cy: ["Ydw", "Nac ydw"])
   end
 
   test "user can fill in a survey in English" do
@@ -15,6 +18,9 @@ class SurveysTest < ApplicationSystemTestCase
     visit edit_survey_path(@survey, token:)
 
     assert_text @survey.title_en
+    assert_text @survey_section1.title_en
+    assert_text @survey_section2.title_en
+    assert_text @survey_section3.title_en
 
     assert_text "How are you feeling?"
     assert_text "Which activities did you try?"
@@ -27,7 +33,7 @@ class SurveysTest < ApplicationSystemTestCase
 
     click_button "Submit"
 
-    assert_text "Thank you for your feedback!"
+    assert_text "Thank you!"
 
     assert_equal "Really good", Answer.find_by(question: @text_q, user:).response
     assert_equal "Option A, Option C", Answer.find_by(question: @checkbox_q, user:).response
@@ -42,6 +48,9 @@ class SurveysTest < ApplicationSystemTestCase
     visit edit_survey_path(@survey, token:)
 
     assert_text @survey.title_cy
+    assert_text @survey_section1.title_cy
+    assert_text @survey_section2.title_cy
+    assert_text @survey_section3.title_cy
 
     assert_text "Sut ydych chi'n teimlo?"
     assert_text "Pa weithgareddau wnaethoch chi roi cynnig arnynt?"
@@ -54,7 +63,7 @@ class SurveysTest < ApplicationSystemTestCase
 
     click_button "Submit"
 
-    assert_text "Diolch am eich adborth!"
+    assert_text "Diolch!"
 
     assert_equal "Yn dda iawn", Answer.find_by(question: @text_q, user:).response
     assert_equal "Opsiwn A, Opsiwn C", Answer.find_by(question: @checkbox_q, user:).response

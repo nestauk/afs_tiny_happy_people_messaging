@@ -5,6 +5,4 @@ class Answer < ApplicationRecord
   def response=(value)
     super(Array(value).reject(&:empty?).join(", "))
   end
-
-  validates :response, presence: true
 end

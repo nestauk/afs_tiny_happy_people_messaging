@@ -8,9 +8,10 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
     sign_in @admin
 
     @survey = create(:survey)
+    @survey_section = create(:survey_section, survey: @survey)
     @user = create(:user)
     @token = @user.generate_token_for(:survey_token)
-    @question = create(:question, survey: @survey)
+    @question = create(:question, survey_section: @survey_section)
   end
 
   test "edit renders survey with valid token" do

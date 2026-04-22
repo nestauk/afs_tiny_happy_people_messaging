@@ -55,9 +55,8 @@ class QuestionTest < ActiveSupport::TestCase
   end
 
   test "position updates when question is dragged" do
-    survey = create(:survey)
-    first = create(:question, survey: survey)
-    second = create(:question, survey: survey)
+    first = create(:question, survey_section: create(:survey_section))
+    second = create(:question, survey_section: first.survey_section)
 
     assert_equal 1, first.reload.position
     assert_equal 2, second.reload.position

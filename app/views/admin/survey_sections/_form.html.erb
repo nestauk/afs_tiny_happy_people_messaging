@@ -1,0 +1,20 @@
+<%= form_with(model: [:admin, @survey, @survey_section], local: true) do |form| %>
+  <div class="mb-4">
+    <%= form.label :position, "Position", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.number_field :position, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 w-1/4" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :title_en, "Title in English", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :title_en, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :title_cy, "Title in Welsh", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :title_cy, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.submit @survey_section.new_record? ? "Create survey section" : "Update survey section", class: "bg-blue-500 text-white rounded p-2" %>
+  </div>
+<% end %>

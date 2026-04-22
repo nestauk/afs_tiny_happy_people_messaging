@@ -6,6 +6,8 @@ import { Application } from "@hotwired/stimulus";
 import Sortable from "@stimulus-components/sortable";
 import { registerControllers } from "stimulus-vite-helpers";
 import "@hotwired/turbo";
+import "trix";
+import "@rails/actiontext";
 
 Alpine.plugin(collapse);
 Alpine.plugin(focus);

@@ -9,12 +9,6 @@ class AnswerTest < ActiveSupport::TestCase
     assert @answer.valid?
   end
 
-  test "response must be present" do
-    @answer.response = ""
-    assert_not @answer.valid?
-    assert_error(:response, "can't be blank", subject: @answer)
-  end
-
   test "response= stores plain string as-is" do
     @answer.response = "My text answer"
     assert_equal "My text answer", @answer.response
