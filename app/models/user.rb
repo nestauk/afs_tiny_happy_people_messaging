@@ -48,7 +48,7 @@ class User < ApplicationRecord
       .group("users.id")
       .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = #{x.to_i}")
   }
-  scope :received_two_messages, -> {
+  scope :received_two_or_eighteen_messages, -> {
     joins(:messages)
       .where(
         messages: {
@@ -59,7 +59,13 @@ class User < ApplicationRecord
         },
       )
       .group("users.id")
-      .having("COUNT(*) = 2")
+      .having("COUNT(*) = 2 OR COUNT(*) = 18")
+  }
+  scope :with_four_messages_left, -> {
+    joins(:messages)
+      .where(
+        "messages.content_id = (SELECT id FROM contents WHERE contents.group_id = users.group_id AND archived_at IS NULL ORDER BY position DESC LIMIT 1 OFFSET 3)",
+      )
   }
   scope :received_six_messages_without_bilingual_text, -> {
     where(sent_bilingual_text_at: nil)

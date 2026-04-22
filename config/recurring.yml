@@ -31,6 +31,10 @@ production:
     class: SendBulkMessageJob
     args: [ nudge ]
     schedule: 0 11 * * 2
+  prepare_offboard_users:
+    class: SendBulkMessageJob
+    args: [ offboarding ]
+    schedule: 0 11 * * 5
   update_all_las:
     command: "AllLasDashboard.refresh"
     schedule: 0 * * * *

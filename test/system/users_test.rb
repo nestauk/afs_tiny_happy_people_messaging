@@ -153,7 +153,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "Rydych bron wedi gorffen"
 
-    stub_successful_twilio_call("Helo, croeso i’n rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Llongyfarchiadau ar ddechrau’r daith ryfeddol hon gyda’ch un bach! I ddechrau, beth am gadw’r rhif hwn fel ‘CBeebies Parenting Text Messaging’ fel eich bod yn gwybod mai ni sy’n anfon negeseuon atoch?", User.last)
+    stub_successful_twilio_call("Helo, croeso i’n negeseuon wythnosol gyda gweithgareddau i eich plentyn. Llongyfarchiadau ar ddechrau’r siwrnai anhygoel hon gyda’ch un bach!", User.last)
 
     click_button "Gorffen"
 

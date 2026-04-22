@@ -12,7 +12,7 @@ class SendBulkMessageJob < ApplicationJob
       jobs = User.contactable.received_six_messages_without_bilingual_text.map { |user| SendBilingualMessageJob.new(user) }
       ActiveJob.perform_all_later(jobs) if jobs.any?
     when "feedback"
-      jobs = User.contactable.received_two_messages.map { |user| SendFeedbackMessageJob.new(user) }
+      jobs = User.contactable.received_two_or_eighteen_messages.map { |user| SendFeedbackMessageJob.new(user) }
       ActiveJob.perform_all_later(jobs) if jobs.any?
     when "nudge"
       jobs = User.contactable.not_nudged.not_clicked_last_x_messages(3).map { |user| NudgeUsersJob.new(user) }
@@ -26,6 +26,9 @@ class SendBulkMessageJob < ApplicationJob
         jobs = User.contactable.needs_survey_reminder(survey.id).map { |user| SendSurveyReminderJob.new(user, survey) }
         ActiveJob.perform_all_later(jobs) if jobs.any?
       end
+    when "offboarding"
+      jobs = User.contactable.with_four_messages_left.map { |user| OffboardingMessageJob.new(user) }
+      ActiveJob.perform_all_later(jobs) if jobs.any?
     end
   end
 
