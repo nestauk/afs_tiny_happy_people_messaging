@@ -16,7 +16,7 @@
   </head>
 
   <body>
-    <a href="#main" class="absolute -top-20 left-0 z-[100] focus:top-0 focus:left-0 p-4 text-white bg-bbc-dark-blue text-lg">Skip to main content</a>
+    <a href="#main" data-turbo="false" class="absolute -top-20 left-0 z-[100] focus:top-0 focus:left-0 p-4 text-white bg-bbc-dark-blue text-lg">Skip to main content</a>
     <%= render "layouts/navbar" %>
     <main class="w-full bg-slate-50" role="main" id="main">
       <% if current_admin && @hide_sidebar.blank? %>
