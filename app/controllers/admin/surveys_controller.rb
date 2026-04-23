@@ -38,6 +38,15 @@ class Admin::SurveysController < ApplicationController
     redirect_to admin_surveys_path, notice: "Survey was successfully deleted."
   end
 
+  def preview
+    @hide_sidebar = true
+    @survey = Survey.find(params[:id])
+    @user = User.new(language: "en")
+    @questions = @survey.questions.includes(:answers).order("survey_sections.position, questions.position")
+    @back_link = admin_survey_path(@survey)
+    render template: "surveys/edit"
+  end
+
   private
 
   def set_survey

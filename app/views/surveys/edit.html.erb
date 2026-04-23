@@ -1,6 +1,9 @@
 <% content_for(:page_title) { @user.language == "cy" ? @survey.title_cy : @survey.title_en } %>
 
-<div class="w-full lg:w-1/2 mx-auto py-10 px-5 bg-white">
+<div class="w-full lg:w-1/2 mx-auto py-10 px-5 bg-white md:my-10">
+  <% if @back_link %>
+    <%= link_to "Back to editing survey", @back_link, class: "link mb-4 inline-block" %>
+  <% end %>
   <div class="bg-bbc-dark-blue p-4 relative pb-14 survey-header">
     <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0" %>
     <h1 class="text-3xl text-bbc-yellow">
