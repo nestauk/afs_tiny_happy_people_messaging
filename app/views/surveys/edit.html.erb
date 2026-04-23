@@ -29,8 +29,9 @@
                 label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
                 hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
                 input_html: { class: "w-full" },
-                wrapper_html: { class: "my-2" },
-                required: false
+                wrapper_html: { class: "my-4" },
+                required: false,
+                label_html: { class: "!font-semibold" }
               %>
             
             <% when "check_boxes" %>
@@ -40,10 +41,11 @@
                 hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
                 as: :check_boxes,
                 required: false,
-                wrapper_html: { class: "my-2" }, 
+                wrapper_html: { class: "my-4" }, 
                 input_html: { 
                   class: 'mr-2', 
-                } 
+                },
+                label_html: { class: "!font-semibold" }
               %>
 
             <% when "radio_buttons" %>
@@ -54,11 +56,12 @@
                 as: :radio_buttons,
                 required: false,
                 wrapper_html: {
-                  class: "my-2"
+                  class: "my-4 flex flex-col"
                 },
                 input_html: { 
                   class: "mr-2",
-                }
+                },
+                label_html: { class: "!font-semibold" }
               %>
             <% end %>
           <% end %>
