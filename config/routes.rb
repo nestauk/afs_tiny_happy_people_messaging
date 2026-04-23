@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   get "/terms", to: "pages#terms"
   get "/resources", to: "pages#resources"
   get "/about_us", to: "pages#about_us"
+  get "/cookie_policy", to: "pages#cookie_policy"
 
   resources :surveys, only: %i[edit update] do
     get "thank_you", on: :collection
