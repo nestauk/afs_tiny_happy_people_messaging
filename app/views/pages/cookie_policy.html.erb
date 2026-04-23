@@ -1,0 +1,11 @@
+<% content_for(:page_title) { I18n.t("pages.cookie_policy.page_title") } %>
+
+<div class="px-3 md:flex justify-around py-8 xl:py-10">
+  <div class="md:w-1/2">
+    <h1 class="text-blue-900 md:text-4xl text-2xl"><%= t("pages.cookie_policy.title") %></h1>
+
+    <div>
+      <%= t("pages.cookie_policy.body").html_safe %>
+    </div>
+  </div>
+</div>

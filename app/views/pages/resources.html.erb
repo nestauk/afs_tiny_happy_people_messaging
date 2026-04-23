@@ -248,73 +248,8 @@
     </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5" x-show="!showWelshResources">
-    <div class="bg-pink-100 p-8 col-span-1">
-      <h2><span aria-hidden="true">🧠</span> <%= t('pages.resources.england.mental_health.title') %></h2>
-      <ul>
-        <li class="mb-4">
-          <%= t('pages.resources.england.mental_health.para1').html_safe %>
-        </li>
-        <li class="mb-4">
-          <%= t('pages.resources.england.mental_health.para2').html_safe %>
-        </li>
-        <li class="mb-4">
-          <%= t('pages.resources.england.mental_health.para3').html_safe %>
-        </li>
-        <li>
-          <%= t('pages.resources.england.mental_health.para4').html_safe %>
-        </li>
-    </div>
-    <div class="bg-yellow-100 p-8 col-span-1">
-      <h2><span aria-hidden="true">🗣️</span> <%= t('pages.resources.england.slt.title') %></h2>
-      <ul>
-        <li class="mb-4">
-          <%= t('pages.resources.england.slt.para1').html_safe %>
-        </li>
-        <li class="mb-4">
-          <%= t('pages.resources.england.slt.para2').html_safe %>
-        </li>
-      </ul>
-    </div>
-    <div class="bg-purple-100 p-8 col-span-1">
-      <h2><span aria-hidden="true">💰</span> <%= t('pages.resources.england.finance.title') %></h2>
-      <ul>
-        <li class="mb-4">
-          <%= t('pages.resources.england.finance.para1').html_safe %>
-        </li>
-        <li class="mb-4">
-          <%= t('pages.resources.england.finance.para2').html_safe %>
-        </li>
-      </ul>
-    </div>
-    <div class="bg-orange-100 p-8 col-span-1">
-      <h2><span aria-hidden="true">📈</span> <%= t('pages.resources.england.development.title') %></h2>
-      <ul>
-        <li class="mb-4">
-          <%= t('pages.resources.england.development.para1').html_safe %>
-        </li>
-        <li class="mb-4">
-          <%= t('pages.resources.england.development.para2').html_safe %>
-        </li>
-      </ul>
-    </div>
-    <div class="bg-red-100 p-8 col-span-1">
-      <h2><span aria-hidden="true">🚨</span> <%= t('pages.resources.england.emergency.title') %></h2>
-      <ul>
-        <li class="mb-4">
-          <%= t('pages.resources.england.emergency.para1').html_safe %>
-        </li>
-        <li class="mb-4">
-          <%= t('pages.resources.england.emergency.para2').html_safe %>
-        </li>
-        <li class="mb-4">
-          <%= t('pages.resources.england.emergency.para3').html_safe %>
-        </li>
-        <li class="mb-4">
-          <%= t('pages.resources.england.emergency.para4').html_safe %>
-        </li>
-      </ul>
-    </div>
+  <div x-show="!showWelshResources">
+    <%= t('pages.resources.england.body').html_safe %>
   </div>
 </div>
 
