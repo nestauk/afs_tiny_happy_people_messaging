@@ -3,10 +3,6 @@
     @apply w-full max-w-full flex flex-col gap-2;
   }
 
-  label:not([type="checkbox"]) {
-    @apply !font-normal max-w-full;
-  }
-
   input:not([type="submit"]),
   textarea,
   select {
