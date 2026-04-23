@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  PROGRAMME_LENGTH = 52
+
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   has_many :survey_sends, dependent: :destroy
@@ -63,9 +65,9 @@ class User < ApplicationRecord
   }
   scope :with_four_messages_left, -> {
     joins(:messages)
-      .where(
-        "messages.content_id = (SELECT id FROM contents WHERE contents.group_id = users.group_id AND archived_at IS NULL ORDER BY position DESC LIMIT 1 OFFSET 3)",
-      )
+      .where.not(messages: {content_id: nil})
+      .group("users.id")
+      .having("COUNT(*) = ?", PROGRAMME_LENGTH - 4)
   }
   scope :received_six_messages_without_bilingual_text, -> {
     where(sent_bilingual_text_at: nil)
@@ -81,11 +83,11 @@ class User < ApplicationRecord
       .group("users.id")
       .having("COUNT(*) >= 6")
   }
-  scope :not_finished_content, -> {
-    last_content_per_group = Content.select("DISTINCT ON (group_id) id")
-      .order("group_id, position DESC")
-    joins(:group).where.not(last_content_id: last_content_per_group)
-      .or(User.joins(:group).where(last_content_id: nil))
+  scope :not_finished_programme, -> {
+    where(
+      "(SELECT COUNT(*) FROM messages WHERE messages.user_id = users.id AND messages.content_id IS NOT NULL) < ?",
+      PROGRAMME_LENGTH,
+    )
   }
   scope :needs_survey_reminder, ->(survey_id) {
     joins(:survey_sends)
@@ -100,6 +102,10 @@ class User < ApplicationRecord
 
   def programme_message_count
     messages.where.not(content_id: nil).count
+  end
+
+  def finished_programme?
+    programme_message_count >= PROGRAMME_LENGTH
   end
 
   def child_age_in_months_today

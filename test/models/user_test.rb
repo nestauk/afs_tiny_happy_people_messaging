@@ -234,60 +234,46 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "with_four_messages_left scope" do
-    group = create(:group, language: "esp")
-    20.times { create(:content, group:) }
+    content = create(:content)
 
-    group2 = create(:group, language: "cy")
-    15.times { create(:content, group: group2) }
+    user1 = create(:user)
+    (User::PROGRAMME_LENGTH - 4).times { create(:message, user: user1, content:) }
 
-    fourth_from_last_group1 = group.contents.order(position: :desc).offset(3).first
-    fourth_from_last_group2 = group2.contents.order(position: :desc).offset(3).first
+    user2 = create(:user)
+    10.times { create(:message, user: user2, content:) }
 
-    user1 = create(:user, group:, language: "esp")
-    create(:message, user: user1, content: fourth_from_last_group1)
+    user3 = create(:user)
+    User::PROGRAMME_LENGTH.times { create(:message, user: user3, content:) }
 
-    user2 = create(:user, group:, language: "esp")
-    create(:message, user: user2, content: group.contents.order(:position).first)
-
-    user3 = create(:user, group:, language: "esp")
-    create(:message, user: user3, content: group.contents.order(:position).last)
-
-    user4 = create(:user, group: group2, language: "cy")
-    create(:message, user: user4, content: fourth_from_last_group2)
-
-    assert_equal User.with_four_messages_left.to_a.size, 2
+    assert_equal User.with_four_messages_left.to_a.size, 1
     assert_includes User.with_four_messages_left, user1
-    assert_includes User.with_four_messages_left, user4
   end
 
-  test "not_finished_content scope" do
-    group = create(:group)
-    content1 = create(:content, position: 1, group:)
-    content2 = create(:content, position: 2, group:)
-    content3 = create(:content, position: 3, group:)
+  test "not_finished_programme scope includes users with fewer than 52 content messages" do
+    content = create(:content)
 
-    group2 = create(:group)
-    content4 = create(:content, position: 1, group: group2)
-    content5 = create(:content, position: 2, group: group2)
-    content6 = create(:content, position: 3, group: group2)
+    user_with_some_messages = create(:user)
+    10.times { create(:message, user: user_with_some_messages, content:) }
 
-    user1 = create(:user, last_content_id: content3.id)
-    user2 = create(:user, last_content_id: content2.id)
-    user3 = create(:user, last_content_id: content1.id)
-    user4 = create(:user, last_content_id: content4.id)
-    user5 = create(:user, last_content_id: content5.id)
-    user6 = create(:user, last_content_id: content6.id)
+    user_with_no_messages = create(:user)
 
-    @subject.update(last_content_id: nil)
+    user_finished = create(:user)
+    User::PROGRAMME_LENGTH.times { create(:message, user: user_finished, content:) }
 
-    assert_equal 5, User.not_finished_content.length
-    assert_includes User.not_finished_content, user2
-    assert_includes User.not_finished_content, user3
-    assert_includes User.not_finished_content, user4
-    assert_includes User.not_finished_content, user5
-    assert_includes User.not_finished_content, @subject
-    assert_not_includes User.not_finished_content, user1
-    assert_not_includes User.not_finished_content, user6
+    assert_includes User.not_finished_programme, user_with_some_messages
+    assert_includes User.not_finished_programme, user_with_no_messages
+    assert_includes User.not_finished_programme, @subject
+    assert_not_includes User.not_finished_programme, user_finished
+  end
+
+  test "not_finished_programme scope does not count non-content messages" do
+    content = create(:content)
+
+    user = create(:user)
+    (User::PROGRAMME_LENGTH - 1).times { create(:message, user:, content:) }
+    create(:message, user:, content_id: nil)
+
+    assert_includes User.not_finished_programme, user
   end
 
   test "needs_survey_reminder scope" do

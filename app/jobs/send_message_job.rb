@@ -7,6 +7,7 @@ class SendMessageJob < ApplicationJob
   def perform(user)
     # If BulkMessage fails and reruns this job, don't send them the next message
     return if user.had_content_this_week?
+    return if user.finished_programme?
 
     content = user.next_content
     return if content.blank?
@@ -21,7 +22,7 @@ class SendMessageJob < ApplicationJob
 
     if save_user_and_message(user, message, content)
       Twilio::Client.new.send_message(message)
-      last_message = user.next_content.blank?
+      last_message = user.finished_programme?
       Survey.trigger_for(user, message_count: user.programme_message_count, last_message: last_message)
     end
   end

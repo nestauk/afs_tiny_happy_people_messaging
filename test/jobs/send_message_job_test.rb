@@ -102,9 +102,11 @@ class SendMessageJobTest < ActiveSupport::TestCase
     end
   end
 
-  test "#perform triggers send_on_last_message surveys when no more content remains" do
+  test "#perform triggers send_on_last_message surveys when user reaches programme length" do
     content = create(:content, body: "here is a link: {{link}}")
-    user = create(:user, last_content_id: nil, group: content.group)
+    create(:content, group: content.group, body: "here is a link: {{link}}")
+    user = create(:user, last_content_id: content.id, group: content.group)
+    (User::PROGRAMME_LENGTH - 1).times { create(:message, user:, content:) }
     create(:survey, send_on_last_message: true)
 
     Message.any_instance.stubs(:generate_token).returns("123")
