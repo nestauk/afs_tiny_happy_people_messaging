@@ -1,7 +1,7 @@
 <% content_for(:page_title) { @user.language == "cy" ? @survey.title_cy : @survey.title_en } %>
 
 <div class="w-full lg:w-1/2 mx-auto py-10 px-5 bg-white">
-  <div class="bg-bbc-dark-blue p-4 relative pb-14">
+  <div class="bg-bbc-dark-blue p-4 relative pb-14 survey-header">
     <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0" %>
     <h1 class="text-3xl text-bbc-yellow">
       <%= @user.language == "cy" ? @survey.title_cy : @survey.title_en %>
@@ -14,7 +14,7 @@
     <%= hidden_field_tag :token, params[:token] %>
     <div class="px-2">
       <% @survey.survey_sections.order(:position).each do |section| %>
-        <h2 class="mb-0 mt-5"><%= @user.language == "cy" ? section.title_cy : section.title_en %></h2>
+        <h2 class="mb-0 mt-8"><%= @user.language == "cy" ? section.title_cy : section.title_en %></h2>
         <%= f.simple_fields_for :questions, @questions.group_by(&:survey_section_id)[section.id].sort_by(&:position) do |q| %>
           <%= q.simple_fields_for :answers do |ff| %>
             <%= ff.input :user_id, as: :hidden, value: @user.id %>
@@ -26,6 +26,7 @@
                 label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
                 hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
                 input_html: { class: "w-full" },
+                wrapper_html: { class: "my-2" },
                 required: false
               %>
             
@@ -36,7 +37,7 @@
                 hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
                 as: :check_boxes,
                 required: false,
-                wrapper_html: { class: 'flex flex-col gap-1' }, 
+                wrapper_html: { class: "my-2" }, 
                 input_html: { 
                   class: 'mr-2', 
                 } 
@@ -50,7 +51,7 @@
                 as: :radio_buttons,
                 required: false,
                 wrapper_html: {
-                  class: "flex flex-col gap-1"
+                  class: "my-2"
                 },
                 input_html: { 
                   class: "mr-2",

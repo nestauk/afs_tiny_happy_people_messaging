@@ -87,3 +87,9 @@ ol {
      height: 88svh;
   }
 }
+
+.survey-header {
+  .trix-content {
+    color: white;
+  }
+}
