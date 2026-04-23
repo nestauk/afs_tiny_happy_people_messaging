@@ -42,7 +42,8 @@ class Admin::SurveysController < ApplicationController
     @hide_sidebar = true
     @survey = Survey.find(params[:id])
     @user = User.new(language: "en")
-    @questions = @survey.questions.includes(:answers).order("survey_sections.position, questions.position")
+    @questions = @survey.questions.includes(:answers).order(:position)
+    @questions.each { |q| q.answers.build(user: @user) if q.answers.none? }
     @back_link = admin_survey_path(@survey)
     render template: "surveys/edit"
   end
