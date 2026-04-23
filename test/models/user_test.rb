@@ -233,47 +233,76 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.received_six_messages_without_bilingual_text, [user1]
   end
 
-  test "with_four_messages_left scope" do
+  test "with_four_messages_left scope for new users uses programme_length" do
     content = create(:content)
 
-    user1 = create(:user)
-    (User::PROGRAMME_LENGTH - 4).times { create(:message, user: user1, content:) }
+    user1 = create(:user, programme_length: 52)
+    48.times { create(:message, user: user1, content:) }
 
-    user2 = create(:user)
+    user2 = create(:user, programme_length: 52)
     10.times { create(:message, user: user2, content:) }
 
-    user3 = create(:user)
-    User::PROGRAMME_LENGTH.times { create(:message, user: user3, content:) }
+    user3 = create(:user, programme_length: 52)
+    52.times { create(:message, user: user3, content:) }
 
-    assert_equal User.with_four_messages_left.to_a.size, 1
+    assert_equal 1, User.with_four_messages_left.to_a.size
     assert_includes User.with_four_messages_left, user1
   end
 
-  test "not_finished_programme scope includes users with fewer than 52 content messages" do
-    content = create(:content)
+  test "with_four_messages_left scope for old users uses content position" do
+    group = create(:group, language: "esp")
+    20.times { create(:content, group:) }
+    fourth_from_last = group.contents.order(position: :desc).offset(3).first
 
-    user_with_some_messages = create(:user)
-    10.times { create(:message, user: user_with_some_messages, content:) }
+    user1 = create(:user, group:, language: "esp", programme_length: nil)
+    create(:message, user: user1, content: fourth_from_last)
 
-    user_with_no_messages = create(:user)
+    user2 = create(:user, group:, language: "esp", programme_length: nil)
+    create(:message, user: user2, content: group.contents.order(:position).first)
 
-    user_finished = create(:user)
-    User::PROGRAMME_LENGTH.times { create(:message, user: user_finished, content:) }
-
-    assert_includes User.not_finished_programme, user_with_some_messages
-    assert_includes User.not_finished_programme, user_with_no_messages
-    assert_includes User.not_finished_programme, @subject
-    assert_not_includes User.not_finished_programme, user_finished
+    assert_equal 1, User.with_four_messages_left.to_a.size
+    assert_includes User.with_four_messages_left, user1
   end
 
-  test "not_finished_programme scope does not count non-content messages" do
+  test "not_finished scope for new users uses programme_length" do
     content = create(:content)
 
-    user = create(:user)
-    (User::PROGRAMME_LENGTH - 1).times { create(:message, user:, content:) }
+    user_with_some_messages = create(:user, programme_length: 52)
+    10.times { create(:message, user: user_with_some_messages, content:) }
+
+    user_with_no_messages = create(:user, programme_length: 52)
+
+    user_finished = create(:user, programme_length: 52)
+    52.times { create(:message, user: user_finished, content:) }
+
+    assert_includes User.not_finished, user_with_some_messages
+    assert_includes User.not_finished, user_with_no_messages
+    assert_not_includes User.not_finished, user_finished
+  end
+
+  test "not_finished scope for new users does not count non-content messages" do
+    content = create(:content)
+
+    user = create(:user, programme_length: 52)
+    51.times { create(:message, user:, content:) }
     create(:message, user:, content_id: nil)
 
-    assert_includes User.not_finished_programme, user
+    assert_includes User.not_finished, user
+  end
+
+  test "not_finished scope for old users uses content-based logic" do
+    group = create(:group)
+    create(:content, position: 1, group:)
+    content2 = create(:content, position: 2, group:)
+    content3 = create(:content, position: 3, group:)
+
+    user_mid = create(:user, last_content_id: content2.id, programme_length: nil)
+    user_done = create(:user, last_content_id: content3.id, programme_length: nil)
+    user_new = create(:user, last_content_id: nil, programme_length: nil)
+
+    assert_includes User.not_finished, user_mid
+    assert_includes User.not_finished, user_new
+    assert_not_includes User.not_finished, user_done
   end
 
   test "needs_survey_reminder scope" do

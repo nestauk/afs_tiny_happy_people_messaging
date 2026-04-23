@@ -50,11 +50,21 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
-  test "no morning job enqueued if user has finished the programme" do
+  test "no morning job enqueued if new user has finished the programme" do
     travel_to_monday
     content = create(:content)
-    user = create(:user, hour_preference: "morning", day_preference: 1)
-    User::PROGRAMME_LENGTH.times { create(:message, user:, content:) }
+    user = create(:user, hour_preference: "morning", day_preference: 1, programme_length: 52)
+    52.times { create(:message, user:, content:) }
+
+    assert_no_enqueued_jobs do
+      SendBulkMessageJob.perform_now("weekly_message", "morning")
+    end
+  end
+
+  test "no morning job enqueued if old user has finished all the content" do
+    travel_to_monday
+    content = create(:content)
+    create(:user, hour_preference: "morning", day_preference: 1, last_content_id: content.id, programme_length: nil)
 
     assert_no_enqueued_jobs do
       SendBulkMessageJob.perform_now("weekly_message", "morning")
@@ -137,10 +147,23 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
-  test "#perform sends offboarding text messages to users" do
+  test "#perform sends offboarding text messages to new users" do
     content = create(:content)
-    user = create(:user)
-    (User::PROGRAMME_LENGTH - 4).times { create(:message, user:, content:) }
+    user = create(:user, programme_length: 52)
+    48.times { create(:message, user:, content:) }
+
+    assert_enqueued_jobs 1, only: OffboardingMessageJob do
+      SendBulkMessageJob.perform_now("offboarding")
+    end
+  end
+
+  test "#perform sends offboarding text messages to old users" do
+    group = create(:group, language: "esp")
+    10.times { create(:content, group:) }
+    fourth_from_last = group.contents.order(position: :desc).offset(3).first
+
+    user = create(:user, group:, language: "esp", programme_length: nil)
+    create(:message, user:, content: fourth_from_last)
 
     assert_enqueued_jobs 1, only: OffboardingMessageJob do
       SendBulkMessageJob.perform_now("offboarding")

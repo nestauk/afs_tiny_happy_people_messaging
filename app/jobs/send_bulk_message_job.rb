@@ -35,7 +35,7 @@ class SendBulkMessageJob < ApplicationJob
   private
 
   def users_for(time)
-    base = User.not_finished_programme.contactable.with_preference_for_day(Time.zone.today.wday)
+    base = User.not_finished.contactable.with_preference_for_day(Time.zone.today.wday)
     case time
     when "morning" then base.wants_morning_message
     when "afternoon" then base.wants_afternoon_message
