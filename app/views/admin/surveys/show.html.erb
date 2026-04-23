@@ -17,10 +17,11 @@
   &middot; <%= link_to "Edit", edit_admin_survey_path(@survey), class: "text-blue-500 hover:underline" %>
 </div>
 
-<div class="flex justify-between items-baseline">
-  <h2>Questions</h2>
-  <%= link_to "New survey section", new_admin_survey_survey_section_path(@survey), class: "bg-blue-500 text-white rounded p-2" %>
+<div class="mb-4 text-right">
+  <%= link_to "New survey section", new_admin_survey_survey_section_path(@survey), class: "bg-green-700 text-white rounded p-2" %>
+  <%= link_to "Preview survey", preview_admin_survey_path(@survey), class: "bg-blue-500 text-white rounded p-2" %>
 </div>
+
 <table class="table-auto w-full">
   <thead>
     <tr class="bg-blue-300 text-left">
