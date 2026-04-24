@@ -6,12 +6,13 @@ class SurveysController < ApplicationController
 
   def edit
     @hide_sidebar = true
+    @language = params[:locale] || @user.language || I18n.locale
   end
 
   def update
     if @survey.update(survey_params)
       @survey.survey_sends.where(user: @user).update_all(completed_at: Time.zone.now)
-      redirect_to thank_you_surveys_path(token: params[:token])
+      redirect_to thank_you_surveys_path(token: params[:token], locale: @user.language)
     else
       set_user
       @questions = @survey.questions.sort_by(&:position)
@@ -22,6 +23,7 @@ class SurveysController < ApplicationController
 
   def thank_you
     @hide_sidebar = true
+    @language = params[:locale] || @user.language || I18n.locale
   end
 
   private
