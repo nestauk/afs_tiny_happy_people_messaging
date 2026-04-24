@@ -1,4 +1,4 @@
-<% content_for(:page_title) { @user.language == "cy" ? @survey.title_cy : @survey.title_en } %>
+<% content_for(:page_title) { @language == "cy" ? @survey.title_cy : @survey.title_en } %>
 
 <div class="w-full lg:w-1/2 mx-auto py-10 px-5 bg-white md:my-10">
   <% if @back_link %>
@@ -7,17 +7,17 @@
   <div class="bg-bbc-dark-blue p-4 relative pb-14 survey-header">
     <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0" %>
     <h1 class="text-3xl text-bbc-yellow">
-      <%= @user.language == "cy" ? @survey.title_cy : @survey.title_en %>
+      <%= @language == "cy" ? @survey.title_cy : @survey.title_en %>
     </h1>
 
-    <%= @user.language == "cy" ? @survey.intro_cy : @survey.intro_en %>
+    <%= @language == "cy" ? @survey.intro_cy : @survey.intro_en %>
   </div>
 
   <%= simple_form_for @survey, url: survey_path(@survey), method: :patch do |f| %>
     <%= hidden_field_tag :token, params[:token] %>
     <div class="px-2">
       <% @survey.survey_sections.order(:position).each do |section| %>
-        <h2 class="mb-0 mt-8"><%= @user.language == "cy" ? section.title_cy : section.title_en %></h2>
+        <h2 class="mb-0 mt-8"><%= @language == "cy" ? section.title_cy : section.title_en %></h2>
         <%= f.simple_fields_for :questions, @questions.group_by(&:survey_section_id)[section.id].sort_by(&:position) do |q| %>
           <%= q.simple_fields_for :answers do |ff| %>
             <%= ff.input :user_id, as: :hidden, value: @user.id %>
@@ -26,8 +26,8 @@
             <% when "text" %>
               <%= 
                 ff.input :response,
-                label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
-                hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
+                label: (sanitize @language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+                hint: (sanitize @language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
                 input_html: { class: "w-full" },
                 wrapper_html: { class: "my-4" },
                 required: false,
@@ -36,9 +36,9 @@
             
             <% when "check_boxes" %>
               <%= ff.input :response,
-                label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
-                collection: @user.language == "cy" ? q.object.options_cy : q.object.options_en,
-                hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
+                label: (sanitize @language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+                collection: @language == "cy" ? q.object.options_cy : q.object.options_en,
+                hint: (sanitize @language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
                 as: :check_boxes,
                 required: false,
                 wrapper_html: { class: "my-4" }, 
@@ -50,9 +50,9 @@
 
             <% when "radio_buttons" %>
               <%= ff.input :response,
-                label: (sanitize @user.language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
-                collection: @user.language == "cy" ? q.object.options_cy : q.object.options_en,
-                hint: (sanitize @user.language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
+                label: (sanitize @language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+                collection: @language == "cy" ? q.object.options_cy : q.object.options_en,
+                hint: (sanitize @language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
                 as: :radio_buttons,
                 required: false,
                 wrapper_html: {
