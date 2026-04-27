@@ -39,40 +39,12 @@ class SurveyTest < ActiveSupport::TestCase
     end
   end
 
-  test ".trigger_for enqueues SendSurveyJob when last_message is true and send_on_last_message is set" do
-    survey = create(:survey, send_on_last_message: true)
-    user = create(:user)
-
-    assert_enqueued_with(job: SendSurveyJob, args: [user, survey]) do
-      Survey.trigger_for(user, message_count: 99, last_message: true)
-    end
-  end
-
-  test ".trigger_for enqueues multiple matching surveys" do
-    create(:survey, send_after_message_count: 5)
-    create(:survey, send_on_last_message: true)
-    user = create(:user)
-
-    assert_enqueued_jobs 2, only: SendSurveyJob do
-      Survey.trigger_for(user, message_count: 5, last_message: true)
-    end
-  end
-
   test ".trigger_for does not enqueue if message count does not match" do
     create(:survey, send_after_message_count: 10)
     user = create(:user)
 
     assert_no_enqueued_jobs only: SendSurveyJob do
       Survey.trigger_for(user, message_count: 5)
-    end
-  end
-
-  test ".trigger_for does not enqueue send_on_last_message survey when last_message is false" do
-    create(:survey, send_on_last_message: true)
-    user = create(:user)
-
-    assert_no_enqueued_jobs only: SendSurveyJob do
-      Survey.trigger_for(user, message_count: 0, last_message: false)
     end
   end
 
@@ -87,11 +59,11 @@ class SurveyTest < ActiveSupport::TestCase
   end
 
   test ".trigger_for does not enqueue surveys with no trigger configured" do
-    create(:survey, send_after_message_count: nil, send_on_last_message: false)
+    create(:survey, send_after_message_count: nil)
     user = create(:user)
 
     assert_no_enqueued_jobs only: SendSurveyJob do
-      Survey.trigger_for(user, message_count: 0, last_message: true)
+      Survey.trigger_for(user, message_count: 0)
     end
   end
 end

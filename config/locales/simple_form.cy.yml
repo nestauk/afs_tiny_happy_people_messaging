@@ -3,8 +3,6 @@ cy:
     required:
       text: 'anghangen'
       mark: '*'
-    error_notification:
-      default_message: "Os gwelwch yn dda, adolygwch y problemau isod:"
     labels:
       user:
         child_birthday: "Pryd cafodd eich plentyn ei eni? (ofynnol)"

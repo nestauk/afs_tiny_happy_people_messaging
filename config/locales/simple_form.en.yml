@@ -3,8 +3,6 @@ en:
     required:
       text: 'required'
       mark: '*'
-    error_notification:
-      default_message: "Please review the problems below:"
     labels:
       user:
         child_birthday: "When was your child born? (required)"

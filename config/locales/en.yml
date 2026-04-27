@@ -10,13 +10,13 @@ en:
               too_young: "Your child is just a bit too young for this service right now - but not for long! We’ll use the number you’ve already shared to let you know when they’re ready. {{waitlist_link}} to stay updated."
               too_old: "Your child must be between 9 and 18 months old to sign up for the service."
             postcode:
-              not_welsh: "This service is only available in Wales currently. Not to worry -  you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
+              not_welsh: "This service is only available in Wales currently. Not to worry - you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
             terms_agreed:
               accepted: "You must accept the terms of service and privacy policy to sign up for the service."
   controllers: 
     users:
       create:
-        notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
+        notice: "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Not to worry - you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
         too_young_notice: "Thanks for joining the waitlist! We’ll send you a text when your child is ready to start receiving the activities."
       edit: 
         notice: "Your session has expired. Contact info@cbeebies-text.uk if you need further help."
@@ -29,19 +29,22 @@ en:
       user_profile:
         update: "Next"
   messages:
-    bilingual_text: "Wales is a vibrant mix of many languages—and they all belong here! Speaking to {{child_name}} in your native language is a wonderful gift for their development. Learn more about bilingual households here: {{link}}"
+    bilingual_text: "Wales celebrates all languages! Using your home language(s) is a gift for {{child_name}}'s development. Learn more: {{link}}"
     feedback: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
     nudge: "You've not interacted with any videos lately. You can text 'PAUSE' for a break or 'END' to stop them entirely."
     restart: "Welcome to CBeebies Parenting! Your child is now old enough to start receiving activities. Fill in the registration form to get started {{registration_form}}."
     welcome: "Hi {{parent_name}}, welcome to our programme of weekly texts with fun activities for {{child_name}}'s development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?"
     your_child: "your child"
-    offboarding: "You're nearly at the end of our videos! A few more videos are coming, the last one in a month. Do you have any feedback or questions for us this month?"
+    offboarding_preparation: "You're nearly at the end of our videos! A few more videos are coming, the last one in a month. Do you have any feedback or questions for us this month?"
+    offboarding: "Thank you so much for taking part in our text messaging programme with fun, weekly activities for your child! Tell us how you found the programme here: {{link}}"
     survey: "We'd love to hear how you're getting on! Please take a moment to complete this short survey: {{survey_url}}"
     survey_reminder: "Please take a moment to complete this short survey: {{survey_url}}"
     waitlist: "Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?"
     out_of_hours_response: "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
   titles:
     application: "CBeebies Parenting Text Messaging"
+  descriptions:
+    application: Free texts sent weekly to your phone for fun activities to try out with your child from CBeebies Parenting
   pages:
     about_us:
       title: "About us"
@@ -169,8 +172,8 @@ en:
       page_title: "Resources for caregivers"
       title: "Resources for you and your little one"
       text: "We've compiled a list of helpful resources below to support you in navigating any challenges you may face while caring for your little ones."
-      english_resources: Look at resources avalaible in England
-      welsh_resources: Look at resources avalaible in Wales
+      english_resources: Look at resources available in England
+      welsh_resources: Look at resources available in Wales
       england:
         body: |
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">

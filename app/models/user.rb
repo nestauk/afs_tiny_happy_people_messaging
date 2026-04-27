@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  PROGRAMME_LENGTH = 52
+
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   has_many :survey_sends, dependent: :destroy
@@ -62,10 +64,19 @@ class User < ApplicationRecord
       .having("COUNT(*) = 2 OR COUNT(*) = 18")
   }
   scope :with_four_messages_left, -> {
-    joins(:messages)
-      .where(
-        "messages.content_id = (SELECT id FROM contents WHERE contents.group_id = users.group_id AND archived_at IS NULL ORDER BY position DESC LIMIT 1 OFFSET 3)",
-      )
+    where(<<~SQL.squish)
+      CASE
+        WHEN users.programme_length IS NOT NULL THEN
+          (SELECT COUNT(*) FROM messages WHERE messages.user_id = users.id AND messages.content_id IS NOT NULL) = users.programme_length - 4
+        ELSE
+          EXISTS (
+            SELECT 1 FROM messages WHERE messages.user_id = users.id
+            AND messages.content_id = (
+              SELECT id FROM contents WHERE contents.group_id = users.group_id AND archived_at IS NULL ORDER BY position DESC LIMIT 1 OFFSET 3
+            )
+          )
+      END
+    SQL
   }
   scope :received_six_messages_without_bilingual_text, -> {
     where(sent_bilingual_text_at: nil)
@@ -81,11 +92,17 @@ class User < ApplicationRecord
       .group("users.id")
       .having("COUNT(*) >= 6")
   }
-  scope :not_finished_content, -> {
-    last_content_per_group = Content.select("DISTINCT ON (group_id) id")
-      .order("group_id, position DESC")
-    joins(:group).where.not(last_content_id: last_content_per_group)
-      .or(User.joins(:group).where(last_content_id: nil))
+  scope :not_finished, -> {
+    where(<<~SQL.squish)
+      CASE
+        WHEN users.programme_length IS NOT NULL THEN
+          (SELECT COUNT(*) FROM messages WHERE messages.user_id = users.id AND messages.content_id IS NOT NULL) < users.programme_length
+        ELSE
+          users.last_content_id IS NULL OR users.last_content_id NOT IN (
+            SELECT DISTINCT ON (group_id) id FROM contents ORDER BY group_id, position DESC
+          )
+      END
+    SQL
   }
   scope :needs_survey_reminder, ->(survey_id) {
     joins(:survey_sends)
@@ -100,6 +117,14 @@ class User < ApplicationRecord
 
   def programme_message_count
     messages.where.not(content_id: nil).count
+  end
+
+  def finished_programme?
+    if programme_length.present?
+      programme_message_count >= programme_length
+    else
+      had_any_content_before? && next_content.blank?
+    end
   end
 
   def child_age_in_months_today

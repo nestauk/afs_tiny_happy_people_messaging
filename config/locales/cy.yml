@@ -32,13 +32,16 @@ cy:
         update: "Nesaf"
   titles:
     application: "Negeseuon Testun CBeebies Parenting Text Messaging"
+  descriptions:
+    application: Free texts sent weekly to your phone for fun activities to try out with your child from CBeebies Parenting
   messages:
     bilingual_text: "Mae Cymru'n dathlu pob iaith! Mae siarad eich mamiaith yn anrheg i ddatblygiad {{child_name}}. Dysgwch fwy: {{link}}"
     feedback: "A yw’r gweithgareddau rydyn ni’n eu hanfon yn addas i’ch plentyn? Atebwch ‘Ie’ neu ‘Na’ i roi gwybod i ni."
     nudge: "Nid ydych wedi rhyngweithio ag unrhyw fideos yn ddiweddar. Gallwch decstio ‘ADDASU’ am gynnwys gwahanol, neu ‘GORFFEN’ i’w hatal yn gyfan gwbl."
     welcome: "Helo {{parent_name}}, croeso i’n negeseuon wythnosol gyda gweithgareddau i {{child_name}}. Llongyfarchiadau ar ddechrau’r siwrnai anhygoel hon gyda’ch un bach!"
     your_child: "eich plentyn"
-    offboarding: "Rydych chi bron ar ddiwedd ein fideos! Mae ychydig mwy i ddod, a'r olaf ymhen mis. Oes gennych chi unrhyw adborth neu gwestiynau i ni y mis hwn?"
+    offboarding_preparation: "Rydych chi bron ar ddiwedd ein fideos! Mae ychydig mwy i ddod, a'r olaf ymhen mis. Oes gennych chi unrhyw adborth neu gwestiynau i ni y mis hwn?"
+    offboarding: "Diolch yn fawr iawn am gymryd rhan yn ein rhaglen negeseuon testun gyda gweithgareddau wythnosol hwyliog i’ch plentyn! Dywedwch wrthym sut rydych chi wedi cael y rhaglen yma: {{link}}"
     survey: "Hoffem glywed sut rydych chi'n dod ymlaen! Cymerwch funud i gwblhau'r arolwg byr hwn: {{survey_url}}"
     survey_reminder: "Cymerwch funud i gwblhau'r arolwg byr hwn: {{survey_url}}"
     waitlist: "Helo! Diolch am ymuno â'r rhestr aros ar gyfer ein rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Byddwn mewn cysylltiad pan ddaw'r amser i ddechrau. Yn y cyfamser, beth am gadw'r rhif hwn fel 'CBeebies Parenting' fel eich bod yn gwybod mai ni sy'n anfon negeseuon atoch?"

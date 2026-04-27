@@ -25,9 +25,7 @@
           <% else %>
             Sent manually
           <% end %>
-          <% if survey.send_on_last_message? %>
-            &middot; At end of programme
-          <% end %>
+        </td>
         <td class="px-4 py-4 bg-white">
           <%= link_to "Edit", edit_admin_survey_path(survey), class: "text-blue-500 hover:underline" %><br>
           <%= link_to "Delete", admin_survey_path(survey), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>

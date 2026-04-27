@@ -11,9 +11,6 @@
   <% else %>
     Not auto-sent (manual only)
   <% end %>
-  <% if @survey.send_on_last_message? %>
-    &middot; Also sent at end of programme
-  <% end %>
   &middot; <%= link_to "Edit", edit_admin_survey_path(@survey), class: "text-blue-500 hover:underline" %>
 </div>
 

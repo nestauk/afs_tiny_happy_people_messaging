@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_22_153225) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_27_085835) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -392,7 +392,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_153225) do
     t.text "intro_cy"
     t.text "intro_en"
     t.integer "send_after_message_count"
-    t.boolean "send_on_last_message", default: false, null: false
     t.string "title_cy"
     t.string "title_en", null: false
     t.datetime "updated_at", null: false
@@ -418,6 +417,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_153225) do
     t.datetime "nudged_at"
     t.string "phone_number", null: false
     t.string "postcode", null: false
+    t.integer "programme_length", default: 52
     t.jsonb "referral_sources", default: []
     t.datetime "restart_at"
     t.datetime "sent_bilingual_text_at"

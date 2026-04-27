@@ -1,3 +1,6 @@
+## [2026-04-23]
+- Users receive 52 messages with content, rather than receiving all remaining content
+
 ## [2026-04-21]
 - Add new message telling users programme is almost over
 

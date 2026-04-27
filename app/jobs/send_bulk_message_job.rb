@@ -27,7 +27,7 @@ class SendBulkMessageJob < ApplicationJob
         ActiveJob.perform_all_later(jobs) if jobs.any?
       end
     when "offboarding"
-      jobs = User.contactable.with_four_messages_left.map { |user| OffboardingMessageJob.new(user) }
+      jobs = User.contactable.with_four_messages_left.map { |user| OffboardingPreparationMessageJob.new(user) }
       ActiveJob.perform_all_later(jobs) if jobs.any?
     end
   end
@@ -35,7 +35,7 @@ class SendBulkMessageJob < ApplicationJob
   private
 
   def users_for(time)
-    base = User.not_finished_content.contactable.with_preference_for_day(Time.zone.today.wday)
+    base = User.not_finished.contactable.with_preference_for_day(Time.zone.today.wday)
     case time
     when "morning" then base.wants_morning_message
     when "afternoon" then base.wants_afternoon_message

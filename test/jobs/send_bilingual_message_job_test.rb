@@ -14,7 +14,7 @@ class SendBilingualMessageJobTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, Message.count
-    assert_equal("Wales is a vibrant mix of many languages—and they all belong here! Speaking to Harry in your native language is a wonderful gift for their development. Learn more about bilingual households here: http://localhost:3000/m/ABC", Message.last.body)
+    assert_equal("Wales celebrates all languages! Using your home language(s) is a gift for Harry's development. Learn more: http://localhost:3000/m/ABC", Message.last.body)
     assert_not_nil user.sent_bilingual_text_at
   end
 

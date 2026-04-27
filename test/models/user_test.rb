@@ -69,7 +69,7 @@ class UserTest < ActiveSupport::TestCase
     error = assert_raises ActiveRecord::RecordInvalid do
       create(:user, postcode: "SW1A 1AA")
     end
-    assert_includes error.record.errors[:postcode], "This service is only available in Wales currently. Not to worry -  you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
+    assert_includes error.record.errors[:postcode], "This service is only available in Wales currently. Not to worry - you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
   end
 
   test "contactable scope" do
@@ -233,61 +233,76 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.received_six_messages_without_bilingual_text, [user1]
   end
 
-  test "with_four_messages_left scope" do
-    group = create(:group, language: "esp")
-    20.times { create(:content, group:) }
+  test "with_four_messages_left scope for new users uses programme_length" do
+    content = create(:content)
 
-    group2 = create(:group, language: "cy")
-    15.times { create(:content, group: group2) }
+    user1 = create(:user, programme_length: 52)
+    48.times { create(:message, user: user1, content:) }
 
-    fourth_from_last_group1 = group.contents.order(position: :desc).offset(3).first
-    fourth_from_last_group2 = group2.contents.order(position: :desc).offset(3).first
+    user2 = create(:user, programme_length: 52)
+    10.times { create(:message, user: user2, content:) }
 
-    user1 = create(:user, group:, language: "esp")
-    create(:message, user: user1, content: fourth_from_last_group1)
+    user3 = create(:user, programme_length: 52)
+    52.times { create(:message, user: user3, content:) }
 
-    user2 = create(:user, group:, language: "esp")
-    create(:message, user: user2, content: group.contents.order(:position).first)
-
-    user3 = create(:user, group:, language: "esp")
-    create(:message, user: user3, content: group.contents.order(:position).last)
-
-    user4 = create(:user, group: group2, language: "cy")
-    create(:message, user: user4, content: fourth_from_last_group2)
-
-    assert_equal User.with_four_messages_left.to_a.size, 2
+    assert_equal 1, User.with_four_messages_left.to_a.size
     assert_includes User.with_four_messages_left, user1
-    assert_includes User.with_four_messages_left, user4
   end
 
-  test "not_finished_content scope" do
+  test "with_four_messages_left scope for old users uses content position" do
+    group = create(:group, language: "esp")
+    20.times { create(:content, group:) }
+    fourth_from_last = group.contents.order(position: :desc).offset(3).first
+
+    user1 = create(:user, group:, language: "esp", programme_length: nil)
+    create(:message, user: user1, content: fourth_from_last)
+
+    user2 = create(:user, group:, language: "esp", programme_length: nil)
+    create(:message, user: user2, content: group.contents.order(:position).first)
+
+    assert_equal 1, User.with_four_messages_left.to_a.size
+    assert_includes User.with_four_messages_left, user1
+  end
+
+  test "not_finished scope for new users uses programme_length" do
+    content = create(:content)
+
+    user_with_some_messages = create(:user, programme_length: 52)
+    10.times { create(:message, user: user_with_some_messages, content:) }
+
+    user_with_no_messages = create(:user, programme_length: 52)
+
+    user_finished = create(:user, programme_length: 52)
+    52.times { create(:message, user: user_finished, content:) }
+
+    assert_includes User.not_finished, user_with_some_messages
+    assert_includes User.not_finished, user_with_no_messages
+    assert_not_includes User.not_finished, user_finished
+  end
+
+  test "not_finished scope for new users does not count non-content messages" do
+    content = create(:content)
+
+    user = create(:user, programme_length: 52)
+    51.times { create(:message, user:, content:) }
+    create(:message, user:, content_id: nil)
+
+    assert_includes User.not_finished, user
+  end
+
+  test "not_finished scope for old users uses content-based logic" do
     group = create(:group)
-    content1 = create(:content, position: 1, group:)
+    create(:content, position: 1, group:)
     content2 = create(:content, position: 2, group:)
     content3 = create(:content, position: 3, group:)
 
-    group2 = create(:group)
-    content4 = create(:content, position: 1, group: group2)
-    content5 = create(:content, position: 2, group: group2)
-    content6 = create(:content, position: 3, group: group2)
+    user_mid = create(:user, last_content_id: content2.id, programme_length: nil)
+    user_done = create(:user, last_content_id: content3.id, programme_length: nil)
+    user_new = create(:user, last_content_id: nil, programme_length: nil)
 
-    user1 = create(:user, last_content_id: content3.id)
-    user2 = create(:user, last_content_id: content2.id)
-    user3 = create(:user, last_content_id: content1.id)
-    user4 = create(:user, last_content_id: content4.id)
-    user5 = create(:user, last_content_id: content5.id)
-    user6 = create(:user, last_content_id: content6.id)
-
-    @subject.update(last_content_id: nil)
-
-    assert_equal 5, User.not_finished_content.length
-    assert_includes User.not_finished_content, user2
-    assert_includes User.not_finished_content, user3
-    assert_includes User.not_finished_content, user4
-    assert_includes User.not_finished_content, user5
-    assert_includes User.not_finished_content, @subject
-    assert_not_includes User.not_finished_content, user1
-    assert_not_includes User.not_finished_content, user6
+    assert_includes User.not_finished, user_mid
+    assert_includes User.not_finished, user_new
+    assert_not_includes User.not_finished, user_done
   end
 
   test "needs_survey_reminder scope" do

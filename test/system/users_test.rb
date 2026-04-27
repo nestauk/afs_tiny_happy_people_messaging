@@ -78,7 +78,7 @@ class UsersTest < ApplicationSystemTestCase
 
     sign_up
 
-    assert_text "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now. Please check back in in a few months"
+    assert_text "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now."
   end
 
   test "user can skip non-essential form fields" do
