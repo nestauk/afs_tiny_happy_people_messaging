@@ -8,7 +8,9 @@ class SendCustomMessageJobTest < ActiveSupport::TestCase
 
     stub_successful_twilio_call(message.body, message.user)
 
+    ENV["SMS_ENABLED"] = "true"
     SendCustomMessageJob.perform_now(message)
+    ENV["SMS_ENABLED"] = "false"
 
     reloaded_message = message.reload
 
