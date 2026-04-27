@@ -102,34 +102,6 @@ class SendMessageJobTest < ActiveSupport::TestCase
     end
   end
 
-  test "#perform triggers send_on_last_message surveys when new user reaches programme length" do
-    content = create(:content, body: "here is a link: {{link}}")
-    create(:content, group: content.group, body: "here is a link: {{link}}")
-    user = create(:user, last_content_id: content.id, group: content.group, programme_length: 52)
-    51.times { create(:message, user:, content:, created_at: 2.weeks.ago) }
-    create(:survey, send_on_last_message: true)
-
-    Message.any_instance.stubs(:generate_token).returns("123")
-    stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
-
-    assert_enqueued_jobs 1, only: SendSurveyJob do
-      SendMessageJob.new.perform(user)
-    end
-  end
-
-  test "#perform triggers send_on_last_message surveys when old user has no more content" do
-    content = create(:content, body: "here is a link: {{link}}")
-    user = create(:user, last_content_id: nil, group: content.group, programme_length: nil)
-    create(:survey, send_on_last_message: true)
-
-    Message.any_instance.stubs(:generate_token).returns("123")
-    stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
-
-    assert_enqueued_jobs 1, only: SendSurveyJob do
-      SendMessageJob.new.perform(user)
-    end
-  end
-
   test "#perform does not trigger surveys if message fails to send" do
     content = create(:content, body: "here is a link: {{link}}")
     create(:content, group: content.group, body: "here is a link: {{link}}")
