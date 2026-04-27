@@ -43,6 +43,8 @@ en:
     out_of_hours_response: "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
   titles:
     application: "CBeebies Parenting Text Messaging"
+  descriptions:
+    application: Free texts sent weekly to your phone for fun activities to try out with your child from CBeebies Parenting
   pages:
     about_us:
       title: "About us"

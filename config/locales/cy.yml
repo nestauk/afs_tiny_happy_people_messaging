@@ -32,6 +32,8 @@ cy:
         update: "Nesaf"
   titles:
     application: "Negeseuon Testun CBeebies Parenting Text Messaging"
+  descriptions:
+    application: Free texts sent weekly to your phone for fun activities to try out with your child from CBeebies Parenting
   messages:
     bilingual_text: "Mae Cymru'n dathlu pob iaith! Mae siarad eich mamiaith yn anrheg i ddatblygiad {{child_name}}. Dysgwch fwy: {{link}}"
     feedback: "A yw’r gweithgareddau rydyn ni’n eu hanfon yn addas i’ch plentyn? Atebwch ‘Ie’ neu ‘Na’ i roi gwybod i ni."
