@@ -63,7 +63,7 @@ class SurveyTest < ActiveSupport::TestCase
     user = create(:user)
 
     assert_no_enqueued_jobs only: SendSurveyJob do
-      Survey.trigger_for(user, message_count: 0, last_message: true)
+      Survey.trigger_for(user, message_count: 0)
     end
   end
 end

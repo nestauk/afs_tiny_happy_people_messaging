@@ -152,7 +152,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     user = create(:user, programme_length: 52)
     48.times { create(:message, user:, content:) }
 
-    assert_enqueued_jobs 1, only: OffboardingMessageJob do
+    assert_enqueued_jobs 1, only: OffboardingPreparationMessageJob do
       SendBulkMessageJob.perform_now("offboarding")
     end
   end
@@ -165,7 +165,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     user = create(:user, group:, language: "esp", programme_length: nil)
     create(:message, user:, content: fourth_from_last)
 
-    assert_enqueued_jobs 1, only: OffboardingMessageJob do
+    assert_enqueued_jobs 1, only: OffboardingPreparationMessageJob do
       SendBulkMessageJob.perform_now("offboarding")
     end
   end

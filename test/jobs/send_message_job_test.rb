@@ -115,4 +115,49 @@ class SendMessageJobTest < ActiveSupport::TestCase
       SendMessageJob.new.perform(user)
     end
   end
+
+  test "#perform sends offboarding message to users who have finished content" do
+    content = create(:content, body: "here is a link: {{link}}")
+    create(:content, group: content.group, body: "here is a second link: {{link}}")
+    user = create(:user, last_content_id: content.id, group: content.group, programme_length: 2)
+    create(:message, user: user, content: content, created_at: 2.weeks.ago)
+    create(:survey, title_en: "Offboarding")
+
+    Message.any_instance.stubs(:generate_token).returns("123")
+    stub_successful_twilio_call("here is a second link: #{track_link_url("123")}", user)
+
+    freeze_time do
+      assert_enqueued_with(job: OffboardingMessageJob, at: 1.week.from_now) do
+        SendMessageJob.new.perform(user)
+      end
+    end
+  end
+
+  test "#perform does not send offboarding message if user has not finished content" do
+    content = create(:content, body: "here is a link: {{link}}")
+    create(:content, group: content.group, body: "here is a second link: {{link}}")
+    user = create(:user, last_content_id: nil, group: content.group, programme_length: 2)
+    create(:survey, title_en: "Offboarding")
+
+    Message.any_instance.stubs(:generate_token).returns("123")
+    stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
+
+    assert_no_enqueued_jobs only: OffboardingMessageJob do
+      SendMessageJob.new.perform(user)
+    end
+  end
+
+  test "#perform does not send offboarding message if user doesn't have programme_length set" do
+    content = create(:content, body: "here is a link: {{link}}")
+    user = create(:user, last_content_id: content.id, group: content.group, programme_length: nil)
+    create(:message, user: user, content: content, created_at: 2.weeks.ago)
+    create(:survey, title_en: "Offboarding")
+
+    Message.any_instance.stubs(:generate_token).returns("123")
+    stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
+
+    assert_no_enqueued_jobs only: OffboardingMessageJob do
+      SendMessageJob.new.perform(user)
+    end
+  end
 end

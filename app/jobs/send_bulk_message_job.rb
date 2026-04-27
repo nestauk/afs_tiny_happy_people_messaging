@@ -27,7 +27,7 @@ class SendBulkMessageJob < ApplicationJob
         ActiveJob.perform_all_later(jobs) if jobs.any?
       end
     when "offboarding"
-      jobs = User.contactable.with_four_messages_left.map { |user| OffboardingMessageJob.new(user) }
+      jobs = User.contactable.with_four_messages_left.map { |user| OffboardingPreparationMessageJob.new(user) }
       ActiveJob.perform_all_later(jobs) if jobs.any?
     end
   end
