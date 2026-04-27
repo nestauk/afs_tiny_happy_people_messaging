@@ -10,6 +10,8 @@ class SendCustomMessageJobTest < ActiveSupport::TestCase
 
     SendCustomMessageJob.perform_now(message)
 
-    assert_equal "accepted", message.reload.status
+    reloaded_message = message.reload
+
+    assert_equal "accepted", reloaded_message.status
   end
 end
