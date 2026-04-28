@@ -617,10 +617,11 @@ cy:
           Details about the cookies we use are set out below. Some of these are third-party cookies.
         </p>
         <p class="mb-2">
-          <strong>CookieControl</strong> This cookie records a user's preferences for analytics and marketing cookies and remembers if you have set your cookie preferences on our site.
+          The following cookies are essential cookies:<br>
+          <strong>_afs_tiny_happy_people_session</strong> This is a necessary functional cookie used to keep track of when a user is logged into the siteCookieControl This cookie records a user's preferences for analytics and marketing cookies and remembers if you have set your cookie preferences on our site.
         </p>
-        <p class="mb-6">
-          __cfduid Used by Cloudflare to identify individual clients behind a shared IP address and apply security settings on a per-client basis. It expires in 1 year.
+        <p class="mb-2">
+          <strong>CookieControl</strong> This cookie records a user's preferences for analytics and marketing cookies and remembers if you have set your cookie preferences on our site.
         </p>
         <h2>Google analytics cookies</h2>
         <p class="mb-2">
@@ -647,7 +648,6 @@ cy:
         </p>
         <ul class="list-disc pl-4 pt-2 mb-6">
           <li>We use Google Analytics for statistical performance analysis. This information is aggregated and therefore anonymous. <a href="https://policies.google.com/privacy" class="link" target="_blank">Read Google’s privacy policy</a>. To opt out of being tracked by Google Analytics on the CBeebies Parenting website you can use our cookie preferences tool. To opt out of being tracked by Google Analytics across all websites visit tools.google.com/dlpage/gaoptout.</li>
-          <li>We use Cloudflare for content delivery and internet security. <a href="https://www.cloudflare.com/security-policy" class="link" target="_blank">Read Cloudflare’s privacy policy.</a></li>
         </ul>
         <h2>Control your cookie settings</h2>
         <p class="mb-2">

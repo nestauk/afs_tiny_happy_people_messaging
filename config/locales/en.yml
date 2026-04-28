@@ -129,31 +129,37 @@ en:
       body: |
         <p>This website is owned and operated by Nesta - you can find our full details below. This privacy policy explains how Nesta uses personal information we collect via this site. We are committed to protecting your privacy and we take all reasonable precautions to safeguard personal information.</p>
         <h2 class="mt-6">What kind of information do we collect?</h2>
-        <p class="mb-4"><span class=’font-bold’>Sign-up details:</span> If you sign up to our text messaging programme, we will ask you for personal information such as your name, phone number and postcode as well as the month and year of your child’s birth. We also ask for optional information to personalise your experience such as your child’s name or nickname, and optional information to improve our service such as your interests.</p>
-        <p class="mb-4"><span class=’font-bold’>Research:</span> We may ask you to participate in research we are conducting and we may contact you to ask for further information about you or your experiences or opinions.</p>
-        <p class="mb-4"><span class=’font-bold’>Feedback and surveys:</span> We may also ask you for feedback or to complete surveys.</p>
-        <p class="mb-4"><span class=’font-bold’>Online activity:</span> When you use our website, we obtain information about the device from which you accessed it, your visits and use of the website including your browser type and version, referrer and activity. We collect this information through first-party analytics tools that are built into our website, without using cookies or third-party tracking technologies.</p>
+        <p class="mb-4"><strong>Sign-up details:</strong> If you sign up to our text messaging programme, we will ask you for personal information such as your name, phone number and postcode as well as the month and year of your child’s birth. We also ask for optional information to personalise your experience such as your child’s name or nickname, and optional information to improve our service such as your interests.</p>
+        <p class="mb-4"><strong>Research:</strong> We may ask you to participate in research we are conducting and we may contact you to ask for further information about you or your experiences or opinions.</p>
+        <p class="mb-4"><strong>Feedback and surveys:</strong> We may also ask you for feedback or to complete surveys.</p>
+        <p class="mb-4"><strong>Online activity:</strong> When you use our website, we obtain information about the device from which you accessed it, your visits and use of the website including your browser type and version, referrer and activity. We collect this information through first-party analytics tools that are built into our website, without using cookies or third-party tracking technologies.</p>
         <h2 class="mt-6">What do we do with information we collect and what is our legal basis for this?</h2>
-        <p class="mb-4"><span class=’font-bold’>Sign-up details:</span> If you sign up to our text messaging programme we will use your personal information to send text messages to you. Our legal basis for doing this is your consent. You have the right to withdraw this consent at any time. We will also share postcodes with our partner University of Sheffield who will cross-reference with that of CBeebies Parenting research participants, under the terms of our data sharing agreement.</p>
-        <p class="mb-4"><span class=’font-bold’>Third party processors:</span> We use a third party processor called Twilio to deliver text messages. In using this third party we are pursuing our legitimate interest to use third party technology to achieve greater efficiency within our organisation. To balance our interests against yours, we enter into legally binding contractual arrangements with Twilio and take steps to ensure it maintains appropriate technical and organisational measures to keep your personal information secure. For more information see the <a href=’https://www.twilio.com/en-us/privacy’ target=’_blank’>Twilio privacy policy</a>.</p>
-        <p class="mb-4"><span class=’font-bold’>Research:</span> If you agree to take part in any research, including our diary study we will use your information for the purpose of that research project or programme. Full details of how your personal information will be used will be given to you at the time you agree to participate; this could include to inform the development of a new prize, project, programme or other initiative, being incorporated into reports or other research outcomes, and may include being publicly displayed on web pages relating to the particular research project or programme.</p>
-        <p class="mb-4"><span class=’font-bold’>Feedback and surveys:</span> If you agree to give us feedback or complete a survey, we will use the information to improve our work and activities. We usually use Alchemer to process surveys, and they only process your information on our instructions.</p>
-        <p class="mb-4">Alchemer operates in the US. For more information see the <a href=’https://www.alchemer.com/privacy/’ target=’_blank’ class=’link’>Alchemer privacy policy</a>. If you agree to participate in any survey that will form part of any research project, we will tell you at the time you take part how your information will be used for the particular research project or programme, and how long it will be kept for.</p>
-        <p class="mb-4"><span class=’font-bold’>For all kinds of information collected:</span> Please make sure that all personal details you provide are accurate and up to date, and let us know about any changes. Please get consent first before giving us anyone else’s information.</p>
+        <p class="mb-4"><strong>Sign-up details:</strong> If you sign up to our text messaging programme we will use your personal information to send text messages to you. Our legal basis for doing this is your consent. You have the right to withdraw this consent at any time. We will also share postcodes with our partner University of Sheffield who will cross-reference with that of CBeebies Parenting research participants, under the terms of our data sharing agreement.</p>
+        <p class="mb-4"><strong>Third party processors:</strong> We use a third party processor called Twilio to deliver text messages. In using this third party we are pursuing our legitimate interest to use third party technology to achieve greater efficiency within our organisation. To balance our interests against yours, we enter into legally binding contractual arrangements with Twilio and take steps to ensure it maintains appropriate technical and organisational measures to keep your personal information secure. For more information see the <a href=’https://www.twilio.com/en-us/privacy’ target=’_blank’>Twilio privacy policy</a>.</p>
+        <p class="mb-4"><strong>Research:</strong> If you agree to take part in any research we will use your information for the purpose of that research project or programme. Full details of how your personal information will be used will be given to you at the time you agree to participate; this could include to inform the development of a new prize, project, programme or other initiative, being incorporated into reports or other research outcomes, and may include being publicly displayed on web pages relating to the particular research project or programme.</p>
+        <p class="mb-4"><strong>Feedback and surveys:</strong> If you agree to give us feedback or complete a survey, we will use the information to improve our work and activities.</p>
+        <p class="mb-4"><strong>For all kinds of information collected:</strong> Please make sure that all personal details you provide are accurate and up to date, and let us know about any changes. Please get consent first before giving us anyone else’s information.</p>
         <p class="mb-4">The nature of Nesta’s work means we often work in partnership with other organisations, however, we will not share your information with any other organisation unless we have your permission first, or we have a legitimate interest or legal requirement to do so.</p>
         <p class="mb-4">We may also use your information to carry out analysis and research to improve our publications, events and activities, customise our website and its content to your particular preferences, notify you of any changes to our website or to our activities that may affect you, to prevent and detect fraud and abuse, and to protect other users.</p>
         <p class="mb-4">However you choose to engage with Nesta, we may retain your information for our own legitimate business interests for statistical analysis purposes, in order to review, develop and improve our business activities. In this situation, we will only keep any personal information if it is necessary to do so, and will always put in place appropriate technical and administrative safeguards, including where possible anonymising or minimising the personal information retained.</p>
-        <p>We use a third party to provide cloud based data security, storage and disaster recovery service to backup data that we hold.</p>
+        <p class="mb-4">We use a third party to provide cloud based data security, storage and disaster recovery service to backup data that we hold.</p>
         <h2 class="mt-6">How long will we keep your information for?</h2>
-        <p class="mb-4"><span class=’font-bold’>General principle:</span> We will only keep any personal information that you provide to us for as long as is necessary to fulfil the purpose for which you gave us the information. We will securely delete information when it is no longer needed for that purpose, as explained in more detail below.</p>
-        <p class="mb-4"><span class=’font-bold’>Consent:</span> We keep records of consent, and any withdrawal of consent, on our files for as long as your personal information is being used in-line with that consent and for a period of 6 years after the consent is withdrawn (unless otherwise requested by you).</p>
-        <p class="mb-4"><span class=’font-bold’>Research:</span> If you agree to take part in any research your personal information will be kept for as long as it is of value to Nesta and the wider research community, and for as long as may be specified by any external research funder, patent law, legislative and other regulatory requirements. Research data shall be reviewed at least every 5 years to consider its continued value to Nesta, and personal data anonymised or pseudonymised where possible, unless to do so would affect the integrity of the research data and/or its outcomes, or its future value.To the extent that Personal Data arising from any research is embodied within a research report or other research outcome, it will be retained in perpetuity as part of the published materials. Research that supports the development of a prize, project, programme, publication or other research outcome, shall be kept for at least 5 years beyond publication or any other research outcome has been completed. If the research is funded or the subject of any other contract, your personal data may be kept for 6 years after the end of the contract or longer if the contract or funding agreement specifies, which could be up to 12 years after the contract ends.</p>
-        <p class="mb-4"><span class=’font-bold’>Processing for statistical analysis purposes:</span> This type of processing will only be undertaken whilst we retain your personal information in line with the principles explained above.</p>
+        <p class="mb-4"><strong>General principle:</strong> We will only keep any personal information that you provide to us for as long as is necessary to fulfil the purpose for which you gave us the information. We will securely delete information when it is no longer needed for that purpose, as explained in more detail below.</p>
+        <p class="mb-4"><strong>Text messaging programme evaluation:</strong> If you take part in the text messaging programme, your personal data will be kept for the duration of the programme and for a period of three years after for the purposes of evaluating the success of this pilot programme and to allow the project team to use the findings to inform any future iterations.</p>
+        <p class="mb-4"><strong>Research:</strong> If you agree to take part in any research your personal information will be kept for as long as it is of value to Nesta and the wider research community, and for as long as may be specified by any external research funder, patent law, legislative and other regulatory requirements. Research data shall be reviewed at least every 5 years to consider its continued value to Nesta, and personal data anonymised or pseudonymised where possible, unless to do so would affect the integrity of the research data and/or its outcomes, or its future value.To the extent that Personal Data arising from any research is embodied within a research report or other research outcome, it will be retained in perpetuity as part of the published materials. Research that supports the development of a prize, project, programme, publication or other research outcome, shall be kept for at least 5 years beyond publication or any other research outcome has been completed. If the research is funded or the subject of any other contract, your personal data may be kept for 6 years after the end of the contract or longer if the contract or funding agreement specifies, which could be up to 12 years after the contract ends.</p>
+        <p class="mb-6"><strong>Processing for statistical analysis purposes:</strong> This type of processing will only be undertaken whilst we retain your personal information in line with the principles explained above.</p>
+        <h2 class="mt-6">Cookies</h2>
+        <p class="mb-4">This site uses cookies. Cookies are small text files that are placed on your computer by websites you visit. They are widely used to make websites work, or work more efficiently, as well as to provide some useful information to site owners. Most web browsers allow some control of most cookies through browser settings.</p>
+        <p class="mb-4">This site uses a variety of types of cookies. Some are strictly necessary to enable you to move around the site or to provide certain basic features, such as logging into secure areas.</p>
+        <p class="mb-4">The site also uses performance cookies which collect information about how you use the site, such as how you are referred to it and how long you stay on certain pages. This information is aggregated and therefore anonymous and is used to improve the performance of the site. If you want, you can opt out of these cookies via our cookie preferences tool. Please note that some of the features of the site may not work if you choose to block cookies. To find out more about cookies, see our <a href="/cookie-policy">Cookie Policy</a>.</p>
+        <p class="mb-4">We also use third party tracking cookies for remarketing, including Google Adwords. These third parties help us to send you tailored advertisements about Nesta that we think may be of interest to you, based on what parts of Nesta’s websites you have viewed. The advertisements will be shown to you on other search results pages, or on sites within Google’s or any other third party display network. We do not collect any identifiable information through the use of these third party remarketing services.</p>
+        <p class="mb-4">If you do not wish to receive such advertisements, then you can adjust your preferences using our cookie preferences tool. For more information on how Google uses advertising cookies, and to manage your settings and opt-out of these features on the <a href="https://support.google.com/analytics/answer/6004245?hl=en" target="_blank" class="link">Google support website</a>.</p>
         <h2 class="mt-6">Security</h2>
         <p>We take steps to protect your personal information and follow procedures designed to minimise unauthorised access or disclosure of your information.</p>
+        <p>In the event that whilst using our site(s) you become aware of any potential vulnerabilities, please let us know. Please see our <a href="https://www.nesta.org.uk/vulnerability-disclosure-policy/" target="_blank" class="link">vulnerability disclosure policy</a> for guidance on how to report a vulnerability.</p>
         <h2 class="mt-6">Contacting us, exercising your rights and complaints</h2>
         <p>You are legally entitled to know what personal information we hold about you and how that information is processed, which includes the right to:</p>
-        <ul class=’list-disc pl-4 pt-2 mb-4’>
+        <ul class="list-disc pl-4 pt-2 mb-4">
           <li>ask us to correct any mistakes in your information which we hold</li>
           <li>ask us to delete your personal information</li>
           <li>ask us to stop using your personal information or restrict how we can use it, for example if you feel it is inaccurate or no longer needs to be used by Nesta</li>
@@ -164,8 +170,8 @@ en:
         <p class="mb-4">If our information is incorrect or out of date, please provide us with enough information to allow us to update it. If you want us to delete, restrict or stop using any information we hold about you, please specifically confirm the reasons why you are asking this. If you are unhappy with how we are using your information, again please explain to us the reasons and we will investigate the matter.</p>
         <p class="mb-4">You can also write to the same address if you have a complaint about this policy.</p>
         <p>If you are unhappy with how any data rights request or complaint has been dealt with you have the right to complain to the Information Commissioner:</p>
-        <ul class=’list-disc pl-4 pt-2 mb-4’>
-          <li>On the <a href=’https://ico.org.uk/concerns’ target=’_blank’ class=’link’>ICO website</a>;</li>
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>On the <a href="https://ico.org.uk/concerns" target="_blank" class="link">ICO website</a>;</li>
           <li>By mail at Wycliff House, Water Lane, Wilmslow, Cheshire SK9 5AF, or</li>
           <li>By calling the helpline on 0303 123 1113.</li>
         </ul>
@@ -584,7 +590,7 @@ en:
           Our website uses a mix of necessary and non-essential (performance and marketing) cookies. While the essential cookies are needed to make the site function properly, you can set your preferences for the non-essential cookies by using our cookie preferences tool. This will appear automatically the first time you visit our site or if you open up our site in a private web browser. You can also find it at any point by clicking the icon in the bottom left of the screen.
         </p>
         <p class="mb-6">
-          <strong>This cookie policy is part of our <a href="/privacy-policy" class="link">Privacy Policy.</a></strong>
+          <strong>This cookie policy is part of our <a href="/privacy_policy" class="link">Privacy Policy.</a></strong>
         </p>
         <h2>Types of cookie</h2>
         <p class="mb-2">
@@ -613,18 +619,24 @@ en:
         <p class="mb-2">
           <strong>First-party cookies</strong> are set directly by our website.
         </p>
-        <p class="mb-6">
+        <p class="mb-2">
           <strong>Third-party cookies</strong> are set by another website, usually because we have incorporated elements from those other sites into our site (for example videos or social media plugins).
+        </p>
+        <p class="mb-6">
+          The pixel code cookie tracks user actions on our web pages, such as visiting a page or clicking a button. It then sends this information to our advertising platforms (Meta, TikTok, and Reddit) to help us understand what our visitors are doing. The data is used to measure results, for retargeting and for creating custom audiences.
         </p>
         <h2>The cookies we use</h2>
         <p class="mb-2">
           Details about the cookies we use are set out below. Some of these are third-party cookies.
         </p>
         <p class="mb-2">
-          <strong>CookieControl</strong> This cookie records a user's preferences for analytics and marketing cookies and remembers if you have set your cookie preferences on our site.
+          The following cookies are essential cookies:
+        </p>
+        <p class="mb-2">
+          <strong>_afs_tiny_happy_people_session</strong> This is a necessary functional cookie used to keep track of when a user is logged into the siteCookieControl This cookie records a user's preferences for analytics and marketing cookies and remembers if you have set your cookie preferences on our site.
         </p>
         <p class="mb-6">
-          __cfduid Used by Cloudflare to identify individual clients behind a shared IP address and apply security settings on a per-client basis. It expires in 1 year.
+          <strong>CookieControl</strong> This cookie records a user's preferences for analytics and marketing cookies and remembers if you have set your cookie preferences on our site.
         </p>
         <h2>Google analytics cookies</h2>
         <p class="mb-2">
@@ -651,14 +663,29 @@ en:
         </p>
         <ul class="list-disc pl-4 pt-2 mb-6">
           <li>We use Google Analytics for statistical performance analysis. This information is aggregated and therefore anonymous. <a href="https://policies.google.com/privacy" class="link" target="_blank">Read Google’s privacy policy</a>. To opt out of being tracked by Google Analytics on the CBeebies Parenting website you can use our cookie preferences tool. To opt out of being tracked by Google Analytics across all websites visit tools.google.com/dlpage/gaoptout.</li>
-          <li>We use Cloudflare for content delivery and internet security. <a href="https://www.cloudflare.com/security-policy" class="link" target="_blank">Read Cloudflare’s privacy policy.</a></li>
         </ul>
+        <h3 class="text-xl mb-1">Meta (Facebook and Instagram)</h3>
+        <p class="mb-2">These cookies are used in connection with the Meta Pixel, which lets us measure how our adverts on Facebook and Instagram perform and show ads to people who have visited our website.</p>
+        <p class="mb-2"><strong>_fbp</strong> Set by us. Stores a unique identifier so that Meta can match actions you take on our website to adverts you may have seen on Facebook or Instagram. Expires in 90 days.</p>
+        <p class="mb-2"><strong>datr</strong> Set by Facebook to recognise the web browser you are using. Facebook uses it to detect suspicious activity, prevent fraudulent logins and protect its services from spam and abuse. Expires in 2 years.</p>
+        <h3 class="text-xl mb-1">TikTok</h3>
+        <p class="mb-2">These cookies are used in connection with the TikTok Pixel, which lets us measure how our adverts on TikTok perform and reach people who may be interested in what we offer.</p>
+        <p class="mb-2"><strong>_ttp</strong> Set by us. Stores a unique identifier so that TikTok can match actions you take on our website to adverts you may have seen on TikTok. Expires in 13 months.</p>
+        <p class="mb-2"><strong>_tt_enable_cookie</strong> Set by us. Records whether your browser allows TikTok cookies, so the TikTok Pixel knows whether it can store an identifier on your device. Expires in 13 months</p>
+        <h3 class="text-xl mb-1">Reddit</h3>
+        <p class="mb-2">These cookies are used in connection with the Reddit Pixel, which lets us measure how our adverts on Reddit perform and show ads to people who have visited our website.</p>
+        <p class="mb-2"><strong>_rdt_uuid</strong> Set by us. Stores a unique identifier so that Reddit can match actions you take on our website to adverts you may have seen on Reddit. Expires in 3 months</p>
+        <p class="mb-2"><strong>loid</strong> Set by Reddit. A long-lived identifier that Reddit sets for visitors who are not signed in to a Reddit account. Used to recognise your browser across visits for advertising and analytics. Expires in 2 years.</p>
+        <p class="mb-2"><strong>edgebucket</strong> Set by Reddit. Used by Reddit to deliver advertising, to assign visitors to test groups for new features, and to help route traffic across Reddit's services. Expires in 1 year.</p>
+        <p class="mb-2"><strong>csv</strong> Set by Reddit. An internal Reddit cookie used to support advertising and other functions on Reddit's services. Reddit does not publish detailed information about this cookie. Expires in 5 years.</p>
+        <p class="mb-2"><strong>pc</strong> Set by Reddit. An internal Reddit cookie used to support advertising and other functions on Reddit's services. Reddit does not publish detailed information about this cookie. Short lived cookie.</p>
+        <p class="mb-6"><strong>eu_cookie</strong> Set by Reddit. Records that Reddit's own cookie banner has been shown to your browser, so it isn't displayed again unnecessarily. Expires in 1 year</p>
         <h2>Control your cookie settings</h2>
         <p class="mb-2">
           If you want, you can block cookies by changing the settings on your browser – we have set out below links to the help pages of some major browsers which explain how you can do this. Blocking the cookies we use may have an adverse impact on the presentation of some or all of our website. General guidance on how to manage your cookies can be found here:
         </p>
         <p class="mb-2">
-          <a href="http://www.youronlinechoices.eu/" target="_blank">Your Online Choices</a>
+          <a href="http://www.youronlinechoices.eu/" target="_blank" class="link">Your Online Choices</a>
         </p>
         <p class="mb-2">
           Specific guidance on how to manage cookie options for common website browsers can be found here:
