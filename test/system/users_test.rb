@@ -181,7 +181,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Join our waitlist"
 
-    assert_text "Thanks for joining the waitlist!"
+    assert_text "You’ve been added to our wait list!"
 
     user = User.last
 
@@ -207,7 +207,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Ymunwch â’n rhestr aros"
 
-    assert_text "Diolch am ymuno â'r rhestr aros!"
+    assert_text "Diolch am ymuno â’r rhestr aros!"
 
     user = User.last
 

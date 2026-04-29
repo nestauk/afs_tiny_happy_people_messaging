@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_admin!
   before_action :set_page_variables, only: [:new, :edit, :thank_you]
   before_action :set_user, only: [:edit, :update, :thank_you]
-  after_action :track_action, only: [:edit, :create, :thank_you]
+  after_action :track_action, only: [:edit, :thank_you]
 
   def new
     @no_padding = true
@@ -30,7 +30,9 @@ class UsersController < ApplicationController
 
       if @user.child_birthday > 9.months.ago.to_date
         @user.put_on_waitlist
-        redirect_to root_path, notice: I18n.t("controllers.users.create.too_young_notice")
+        token = @user.generate_token_for(:profile_token)
+
+        redirect_to thank_you_user_path(@user, token:)
       else
         token = @user.generate_token_for(:profile_token)
 

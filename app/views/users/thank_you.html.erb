@@ -1,4 +1,5 @@
 <% content_for(:page_title) { I18n.t("pages.thank_you.page_title") } %>
+<% turbo_page_requires_reload %>
 
 <div class="relative">
   <div class="absolute left-0 top-0 w-full h-full hidden md:block thank-you-banner">
@@ -6,18 +7,26 @@
   <div class="bg-bbc-dark-blue md:bg-transparent md:flex md:flex-col p-4 relative md:px-24 md:justify-around h-85svh">
     <div class="lg:w-3/4 xl:w-1/2 md:bg-bbc-dark-blue  md:p-6 xl:p-8 flex flex-col justify-between h-fit">
       <h1 class="text-3xl text-bbc-yellow">
-        <%= t('pages.thank_you.title') %>
+        <% if @user.on_waitlist? %>
+          <%= t('pages.thank_you.title_waitlist') %>
+        <% else %>
+          <%= t('pages.thank_you.title') %>
+        <% end %>
       </h1>
-      <h2 class="text-xl text-white mb-5">
-        <%= t('pages.thank_you.subtitle') %>
-      </h2>
+      <% unless @user.on_waitlist? %>
+        <h2 class="text-xl text-white mb-5">
+          <%= t('pages.thank_you.subtitle') %>
+        </h2>
+      <% end %>
       <p class="text-md text-white mb-2">
         <%= t('pages.thank_you.para_2').html_safe %>
       </p>
-      <% if @survey %>
-        <p class="text-md text-white mb-2">
-          <%= t('pages.thank_you.para_1').gsub("{{survey_url}}", edit_survey_path(@survey, token: @user.generate_token_for(:survey_token))).html_safe %>
-        </p>
+      <% unless @user.on_waitlist? %>
+        <% if @survey %>
+          <p class="text-md text-white mb-2">
+            <%= t('pages.thank_you.para_1').gsub("{{survey_url}}", edit_survey_path(@survey, token: @user.generate_token_for(:survey_token))).html_safe %>
+          </p>
+        <% end %>
       <% end %>
     </div>
   </div>
