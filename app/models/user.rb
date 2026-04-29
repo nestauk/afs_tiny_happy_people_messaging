@@ -162,6 +162,10 @@ class User < ApplicationRecord
     end
   end
 
+  def on_waitlist?
+    !contactable && restart_at.present? && restart_at > Time.zone.now
+  end
+
   def anonymise!
     return if anonymised?
 

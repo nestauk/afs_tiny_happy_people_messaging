@@ -176,46 +176,348 @@ cy:
       text: "Rydym wedi llunio rhestr o adnoddau defnyddiol isod i’ch cefnogi wrth lywio unrhyw heriau y gallech eu hwynebu wrth ofalu am eich rhai bach."
       england:
         body: |
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="bg-pink-100 p-8 col-span-1">
-              <h2><span aria-hidden="true">🧠</span> Cymorth Iechyd Meddwl i Rieni a Phlant</h2>
-              <ul>
-                <li class="mb-4"><span class=’font-bold’>Cymorth Iechyd Meddwl y GIG:</span> Cael cyngor am anawsterau iechyd meddwl a <a href=’https://www.nhs.uk/mental-health/’ target=’_blank’ class=’link’>dod o hyd i gymorth lleol</a></li>
-                <li class="mb-4"><span class=’font-bold’>Gwasanaethau Iechyd Meddwl Lleol:</span> <a href=’https://www.nhs.uk/nhs-services/gps/’ target=’_blank’ class=’link’>Ymgynghorwch â’ch Meddyg Teulu</a> i gael atgyfeiriad</li>
-                <li class="mb-4"><span class=’font-bold’>Mind:</span> Ffoniwch 0300 123 3393 neu <a href=’https://www.mind.org.uk/’ target=’_blank’ class=’link’>ewch ar-lein</a> i gael gwybodaeth, cyngor a chymorth ar gyfer eich anghenion iechyd meddwl chi neu anwylyn, gan gynnwys hunan-gymorth â chefnogaeth i oedolion sy’n byw yng Nghymru, Lloegr a’r Ynysoedd Sianel</li>
-                <li><span class=’font-bold’>Anna Freud:</span> Ffoniwch 020 7794 2313 neu <a href=’https://www.annafreud.org/resources/family-wellbeing/’ target=’_blank’ class=’link’>ewch ar-lein</a> i gael mynediad at adnoddau i helpu cefnogi plentyn sy’n profi anawsterau iechyd meddwl</li>
+          <div class="bg-white p-5 md:p-10" x-data="{ showMentalHealth: false, showSpeechLanguage: false, showFinancialSupport: false, showChildDevelopment: false }">
+            <h2 class="text-3xl mb-10">Resources available in England</h2>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="showMentalHealth = !showMentalHealth" @keyup.enter="showMentalHealth = !showMentalHealth" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                Mental Health Support for Parents and Children
+                <span x-show="!showMentalHealth" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="showMentalHealth" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <ul x-show="showMentalHealth" class="mt-4">
+                <li class="mb-4"><span class=’font-bold’>NHS Mental Health Support:</span> Get advice about mental health difficulties and <a href=’https://www.nhs.uk/mental-health/’ target=’_blank’ class=’link’>find local support</a></li>
+                <li class="mb-4"><span class=’font-bold’>Local Mental Health Services:</span> <a href=’https://www.nhs.uk/nhs-services/gps/’ target=’_blank’ class=’link’>Consult your GP</a> for referrals</li>
+                <li class="mb-4"><span class=’font-bold’>Mind:</span> Call 0300 123 3393 or <a href=’https://www.mind.org.uk/’ target=’_blank’ class=’link’>go online</a> to access information, advice and support for your or a loved one’s mental health needs, including supported self-help for adults living in England and the Channel Islands</li>
+                <li><span class=’font-bold’>Anna Freud:</span> Call 020 7794 2313 or <a href=’https://www.annafreud.org/resources/family-wellbeing/’ target=’_blank’ class=’link’>go online</a> to access resources to help support a child experiencing mental health difficulties</li>
               </ul>
             </div>
-            <div class="bg-yellow-100 p-8 col-span-1">
-              <h2><span aria-hidden="true">🗣️</span> Anawsterau Lleferydd, Iaith a Chyfathrebu</h2>
-              <ul>
-                <li class="mb-4"><span class=’font-bold’>Therapi Lleferydd ac Iaith Leol:</span> Gallwch gael atgyfeiriad i adran therapi lleferydd ac iaith drwy eich Meddyg Teulu, ymwelydd iechyd, nyrs ardal, staff meithrin neu athro eich plentyn, canolfan plant, pediatregydd cymunedol neu drwy’r sector preifat. Gallwch hefyd eich atgyfeirio eich hun drwy ffonio eich gwasanaeth GIG lleol a gofyn am rif therapi lleferydd ac iaith.</li>
-                <li class="mb-4"><span class=’font-bold’>Canllawiau’r GIG:</span> Gweler <a href=’https://www.cpft.nhs.uk/speech-and-language-therapy-toolkit/’ target=’_blank’ class=’link’>Pecyn Cymorth Therapi Lleferydd ac Iaith y GIG Cambridgeshire a Peterborough</a> am awgrymiadau a chyngor i helpu gyda datblygiad sgiliau lleferydd, iaith a chyfathrebu plant a phobl ifanc.<br><br>Os nad ydych yn byw yng Nghaergrawnt na Peterborough ond hoffech wybod ble i gael cymorth lleol ar gyfer lleferydd, iaith a chyfathrebu eich plentyn, <a href=’https://www.gov.uk/find-local-council’ target=’_blank’ class=’link’>darganfyddwch wefan eich cyngor lleol</a>.</li>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="showSpeechLanguage = !showSpeechLanguage" @keyup.enter="showSpeechLanguage = !showSpeechLanguage" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
+                Speech, Language and Communication Difficulties
+                <span x-show="!showSpeechLanguage" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="showSpeechLanguage" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <ul x-show="showSpeechLanguage" class="mt-4">
+                <li class="mb-4"><span class=’font-bold’>Local Speech and Language Therapy:</span> You can get a referral to a speech and language therapy department through your GP, health visitor, district nurse, nursery staff or your child’s teacher, children’s centre, community paediatrician or through the private sector. You can also refer yourself to the service by calling your local NHS service and asking for the speech and language therapy number.</li>
+                <li><span class=’font-bold’>NHS Guidance:</span> View <a href=’https://www.cpft.nhs.uk/speech-and-language-therapy-toolkit/’ target=’_blank’ class=’link’>NHS Cambridgeshire and Peterborough’s Speech Language Therapy Toolkit</a> for tips and advice to help with the development of children and young people’s speech, language and communication skills.<br><br>If you don’t live in Cambridgeshire or Peterborough but would like to know where to get local support for your child’s speech, language and communication, <a href=’https://www.gov.uk/find-local-council’ target=’_blank’ class=’link’>find your local council’s website</a>.</li>
               </ul>
             </div>
-            <div class="bg-purple-100 p-8 col-span-1">
-              <h2><span aria-hidden="true">💰</span> Cymorth Ariannol</h2>
-              <ul>
-                <li class="mb-4"><span class=’font-bold’>Gwiriwr Budd-daliadau:</span> Defnyddiwch <a href=’https://www.turn2us.org.uk/’ target=’_blank’ class=’link’>Turn2Us</a> i wirio eich cymhwystra i gael budd-daliadau.</li>
-                <li class="mb-4"><span class=’font-bold’>Cyngor ar Bopeth:</span> Ffoniwch 0800 144 8848 (Lloegr) neu 0800 702 2020 (Cymru) neu ewch i <a href=’https://www.citizensadvice.org.uk/’ target=’_blank’ class=’link’>wefan Cyngor ar Bopeth</a> i gael arweiniad ar faterion ariannol ac eraill.</li>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="showFinancialSupport = !showFinancialSupport" @keyup.enter="showFinancialSupport = !showFinancialSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                Financial Support
+                <span x-show="!showFinancialSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="showFinancialSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <ul x-show="showFinancialSupport" class="mt-4">
+                <li class="mb-4"><span class=’font-bold’>Benefit Checker:</span> Use <a href=’https://www.turn2us.org.uk/’ target=’_blank’ class=’link’>Turn2Us</a> to check your benefit eligibility.</li>
+                <li><span class=’font-bold’>Citizens Advice:</span> Call 0800 144 8848 (England) or 0800 702 2020 (Wales) or visit <a href=’https://www.citizensadvice.org.uk/’ target=’_blank’ class=’link’>Citizen’s Advice website</a> to get guidance on financial issues and other challenges at Citizens Advice.</li>
               </ul>
             </div>
-            <div class="bg-orange-100 p-8 col-span-1">
-              <h2><span aria-hidden="true">📈</span> Datblygiad Plant</h2>
-              <ul>
-                <li class="mb-4"><span class=’font-bold’>Camau datblygu yn ôl oedran:</span> Gwiriwch <a href=’https://cambspborochildrenshealth.nhs.uk/child-development-and-growing-up/milestones/’ target=’_blank’ class=’link’>tudalen Camau Datblygu’r GIG Cambridgeshire a’r Gymuned</a> am ganllaw bras ar gamau datblygiadol plant a phryd i gysylltu ag ymwelydd iechyd.<br><br>Os nad ydych yn byw yng Nghaergrawnt ond hoffech wybod ble i gael cymorth lleol mewn perthynas â datblygiad eich plentyn, <a href=’https://www.gov.uk/find-local-council’ target=’_blank’ class=’link’>darganfyddwch wefan eich cyngor lleol</a>.</li>
-                <li class="mb-4"><span class=’font-bold’>Gweithgareddau i hyrwyddo datblygiad plant:</span> Defnyddiwch wefan <a href=’https://www.bbc.co.uk/tiny-happy-people’ target=’_blank’ class=’link’>CBeebies Parenting</a> i gael syniadau ar gyfer gweithgareddau i hybu datblygiad eich plentyn. Dyma un o’r gwefannau y gofynnon ni i chi eu gweld yn eich cyfweliad gyda ni.</li>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="showChildDevelopment = !showChildDevelopment" @keyup.enter="showChildDevelopment = !showChildDevelopment" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                Child Development
+                <span x-show="!showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <ul x-show="showChildDevelopment" class="mt-4">
+                <li class="mb-4"><span class=’font-bold’>Developmental milestones by age:</span> Check out the <a href=’https://cambspborochildrenshealth.nhs.uk/child-development-and-growing-up/milestones/’ target=’_blank’ class=’link’>NHS Cambridgeshire and Community’s Milestones page</a> for a rough guide on children’s different developmental milestones and when to contact your health visitor.<br><br>If you don’t live in Cambridgeshire but would like to know where to get local support related to your child’s development, <a href=’https://www.gov.uk/find-local-council’ target=’_blank’ class=’link’>find your local council’s website</a>.</li>
+                <li><span class=’font-bold’>Activities to promote children’s development:</span> Use the <a href=’https://www.bbc.co.uk/tiny-happy-people’ target=’_blank’ class=’link’>CBeebies Parenting website</a> to find ideas for activities to promote your children’s development. This is one of the websites we asked you to view in your interview with us.</li>
               </ul>
             </div>
-            <div class="bg-red-100 p-8 col-span-1">
-              <h2><span aria-hidden="true">🚨</span> Cymorth Brys</h2>
-              <ul>
-                <li class="mb-4"><span class=’font-bold’>Childline (DU):</span> Ffoniwch 0800 1111 am le diogel, cyfrinachol i siarad â chynghorydd, ar gael 24/7 i unrhyw un o dan 19 oed ledled y DU</li>
-                <li class="mb-4"><span class=’font-bold’>Samaritans:</span> Ffoniwch 116 123 am le diogel, cyfrinachol i siarad, ar gael 24/7 i bobl o bob oed yn y DU ac Iwerddon</li>
-                <li class="mb-4"><span class=’font-bold’>Cymorth meddygol nad yw’n peryglu bywyd:</span> Ffoniwch 111 i gael help gyda’ch symptomau meddygol neu os nad ydych yn siŵr ble i gael cymorth ar gyfer pryder meddygol brys. Mae’r llinell gymorth ar gael 24/7.</li>
-                <li class="mb-4"><span class=’font-bold’>Gwasanaethau Brys:</span> Ffoniwch 999 mewn sefyllfaoedd sy’n peryglu bywyd, ar gael 24/7 ac yn rhad ac am ddim ledled y DU.</li>
+          </div>
+          <div class="bg-bbc-yellow p-8 mt-8">
+            <h2 class="text-3xl">I need urgent help</h2>
+            <ul class="list-disc mb-4 pl-6">
+              <li>Call 999 → life-threatening emergency</li>
+              <li>Call 111 → urgent medical help</li>
+            </ul>
+            <p>Emotional support (24/7):</p>
+            <ul class="list-disc pl-6 mb-4">
+              <li><span class=’font-bold’>Childline (UK):</span> Call 0800 1111 for a safe, confidential space to talk with a counsellor, available 24/7 for anyone under 19 across the UK</li>
+              <li><span class=’font-bold’>Samaritans:</span> Call 116 123 for a safe, confidential space to talk, available 24/7 for all ages in the UK and Ireland</li>
+            </ul>
+          </div>
+      wales: 
+        body: |
+          <div class="bg-white p-5 md:p-10" x-data="{ showHealthVisitor: false, showChildDevelopment: false, showFindingLocalSupport: false, showExtraSupport: false }">
+            <h2 class="text-3xl">Your built-in support in Wales</h2>
+            <p>Every family in Wales has access to free support.</p>
+            <p class="mb-10">Start here if you’re unsure where to go</p>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="showHealthVisitor = !showHealthVisitor" @keyup.enter="showHealthVisitor = !showHealthVisitor" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                Your Health Visitor
+                <span x-show="!showHealthVisitor" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="showHealthVisitor" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <div x-show="showHealthVisitor" class="mt-4">
+                <p class="mb-4">Your main point of contact.</p>
+                <p> If you’re worried about anything, contact your Health Visitor first.</p>
+              </div>
+            </div>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="showChildDevelopment = !showChildDevelopment" @keyup.enter="showChildDevelopment = !showChildDevelopment" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
+                Child Development Checks
+                <span x-show="!showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <div x-show="showChildDevelopment" class="mt-4">
+                <p class="mb-1">
+                  All families are supported by the <a href="https://www.abbhealthiertogether.cymru.nhs.uk/professionals/health-visitors/healthy-child-programme">Healthy Child Wales Programme</a>.
+                </p>
+                <p class="mb-1">
+                  This means you’ll have <strong>planned check-ins with your Health Visiting team</strong> as your child grows. These usually happen around key times, such as during pregnancy, when baby is born, 6 months, and beyond.
+                </p>
+                <h4 class="font-bold mt-4 mb-1">
+                  Guidance and Support for Parents
+                </h4>
+                <p class="mb-1">
+                  <a href="https://www.gov.wales/parenting-give-it-time" target="_blank">Parenting. Give it Time</a> → Welsh Government resource that offers both:
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    <a href="https://www.gov.wales/parenting-give-it-time/your-childs-development" target="_blank" class="link">Understanding Your Child’s Development</a> – clear guidance on what to expect from ages 0–5, with tips to support each stage
+                  </li>
+                  <li>
+                    Trusted Parenting Advice – practical, non-judgmental support on common topics such as sleeping and feeding
+                  </li>
+                </ul>
+                <p>
+                  If something is worrying you, you can contact your Health Visitor team at any time. You don’t need to wait for a review.
+                </p>
+              </div>
+            </div>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="showFindingLocalSupport = !showFindingLocalSupport" @keyup.enter="showFindingLocalSupport = !showFindingLocalSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                Finding local support
+                <span x-show="!showFindingLocalSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="showFindingLocalSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <ul class="list-disc ml-6 mt-4" x-show="showFindingLocalSupport">
+                <li>
+                  <a href="https://www.gov.wales/find-your-local-family-information-service" target="_blank" class="link">Family Information Service (FIS)</a> → your local FIS can give you in-depth advice on childcare, funding, and support for families
+                </li>
+                <li>
+                  <a href="https://www.dewis.wales/" target="_blank" class="link">Dewis Cymru</a> → a wider, self-service directory covering general wellbeing, local activities, and community support across Wales
+                </li>
+                <li>
+                  Local libraries → free activities, parent support and community hubs
+                </li>
               </ul>
             </div>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="showExtraSupport = !showExtraSupport" @keyup.enter="showExtraSupport = !showExtraSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                Extra support
+                <span x-show="!showExtraSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="showExtraSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <div x-show="showExtraSupport" class="mt-4">
+                <a href="https://www.gov.wales/flying-start-guide-parents-and-carers" target="_blank" class="link">Flying Start (Dechrau’n Deg)</a> can offer:
+                <ul class="list-disc ml-6 my-4">
+                  <li>Free childcare (from age 2)</li>
+                  <li>Parenting support</li>
+                  <li>Speech & language help</li>
+                </ul>
+                <p>
+                  Ask your Health Visitor or <a href="https://www.gov.wales/find-your-local-family-information-service" target="_blank" class="link">FIS</a> if this applies to you.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-5 md:p-10 mt-8" x-data="{ childTalking: false, overwhelmed: false, childCries: false, supportDevelopment: false, speakWelsh: false, money: false }">
+            <h2 class="text-3xl">For everyday challenges</h2>
+            <p class="mb-10">You can explore these if you want tailored support or have a specific concern</p>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="childTalking = !childTalking" @keyup.enter="childTalking = !childTalking" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                I’m worried about my child’s talking or communication
+                <span x-show="!childTalking" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="childTalking" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <div x-show="childTalking" class="mt-4">
+                <p class="mb-1">
+                  Start here:
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    Visit <a href="https://www.gov.wales/talk-with-me" target="_blank" class="link">Talk with Me</a> (Siarad Gyda Fi) → tips and activities
+                  </li>
+                  <li>
+                    Your health visitor (see above)
+                  </li>
+                </ul>
+                <p>
+                  You can also:
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    Contact your local NHS Speech & Language Therapy team (no GP needed in most areas)
+                  </li>
+                  <li>
+                    Call NHS 111 Wales if you’re unsure how
+                  </li>
+                </ul>
+                <p>
+                  Helpful resources:
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    <a href="https://speechandlanguage.org.uk/" target="_blank" class="link">Speech and Language UK</a> → advice on speech & language needs
+                  </li>
+                  <li>
+                    Local libraries → free Story & Song sessions
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="overwhelmed = !overwhelmed" @keyup.enter="overwhelmed = !overwhelmed" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
+                I’m feeling overwhelmed or worried about mental health
+                <span x-show="!overwhelmed" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="overwhelmed" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <div x-show="overwhelmed" class="mt-4">
+                <p class="mb-1">
+                  If you need to talk now (24/7):
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    Call 111 (press Option 2)
+                  </li>
+                  <li>
+                    <a href="https://www.callhelpline.org.uk/" target="_blank" class="link">C.A.L.L.</a> Helpline → call or text support, in either English or Welsh
+                  </li>
+                </ul>
+                <p>
+                  Ongoing support:
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>Your GP</li>
+                  <li><a href="https://www.mind.org.uk/about-us/mind-cymru/" target="_blank" class="link">Mind Cymru</a></li>
+                  <li><a href="https://parents.actionforchildren.org.uk/parent-talk-cymru/" target="_blank" class="link">Parent Talk Cymru</a> → chat with a parenting coach via Whatsapp</li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="childCries = !childCries" @keyup.enter="childCries = !childCries" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                My child cries a lot or feels hard to manage
+                <span x-show="!childCries" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="childCries" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <ul class="list-disc ml-6 mt-4" x-show="childCries">
+                <li>
+                  <a href="https://www.cry-sis.org.uk/" target="_blank" class="link">Cry-sis</a> → support with crying and sleepless babies
+                </li>
+                <li>
+                  <a href="https://parents.actionforchildren.org.uk/parent-talk-cymru/" target="_blank" class="link">Parent Talk Cymru</a> → chat with a parenting coach via Whatsapp
+                </li>
+                <li>
+                  <a href="https://www.annafreud.org/" target="_blank" class="link">Anna Freud Centre</a> → parent guides to support a child experiencing mental health difficulties
+                </li>
+              </ul>
+            </div>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="supportDevelopment = !supportDevelopment" @keyup.enter="supportDevelopment = !supportDevelopment" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                I want ideas to support my child’s development
+                <span x-show="!supportDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="supportDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <div x-show="supportDevelopment" class="mt-4">
+                <p>
+                  Easy, everyday ideas:
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    <a href="https://www.bbc.co.uk/cbeebies/parenting" target="_blank" class="link">CBeebies Parenting</a>
+                  </li>
+                  <li>
+                    <a href="https://www.playfulchildhoods.wales/" target="_blank" class="link">Play Wales</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="speakWelsh = !speakWelsh" @keyup.enter="speakWelsh = !speakWelsh" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                I want to raise my child with Welsh
+                <span x-show="!speakWelsh" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="speakWelsh" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <ul class="list-disc ml-6" x-show="speakWelsh">
+                <li>
+                  <a href="https://meithrin.cymru/irieni/?lang=en" target="_blank" class="link">Mudiad Meithrin</a> → playgroups + support
+                </li>
+                <li>
+                  <a href="https://meithrin.cymru/cymraeg-for-kids/?lang=en" target="_blank" class="link">Cymraeg i Blant</a>
+                </li>
+                <li>
+                  <a href="https://www.gov.wales/talk-with-me" target="_blank" class="link">Talk with Me (Siarad Gyda Fi)</a> → tips and activities
+                </li>
+              </ul>
+            </div>
+            <hr>
+            <div class="p-4 flex flex-col justify-around py-6">
+              <a @click.prevent="money = !money" @keyup.enter="money = !money" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
+                I’m worried about money or benefits
+                <span x-show="!money" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+                <span x-show="money" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              </a>
+              <div x-show="money" class="mt-4">
+                <p>
+                  Check what you're entitled to
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    <a href="https://www.turn2us.org.uk/" target="_blank" class="link">Turn2us</a>
+                  </li>
+                  <li>
+                    <a href="https://advicelinkcymru.org.uk/" target="_blank" class="link">Advicelink Cymru</a>
+                  </li>
+                </ul>
+
+                <p>
+                  Speak to someone
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    <a href="https://www.citizensadvice.org.uk/" target="_blank" class="link">Citizens Advice Wales</a>
+                  </li>
+                </ul>
+
+                <p>
+                  Additional support
+                </p>
+                <ul class="list-disc ml-6 mb-4">
+                  <li>
+                    <a href="https://applyforhealthystart.nhsbsa.nhs.uk/apply-for-healthy-start/" target="_blank" class="link">Healthy Start Scheme</a> → help with food costs
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="bg-bbc-yellow p-8 mt-8">
+            <h2 class="text-3xl">I need urgent help</h2>
+            <ul class="list-disc mb-4 pl-6">
+              <li>Call 999 → life-threatening emergency</li>
+              <li>Call 111 → urgent medical help</li>
+            </ul>
+            <p>Emotional support (24/7):</p>
+            <ul class="list-disc pl-6 mb-4">
+              <li><span class=’font-bold’>Samaritans Cymru:</span> Call 116 123</li>
+            </ul>
+
+            <p><strong>Not sure where to start?</strong></p>
+            <p>Begin with your Health Visitor or Family Information Service. They’ll help you find the right next step!</p>
           </div>
     surveys:
       thank_you:
@@ -224,6 +526,7 @@ cy:
         subtitle: "Bydd eich atebion yn ein helpu i wneud y rhaglen hon yn well i deuluoedd ym mhobman. Gobeithiwn y byddwch yn mwynhau'r fideos ac yn darganfod awgrymiadau sy'n gwneud gwahaniaeth gwirioneddol i chi a'ch teulu."
     thank_you: 
       page_title: "Diolch am gofrestru!"
+      title_waitlist: "Diolch am ymuno â’r rhestr aros!"
       title: "Rydych chi wedi cofrestru’n llwyddiannus, llongyfarchiadau!"
       subtitle: "Bob wythnos, byddwn yn anfon neges destun atoch chi; y cyfan sydd angen i chi ei wneud yw gwylio’r fideo (a rhoi cynnig ar y gweithgaredd!)."
       para_1: "Oes gennych chi 2 funud? Helpwch ni i lunio’r gwasanaeth i ddiwallu eich anghenion chi yn union! Mae gennym 8 cwestiwn cyflym i chi. Dywedwch wrthym beth yw eich barn, ac fel diolch, byddwch yn cael cyfle i ennill taleb gwerth £50!<br> <a href='{{survey_url}}' class='btn bg-white text-black mt-6'>Dywedwch wrthym beth yw eich barn</a>"
