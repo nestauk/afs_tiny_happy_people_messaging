@@ -153,17 +153,17 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "Diolch am gofrestru!"
 
-    select "Cymraeg", from: "Hoffech chi dderbyn eich negeseuon testun yn Gymraeg neu’n Saesneg?"
+    select "Cymraeg", from: "A hoffech chi gael eich negeseuon yn Gymraeg neu yn Saesneg?"
 
     click_button "Nesaf"
 
-    assert_text "Rydych bron wedi gorffen"
+    assert_text "Bron â gorffen"
 
-    stub_successful_twilio_call("Helo, croeso i’n negeseuon wythnosol gyda gweithgareddau i eich plentyn. Llongyfarchiadau ar ddechrau’r siwrnai anhygoel hon gyda’ch un bach!", User.last)
+    stub_successful_twilio_call("Helo, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd!", User.last)
 
     click_button "Gorffen"
 
-    assert_text "Rydych chi wedi cofrestru’n llwyddiannus, llongyfarchiadau!"
+    assert_text "Rydych chi wedi cofrestru, llongyfarchiadau!"
 
     assert_equal "cy", User.last.group.language
     assert_equal "cy", User.last.language
@@ -187,7 +187,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Join our waitlist"
 
-    assert_text "You’ve been added to our wait list!"
+    assert_text "You’ve been added to our waitlist!"
 
     user = User.last
 
@@ -207,13 +207,13 @@ class UsersTest < ApplicationSystemTestCase
     check "Rwy’n derbyn y telerau gwasanaeth a’r polisi preifatrwydd"
     click_button "Cofrestru"
 
-    assert_text "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd - ond nid am yn hir!"
+    assert_text "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd — ond ddim am hir!"
 
-    stub_successful_twilio_call("Helo! Diolch am ymuno â'r rhestr aros ar gyfer ein rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Byddwn mewn cysylltiad pan ddaw'r amser i ddechrau. Yn y cyfamser, beth am gadw'r rhif hwn fel 'CBeebies Parenting' fel eich bod yn gwybod mai ni sy'n anfon negeseuon atoch?", build(:user, phone_number: "+447444930200"))
+    stub_successful_twilio_call("Helo! Diolch am ymuno â rhestr aros ein negeseuon wythnosol llawn syniadau i gefnogi datblygiad dy blentyn. Byddwn mewn cysylltiad pan fydd hi’n bryd dechrau. Yn y cyfamser, arbeda’r rhif hwn fel 'CBeebies Parenting'.", build(:user, phone_number: "+447444930200"))
 
     click_button "Ymunwch â’n rhestr aros"
 
-    assert_text "Diolch am ymuno â’r rhestr aros!"
+    assert_text "Rwyt ti wedi cael dy ychwanegu at ein rhestr aros!"
 
     user = User.last
 
