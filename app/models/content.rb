@@ -8,9 +8,11 @@ class Content < ApplicationRecord
   has_many :messages, dependent: :restrict_with_exception
 
   validates :body, :age_in_months, presence: true
-  validate :valid_link?, if: -> { link.present? }
+  validates :link, format: {with: URI::DEFAULT_PARSER.make_regexp(%w[http https])}, allow_blank: true
 
   scope :active, -> { where(archived_at: nil) }
+
+  after_create :check_link_status
 
   def archived?
     archived_at.present?
@@ -18,14 +20,7 @@ class Content < ApplicationRecord
 
   private
 
-  def valid_link?
-    uri = URI.parse(link)
-    response = Net::HTTP.get_response(uri)
-
-    if response.code != "200"
-      errors.add(:link, "is not valid or does not return a 200 status code. Please check the link and try again.")
-    end
-  rescue
-    errors.add(:link, "is not a valid URL. Please check the link and try again.")
+  def check_link_status
+    CheckBbcLinksJob.perform_later if link.present?
   end
 end

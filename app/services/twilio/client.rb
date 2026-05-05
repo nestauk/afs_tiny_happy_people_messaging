@@ -20,6 +20,10 @@ module Twilio
 
       message.update(status: sms.status, message_sid: sms.sid)
     rescue Twilio::REST::RestError
+      Appsignal.report_error(StandardError.new("Twilio message failed")) do
+        Appsignal.add_tags(message_id: message.id, user_id: message.user.id)
+      end
+
       message.update(status: "failed")
     end
   end

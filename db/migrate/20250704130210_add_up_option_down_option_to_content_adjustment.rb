@@ -1,4 +1,7 @@
 class AddUpOptionDownOptionToContentAdjustment < ActiveRecord::Migration[8.0]
+  class ContentAdjustment < ApplicationRecord
+  end
+
   def change
     add_column :content_adjustments, :number_up_options, :integer
     add_column :content_adjustments, :number_down_options, :integer
