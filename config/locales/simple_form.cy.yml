@@ -57,7 +57,7 @@ cy:
     hints:
       user:
         child_birthday: "Mae hyn yn helpu i sicrhau bod y negeseuon testun rydym yn eu hanfon yn gweddu i oedran a cham eich plentyn."
-        postcode: "Rydym yn defnyddio gwybodaeth cod post (a dim byd arall) i gael syniad bras o ba ardaloedd neu gymunedau rydym yn eu cyrraedd. Mae hyn yn ein helpu i ddeall a oes unrhyw ardaloedd rydym yn eu colli, neu ble mae angen i ni wneud mwy o waith estyn allan."
+        postcode: "Rydym yn defnyddio gwybodaeth cod post (a dim byd arall) i gael syniad bras o ba ardaloedd rydym yn eu cyrraedd. Mae hyn yn ein helpu i ddeall a oes unrhyw ardaloedd rydym yn eu colli, neu ble mae angen i ni wneud mwy o waith estyn allan."
         phone_number: "Felly gallwn anfon awgrymiadau defnyddiol atoch chi, a dim byd mwy!"
         child_name: "Rydym am bersonoli’r gwasanaeth hwn i chi ac i’ch un bach! Mae croeso i chi ddefnyddio llysenw os yw’n well gennych."
         first_name: "Felly byddwn yn gwybod beth i’ch galw chi"
