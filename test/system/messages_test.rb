@@ -26,8 +26,8 @@ class MessagesTest < ApplicationSystemTestCase
   test "can track whether a user has clicked on the link" do
     sign_in
 
-    content = create(:content, link: root_path)
-    message = create(:message, user: @user, content: content, link: root_path)
+    content = create(:content, link: root_url)
+    message = create(:message, user: @user, content: content, link: root_url)
 
     visit track_link_path(message.token)
 

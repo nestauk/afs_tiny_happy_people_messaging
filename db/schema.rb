@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_27_085835) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_05_131919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -219,6 +219,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_085835) do
     t.bigint "user_id"
     t.index ["content_id"], name: "index_messages_on_content_id"
     t.index ["token"], name: "index_messages_on_token", unique: true
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -435,6 +436,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_085835) do
   add_foreign_key "answers", "users"
   add_foreign_key "interests", "users"
   add_foreign_key "messages", "contents"
+  add_foreign_key "messages", "users"
   add_foreign_key "questions", "survey_sections"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

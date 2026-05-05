@@ -4,6 +4,10 @@ en:
       messages:
         blank: "can't be blank"
       models:
+        content: 
+          attributes:
+            link: 
+              invalid: "is not a valid URL. Please check the link and try again."
         user:
           attributes:
             child_birthday:
