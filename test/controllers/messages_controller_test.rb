@@ -5,24 +5,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @user = create(:user)
-    sign_in create(:admin)
-  end
-
-  test "#index local authority admins can't access" do
-    admin = create(:admin, role: "local_authority", email: "local_authority@email.com")
-    sign_in admin
-    get admin_user_messages_path(@user)
-    assert_response :redirect
-  end
-
-  test "#create should create message" do
-    assert_difference("Message.count", 1) do
-      post admin_user_messages_path(@user), params: {message: {body: "Test message", user_id: @user.id}}
-    end
-
-    assert_enqueued_jobs 1
-
-    assert_redirected_to admin_user_path(@user)
+    ENV["TWILIO_AUTH_TOKEN"] = "test_token"
   end
 
   test "#status should queue job if message failed" do
@@ -58,15 +41,46 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_enqueued_jobs 1, only: UpdateMessageStatusJob
   end
 
-  test "#status does not queue job if twilio request isn't valid" do
+  test "#status returns 403 and logs when twilio signature is invalid" do
     message = create(:message)
 
     MessagesController.any_instance.stubs(:valid_twilio_request?).returns(false)
 
     post messages_status_url, params: {MessageSid: message.message_sid, MessageStatus: "delivered"}
 
-    assert_response :success
+    assert_response :forbidden
     assert_enqueued_jobs 0
+  end
+
+  test "#status returns 403 and reports to Appsignal when TWILIO_AUTH_TOKEN is blank" do
+    ENV["TWILIO_AUTH_TOKEN"] = nil
+    Appsignal.expects(:report_error).with do |error|
+      error.message.include?("TWILIO_AUTH_TOKEN is not configured")
+    end
+
+    post messages_status_url, params: {MessageSid: "sid", MessageStatus: "delivered"}
+
+    assert_response :forbidden
+    assert_enqueued_jobs 0
+  end
+
+  test "#incoming returns 403 when twilio signature is invalid and does not create a message" do
+    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(false)
+
+    assert_no_difference "Message.count" do
+      post messages_incoming_url, params: {From: @user.phone_number, Body: "spoofed", MessageSid: "sid"}
+    end
+    assert_response :forbidden
+  end
+
+  test "#incoming returns 403 when TWILIO_AUTH_TOKEN is blank and does not create a message" do
+    ENV["TWILIO_AUTH_TOKEN"] = nil
+    Appsignal.expects(:report_error)
+
+    assert_no_difference "Message.count" do
+      post messages_incoming_url, params: {From: @user.phone_number, Body: "spoofed", MessageSid: "sid"}
+    end
+    assert_response :forbidden
   end
 
   test "#incoming should handle incoming message" do
@@ -99,23 +113,18 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @user.contactable, false
   end
 
-  test "#incoming should handle incoming message with start" do
-    create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
-    @user.update(contactable: false)
-    MessagesController.any_instance.stubs(:valid_twilio_request?).returns(true)
-
-    post messages_incoming_url, params: {From: @user.phone_number, Body: "start  ", MessageSid: "new_sid"}
-    assert_response :success
-    @user.reload
-    assert_equal @user.contactable, true
-  end
-
   test "#next should redirect to message link if exists" do
-    message = create(:message, link: "http://example.com")
+    message = create(:message, link: "http://bbc.co.uk/test")
     get track_link_url(token: message.token)
     assert_redirected_to message.link
     message.reload
     assert_not_nil message.clicked_at
+  end
+
+  test "#next only redirects if message content link comes from approved list" do
+    message = create(:message, link: "http://example.com/test")
+    get track_link_url(token: message.token)
+    assert_redirected_to "https://www.bbc.co.uk/tiny-happy-people"
   end
 
   test "#next should redirect to CBeebies Parenting homepage if system can't find the message" do

@@ -3,7 +3,7 @@ require "twilio-ruby"
 module Twilio
   class Client
     def initialize
-      @client = Twilio::REST::Client.new(ENV.fetch("TWILIO_ACCOUNT_SID"), ENV.fetch("TWILIO_AUTH_TOKEN"))
+      @client = Twilio::REST::Client.new(ENV.fetch("TWILIO_ACCOUNT_SID", nil), ENV.fetch("TWILIO_AUTH_TOKEN", nil))
     end
 
     def send_message(message)

@@ -154,7 +154,7 @@ class User < ApplicationRecord
   def put_on_waitlist
     restart_date = child_birthday + 9.months
     if update(contactable: false, restart_at: restart_date)
-      SendWaitlistMessageJob.perform_now(self)
+      SendWaitlistMessageJob.perform_later(self)
     else
       Appsignal.report_error(StandardError.new("User could not be put on waitlist")) do
         Appsignal.add_tags(user_info: attributes)

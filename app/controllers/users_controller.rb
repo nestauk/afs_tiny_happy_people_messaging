@@ -62,7 +62,7 @@ class UsersController < ApplicationController
       end
     elsif @step == "about_service"
       if @user.update(about_service_params)
-        SendWelcomeMessageJob.perform_now(@user)
+        SendWelcomeMessageJob.perform_later(@user)
         redirect_to thank_you_user_path(@user, token: params[:token])
       else
         render :edit, status: :unprocessable_content
