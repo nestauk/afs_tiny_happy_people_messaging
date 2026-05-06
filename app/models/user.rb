@@ -169,20 +169,27 @@ class User < ApplicationRecord
   def anonymise!
     return if anonymised?
 
-    update!(
-      anonymised_at: Time.zone.now,
-      first_name: nil,
-      child_name: nil,
-      phone_number: "anonymised",
-      postcode: "anonymised",
-    )
-  end
+    ActiveRecord::Base.transaction do
+      update!(
+        anonymised_at: Time.zone.now,
+        first_name: nil,
+        child_name: nil,
+        phone_number: "anonymised",
+      )
 
-  private
+      messages.where.not(status: "received").update_all(body: nil)
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    Appsignal.report_error("User and associated messages failed to anonymise: #{e.message}") do
+      Appsignal.add_tags(user_info: attributes)
+    end
+  end
 
   def anonymised?
     anonymised_at.present?
   end
+
+  private
 
   def assign_group_by_language
     self.group = Group.find_by(language: language)
