@@ -75,6 +75,7 @@ en:
       privacy: "Privacy policy"
       partnership: "Partnership with BBC Education and the University of Sheffield"
       email: "info@cbeebies-text.uk"
+      accessibility: "Accessibility"
     form:
       personalisation: 
         title: "Thanks for signing up!"
@@ -669,3 +670,57 @@ en:
           <li><a href="https://support.microsoft.com/en-gb/help/17442/windows-internet-explorer-delete-manage-cookies" target="_blank" class="link">Internet Explorer</a></li>
           <li><a href="https://privacy.microsoft.com/en-us/windows-10-microsoft-edge-and-privacy" target="_blank" class="link">Microsoft Edge</a></li>
         </ul>
+    accessibility:
+      title: "Accessibility statement for CBeebies Parenting"
+      page_title: "Accessibility"
+      body: |
+        <p class="mb-4">
+          This accessibility statement applies to Cbeebies Parenting <a href="https://www.cbeebies-text.uk" class="link">cbeebies-text.uk</a>.
+        </p>
+        <p class="mb-4">This website is run by Nesta. We want as many people as possible to be able to use this website. For example, that means you should be able to:</p>
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>change colours, contrast levels and fonts</li>
+          <li>zoom in up to 300% without the text spilling off the screen</li>
+          <li>navigate most of the website using just a keyboard</li>
+          <li>navigate most of the website using speech recognition software</li>
+          <li>listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)</li>
+        </ul>
+        <p class="mb-4">We’ve also made the website text as simple as possible to understand.</p>
+        <p class="mb-4">
+          <a href="https://mcmw.abilitynet.org.uk/" target="_blank" class="link">AbilityNet</a> has advice on making your device easier to use if you have a disability.
+        </p>
+        <h2>How accessible this website is</h2>
+        <p class="mb-4">We know some parts of this website are not fully accessible:</p>
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>some video content may not have text alternatives or audio descriptions</li>
+          <li>video elements may have inappropriate markup which may cause unexpected announcements</li>
+        </ul>
+        <h2>Feedback and contact information</h2>
+        <p class="mb-4">If you need information on this website in a different format like accessible PDF, large print, easy read, audio recording or braille:</p>
+        <ul class="list-disc pl-4 pt-2 mb-4">
+          <li>Email <a href="mailto:info@cbeebies-text.uk" class="link">info@cbeebies-text.uk</a></li>
+          <li>Call 020 7438 2500</li>
+        </ul>
+        <p class="mb-4">We’ll consider your request and get back to you in 5 days.</p>
+        <h2>Reporting accessibility problems with this website</h2>
+        <p class="mb-4">We’re always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, contact the team by emailing <a href="mailto:info@cbeebies-text.uk" class="link">info@cbeebies-text.uk</a> or by calling 020 7438 2500.</p>
+        <h2>Technical information about this website’s accessibility</h2>
+        <h3>Compliance status</h3>
+        <p class="mb-4">This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG22/" target="_blank" class="link">Web Content Accessibility Guidelines version 2.2 AA standard</a>, due to the non-compliances listed below.</p>
+        <h2>Non-accessible content</h2>
+        <p class="mb-4">The content listed below is non-accessible for the following reasons.</p>
+        <h3>Non-compliance with the accessibility regulations</h3>
+        <p class="mb-4">Embedded video elements have a generic title that does not represent the video content. This fails WCAG 2.2 success criterion 1.1.1 (Non-Text Content).</p>
+        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
+        <p class="mb-4">The video present on the page only has auto-generated captions. This fails WCAG 2.2 success criterion 1.2.2 (Captions (Pre-Recorded)).</p>
+        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
+        <p class="mb-4">Videos lack a text transcript or audio description alternative. This fails WCAG 2.2 success criterion 1.2.3 (Audio Description or Media Alternative (Pre-Recorded)).</p>
+        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
+        <p class="mb-4">Video content lacks an audio description track describing the visual elements of the video. This fails WCAG 2.2 success criterion 1.2.5 (Audio Description (Pre-Recorded)</p>
+        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
+        <p class="mb-4">The video iframe on the page has an inappropriate aria attribute. This may cause screen readers to announce content unexpectedly. This fails WCAG 2.2 success criterion 4.1.2 (Name, Role, Value)</p>
+        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
+        <h2>Preparation of this accessibility statement</h2>
+        <p class="mb-4">This statement was prepared on 01/05/2026 It was last reviewed on 01/05/2026.</p>
+        <p class="mb-4">This website was last tested on 30/04/2026. The test was carried out by Zoonou</p>
+        <p class="mb-4">Zoonou used <a href="https://www.w3.org/TR/WCAG-EM" target="_blank" class="link">WCAG-EM</a> to define the pages tested and test approach.</p>
