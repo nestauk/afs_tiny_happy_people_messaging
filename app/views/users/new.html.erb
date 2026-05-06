@@ -18,8 +18,16 @@
 </div>
 
 <div class="flex flex-col justify-around squiggle-banner px-5 md:px-36 h-[35rem] md:h-[50rem]">
-  <div>
-    <iframe class="w-full h-[14rem] md:h-[500px]" src="https://www.youtube.com/embed/TkfaPsnXHUM?si=AMLEs8QBlDj24lOf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <div class="w-full md:w-2/3 mx-auto">
+    <video controls class="w-full" crossorigin="anonymous" aria-label="Example content: supporting your child's voice all day long" poster="https://thp-cebeebies-text-message-video-content.s3.eu-north-1.amazonaws.com/your-childs-voice-poster.jpg">
+      <source src="https://thp-cebeebies-text-message-video-content.s3.eu-north-1.amazonaws.com/your-childs-voice.mp4" type="video/mp4">
+      <track
+        kind="subtitles"
+        src="https://thp-cebeebies-text-message-video-content.s3.eu-north-1.amazonaws.com/captions.vtt"
+        srclang="en"
+        label="English"
+        default>
+    </video>
     <div class="bg-white flex flex-col">
       <p class="text-xl text-black font-normal p-8 text-center">
         <%= t('pages.home.sneak_peek') %>
