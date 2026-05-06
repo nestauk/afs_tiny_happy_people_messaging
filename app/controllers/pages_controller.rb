@@ -18,6 +18,9 @@ class PagesController < ApplicationController
   def cookie_policy
   end
 
+  def accessibility
+  end
+
   private
 
   def track_action
