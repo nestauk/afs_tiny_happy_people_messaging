@@ -1,6 +1,8 @@
 require "application_system_test_case"
 
 class UsersTest < ApplicationSystemTestCase
+  include ActiveJob::TestHelper
+
   setup do
     create(:group, language: "en")
     create(:group, language: "cy")
@@ -47,6 +49,8 @@ class UsersTest < ApplicationSystemTestCase
     stub_successful_twilio_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
 
     click_button "Finish"
+
+    perform_enqueued_jobs
 
     assert_text "You're all signed up, congratulations!"
 
@@ -95,6 +99,8 @@ class UsersTest < ApplicationSystemTestCase
     stub_successful_twilio_call("Hi, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.last)
 
     click_button "Skip this section"
+
+    perform_enqueued_jobs
 
     assert_text "You're all signed up, congratulations!"
 

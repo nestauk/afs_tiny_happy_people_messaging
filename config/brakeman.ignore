@@ -3,13 +3,13 @@
     {
       "warning_type": "Redirect",
       "warning_code": 18,
-      "fingerprint": "9d54495eaca776ce7be2c8ee842f00ee5e16370faf1ba06fcace055ca640dafa",
+      "fingerprint": "0fbdb474ce5734c1a072f9b5de18b6093fc4c972f4a356992030e4d6756cd5ec",
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/messages_controller.rb",
-      "line": 30,
+      "line": 31,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(Message.find_by(:token => params[:token]).link, :allow_other_host => true)",
+      "code": "redirect_to((safe_link(Message.find_by(:token => params[:token]).link) or \"https://www.bbc.co.uk/tiny-happy-people\"), :allow_other_host => true)",
       "render_path": null,
       "location": {
         "type": "method",
@@ -24,5 +24,5 @@
       "note": ""
     }
   ],
-  "brakeman_version": "7.0.2"
+  "brakeman_version": "7.1.2"
 }
