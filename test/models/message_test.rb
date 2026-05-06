@@ -1,6 +1,8 @@
 require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   def setup
     @message = build(:message)
   end
@@ -22,30 +24,30 @@ class MessageTest < ActiveSupport::TestCase
 
   test "#generate_reply only runs if message status is received" do
     user = create(:user)
-    message = create(:message, status: "delivered", user:, body: "stop")
-
-    assert message.user.contactable
+    assert_enqueued_jobs 0 do
+      create(:message, status: "delivered", user:, body: "stop")
+    end
   end
 
   test "#generate_reply when user texts stop" do
     create(:auto_response, trigger_phrase: "stop", update_user: "{\"contactable\": false}")
-    message = create(:message, body: "stop", status: "received")
-
-    refute message.user.contactable
+    assert_enqueued_jobs 1, only: ResponseMatcherJob do
+      create(:message, body: "stop", status: "received")
+    end
   end
 
   test "#generate_reply when user texts start" do
     create(:auto_response, trigger_phrase: "start", update_user: "{\"contactable\": true}")
-    message = create(:message, body: "start", status: "received")
-
-    assert message.user.contactable
+    assert_enqueued_jobs 1, only: ResponseMatcherJob do
+      create(:message, body: "start", status: "received")
+    end
   end
 
   test "#generate_reply when user texts anything else" do
     message = build(:message, body: "blah", status: "received")
-
-    ResponseMatcherService.expects(:new).with(message).returns(stub(match_response: true))
-    message.save
+    assert_enqueued_jobs 1, only: ResponseMatcherJob do
+      message.save
+    end
   end
 
   test "#admin_status returns the status of the message" do

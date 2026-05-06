@@ -41,7 +41,7 @@ class Message < ApplicationRecord
   end
 
   def generate_reply
-    ResponseMatcherService.new(self).match_response
+    ResponseMatcherJob.perform_later(self)
   end
 
   def user_anonymised?
