@@ -9,9 +9,15 @@ class MessageTest < ActiveSupport::TestCase
     assert @message.valid?
   end
 
-  test "content should be present" do
+  test "body should be present" do
     @message.body = ""
     assert_not @message.valid?
+  end
+
+  test "body can be blank if user is anonymised" do
+    user = create(:user, anonymised_at: Time.current)
+    message = build(:message, user:, body: "")
+    assert message.valid?
   end
 
   test "#generate_reply only runs if message status is received" do

@@ -1,7 +1,7 @@
 class Message < ApplicationRecord
   belongs_to :user
   belongs_to :content, optional: true
-  validates :body, presence: true
+  validates :body, presence: true, unless: :user_anonymised?
 
   scope :with_content, -> { where.not(content: nil) }
   scope :clicked, -> { with_content.where.not(clicked_at: nil) }
@@ -42,5 +42,9 @@ class Message < ApplicationRecord
 
   def generate_reply
     ResponseMatcherService.new(self).match_response
+  end
+
+  def user_anonymised?
+    user.anonymised?
   end
 end

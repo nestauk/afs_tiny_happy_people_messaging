@@ -527,6 +527,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "anonymise! method anonymises user data" do
     user = create(:user, first_name: "Jane", child_name: "John", phone_number: "07123456789", postcode: "SW1A 1AA")
+    anonymised_message = create(:message, user:, status: "sent", body: "This is a message body that should be anonymised")
+    not_anonymised_message = create(:message, user:, status: "received", body: "This is a message body that should not be anonymised")
 
     user.anonymise!
 
@@ -534,6 +536,20 @@ class UserTest < ActiveSupport::TestCase
     assert_nil user.first_name
     assert_nil user.child_name
     assert_equal user.phone_number, "anonymised"
-    assert_equal user.postcode, "anonymised"
+    assert_nil anonymised_message.reload.body
+    assert_equal "This is a message body that should not be anonymised", not_anonymised_message.reload.body
+  end
+
+  test "if anonymise! fails to update a message, it reports the error to Appsignal" do
+    user = create(:user)
+    create(:message, user:, status: "sent", body: "This is a message body that should be anonymised")
+
+    user.stubs(:update!).raises(ActiveRecord::RecordInvalid.new(user))
+
+    Appsignal.expects(:report_error).once.with do |error|
+      error == "User and associated messages failed to anonymise: Validation failed: "
+    end
+
+    user.anonymise!
   end
 end

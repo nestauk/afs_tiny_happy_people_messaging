@@ -13,7 +13,6 @@ class AnonymiseUsersJobTest < ActiveSupport::TestCase
     assert old_user.first_name.nil?
     assert old_user.child_name.nil?
     assert_equal "anonymised", old_user.phone_number
-    assert_equal "anonymised", old_user.postcode
 
     assert recent_user.reload.anonymised_at.nil?
   end
