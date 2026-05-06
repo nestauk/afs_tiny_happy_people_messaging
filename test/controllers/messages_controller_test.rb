@@ -2,6 +2,7 @@ require "test_helper"
 
 class MessagesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
+  include ActiveJob::TestHelper
 
   setup do
     @user = create(:user)
@@ -99,6 +100,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     post messages_incoming_url, params: {From: @user.phone_number, Body: "Hi", MessageSid: "new_sid"}
     assert_response :success
+    perform_enqueued_jobs
 
     assert_equal "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can.", @user.messages.last.body
   end
@@ -109,6 +111,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     post messages_incoming_url, params: {From: @user.phone_number, Body: "STOP", MessageSid: "new_sid"}
     assert_response :success
+    perform_enqueued_jobs
     @user.reload
     assert_equal @user.contactable, false
   end
