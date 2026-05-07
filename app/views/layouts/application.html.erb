@@ -32,7 +32,7 @@
       });
     </script>
 
-    <%# <% if Rails.env.production? %>
+    <% if Rails.env.production? %>
       <!-- Google Tag Manager -->
       <script nonce="<%= content_security_policy_nonce %>">
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -42,7 +42,7 @@
         })(window,document,'script','dataLayer','GTM-NWN4JM5J');
       </script>
       <!-- End Google Tag Manager -->
-    <%# <% end %>
+    <% end %>
   </head>
 
   <body class="bg-slate-50">
