@@ -19,7 +19,7 @@ export default class extends Controller {
   }
 
   loadData(council, timeframe, target) {
-    fetch(`/dashboards/fetch_${target}_data?q=${council}&timeframe=${timeframe}`)
+    fetch(`/admin/dashboards/${target}?q=${council}&timeframe=${timeframe}`)
     .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
