@@ -12,10 +12,10 @@ class ResponseMatcherJobTest < ActiveSupport::TestCase
     ResponseMatcherJob.new.perform(message)
   end
 
-  test ".perform_later enqueues the job on the default queue" do
+  test ".perform_later enqueues the job on the background queue" do
     message = create(:message)
 
-    assert_enqueued_with(job: ResponseMatcherJob, args: [message], queue: "default") do
+    assert_enqueued_with(job: ResponseMatcherJob, args: [message], queue: "background") do
       ResponseMatcherJob.perform_later(message)
     end
   end
