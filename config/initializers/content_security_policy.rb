@@ -12,6 +12,10 @@ Rails.application.configure do
     policy.object_src :none
     policy.script_src :self, :https
     policy.style_src :self, :https
+    # Civic Cookie Control sets inline style="" attributes at runtime to position
+    # the banner. Nonces only cover <style> blocks, so we allow inline style
+    # attributes specifically — <style> elements remain nonce-protected.
+    policy.style_src_attr :unsafe_inline
 
     if Rails.env.development?
       # Vite requires connect_src for Hot Module Replacement
