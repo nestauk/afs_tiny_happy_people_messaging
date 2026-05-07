@@ -40,13 +40,12 @@ Rails.application.configure do
     SecureRandom.base64(16)
   }
 
-  # 2. FIX: Only apply the nonce to styles if we ARE NOT in development.
-  # If we are in dev, we only apply it to script-src.
-  config.content_security_policy_nonce_directives = if Rails.env.development?
-    %w[script-src]
-  else
-    %w[script-src style-src]
-  end
+  # Apply the CSP nonce only to script-src. We deliberately do NOT nonce style-src
+  # because Civic Cookie Control injects <style> blocks at runtime that can't carry
+  # our nonce — and per CSP3, a nonce on style-src causes 'unsafe-inline' to be
+  # ignored, which would block Civic. Inline-style XSS is materially lower risk
+  # than inline-script XSS, so this tradeoff is acceptable.
+  config.content_security_policy_nonce_directives = %w[script-src]
 end
 
 Rails.application.config.after_initialize do
