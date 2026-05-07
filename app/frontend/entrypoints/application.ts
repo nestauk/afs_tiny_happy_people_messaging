@@ -67,3 +67,10 @@ window.parseB64Json = (encodedString) => {
 Alpine.magic("json", () => {
   return (encodedString) => window.parseB64Json(encodedString);
 });
+
+document.addEventListener("turbo:load", (event) => {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'GTM-NWN4JM5J');
+})
