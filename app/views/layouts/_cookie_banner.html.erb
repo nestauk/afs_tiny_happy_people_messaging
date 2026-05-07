@@ -1,0 +1,66 @@
+<script nonce="<%= content_security_policy_nonce %>">
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+
+  if (!window.__cookieControlInitialized) {
+    window.__cookieControlInitialized = true;
+
+    var config = {
+      apiKey: "2ea9ac86d74c9a17bacc2e3d1db71f3666f61150",
+      product: "PRO_MULTISITE",
+      optionalCookies: [{
+        name: "analytics",
+        label: "Analytics",
+        description: "We use analytics cookies to help us understand how you use our website.",
+        cookies: [
+          "_ga",
+          "_ga_*",
+        ],
+        onAccept: function() {
+          gtag('consent', 'update', {
+            'analytics_storage': 'granted'
+          });
+        },
+        onRevoke: function() {
+          gtag('consent', 'update', {
+            'analytics_storage': 'denied'
+          });
+        }
+      },
+      {
+        name: "marketing",
+        label: "Marketing Cookies",
+        description: "We use marketing cookies to help us improve the relevancy of advertising campaigns you receive.",
+        cookies: [],
+        onAccept: function () {
+          gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted'
+          });
+          if (typeof fbq === 'function') fbq('consent', 'grant');
+          if (typeof ttq !== 'undefined') ttq.grantConsent();
+          // Reddit Pixel doesn't have a consent API, so we load it here on demand when the user accepts marketing cookies
+          !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js?pixel_id=a2_ixotexco98fv",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);rdt('init','a2_ixotexco98fv');rdt('track', 'PageVisit');
+        },
+        onRevoke: function () {
+          gtag('consent', 'update', {
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied'
+          });
+          if (typeof fbq === 'function') fbq('consent', 'revoke');
+          if (typeof ttq !== 'undefined') ttq.revokeConsent();
+          // Clear Reddit's first-party cookie so attribution stops on next load.
+          // Adjust domain to match where it was set (often the bare domain).
+          document.cookie = '_rdt_uuid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+          // The pixel script that's already loaded in the current page can't be
+          // "turned off" — but it won't load on the next page view because onAccept
+          // won't fire, and without the cookie there's no persistent identifier.
+        }
+      }],
+      position: "left",
+    };
+    CookieControl.load(config);
+  }
+</script>
