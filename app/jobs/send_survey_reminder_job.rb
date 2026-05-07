@@ -4,6 +4,8 @@ class SendSurveyReminderJob < ApplicationJob
   queue_as :background
 
   def perform(user, survey)
+    return if SurveySend.where(user: user, survey: survey, sent_at: Time.zone.now.beginning_of_day..).exists?
+
     survey_url = edit_survey_url(survey, token: user.generate_token_for(:survey_token))
 
     message = Message.build do |m|
