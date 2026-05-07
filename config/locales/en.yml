@@ -667,7 +667,6 @@ en:
         <h3 class="text-xl mb-1">Meta (Facebook and Instagram)</h3>
         <p class="mb-2">These cookies are used in connection with the Meta Pixel, which lets us measure how our adverts on Facebook and Instagram perform and show ads to people who have visited our website.</p>
         <p class="mb-2"><strong>_fbp</strong> Set by us. Stores a unique identifier so that Meta can match actions you take on our website to adverts you may have seen on Facebook or Instagram. Expires in 90 days.</p>
-        <p class="mb-2"><strong>datr</strong> Set by Facebook to recognise the web browser you are using. Facebook uses it to detect suspicious activity, prevent fraudulent logins and protect its services from spam and abuse. Expires in 2 years.</p>
         <h3 class="text-xl mb-1">TikTok</h3>
         <p class="mb-2">These cookies are used in connection with the TikTok Pixel, which lets us measure how our adverts on TikTok perform and reach people who may be interested in what we offer.</p>
         <p class="mb-2"><strong>_ttp</strong> Set by us. Stores a unique identifier so that TikTok can match actions you take on our website to adverts you may have seen on TikTok. Expires in 13 months.</p>
@@ -675,11 +674,6 @@ en:
         <h3 class="text-xl mb-1">Reddit</h3>
         <p class="mb-2">These cookies are used in connection with the Reddit Pixel, which lets us measure how our adverts on Reddit perform and show ads to people who have visited our website.</p>
         <p class="mb-2"><strong>_rdt_uuid</strong> Set by us. Stores a unique identifier so that Reddit can match actions you take on our website to adverts you may have seen on Reddit. Expires in 3 months</p>
-        <p class="mb-2"><strong>loid</strong> Set by Reddit. A long-lived identifier that Reddit sets for visitors who are not signed in to a Reddit account. Used to recognise your browser across visits for advertising and analytics. Expires in 2 years.</p>
-        <p class="mb-2"><strong>edgebucket</strong> Set by Reddit. Used by Reddit to deliver advertising, to assign visitors to test groups for new features, and to help route traffic across Reddit's services. Expires in 1 year.</p>
-        <p class="mb-2"><strong>csv</strong> Set by Reddit. An internal Reddit cookie used to support advertising and other functions on Reddit's services. Reddit does not publish detailed information about this cookie. Expires in 5 years.</p>
-        <p class="mb-2"><strong>pc</strong> Set by Reddit. An internal Reddit cookie used to support advertising and other functions on Reddit's services. Reddit does not publish detailed information about this cookie. Short lived cookie.</p>
-        <p class="mb-6"><strong>eu_cookie</strong> Set by Reddit. Records that Reddit's own cookie banner has been shown to your browser, so it isn't displayed again unnecessarily. Expires in 1 year</p>
         <h2>Control your cookie settings</h2>
         <p class="mb-2">
           If you want, you can block cookies by changing the settings on your browser – we have set out below links to the help pages of some major browsers which explain how you can do this. Blocking the cookies we use may have an adverse impact on the presentation of some or all of our website. General guidance on how to manage your cookies can be found here:
