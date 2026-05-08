@@ -64,19 +64,12 @@ class User < ApplicationRecord
       .having("COUNT(*) = 2 OR COUNT(*) = 18")
   }
   scope :with_four_messages_left, -> {
-    where(<<~SQL.squish)
-      CASE
-        WHEN users.programme_length IS NOT NULL THEN
-          (SELECT COUNT(*) FROM messages WHERE messages.user_id = users.id AND messages.content_id IS NOT NULL) = users.programme_length - 4
-        ELSE
-          EXISTS (
-            SELECT 1 FROM messages WHERE messages.user_id = users.id
-            AND messages.content_id = (
-              SELECT id FROM contents WHERE contents.group_id = users.group_id AND archived_at IS NULL ORDER BY position DESC LIMIT 1 OFFSET 3
-            )
-          )
-      END
-    SQL
+    joins(:messages)
+      .where.not(programme_length: nil)
+      .where(<<~SQL.squish)
+        (SELECT COUNT(*) FROM messages WHERE messages.user_id = users.id AND messages.content_id IS NOT NULL) = users.programme_length - 4
+      SQL
+      .group("users.id")
   }
   scope :received_six_messages_without_bilingual_text, -> {
     where(sent_bilingual_text_at: nil)

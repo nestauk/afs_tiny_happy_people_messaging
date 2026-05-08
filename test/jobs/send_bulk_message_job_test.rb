@@ -157,7 +157,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
-  test "#perform sends offboarding text messages to old users" do
+  test "#perform doesn't send offboarding text messages to old users" do
     group = create(:group, language: "esp")
     10.times { create(:content, group:) }
     fourth_from_last = group.contents.order(position: :desc).offset(3).first
@@ -165,7 +165,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     user = create(:user, group:, language: "esp", programme_length: nil)
     create(:message, user:, content: fourth_from_last)
 
-    assert_enqueued_jobs 1, only: OffboardingPreparationMessageJob do
+    assert_no_enqueued_jobs do
       SendBulkMessageJob.perform_now("offboarding")
     end
   end
