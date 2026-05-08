@@ -249,19 +249,15 @@ class UserTest < ActiveSupport::TestCase
     assert_includes User.with_four_messages_left, user1
   end
 
-  test "with_four_messages_left scope for old users uses content position" do
+  test "with_four_messages_left doesn't catch old users" do
     group = create(:group, language: "esp")
     20.times { create(:content, group:) }
     fourth_from_last = group.contents.order(position: :desc).offset(3).first
 
-    user1 = create(:user, group:, language: "esp", programme_length: nil)
-    create(:message, user: user1, content: fourth_from_last)
+    user = create(:user, group:, language: "esp", programme_length: nil)
+    create(:message, user:, content: fourth_from_last)
 
-    user2 = create(:user, group:, language: "esp", programme_length: nil)
-    create(:message, user: user2, content: group.contents.order(:position).first)
-
-    assert_equal 1, User.with_four_messages_left.to_a.size
-    assert_includes User.with_four_messages_left, user1
+    assert_equal 0, User.with_four_messages_left.to_a.size
   end
 
   test "not_finished scope for new users uses programme_length" do
