@@ -49,7 +49,7 @@ Rails.application.configure do
 end
 
 Rails.application.config.after_initialize do
-  Blazer::QueriesController.content_security_policy do |policy|
+  Blazer::BaseController.content_security_policy do |policy|
     policy.script_src :self, :unsafe_inline, :unsafe_eval
     policy.style_src :self, :unsafe_inline
   end
