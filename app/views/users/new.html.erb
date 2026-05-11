@@ -102,7 +102,7 @@
     </h2>
   </div>
   <div class="flex flex-col lg:flex-row flex-wrap xl:pl-40">
-    <div class="w-full xl:w-1/2 px-5 md:px-20 mb-5">
+    <div class="w-full lg:w-1/2 px-5 md:px-20 mb-5">
       <% (1..5).each do |i| %>
         <div class=<%= i == 1 ? "pb-5" : "py-5" %>>
           <h3 class="font-bold md:text-2xl text-lg text-white"><%= t("pages.home.reason_#{i}_title") %></h3>
@@ -113,8 +113,8 @@
       <% end %>
     </div>
     <div class="w-full lg:w-1/2">
-      <%= vite_image_tag "images/bottom-accent.png", alt: "", "aria-hidden": "true", class: "left-0 right-0 block md:hidden" %>
-      <%= vite_image_tag "images/frisbee.jpg", alt: "", "aria-hidden": "true", class: "lg:col-span-2 xl:col-span-1" %>
+      <%= vite_image_tag "images/bottom-accent.png", alt: "", "aria-hidden": "true", class: "left-0 right-0 block lg:hidden" %>
+      <%= vite_image_tag "images/frisbee.jpg", alt: "", "aria-hidden": "true", class: "md:col-span-2 xl:col-span-1" %>
       <div class="bg-bbc-yellow text-black p-5 md:p-8 col-span-1 flex flex-col justify-around">
         <div>
           <p class="text-lg md:text-xl font-bold">
