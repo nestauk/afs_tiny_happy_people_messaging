@@ -11,3 +11,13 @@ Ahoy.geocode = false
 
 # Don't collect cookies
 Ahoy.cookies = :none
+
+Ahoy.user_method = :current_admin
+
+module AhoyRandomVisitorToken
+  def visitor_anonymity_set
+    @visitor_anonymity_set ||= SecureRandom.hex(16)
+  end
+end
+
+Ahoy::Tracker.prepend(AhoyRandomVisitorToken)
