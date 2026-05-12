@@ -12,7 +12,8 @@ class UsersController < ApplicationController
     @no_padding = true
     @user = User.new
 
-    ahoy.track "#{request.path_parameters[:action]} - #{params[:q].presence || "no-referrer"}", request.path_parameters
+    ahoy.track "#{request.path_parameters[:action]} - #{params[:utm_source].presence || "no-referrer"}",
+      request.path_parameters.merge(params.permit(:la, :utm_source, :utm_medium, :utm_campaign, :utm_content).to_h)
   end
 
   def create
