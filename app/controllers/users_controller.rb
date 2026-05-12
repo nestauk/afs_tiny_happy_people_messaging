@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new
 
     ahoy.track "#{request.path_parameters[:action]} - #{params[:utm_source].presence || "no-referrer"}",
-      request.path_parameters.merge(params.permit(:la, :utm_source, :utm_medium, :utm_campaign, :utm_content).to_h)
+      request.path_parameters.merge(params.permit(:utm_source, :utm_medium, :utm_campaign, :utm_content).to_h)
   end
 
   def create
