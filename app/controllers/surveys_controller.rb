@@ -3,6 +3,7 @@ class SurveysController < ApplicationController
   before_action :set_survey, only: [:edit, :update]
   before_action :set_user, only: [:edit, :update, :thank_you]
   before_action :set_questions, :set_answers, only: [:edit]
+  after_action :track_action, only: [:edit, :thank_you]
 
   def edit
     @hide_sidebar = true
@@ -58,5 +59,9 @@ class SurveysController < ApplicationController
         answers_attributes: [:id, :question_id, :user_id, :response, {response: []}],
       ],
     )
+  end
+
+  def track_action
+    ahoy.track request.path_parameters[:action], request.path_parameters
   end
 end

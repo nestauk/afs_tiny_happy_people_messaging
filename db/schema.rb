@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_07_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_12_124931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -69,7 +69,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_120000) do
     t.string "name"
     t.jsonb "properties"
     t.datetime "time"
-    t.uuid "user_id"
+    t.bigint "user_id"
     t.bigint "visit_id"
     t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
     t.index ["properties"], name: "index_ahoy_events_on_properties", opclass: :jsonb_path_ops, using: :gin
@@ -85,8 +85,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_120000) do
     t.text "referrer"
     t.string "referring_domain"
     t.datetime "started_at"
-    t.text "user_agent"
-    t.uuid "user_id"
+    t.bigint "user_id"
     t.string "visit_token"
     t.string "visitor_token"
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
