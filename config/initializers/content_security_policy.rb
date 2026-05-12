@@ -48,9 +48,9 @@ Rails.application.configure do
   config.content_security_policy_nonce_directives = %w[script-src]
 end
 
-Rails.application.config.after_initialize do
+Rails.application.config.to_prepare do
   Blazer::BaseController.content_security_policy do |policy|
-    policy.script_src :self, :unsafe_inline, :unsafe_eval
+    policy.script_src :self, :unsafe_eval, :unsafe_inline
     policy.style_src :self, :unsafe_inline
   end
 end
