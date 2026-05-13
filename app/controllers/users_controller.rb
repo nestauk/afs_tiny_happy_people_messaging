@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   STEPS = %w[personalisation about_service].freeze
+  SIGNUP_CAP = 3000
+  SIGNUP_WINDOW_START = Date.new(2026, 5, 13)
 
   rate_limit to: 10, within: 5.minutes, by: -> { request.ip }, only: :create, with: -> { rate_limit_exceeded }
 
@@ -19,7 +21,7 @@ class UsersController < ApplicationController
   def create
     redirect_to root_path, notice: "Signups are currently paused. Please check back later." and return if ENV.fetch("SIGN_UP_OPEN", "true") == "false"
 
-    if User.where("created_at > ?", "2026-03-10").count == 3000
+    if User.where("created_at > ?", UsersController::SIGNUP_WINDOW_START).count >= UsersController::SIGNUP_CAP
       return redirect_to root_path, notice: I18n.t("controllers.users.create.notice")
     end
 
