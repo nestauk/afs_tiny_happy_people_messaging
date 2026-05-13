@@ -6,3 +6,12 @@
   <% end %>
 </div>
 <% turbo_page_requires_reload %>
+
+<% if @step == "personalisation" %>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'conversion_completed'
+    });
+  </script>
+<% end %>
