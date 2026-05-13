@@ -13,7 +13,7 @@ class SendMessageJob < ApplicationJob
     return if content.blank?
 
     message = Message.build do |m|
-      m.token = m.send(:generate_token)
+      m.token = SecureRandom.alphanumeric(6)
       m.link = content.link
       m.user = user
       m.body = substitute_variables(content.body, user, token: m.token)

@@ -7,7 +7,7 @@ class SendBilingualMessageJobTest < ActiveSupport::TestCase
   test "#perform sends message with default content" do
     user = create(:user, child_name: "Harry")
 
-    Message.any_instance.stubs(:generate_token).returns("ABC")
+    SecureRandom.stubs(:alphanumeric).returns("ABC")
 
     assert_enqueued_jobs 1, only: SendCustomMessageJob do
       SendBilingualMessageJob.new.perform(user)
@@ -22,7 +22,7 @@ class SendBilingualMessageJobTest < ActiveSupport::TestCase
     create(:group, language: "cy")
     user = create(:user, language: "cy", child_name: "Harry")
 
-    Message.any_instance.stubs(:generate_token).returns("ABC")
+    SecureRandom.stubs(:alphanumeric).returns("ABC")
 
     assert_enqueued_jobs 1, only: SendCustomMessageJob do
       SendBilingualMessageJob.new.perform(user)

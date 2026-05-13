@@ -61,11 +61,19 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "Failed", message.admin_status
   end
 
-  test "#set_token sets the token" do
-    message = build(:message)
+  test "#set_token sets the token when the message has a link" do
+    message = build(:message, link: "https://example.com")
     assert_nil message.token
 
     message.save
     assert_not_nil message.token
+  end
+
+  test "#set_token leaves the token nil when the message has no link" do
+    message = build(:message, link: nil)
+    assert_nil message.token
+
+    message.save
+    assert_nil message.token
   end
 end

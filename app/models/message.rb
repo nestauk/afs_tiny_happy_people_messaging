@@ -20,19 +20,14 @@ class Message < ApplicationRecord
     end
   end
 
-  def generate_token
-    self.token = SecureRandom.alphanumeric(6)
-  end
-
   private
 
   def set_token
-    return unless new_record? && token.nil?
+    return unless new_record? && token.nil? && link.present?
 
-    token = generate_token
-
-    while Message.exists?(token:)
-      generate_token
+    loop do
+      self.token = SecureRandom.alphanumeric(6)
+      break unless Message.exists?(token: token)
     end
   end
 
