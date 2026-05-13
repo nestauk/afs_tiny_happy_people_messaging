@@ -217,6 +217,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.received_two_or_eighteen_messages, [user1]
   end
 
+  test "received_two_or_eighteen_messages scope doesn't send to old users" do
+    content = create(:content)
+
+    user1 = create(:user, finished_content_at: Time.zone.now)
+    2.times { create(:message, user: user1, content:) }
+
+    assert_equal 0, User.received_two_or_eighteen_messages.to_a.size
+  end
+
   test "received_six_messages_without_bilingual_text scope" do
     content = create(:content)
 
@@ -260,45 +269,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 0, User.with_four_messages_left.to_a.size
   end
 
-  test "not_finished scope for new users uses programme_length" do
-    content = create(:content)
+  test "not_finished scope returns users who haven't finished" do
+    user_not_finished = create(:user, finished_content_at: nil, programme_length: 52)
 
-    user_with_some_messages = create(:user, programme_length: 52)
-    10.times { create(:message, user: user_with_some_messages, content:) }
+    user_finished = create(:user, finished_content_at: Time.zone.now, programme_length: 52)
 
-    user_with_no_messages = create(:user, programme_length: 52)
-
-    user_finished = create(:user, programme_length: 52)
-    52.times { create(:message, user: user_finished, content:) }
-
-    assert_includes User.not_finished, user_with_some_messages
-    assert_includes User.not_finished, user_with_no_messages
+    assert_includes User.not_finished, user_not_finished
     assert_not_includes User.not_finished, user_finished
-  end
-
-  test "not_finished scope for new users does not count non-content messages" do
-    content = create(:content)
-
-    user = create(:user, programme_length: 52)
-    51.times { create(:message, user:, content:) }
-    create(:message, user:, content_id: nil)
-
-    assert_includes User.not_finished, user
-  end
-
-  test "not_finished scope for old users uses content-based logic" do
-    group = create(:group)
-    create(:content, position: 1, group:)
-    content2 = create(:content, position: 2, group:)
-    content3 = create(:content, position: 3, group:)
-
-    user_mid = create(:user, last_content_id: content2.id, programme_length: nil)
-    user_done = create(:user, last_content_id: content3.id, programme_length: nil)
-    user_new = create(:user, last_content_id: nil, programme_length: nil)
-
-    assert_includes User.not_finished, user_mid
-    assert_includes User.not_finished, user_new
-    assert_not_includes User.not_finished, user_done
   end
 
   test "needs_survey_reminder scope" do

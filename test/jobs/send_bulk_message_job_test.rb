@@ -52,19 +52,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
 
   test "no morning job enqueued if new user has finished the programme" do
     travel_to_monday
-    content = create(:content)
-    user = create(:user, hour_preference: "morning", day_preference: 1, programme_length: 52)
-    52.times { create(:message, user:, content:) }
-
-    assert_no_enqueued_jobs do
-      SendBulkMessageJob.perform_now("weekly_message", "morning")
-    end
-  end
-
-  test "no morning job enqueued if old user has finished all the content" do
-    travel_to_monday
-    content = create(:content)
-    create(:user, hour_preference: "morning", day_preference: 1, last_content_id: content.id, programme_length: nil)
+    create(:user, hour_preference: "morning", day_preference: 1, finished_content_at: Time.zone.now, programme_length: 52)
 
     assert_no_enqueued_jobs do
       SendBulkMessageJob.perform_now("weekly_message", "morning")

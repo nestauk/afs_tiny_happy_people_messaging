@@ -47,6 +47,7 @@ class User < ApplicationRecord
             .limit(x),
         },
       )
+      .where(finished_content_at: nil)
       .group("users.id")
       .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = #{x.to_i}")
   }
@@ -60,6 +61,7 @@ class User < ApplicationRecord
             .where.not(content_id: nil),
         },
       )
+      .where(finished_content_at: nil)
       .group("users.id")
       .having("COUNT(*) = 2 OR COUNT(*) = 18")
   }
@@ -82,24 +84,18 @@ class User < ApplicationRecord
             .where.not(content_id: nil),
         },
       )
+      .where(finished_content_at: nil)
       .group("users.id")
       .having("COUNT(*) >= 6")
   }
   scope :not_finished, -> {
-    where(<<~SQL.squish)
-      CASE
-        WHEN users.programme_length IS NOT NULL THEN
-          (SELECT COUNT(*) FROM messages WHERE messages.user_id = users.id AND messages.content_id IS NOT NULL) < users.programme_length
-        ELSE
-          users.last_content_id IS NULL OR users.last_content_id NOT IN (
-            SELECT DISTINCT ON (group_id) id FROM contents ORDER BY group_id, position DESC
-          )
-      END
-    SQL
+    where(finished_content_at: nil)
   }
   scope :needs_survey_reminder, ->(survey_id) {
     joins(:survey_sends)
       .where(survey_sends: {completed_at: nil, survey_id: survey_id, sent_at: 2.days.ago..1.days.ago})
+      .where.not(contactable: false)
+      .distinct
   }
 
   attribute :hour_preference,

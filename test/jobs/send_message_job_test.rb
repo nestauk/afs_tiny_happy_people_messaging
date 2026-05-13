@@ -133,6 +133,20 @@ class SendMessageJobTest < ActiveSupport::TestCase
     end
   end
 
+  test "#perform updates finished_content_at when user has finished content" do
+    content = create(:content, body: "here is a link: {{link}}")
+    create(:content, group: content.group, body: "here is a second link: {{link}}")
+    user = create(:user, last_content_id: content.id, group: content.group, programme_length: 2, finished_content_at: nil)
+    create(:message, user:, content:, created_at: 2.weeks.ago)
+
+    Message.any_instance.stubs(:generate_token).returns("123")
+    stub_successful_twilio_call("here is a second link: #{track_link_url("123")}", user)
+
+    SendMessageJob.new.perform(user)
+
+    assert_not_nil user.reload.finished_content_at
+  end
+
   test "#perform does not send offboarding message if user has not finished content" do
     content = create(:content, body: "here is a link: {{link}}")
     create(:content, group: content.group, body: "here is a second link: {{link}}")
