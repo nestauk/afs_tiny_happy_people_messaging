@@ -9,7 +9,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     content2 = create(:content, group: content.group, body: "Hi {{parent_name}}, here is a link for {{child_name}}: {{link}}")
     user = create(:user, last_content_id: content.id, first_name: "John", child_name: "Billy", group: content.group)
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
 
     stub_successful_twilio_call("Hi John, here is a link for Billy: {{link}}".gsub("{{link}}", track_link_url("123")), user)
 
@@ -27,7 +27,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     content = create(:content, body: "Hi {{parent_name}}, here is a link for {{child_name}}: {{link}}")
     user = create(:user, first_name: "John", group: content.group)
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
 
     stub_successful_twilio_call("Hi John, here is a link for your child: {{link}}".gsub("{{link}}", track_link_url("123")), user)
 
@@ -79,7 +79,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     user = build(:user, last_content_id: content.id, phone_number: "234")
     user.save(validate: false)
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
 
     assert_no_changes -> { Message.count } do
       SendMessageJob.new.perform(user)
@@ -94,7 +94,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     user = create(:user, last_content_id: content.id, group: content.group)
     create(:survey, send_after_message_count: 1)
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
     stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
 
     assert_enqueued_jobs 1, only: SendSurveyJob do
@@ -109,7 +109,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     user.save(validate: false)
     create(:survey, send_after_message_count: 1)
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
 
     assert_no_enqueued_jobs only: SendSurveyJob do
       SendMessageJob.new.perform(user)
@@ -123,7 +123,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     create(:message, user: user, content: content, created_at: 2.weeks.ago)
     create(:survey, title_en: "Offboarding")
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
     stub_successful_twilio_call("here is a second link: #{track_link_url("123")}", user)
 
     freeze_time do
@@ -139,7 +139,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     user = create(:user, last_content_id: content.id, group: content.group, programme_length: 2, finished_content_at: nil)
     create(:message, user:, content:, created_at: 2.weeks.ago)
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
     stub_successful_twilio_call("here is a second link: #{track_link_url("123")}", user)
 
     SendMessageJob.new.perform(user)
@@ -153,7 +153,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     user = create(:user, last_content_id: nil, group: content.group, programme_length: 2)
     create(:survey, title_en: "Offboarding")
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
     stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
 
     assert_no_enqueued_jobs only: OffboardingMessageJob do
@@ -167,7 +167,7 @@ class SendMessageJobTest < ActiveSupport::TestCase
     create(:message, user: user, content: content, created_at: 2.weeks.ago)
     create(:survey, title_en: "Offboarding")
 
-    Message.any_instance.stubs(:generate_token).returns("123")
+    SecureRandom.stubs(:alphanumeric).returns("123")
     stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
 
     assert_no_enqueued_jobs only: OffboardingMessageJob do

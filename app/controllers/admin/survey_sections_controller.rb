@@ -16,7 +16,7 @@ class Admin::SurveySectionsController < ApplicationController
 
   def create
     @survey_section = @survey.survey_sections.new(survey_section_params)
-    if @survey_section.save!
+    if @survey_section.save
       redirect_to admin_survey_path(@survey), notice: "Survey was successfully created."
     else
       render :new, status: :unprocessable_content

@@ -6,7 +6,7 @@ class SendBilingualMessageJob < ApplicationJob
 
   def perform(user)
     message = Message.build do |m|
-      m.token = m.send(:generate_token)
+      m.token = SecureRandom.alphanumeric(6)
       m.user = user
       m.body = substitute_variables(
         I18n.t(".messages.bilingual_text", locale: user.language || I18n.default_locale),
