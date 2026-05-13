@@ -24,8 +24,12 @@ class SendMessageJob < ApplicationJob
       Twilio::Client.new.send_message(message)
       Survey.trigger_for(user, message_count: user.programme_message_count)
 
-      if user.finished_programme? && user.programme_length.present?
-        OffboardingMessageJob.set(wait_until: 1.week.from_now).perform_later(user)
+      if user.finished_programme?
+        user.update!(finished_content_at: Time.zone.now) if user.finished_content_at.nil?
+
+        if user.programme_length.present?
+          OffboardingMessageJob.set(wait_until: 1.week.from_now).perform_later(user)
+        end
       end
     end
   end
