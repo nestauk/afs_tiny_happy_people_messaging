@@ -8,7 +8,7 @@
 <% turbo_page_requires_reload %>
 
 <% if @step == "personalisation" %>
-  <script>
+  <script nonce="<%= content_security_policy_nonce %>">
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'conversion_completed'
