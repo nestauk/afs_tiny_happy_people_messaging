@@ -60,7 +60,7 @@ en:
     hints:
       user:
         child_birthday: "This helps make sure the texts we send fit your child's age and stage"
-        postcode: "We use postcode information (and nothing else) to get a rough idea of which areas we’re reaching. This helps us understand if there's any areas we’re missing, and if we need to do some more outreach."
+        postcode: "We use postcode information (and nothing else) to get a rough idea of which areas we’re reaching. This helps us understand if we’re missing parents in any areas, and if we need to do some more outreach."
         phone_number: "So we can text you helpful tips, nothing more!"
         child_name: "We want to personalise this service to you and your little one! Feel free to use a nickname if you’d prefer."
         first_name: "So we know what to call you"
