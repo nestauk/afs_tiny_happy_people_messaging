@@ -49,6 +49,8 @@ en:
     application: "CBeebies Parenting Text Messaging"
   descriptions:
     application: Free texts sent weekly to your phone for fun activities to try out with your child from CBeebies Parenting
+  layouts:
+    skip_to_main_content: "Skip to main content"
   pages:
     about_us:
       title: "About us"
@@ -65,7 +67,7 @@ en:
         <p class="mb-3">The CBeebies Parenting texting programme was first developed by Professor Danielle Matthews at the University of Sheffield and BBC Education to deliver the free online resources of CBeebies Parenting to caregivers to evaluate via a trial if texting CBeebies Parenting video resources to families supports caregiver-child interaction and ultimately results in better language outcomes for children.</p>
         <p>Since 2024, Nesta has been working in an innovation partnership with Professor Danielle Matthews and BBC Education to further develop the CBeebies Parenting texting programme. Since the beginning of our partnership, Nesta has been working to continue to develop, test, and scale the CBeebies Parenting texting programme to reach more parents across the UK and contribute towards our mission goal of breaking the link between family background and life chances.</p>
         <h2 class="mt-5 mb-3 text-xl md:text-2xl text-blue-900">Get in touch</h2>
-        <p>We’re working in partnership with local authorities across the UK, the University of Sheffield, and BCC Education to deliver this service. Please get in touch if you’d like to explore how you can contribute or how we can improve the service. Email us at <a href=’mailto:info@cbeebies-text.uk’ class=’link’>info@cbeebies-text.uk</a>.</p>
+        <p>We’re working in partnership with local authorities across the UK, the University of Sheffield, and BBC Education to deliver this service. Please get in touch if you’d like to explore how you can contribute or how we can improve the service. Email us at <a href='mailto:info@cbeebies-text.uk' class='link'>info@cbeebies-text.uk</a>.</p>
     footer: 
       title: "CBeebies Parenting Text Messaging"
       blurb: "The CBeebies Parenting texting programme is a service run by Nesta, the UK's innovation agency for social good in partnership with the University of Sheffield and BBC Education. Nesta's A Fairer Start team is working to break the link between family background and life chances. From 2030, every child will have the same chance of developing to their full potential in the early years."
@@ -93,6 +95,7 @@ en:
         saving: "Saving..."
         skip: "Skip this section"
     home:
+      page_title: CBeebies Parenting Text Messaging
       title: "Nurture your child's growth with fun, free activities"
       subtitle: "Get weekly bite-sized activities that spark imagination delivered to your phone, for ages 9-18 months"
       sign_up: "Sign up"
@@ -117,7 +120,7 @@ en:
       reason_5_text: "Strengthen your bond while having fun together."
       quote: '“A great guide and confidence builder knowing we were doing a lot right and then fantastic guidance in what we can do and apply to further develop our child."'
       quote_author: "Ali's mum"
-      free: "<p class='mb-2'>This service is and will always be free to use.</p><p class='mb-2'>The activities shown in these videos reflect a typical developmental journey between 9 and 18 months. If your child has been diagnosed with, or you have concerns about, a speech, language or communication difficulty, or developmental delay, their progress may look different from what you see here.</p><p class='mb-2'>If your child was born prematurely, their development may follow a slightly different timeline, which is completely normal.</p><p class='mb-2'>Many of the activities can still be enjoyed and adapted across a wide range of developmental stages. However, we encourage you to consider your child’s individual needs and, where helpful, seek guidance from a relevant professional to make the most of these activities.</p>"
+      free: "<p class='mb-2'>This service is and will always be free to use.</p><p class='mb-2'>The activities shown in these videos reflect a typical developmental journey between 9 and 18 months. If your child has been diagnosed with, or you have concerns about, a speech, language or communication difficulty, or developmental delay, their progress may look different from what you see here.</p><p class='mb-2'>If your child was born prematurely, their development may follow a slightly different timeline, which is completely normal.</p><p class='mb-4'>Many of the activities can still be enjoyed and adapted across a wide range of developmental stages. However, we encourage you to consider your child’s individual needs and, where helpful, seek guidance from a relevant professional to make the most of these activities.</p>"
       terms: "terms of service"
       privacy: "privacy policy"
       submit: "Sign up"
@@ -236,7 +239,7 @@ en:
               </a>
               <ul x-show="showChildDevelopment" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>Developmental milestones by age:</span> Check out the <a href=’https://cambspborochildrenshealth.nhs.uk/child-development-and-growing-up/milestones/’ target=’_blank’ class=’link’>NHS Cambridgeshire and Community’s Milestones page</a> for a rough guide on children’s different developmental milestones and when to contact your health visitor.<br><br>If you don’t live in Cambridgeshire but would like to know where to get local support related to your child’s development, <a href=’https://www.gov.uk/find-local-council’ target=’_blank’ class=’link’>find your local council’s website</a>.</li>
-                <li><span class=’font-bold’>Activities to promote children’s development:</span> Use the <a href=’https://www.bbc.co.uk/tiny-happy-people’ target=’_blank’ class=’link’>CBeebies Parenting website</a> to find ideas for activities to promote your children’s development. This is one of the websites we asked you to view in your interview with us.</li>
+                <li><span class=’font-bold’>Activities to promote children’s development:</span> Use the <a href=’https://www.bbc.co.uk/tiny-happy-people’ target=’_blank’ class=’link’>CBeebies Parenting website</a> to find ideas for activities to promote your children’s development</li>
               </ul>
             </div>
           </div>
@@ -538,7 +541,7 @@ en:
     thank_you: 
       page_title: "Thank you for signing up!"
       title: "You're all signed up, congratulations!"
-      title_waitlist: "You’ve been added to our wait list!"
+      title_waitlist: "You’ve been added to our waitlist!"
       subtitle: "Each week, we'll send you a text, all you have to do is watch the video (and give the activity a go!)."
       para_1: "Got 2 minutes? Help us shape the service to your needs! We’ve got 12 quick questions for you. Tell us your thoughts, and as a thanks you’ll be in for a chance to win a £50 voucher!<br> <a href='{{survey_url}}' class='btn bg-white text-black mt-6'>Take the survey</a>"
       para_2: "If you're looking for assistance with your or your child's health, your family's finances, or have concerns about your child's development, please consult our <a href='/resources' class='link'>resources page</a> to know where you might find UK-based support."

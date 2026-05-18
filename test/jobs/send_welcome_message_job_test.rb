@@ -19,12 +19,12 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
     create(:group, language: "cy")
     user = create(:user, child_birthday: 18.months.ago, language: "cy")
 
-    stub_successful_twilio_call("Helo Ali, croeso i’n negeseuon wythnosol gyda gweithgareddau i eich plentyn. Llongyfarchiadau ar ddechrau’r siwrnai anhygoel hon gyda’ch un bach!", user)
+    stub_successful_twilio_call("Helo Ali, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd!", user)
 
     SendWelcomeMessageJob.new.perform(user)
 
     assert_equal 1, Message.count
-    assert_equal("Helo Ali, croeso i’n negeseuon wythnosol gyda gweithgareddau i eich plentyn. Llongyfarchiadau ar ddechrau’r siwrnai anhygoel hon gyda’ch un bach!", Message.last.body)
+    assert_equal("Helo Ali, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd!", Message.last.body)
   end
 
   test "#perform does not send message if message is not valid" do

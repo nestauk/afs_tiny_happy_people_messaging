@@ -71,23 +71,25 @@
 
       <%= form.input :language, as: :hidden, input_html: { value: params[:locale] || I18n.default_locale } %>
 
-      <div class="my-4">
-        <a 
-          @click="showSources = !showSources"
-          @keyup.space="showSources = !showSources"
-          @keyup.enter="showSources = !showSources"
-          role="button"
-          class="no-underline mb-2 text-black cursor-pointer focus:ring-2 focus:ring-blue-500"
-          tabindex="0"
-        >
-          <span class="flex items-center gap-1">
-            <span x-show="!showSources" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-            <span x-show="showSources" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
-            <%= t("pages.home.what_to_expect") %>
-          </span>
-        </a>
+      <div>
+        <div class="my-4">
+          <a 
+            @click="showSources = !showSources"
+            @keyup.space="showSources = !showSources"
+            @keyup.enter="showSources = !showSources"
+            role="button"
+            class="no-underline text-black cursor-pointer focus:ring-2 focus:ring-blue-500"
+            tabindex="0"
+          >
+            <span  class="flex items-center gap-1">
+              <span x-show="!showSources" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
+              <span x-show="showSources" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+              <%= t("pages.home.what_to_expect") %>
+            </span>
+          </a>
+        </div>
+        <div x-show="showSources" class="mt-4"><%= t("pages.home.free").html_safe %></div>
       </div>
-      <div x-show="showSources" class="mt-4"><%= t("pages.home.free").html_safe %></div>
 
       <% if @user.errors[:terms_agreed].any? %>
         <% @user.errors.where(:terms_agreed).each do |error| %>
