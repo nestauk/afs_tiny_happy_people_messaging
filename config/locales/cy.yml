@@ -39,7 +39,7 @@ cy:
   messages:
     bilingual_text: "Mae Cymru'n dathlu pob iaith! Mae defnyddio iaith y cartref yn gallu helpu datblygiad {{child_name}}. Dysga fwy: {{link}}"
     feedback: Ydy’r gweithgareddau rydyn ni’n eu hanfon yn addas i dy blentyn? Ateba 'Ydyn' neu 'Nac ydyn' i roi gwybod i ni.
-    nudge: Dwyt ti ddim wedi defnyddio’r fideos yn ddiweddar. Anfona ‘ADDASU’ am gynnwys gwahanol, neu ‘DIWEDD’ i’w stopio’n llwyr.
+    nudge: Dwyt ti ddim wedi defnyddio’r fideos yn ddiweddar. Anfona ‘DIWEDD’ i stopio.
     welcome: "Helo {{parent_name}}, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad {{child_name}}. Mwynhewch y daith gyda’ch gilydd!"
     your_child: "eich plentyn"
     offboarding_preparation: Rwyt ti bron wedi cyrraedd diwedd y fideos! Dim ond ambell un sydd ar ôl, gyda’r olaf ymhen mis. Oes gennyt ti unrhyw adborth neu gwestiynau y mis hwn?
