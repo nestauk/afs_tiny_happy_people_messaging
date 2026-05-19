@@ -13,6 +13,7 @@
     <%= vite_stylesheet_tag 'application', media: 'all' %>
     <%= vite_typescript_tag 'application' %>
     <%= content_for :scripts %>
+    <%= favicon_link_tag vite_asset_path("images/thumbnail.png") %>
 
     <% unless Rails.env.test? %>
       <script defer src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js" data-turbo-track="reload" nonce="<%= content_security_policy_nonce %>"></script>
