@@ -110,7 +110,7 @@ class User < ApplicationRecord
 
   def finished_programme?
     if programme_length.present?
-      programme_message_count >= programme_length
+      programme_message_count >= programme_length || next_content.blank?
     else
       had_any_content_before? && next_content.blank?
     end
