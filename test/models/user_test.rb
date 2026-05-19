@@ -298,6 +298,73 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user.child_age_in_months_today, 10
   end
 
+  test "#finished_programme? method returns true if user has finished programme based on programme_length" do
+    group = create(:group, language: "cy")
+    content1 = create(:content, group:, position: 1)
+    content2 = create(:content, group:, position: 2)
+    user = create(:user, programme_length: 2, language: "cy", last_content_id: content2.id)
+    create(:message, user:, content: content1)
+    create(:message, user:, content: content2)
+
+    assert user.finished_programme?
+  end
+
+  test "#finished_programme? method returns false if user has not finished programme based on programme_length" do
+    group = create(:group, language: "cy")
+    content1 = create(:content, group:, position: 1)
+    content2 = create(:content, group:, position: 2)
+    create(:content, group:, position: 3)
+    user = create(:user, programme_length: 3, last_content_id: content1.id, language: "cy")
+    create(:message, user:, content: content2)
+
+    assert_not user.finished_programme?
+  end
+
+  test "#finished_programme? method returns true if user has finished programme but started with less content than programme_length" do
+    group = create(:group, language: "cy")
+    create(:content, group:, position: 1)
+    content2 = create(:content, group:, position: 2)
+    content3 = create(:content, group:, position: 3)
+    user = create(:user, programme_length: 3, language: "cy", last_content_id: content2.id)
+    create(:message, user:, content: content2)
+    create(:message, user:, content: content3)
+
+    assert user.finished_programme?
+  end
+
+  test "#finished_programme? method returns true if user has finished programme when programme_length is not set" do
+    group = create(:group, language: "cy")
+    content1 = create(:content, group:, position: 1)
+    content2 = create(:content, group:, position: 2)
+    user = create(:user, programme_length: nil, language: "cy", last_content_id: content1.id)
+    create(:message, user:, content: content1)
+    create(:message, user:, content: content2)
+
+    assert user.finished_programme?
+  end
+
+  test "#finished_programme? method returns false if user has not finished programme and programme_length is nil" do
+    group = create(:group, language: "cy")
+    content1 = create(:content, group:, position: 1)
+    content2 = create(:content, group:, position: 2)
+    create(:content, group:, position: 3)
+    user = create(:user, programme_length: nil, last_content_id: content1.id, language: "cy")
+    create(:message, user:, content: content2)
+
+    assert_not user.finished_programme?
+  end
+
+  test "#finished_programme? method returns false if user has not had any content and programme_length is nil" do
+    group = create(:group, language: "cy")
+    content1 = create(:content, group:, position: 1)
+    create(:content, group:, position: 2)
+    create(:content, group:, position: 3)
+    user = create(:user, programme_length: nil, last_content_id: nil, language: "cy")
+    create(:message, user:, content: content1)
+
+    assert_not user.finished_programme?
+  end
+
   test "#next_content method returns next ranked content for age group" do
     group = create(:group)
     @subject.update(group:)
