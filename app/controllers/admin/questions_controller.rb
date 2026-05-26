@@ -37,9 +37,9 @@ class Admin::QuestionsController < ApplicationController
 
   def destroy
     if @question.destroy
-      redirect_to admin_survey_path(@survey), notice: "Question was successfully deleted."
+      redirect_to admin_survey_path(@survey), notice: "Question was successfully deleted.", status: :see_other
     else
-      redirect_to admin_survey_path(@survey), alert: "Failed to delete question."
+      redirect_to admin_survey_path(@survey), alert: "Failed to delete question.", status: :see_other
     end
   end
 
