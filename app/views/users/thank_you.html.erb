@@ -34,3 +34,10 @@
     <%= vite_image_tag "images/family-playing.jpg", alt: "", "aria-hidden": "true" %>
   </div>
 </div>
+
+<script nonce="<%= content_security_policy_nonce %>">
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'full_conversion_completed'
+  });
+</script>
