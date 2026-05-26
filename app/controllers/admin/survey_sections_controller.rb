@@ -37,7 +37,7 @@ class Admin::SurveySectionsController < ApplicationController
 
   def destroy
     @survey_section.destroy
-    redirect_to admin_surveys_path, notice: "Survey was successfully deleted."
+    redirect_to admin_survey_path(@survey), notice: "Survey section was successfully deleted.", status: :see_other
   end
 
   private
