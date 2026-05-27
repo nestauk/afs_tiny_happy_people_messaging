@@ -49,6 +49,14 @@ class Admin::SurveysController < ApplicationController
     render template: "surveys/edit"
   end
 
+  def preview_thank_you
+    @hide_sidebar = true
+    @survey = Survey.find(params[:id])
+    @language = params[:locale] || "en"
+    @back_link = admin_survey_path(@survey)
+    render template: "surveys/thank_you"
+  end
+
   private
 
   def set_survey

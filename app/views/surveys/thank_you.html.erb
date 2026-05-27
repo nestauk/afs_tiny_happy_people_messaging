@@ -1,6 +1,9 @@
 <% content_for(:page_title) { I18n.t("pages.surveys.thank_you.page_title", locale: @language) } %>
 
 <div class="w-full lg:w-1/2 mx-auto py-10 px-5">
+  <% if @back_link %>
+    <%= link_to "Back to editing survey", @back_link, class: "link mb-4 inline-block" %>
+  <% end %>
   <% if @language == "en"  %>
     <h1><%= @survey.thank_you_title_en %></h1>
     <%= sanitize @survey.thank_you_body_en %>
