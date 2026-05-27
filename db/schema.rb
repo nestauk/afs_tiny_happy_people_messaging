@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_13_110612) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_27_095356) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -392,6 +392,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_13_110612) do
     t.text "intro_cy"
     t.text "intro_en"
     t.integer "send_after_message_count"
+    t.text "thank_you_body_cy"
+    t.text "thank_you_body_en"
+    t.text "thank_you_title_cy"
+    t.text "thank_you_title_en"
     t.string "title_cy"
     t.string "title_en", null: false
     t.datetime "updated_at", null: false

@@ -49,6 +49,14 @@ class Admin::SurveysController < ApplicationController
     render template: "surveys/edit"
   end
 
+  def preview_thank_you
+    @hide_sidebar = true
+    @survey = Survey.find(params[:id])
+    @language = params[:locale] || "en"
+    @back_link = admin_survey_path(@survey)
+    render template: "surveys/thank_you"
+  end
+
   private
 
   def set_survey
@@ -58,7 +66,8 @@ class Admin::SurveysController < ApplicationController
   def survey_params
     params.require(:survey).permit(
       :title_en, :title_cy, :send_after_message_count,
-      :intro_en, :intro_cy
+      :intro_en, :intro_cy, :thank_you_title_en, :thank_you_title_cy,
+      :thank_you_body_en, :thank_you_body_cy
     )
   end
 end

@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class SurveysTest < ApplicationSystemTestCase
   setup do
-    @survey = create(:survey)
+    @survey = create(:survey, thank_you_title_en: "Thank you!", thank_you_title_cy: "Diolch!", thank_you_body_en: "We appreciate your feedback.", thank_you_body_cy: "Rydym yn gwerthfawrogi eich adborth.")
     @survey_section1 = create(:survey_section, survey: @survey, title_en: "Section 1", title_cy: "Adran 1", position: 1)
     @survey_section2 = create(:survey_section, survey: @survey, title_en: "Section 2", title_cy: "Adran 2", position: 2)
     @survey_section3 = create(:survey_section, survey: @survey, title_en: "Section 3", title_cy: "Adran 3", position: 3)
