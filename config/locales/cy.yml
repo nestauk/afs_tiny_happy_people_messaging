@@ -99,6 +99,7 @@ cy:
       title: Gweithgareddau hwyliog am ddim i gefnogi datblygiad eich plentyn
       subtitle: Cewch syniadau wythnosol byr a difyr yn syth i’ch ffôn ar gyfer plant 9–18 mis oed
       sign_up: "Cofrestru"
+      video_aria_label: "Cefnogi llais eich plentyn drwy'r dydd"
       sneak_peek: Dyma flas bach o’r fideos fydd ar gael i chi eu mwynhau fel rhan o’n gwasanaeth rhad ac am ddim
       how_it_works: "Sut mae'n gweithio?"
       step_1_title: "Cofrestru"
@@ -737,16 +738,10 @@ cy:
         <h2>Cynnwys nad yw’n hygyrch</h2>
         <p class="mb-4">Nid yw’r cynnwys a restrir isod yn hygyrch am y rhesymau canlynol.</p>
         <h3>Diffyg cydymffurfio â’r rheoliadau hygyrchedd</h3>
-        <p class="mb-4">Mae gan elfennau fideo wedi’u mewnosod deitl cyffredinol nad yw’n cynrychioli cynnwys y fideo. Mae hyn yn methu maen prawf llwyddiant WCAG 2.2 1.1.1 (Cynnwys di-destun).</p>
-        <p class="mb-4">Rydyn ni’n bwriadu datrys hyn erbyn: 21 Mai 2026</p>
-        <p class="mb-4">Dim ond capsiynau a gynhyrchir yn awtomatig sydd gan y fideo ar y dudalen. Mae hyn yn methu maen prawf llwyddiant WCAG 2.2 1.2.2 (Capsiynau (Wedi’u Recordio ymlaen llaw)).</p>
-        <p class="mb-4">Rydyn ni’n bwriadu datrys hyn erbyn: 21 Mai 2026</p>
-        <p class="mb-4">Nid oes trawsgrifiad testun na disgrifiad sain amgen ar gyfer y fideos. Mae hyn yn methu maen prawf llwyddiant WCAG 2.2 1.2.3 (Disgrifiad Sain neu Ddewis Amgen i Gyfryngau (Wedi’u Recordio ymlaen llaw)).</p>
-        <p class="mb-4">Rydyn ni’n bwriadu datrys hyn erbyn: 21 Mai 2026</p>
+        <p class="mb-4">Nid oes trawsgrifiad testun amgen ar gyfer y fideos. Mae hyn yn methu maen prawf llwyddiant WCAG 2.2 1.2.3 (Disgrifiad Sain neu Ddewis Amgen i Gyfryngau (Wedi’u Recordio ymlaen llaw)).</p>
+        <p class="mb-4">Rydyn ni’n bwriadu datrys hyn erbyn: 21 Mai 2027</p>
         <p class="mb-4">Nid oes trac disgrifiad sain ar gynnwys y fideo sy’n disgrifio elfennau gweledol y fideo. Mae hyn yn methu maen prawf llwyddiant WCAG 2.2 1.2.5 (Disgrifiad Sain (Wedi’i Recordio ymlaen llaw)).</p>
-        <p class="mb-4">Rydyn ni’n bwriadu datrys hyn erbyn: 21 Mai 2026</p>
-        <p class="mb-4">Mae gan iframe y fideo ar y dudalen briodoledd aria amhriodol. Gall hyn beri i ddarllenwyr sgrin gyhoeddi cynnwys yn annisgwyl. Mae hyn yn methu maen prawf llwyddiant WCAG 2.2 4.1.2 (Enw, Rôl, Gwerth).</p>
-        <p class="mb-4">Rydyn ni’n bwriadu datrys hyn erbyn: 21 Mai 2026</p>
+        <p class="mb-4">Rydyn ni’n bwriadu datrys hyn erbyn: 21 Mai 2027</p>
         <h2>Paratoi’r datganiad hygyrchedd hwn</h2>
         <p class="mb-4">Paratowyd y datganiad hwn ar 01/05/2026. Cafodd ei adolygu ddiwethaf ar 01/05/2026.</p>
         <p class="mb-4">Cafodd y wefan hon ei phrofi ddiwethaf ar 30/04/2026. Cynhaliwyd y prawf gan Zoonou.</p>

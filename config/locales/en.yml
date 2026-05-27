@@ -102,6 +102,7 @@ en:
       subtitle: "Get weekly bite-sized activities that spark imagination delivered to your phone, for ages 9-18 months"
       sign_up: "Sign up"
       how_it_works: "How does it work?"
+      video_aria_label: "Supporting your child's voice all day long"
       sneak_peek: "Here’s a sneak peek at the videos you’ll get to enjoy as part of our free service"
       step_1_title: "Sign up"
       step_1_text: "Enter your mobile number to begin your journey"
@@ -736,16 +737,10 @@ en:
         <h2>Non-accessible content</h2>
         <p class="mb-4">The content listed below is non-accessible for the following reasons.</p>
         <h3>Non-compliance with the accessibility regulations</h3>
-        <p class="mb-4">Embedded video elements have a generic title that does not represent the video content. This fails WCAG 2.2 success criterion 1.1.1 (Non-Text Content).</p>
-        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
-        <p class="mb-4">The video present on the page only has auto-generated captions. This fails WCAG 2.2 success criterion 1.2.2 (Captions (Pre-Recorded)).</p>
-        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
-        <p class="mb-4">Videos lack a text transcript or audio description alternative. This fails WCAG 2.2 success criterion 1.2.3 (Audio Description or Media Alternative (Pre-Recorded)).</p>
-        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
-        <p class="mb-4">Video content lacks an audio description track describing the visual elements of the video. This fails WCAG 2.2 success criterion 1.2.5 (Audio Description (Pre-Recorded)</p>
-        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
-        <p class="mb-4">The video iframe on the page has an inappropriate aria attribute. This may cause screen readers to announce content unexpectedly. This fails WCAG 2.2 success criterion 4.1.2 (Name, Role, Value)</p>
-        <p class="mb-4">We plan to resolve this by: 21st May 2026</p>
+        <p class="mb-4">Videos lack a text transcript. This means hearing impaired users may be unable to access information conveyed by the video. This fails WCAG 2.2 success criterion 1.2.3 (Audio Description or Media Alternative (Pre-Recorded)).</p>
+        <p class="mb-4">We plan to resolve this by: 21st May 2027</p>
+        <p class="mb-4">Video content lacks an audio description track describing the visual elements of the video. This means visually impaired users may not be able to access the information conveyed by the video. This fails WCAG 2.2 success criterion 1.2.5 (Audio Description (Pre-Recorded)</p>
+        <p class="mb-4">We plan to resolve this by: 21st May 2027</p>
         <h2>Preparation of this accessibility statement</h2>
         <p class="mb-4">This statement was prepared on 01/05/2026 It was last reviewed on 01/05/2026.</p>
         <p class="mb-4">This website was last tested on 30/04/2026. The test was carried out by Zoonou</p>
