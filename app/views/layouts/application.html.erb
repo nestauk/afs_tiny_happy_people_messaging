@@ -30,6 +30,15 @@
     </script>
 
     <% unless Rails.env.test? %>
+      <script nonce="<%= content_security_policy_nonce %>">
+        if (window.__googleTagManagerLoaded) return;
+          window.__googleTagManagerLoaded = true;
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-NWN4JM5J');
+      </script>
       <script defer src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js" data-turbo-track="reload" nonce="<%= content_security_policy_nonce %>"></script>
     <% end %>
   </head>
