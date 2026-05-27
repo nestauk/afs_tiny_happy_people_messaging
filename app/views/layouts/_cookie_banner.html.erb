@@ -2,16 +2,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
 
-  const loadGoogleTagManager = () => {
-    if (window.__googleTagManagerLoaded) return;
-    window.__googleTagManagerLoaded = true;
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NWN4JM5J');
-  }
-
   var config = {
     apiKey: "2ea9ac86d74c9a17bacc2e3d1db71f3666f61150",
     product: "PRO_MULTISITE",
@@ -24,7 +14,6 @@
         "_ga_*",
       ],
       onAccept: function() {
-        loadGoogleTagManager();
         gtag('consent', 'update', {
           'analytics_storage': 'granted'
         });
@@ -42,7 +31,6 @@
       description: "We use marketing cookies to help us improve the relevancy of advertising campaigns you receive.",
       cookies: ['_fbp', '_rdt_uuid', '_tt_enable_cookie', '_ttp'],
       onAccept: function () {
-        loadGoogleTagManager();
         gtag('consent', 'update', {
           'ad_storage': 'granted',
           'ad_user_data': 'granted',
