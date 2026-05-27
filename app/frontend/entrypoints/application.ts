@@ -45,6 +45,54 @@ Alpine.data('groupManager', () => ({
   }
 }))
 
+Alpine.data('noneOfTheAbove', () => {
+  const NONE_PHRASES = ["None of the above", "Dim un o’r rhain"];
+  let noneCheckbox: HTMLInputElement | null = null;
+  let otherCheckboxes: HTMLInputElement[] = [];
+
+  const applyState = (root: HTMLElement) => {
+    if (!noneCheckbox) return;
+    const noneActive = noneCheckbox.checked;
+    otherCheckboxes.forEach((cb) => {
+      cb.disabled = noneActive;
+      const associated = cb.id ? root.querySelector<HTMLElement>(`label[for="${cb.id}"]`) : null;
+      const wrapping = cb.closest<HTMLElement>('label');
+      ([cb, associated, wrapping].filter(Boolean) as HTMLElement[]).forEach((el) => {
+        el.classList.toggle('opacity-50', noneActive);
+        el.classList.toggle('cursor-not-allowed', noneActive);
+      });
+    });
+  };
+
+  return {
+    init() {
+      const root = (this as unknown as { $el: HTMLElement }).$el;
+      const checkboxes = Array.from(root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
+      const normalisedPhrases = NONE_PHRASES.map((p) => p.trim().toLowerCase());
+      noneCheckbox = checkboxes.find((cb) =>
+        normalisedPhrases.includes((cb.value || "").trim().toLowerCase())
+      ) || null;
+      if (!noneCheckbox) return;
+
+      otherCheckboxes = checkboxes.filter((cb) => cb !== noneCheckbox);
+      checkboxes.forEach((cb) => {
+        cb.addEventListener('change', (event) => {
+          const target = event.target as HTMLInputElement;
+          if (target === noneCheckbox) {
+            if (noneCheckbox.checked) {
+              otherCheckboxes.forEach((other) => { other.checked = false; });
+            }
+          } else if (target.checked && noneCheckbox) {
+            noneCheckbox.checked = false;
+          }
+          applyState(root);
+        });
+      });
+      applyState(root);
+    }
+  };
+})
+
 window.Alpine = Alpine;
 Alpine.start();
 

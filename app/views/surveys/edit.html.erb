@@ -41,9 +41,9 @@
                 hint: (sanitize @language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
                 as: :check_boxes,
                 required: false,
-                wrapper_html: { class: "my-4" }, 
-                input_html: { 
-                  class: 'mr-2', 
+                wrapper_html: { class: "my-4", "x-data": "noneOfTheAbove" },
+                input_html: {
+                  class: 'mr-2',
                 },
                 label_html: { class: "!font-semibold" }
               %>
