@@ -41,7 +41,7 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
       },
     }
 
-    assert_redirected_to thank_you_surveys_path(token: @token)
+    assert_redirected_to thank_you_survey_path(@survey, token: @token)
     assert_not_nil @survey.survey_sends.find_by(user: @user).completed_at
     assert_equal "New answer", answer.reload.response
   end

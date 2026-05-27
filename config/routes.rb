@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   get "/accessibility", to: "pages#accessibility"
 
   resources :surveys, only: %i[edit update] do
-    get "thank_you", on: :collection
+    get "thank_you", on: :member
   end
 
   resources :users, only: %i[new create edit update] do

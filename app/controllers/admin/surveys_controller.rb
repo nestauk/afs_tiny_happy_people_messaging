@@ -58,7 +58,8 @@ class Admin::SurveysController < ApplicationController
   def survey_params
     params.require(:survey).permit(
       :title_en, :title_cy, :send_after_message_count,
-      :intro_en, :intro_cy
+      :intro_en, :intro_cy, :thank_you_title_en, :thank_you_title_cy,
+      :thank_you_body_en, :thank_you_body_cy
     )
   end
 end
