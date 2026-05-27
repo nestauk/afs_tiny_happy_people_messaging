@@ -45,6 +45,7 @@ class Admin::SurveysController < ApplicationController
     @questions = @survey.questions.includes(:answers).order(:position)
     @questions.each { |q| q.answers.build(user: @user) if q.answers.none? }
     @back_link = admin_survey_path(@survey)
+    @language = params[:locale] || "en"
     render template: "surveys/edit"
   end
 
