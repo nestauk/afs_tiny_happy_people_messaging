@@ -105,6 +105,13 @@
         </div>
       <% end %>
 
+      <%= hidden_field_tag "user_referrer[utm_source]", params[:utm_source] %>
+      <%= hidden_field_tag "user_referrer[utm_medium]", params[:utm_medium] %>
+      <%= hidden_field_tag "user_referrer[utm_campaign]", params[:utm_campaign] %>
+      <%= hidden_field_tag "user_referrer[utm_term]", params[:utm_term] %>
+      <%= hidden_field_tag "user_referrer[utm_content]", params[:utm_content] %>
+      <%= hidden_field_tag "user_referrer[gclid]", params[:gclid] %>
+
       <%= form.submit I18n.t("pages.home.submit"), class: "btn btn-primary mt-2 w-full", "data-turbolinks": "false" %>
     <% end %>
   <% end %>

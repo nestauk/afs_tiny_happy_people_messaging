@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_153334) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_28_082655) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -404,6 +404,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_153334) do
     t.string "title_cy"
     t.string "title_en", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_referrers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "gclid"
+    t.datetime "updated_at", null: false
+    t.string "utm_campaign"
+    t.string "utm_content"
+    t.string "utm_medium"
+    t.string "utm_source"
+    t.string "utm_term"
   end
 
   create_table "users", force: :cascade do |t|

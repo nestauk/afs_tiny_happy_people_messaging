@@ -2,7 +2,7 @@
 
 <div class="bg-white px-5 py-10 md:px-20 lg:px-40 md:py-20">
   <div class="bg-bbc-dark-blue p-10 md:p-6 relative">
-    <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0" %>
+    <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-22 z-0" %>
     <h1 class="text-3xl text-bbc-yellow">
       <%= t("pages.form.personalisation.title") %>
     </h1>
@@ -17,7 +17,7 @@
   <div class="mt-6 w-full px-5">
     <%= f.input :first_name, required: false, input_html: { class: "w-full", autocomplete: "given-name" } %>
 
-    <%= f.input :child_name, required: false %>
+    <%= f.input :child_name, required: false, wrapper_html: { class: "mt-5" }, input_html: { class: "w-full" } %>
     
     <%= 
       f.input :day_preference,

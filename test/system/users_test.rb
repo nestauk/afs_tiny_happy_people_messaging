@@ -75,6 +75,20 @@ class UsersTest < ApplicationSystemTestCase
     assert_equal "Islington", user.local_authority.name
   end
 
+  test "user referrer data is captured on sign up" do
+    visit new_user_path(utm_source: "google", utm_medium: "poster", utm_campaign: "cbeebies", utm_term: "sign_up", utm_content: "ad_variation_1", gclid: "test_gclid")
+
+    sign_up
+
+    user_referrer = UserReferrer.last
+    assert_equal "google", user_referrer.utm_source
+    assert_equal "poster", user_referrer.utm_medium
+    assert_equal "cbeebies", user_referrer.utm_campaign
+    assert_equal "sign_up", user_referrer.utm_term
+    assert_equal "ad_variation_1", user_referrer.utm_content
+    assert_equal "test_gclid", user_referrer.gclid
+  end
+
   test "User can't sign up if max capacity reached" do
     create_list(:user, 3000)
 
