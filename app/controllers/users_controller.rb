@@ -30,6 +30,7 @@ class UsersController < ApplicationController
 
     if @user.save
       @user.update_local_authority
+      UserReferrer.create(user_referrer_params) if user_referrer_params.values.any?(&:present?)
 
       if @user.child_birthday > 9.months.ago.to_date
         @user.put_on_waitlist
@@ -91,6 +92,12 @@ class UsersController < ApplicationController
       :phone_number, :child_birthday, :language,
       :postcode, :child_name, :terms_agreed, :skip_age_validation
     )
+  end
+
+  def user_referrer_params
+    params.fetch(:user_referrer, {}).permit(:utm_source, :utm_medium,
+      :utm_campaign, :utm_term, :utm_content,
+      :gclid)
   end
 
   def personalisation_params
