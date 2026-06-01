@@ -7,7 +7,10 @@ module Sms
     def send_message
       return unless ENV.fetch("SMS_ENABLED", "false") == "true"
 
-      adapter_class.new(@message).deliver
+      adapter = adapter_class
+      return if adapter.nil?
+
+      adapter.new(@message).deliver
     end
 
     private
@@ -17,10 +20,8 @@ module Sms
       when "twilio" then Sms::TwilioAdapter
       when "aws" then Sms::AwsAdapter
       else
-        raise StandardError.new("Unsupported SMS provider: #{@message.user.sms_provider.inspect}")
+        Appsignal.report_error(StandardError.new("Unsupported SMS provider: #{@message.user.sms_provider.inspect}"))
       end
-    rescue => e
-      Appsignal.report_error(e)
     end
   end
 end

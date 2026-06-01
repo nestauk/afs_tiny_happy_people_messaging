@@ -35,16 +35,16 @@ module Sms
       Sms::Client.new(message).send_message
     end
 
-    test "#send_message reports to Appsignal when sms_provider is not recognised" do
+    test "#send_message reports to Appsignal and does not deliver when sms_provider is not recognised" do
       message = create(:message, user: create(:user, sms_provider: "aws"))
       message.user.update_column(:sms_provider, "carrier_pigeon")
       Appsignal.expects(:report_error).with do |error|
         error.message.include?("Unsupported SMS provider")
       end
+      Sms::TwilioAdapter.expects(:new).never
+      Sms::AwsAdapter.expects(:new).never
 
-      assert_raises(NoMethodError) do
-        Sms::Client.new(message).send_message
-      end
+      Sms::Client.new(message).send_message
     end
   end
 end
