@@ -52,7 +52,6 @@ class UsersController < ApplicationController
 
   def edit
     @step = params[:step].presence_in(STEPS) || STEPS.first
-    @user.update(contactable: true) unless @user.contactable?
   end
 
   def update
@@ -61,6 +60,7 @@ class UsersController < ApplicationController
 
     if @step == "personalisation"
       if @user.update(personalisation_params)
+        @user.update(contactable: true) unless @user.contactable?
         redirect_to edit_user_path(@user, token: params[:token], step: "about_service")
       else
         render :edit, status: :unprocessable_content
