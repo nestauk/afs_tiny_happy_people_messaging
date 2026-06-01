@@ -122,6 +122,7 @@ class UsersController < ApplicationController
     @user = User.find_by_token_for(:profile_token, params[:token]) ||
       User.find_by_token_for(:restart_token, params[:token])
     unless @user
+      User.report_expired_token(params[:token])
       redirect_to root_path, notice: I18n.t("controllers.users.edit.notice")
     end
   end
