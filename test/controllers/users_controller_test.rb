@@ -42,23 +42,32 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert User.exists?(phone_number: "+447123456700")
   end
 
-  test "edit accepts a restart_token and marks the user contactable" do
+  test "edit accepts a restart_token" do
     user = create(:user, contactable: false)
     token = user.generate_token_for(:restart_token)
 
     get edit_user_url(user, token: token)
 
     assert_response :success
+  end
+
+  test "update at the personalisation step marks an opted-out user as contactable" do
+    user = create(:user, contactable: false)
+    token = user.generate_token_for(:restart_token)
+
+    patch user_url(user, token: token, step: "personalisation"), params: {user: {first_name: "Updated"}}
+
+    assert_response :redirect
     assert user.reload.contactable
   end
 
-  test "edit leaves an already-contactable user contactable" do
+  test "update at the personalisation step leaves an already-contactable user contactable" do
     user = create(:user, contactable: true)
-    token = user.generate_token_for(:restart_token)
+    token = user.generate_token_for(:profile_token)
 
-    get edit_user_url(user, token: token)
+    patch user_url(user, token: token, step: "personalisation"), params: {user: {first_name: "Updated"}}
 
-    assert_response :success
+    assert_response :redirect
     assert user.reload.contactable
   end
 
