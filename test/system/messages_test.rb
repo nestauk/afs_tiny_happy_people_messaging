@@ -6,7 +6,8 @@ class MessagesTest < ApplicationSystemTestCase
     @user = create(:user)
   end
 
-  test "sending a message to a user" do
+  test "sending a message to a user via Twilio" do
+    @user.update(sms_provider: "twilio")
     sign_in
 
     visit admin_users_path
@@ -17,6 +18,24 @@ class MessagesTest < ApplicationSystemTestCase
     fill_in "Body", with: "Hello, user!"
 
     stub_successful_twilio_call("Hello, user!", @user)
+    click_on "Send message"
+
+    assert_text "Message sent!"
+    assert_text "Hello, user!"
+  end
+
+  test "sending a message to a user via AWS" do
+    @user.update(sms_provider: "aws")
+    sign_in
+
+    visit admin_users_path
+
+    click_on @user.phone_number
+
+    click_on "Send message"
+    fill_in "Body", with: "Hello, user!"
+
+    stub_successful_aws_call("Hello, user!", @user)
     click_on "Send message"
 
     assert_text "Message sent!"
