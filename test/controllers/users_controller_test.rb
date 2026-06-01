@@ -42,6 +42,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert User.exists?(phone_number: "+447123456700")
   end
 
+  test "edit accepts a restart_token and marks the user contactable" do
+    user = create(:user, contactable: false)
+    token = user.generate_token_for(:restart_token)
+
+    get edit_user_url(user, token: token)
+
+    assert_response :success
+    assert user.reload.contactable
+  end
+
+  test "edit leaves an already-contactable user contactable" do
+    user = create(:user, contactable: true)
+    token = user.generate_token_for(:restart_token)
+
+    get edit_user_url(user, token: token)
+
+    assert_response :success
+    assert user.reload.contactable
+  end
+
   test "puts user on waitlist if child is under 9 months" do
     create(:group, language: "cy")
 

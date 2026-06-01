@@ -14,7 +14,8 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
     RestartMessagesJob.new.perform(user)
 
     assert_equal 1, Message.count
-    assert_equal true, user.contactable
+    assert_nil user.reload.restart_at
+    assert_equal false, user.contactable
   end
 
   test "#perform sends restart message in user's preferred language" do
@@ -27,6 +28,7 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
     RestartMessagesJob.new.perform(user)
 
     assert_equal 1, Message.count
-    assert_equal true, user.contactable
+    assert_nil user.reload.restart_at
+    assert_equal false, user.contactable
   end
 end
