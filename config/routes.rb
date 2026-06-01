@@ -46,8 +46,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "users#new"
 
-  post "messages/status" => "messages#status"
-  post "messages/incoming" => "messages#incoming"
+  post "messages/twilio_status" => "messages#twilio_status"
+  post "messages/twilio_incoming" => "messages#twilio_incoming"
+  post "messages/aws_status" => "messages#aws_status"
+  post "messages/aws_incoming" => "messages#aws_incoming"
   get "/m/:token/", to: "messages#next", as: "track_link"
 
   get "/privacy_policy", to: "pages#privacy_policy"
