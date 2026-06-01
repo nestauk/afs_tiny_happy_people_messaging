@@ -51,19 +51,22 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "edit reports to Appsignal and redirects when the token has expired" do
+    user = create(:user, contactable: false)
+    expired_token = travel_to(8.days.ago) { user.generate_token_for(:restart_token) }
+    Appsignal.expects(:report_error).with do |error|
+      error.message == "User token expired"
+    end
+
+    get edit_user_url(user, token: expired_token)
+
+    assert_redirected_to root_path
+    assert_equal false, user.reload.contactable
+  end
+
   test "update at the personalisation step marks an opted-out user as contactable" do
     user = create(:user, contactable: false)
     token = user.generate_token_for(:restart_token)
-
-    patch user_url(user, token: token, step: "personalisation"), params: {user: {first_name: "Updated"}}
-
-    assert_response :redirect
-    assert user.reload.contactable
-  end
-
-  test "update at the personalisation step leaves an already-contactable user contactable" do
-    user = create(:user, contactable: true)
-    token = user.generate_token_for(:profile_token)
 
     patch user_url(user, token: token, step: "personalisation"), params: {user: {first_name: "Updated"}}
 

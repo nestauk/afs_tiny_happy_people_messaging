@@ -9,6 +9,35 @@ class UserTest < ActiveSupport::TestCase
     assert @subject.valid?
   end
 
+  test ".report_expired_token reports an expired token to Appsignal with metadata" do
+    token = travel_to(8.days.ago) { @subject.generate_token_for(:restart_token) }
+    Appsignal.expects(:report_error).with do |error|
+      error.message == "User token expired"
+    end
+
+    User.report_expired_token(token)
+  end
+
+  test ".report_expired_token stays quiet for a token that is still valid" do
+    token = @subject.generate_token_for(:restart_token)
+    Appsignal.expects(:report_error).never
+
+    User.report_expired_token(token)
+  end
+
+  test ".report_expired_token stays quiet for a malformed token" do
+    Appsignal.expects(:report_error).never
+
+    User.report_expired_token("not-a-real-token")
+  end
+
+  test ".report_expired_token stays quiet for a blank token" do
+    Appsignal.expects(:report_error).never
+
+    User.report_expired_token(nil)
+    User.report_expired_token("")
+  end
+
   test "has_many messages" do
     create(:message, user: @subject)
     assert_equal(1, @subject.messages.size)

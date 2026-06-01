@@ -179,6 +179,30 @@ class User < ApplicationRecord
     anonymised_at.present?
   end
 
+  def self.report_expired_token(token)
+    return if token.blank?
+
+    payload_b64 = token.to_s.split("--").first
+    return if payload_b64.blank?
+
+    decoded = JSON.parse(Base64.urlsafe_decode64(payload_b64))
+    rails_meta = decoded["_rails"] || {}
+    return unless rails_meta["exp"]
+
+    expired_at = Time.iso8601(rails_meta["exp"])
+    return if expired_at >= Time.zone.now
+
+    Appsignal.report_error(StandardError.new("User token expired")) do
+      Appsignal.add_tags(
+        token_purpose: rails_meta["pur"],
+        expired_at: rails_meta["exp"],
+        seconds_overdue: (Time.zone.now - expired_at).to_i,
+      )
+    end
+  rescue
+    nil
+  end
+
   private
 
   def assign_group_by_language
