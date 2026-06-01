@@ -52,6 +52,7 @@ class UsersController < ApplicationController
 
   def edit
     @step = params[:step].presence_in(STEPS) || STEPS.first
+    @user.update(contactable: true) unless @user.contactable?
   end
 
   def update
@@ -118,7 +119,8 @@ class UsersController < ApplicationController
   end
 
   def set_user
-    @user = User.find_by_token_for(:profile_token, params[:token])
+    @user = User.find_by_token_for(:profile_token, params[:token]) ||
+      User.find_by_token_for(:restart_token, params[:token])
     unless @user
       redirect_to root_path, notice: I18n.t("controllers.users.edit.notice")
     end

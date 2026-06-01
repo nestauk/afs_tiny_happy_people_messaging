@@ -23,6 +23,7 @@ class User < ApplicationRecord
   before_validation :assign_group_by_language, if: -> { new_record? || language_changed? }
 
   generates_token_for :profile_token, expires_in: 15.minutes
+  generates_token_for :restart_token, expires_in: 2.days
   generates_token_for :survey_token
 
   scope :contactable, -> { where(contactable: true) }
