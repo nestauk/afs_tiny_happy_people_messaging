@@ -6,18 +6,6 @@ class MessagesController < ApplicationController
 
   ALLOWED_HOSTS = %w[bbc.co.uk www.bbc.co.uk].freeze
 
-  AWS_FAILED_EVENT_TYPES = %w[
-    TEXT_INVALID
-    TEXT_UNREACHABLE
-    TEXT_BLOCKED
-    TEXT_CARRIER_BLOCKED
-    TEXT_CARRIER_UNREACHABLE
-    TEXT_INVALID_MESSAGE
-    TEXT_SPAM
-    TEXT_TTL_EXPIRED
-    TEXT_UNKNOWN
-  ].freeze
-
   def twilio_status
     if twilio_message_params[:MessageStatus] == "failed"
       Appsignal.report_error(StandardError.new("Twilio message failed")) do
@@ -40,9 +28,9 @@ class MessagesController < ApplicationController
   def aws_status
     return head :ok if handle_sns_subscription(sns_envelope)
 
-    event = JSON.parse(sns_envelope["Message"])
+    event = sns_event
 
-    if AWS_FAILED_EVENT_TYPES.include?(event["eventType"])
+    if Sms::AwsAdapter::AWS_FAILED_EVENT_TYPES.include?(event["eventType"])
       Appsignal.report_error(StandardError.new("AWS SMS delivery failed")) do
         Appsignal.add_tags(aws_event: event)
       end
@@ -56,7 +44,7 @@ class MessagesController < ApplicationController
   def aws_incoming
     return head :ok if handle_sns_subscription(sns_envelope)
 
-    event = JSON.parse(sns_envelope["Message"])
+    event = sns_event
     user = User.find_by(phone_number: event["originationNumber"])
     Message.create(user:, body: event["messageBody"], message_sid: event["inboundMessageId"], status: "received")
 
@@ -105,6 +93,10 @@ class MessagesController < ApplicationController
     @sns_envelope ||= JSON.parse(request.raw_post)
   end
 
+  def sns_event
+    @sns_event ||= JSON.parse(sns_envelope["Message"])
+  end
+
   def verify_sns_request
     Aws::SNS::MessageVerifier.new.authenticate!(request.raw_post)
   rescue Aws::SNS::MessageVerifier::VerificationError, JSON::ParserError => e
@@ -115,9 +107,7 @@ class MessagesController < ApplicationController
   def handle_sns_subscription(envelope)
     case envelope["Type"]
     when "SubscriptionConfirmation"
-      Appsignal.report_error(StandardError.new("SNS subscription pending — visit SubscribeURL to confirm")) do
-        Appsignal.add_tags(subscribe_url: envelope["SubscribeURL"], topic_arn: envelope["TopicArn"])
-      end
+      Rails.logger.warn("SNS subscription pending for topic #{envelope["TopicArn"]} — visit #{envelope["SubscribeURL"]} to confirm")
       true
     when "UnsubscribeConfirmation"
       true

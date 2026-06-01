@@ -138,11 +138,9 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_enqueued_jobs 0
   end
 
-  test "#aws_status returns 200 and reports SubscribeURL when SNS sends a SubscriptionConfirmation" do
+  test "#aws_status returns 200 and logs SubscribeURL when SNS sends a SubscriptionConfirmation" do
     stub_sns_verification_success
-    Appsignal.expects(:report_error).with do |error|
-      error.message.include?("SNS subscription pending")
-    end
+    Rails.logger.expects(:warn).with(includes("SNS subscription pending"))
     envelope = {
       "Type" => "SubscriptionConfirmation",
       "TopicArn" => "arn:aws:sns:eu-west-2:123:topic",
