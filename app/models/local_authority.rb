@@ -7,19 +7,35 @@ class LocalAuthority < ApplicationRecord
 
   def count_users_by_created_at(timeframe)
     users
-      .group_by { |user| user.created_at.strftime(timeframe) }
-      .transform_values { |values| values.count }
+      .group(Arel.sql("to_char(users.created_at, '#{sql_format_for(timeframe)}')"))
+      .count
   end
 
   def percentage_messages_clicked_by_created_at(timeframe)
     messages.with_content
-      .group_by { |message| message.created_at.strftime(timeframe) }
-      .transform_values { |values| (values.count { |m| !m.clicked_at.nil? }.to_f / values.count.to_f) * 100 }
+      .group(Arel.sql("to_char(messages.created_at, '#{sql_format_for(timeframe)}')"))
+      .pluck(
+        Arel.sql("to_char(messages.created_at, '#{sql_format_for(timeframe)}')"),
+        Arel.sql("(COUNT(messages.clicked_at)::float / COUNT(*)) * 100"),
+      ).to_h
   end
 
   def count_messages_by_created_at(timeframe)
     messages.with_content
-      .group_by { |message| message.created_at.strftime(timeframe) }
-      .transform_values { |values| values.count }
+      .group(Arel.sql("to_char(messages.created_at, '#{sql_format_for(timeframe)}')"))
+      .count
+  end
+
+  private
+
+  def sql_format_for(timeframe)
+    case timeframe
+    when "%B %Y"
+      "FMMonth YYYY"
+    when "%d %B %Y"
+      "DD FMMonth YYYY"
+    else
+      raise ArgumentError, "Invalid timeframe: #{timeframe}"
+    end
   end
 end
