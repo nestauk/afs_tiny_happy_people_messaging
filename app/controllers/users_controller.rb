@@ -8,14 +8,11 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_admin!
   before_action :set_page_variables, only: [:new, :edit, :thank_you]
   before_action :set_user, only: [:edit, :update, :thank_you]
-  after_action :track_action, only: [:edit, :thank_you]
+  after_action :track_action, only: [:edit, :new, :thank_you]
 
   def new
     @no_padding = true
     @user = User.new
-
-    ahoy.track "#{request.path_parameters[:action]} - #{params[:utm_source].presence || "no-referrer"}",
-      request.path_parameters.merge(params.permit(:utm_source, :utm_medium, :utm_campaign, :utm_content).to_h)
   end
 
   def create
@@ -110,7 +107,7 @@ class UsersController < ApplicationController
   end
 
   def track_action
-    ahoy.track request.path_parameters[:action], request.path_parameters
+    ahoy.track request.path_parameters[:action], request.path_parameters.merge(local: I18n.locale)
   end
 
   def set_page_variables
