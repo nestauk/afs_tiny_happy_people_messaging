@@ -1,6 +1,4 @@
 class SessionsController < Devise::Passwordless::SessionsController
-  # prepend_before_action :check_ip, only: [:new, :create]
-
   rate_limit to: 3, within: 5.minutes, by: -> { request.ip }, only: :create, with: -> { rate_limit_exceeded }
 
   def new
@@ -12,12 +10,6 @@ class SessionsController < Devise::Passwordless::SessionsController
   end
 
   private
-
-  def check_ip
-    if Rails.env.production? && request.remote_ip != ENV.fetch("ADMIN_IP_WHITELIST")
-      redirect_to root_path, alert: "Access denied."
-    end
-  end
 
   def rate_limit_exceeded
     @user = User.new

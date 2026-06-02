@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
     user = User.find_by(phone_number: params["From"])
     Message.create(user:, body: params["Body"], message_sid: params["MessageSid"], status: "received")
 
-    head :no_content
+    head :no_content unless user
   end
 
   def next
