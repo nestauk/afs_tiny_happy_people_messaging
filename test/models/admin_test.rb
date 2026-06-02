@@ -1,8 +1,6 @@
 require "test_helper"
 
 class AdminTest < ActiveSupport::TestCase
-  require "test_helper"
-
   test "should not save admin without email" do
     admin = build(:admin, email: nil)
     assert_not admin.save, "Saved the admin without an email"
