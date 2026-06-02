@@ -10,6 +10,10 @@ class SendFeedbackMessageJob < ApplicationJob
     if message.save
       SendCustomMessageJob.perform_later(message)
       user.update(asked_for_feedback: true)
+    else
+      Appsignal.report_error(StandardError.new("Failed to send feedback message")) do
+        Appsignal.add_tags(user_id: user.id, errors: message.errors.full_messages)
+      end
     end
   end
 end

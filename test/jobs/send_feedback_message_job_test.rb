@@ -40,4 +40,15 @@ class SendFeedbackMessageJobTest < ActiveSupport::TestCase
 
     assert_equal 0, Message.count
   end
+
+  test "#perform reports an error to Appsignal if message fails to save" do
+    user = create(:user, child_birthday: 18.months.ago)
+
+    Message.any_instance.stubs(:save).returns(false)
+    Appsignal.expects(:report_error).once.with do |error|
+      error.message == "Failed to send feedback message"
+    end
+
+    SendFeedbackMessageJob.new.perform(user)
+  end
 end

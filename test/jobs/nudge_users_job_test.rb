@@ -30,4 +30,15 @@ class NudgeUsersJobTest < ActiveSupport::TestCase
     assert_equal 1, Message.count
     assert_not_nil user.reload.nudged_at
   end
+
+  test "#perform reports an error to Appsignal if message fails to save" do
+    user = create(:user)
+
+    Message.any_instance.stubs(:save).returns(false)
+    Appsignal.expects(:report_error).once.with do |error|
+      error.message == "Failed to send nudge message"
+    end
+
+    NudgeUsersJob.new.perform(user)
+  end
 end

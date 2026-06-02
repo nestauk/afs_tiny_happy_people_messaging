@@ -44,4 +44,15 @@ class SendBilingualMessageJobTest < ActiveSupport::TestCase
 
     assert_equal 0, Message.count
   end
+
+  test "#perform reports an error to Appsignal if message fails to save" do
+    user = create(:user)
+
+    Message.any_instance.stubs(:save).returns(false)
+    Appsignal.expects(:report_error).once.with do |error|
+      error.message == "Failed to send bilingual message"
+    end
+
+    SendBilingualMessageJob.new.perform(user)
+  end
 end
