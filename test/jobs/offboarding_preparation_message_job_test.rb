@@ -15,4 +15,15 @@ class OffboardingPreparationMessageJobTest < ActiveSupport::TestCase
 
     assert_equal 1, Message.count
   end
+
+  test "#perform reports an error to Appsignal if message fails to save" do
+    user = create(:user)
+
+    Message.any_instance.stubs(:save).returns(false)
+    Appsignal.expects(:report_error).once.with do |error|
+      error.message == "Failed to send offboarding preparation message"
+    end
+
+    OffboardingPreparationMessageJob.new.perform(user)
+  end
 end

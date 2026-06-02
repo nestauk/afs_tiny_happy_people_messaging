@@ -12,6 +12,10 @@ class SendWelcomeMessageJob < ApplicationJob
 
     if message.save
       Twilio::Client.new.send_message(message)
+    else
+      Appsignal.report_error(StandardError.new("Failed to send welcome message")) do
+        Appsignal.add_tags(user_id: user.id, errors: message.errors.full_messages)
+      end
     end
   end
 end

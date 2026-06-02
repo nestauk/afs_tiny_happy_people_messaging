@@ -17,6 +17,10 @@ class SendSurveyReminderJob < ApplicationJob
     if message.save
       SendCustomMessageJob.perform_later(message)
       SurveySend.create!(user: user, survey: survey, sent_at: Time.zone.now)
+    else
+      Appsignal.report_error(StandardError.new("Failed to send survey reminder message")) do
+        Appsignal.add_tags(user_id: user.id, errors: message.errors.full_messages)
+      end
     end
   end
 end

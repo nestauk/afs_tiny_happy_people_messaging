@@ -9,6 +9,10 @@ class NudgeUsersJob < ApplicationJob
     if message.save
       SendCustomMessageJob.perform_later(message)
       user.update(nudged_at: Time.zone.now)
+    else
+      Appsignal.report_error(StandardError.new("Failed to send nudge message")) do
+        Appsignal.add_tags(user_id: user.id, errors: message.errors.full_messages)
+      end
     end
   end
 end
