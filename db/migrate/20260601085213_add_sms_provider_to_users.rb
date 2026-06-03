@@ -4,7 +4,7 @@ class AddSmsProviderToUsers < ActiveRecord::Migration[8.1]
 
     execute <<~SQL # rubocop:disable Rails/ReversibleMigration
       UPDATE users SET sms_provider = 'twilio'
-      WHERE created_at < '2026-04-01'
+      WHERE created_at <= CURRENT_TIMESTAMP
     SQL
   end
 end
