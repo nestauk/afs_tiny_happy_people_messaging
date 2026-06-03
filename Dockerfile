@@ -1,5 +1,5 @@
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.4.5
+ARG RUBY_VERSION=4.0.5
 
 FROM ruby:$RUBY_VERSION
 
