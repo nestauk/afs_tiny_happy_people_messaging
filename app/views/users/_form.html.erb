@@ -3,7 +3,7 @@
     <%= simple_form_for @user, anchor: "sign-up-form"  do |form| %>
       <% if notice %>
         <p class="border border-blue-500 bg-blue-50 text-blue-900 p-3 mb-8">
-          <%= notice %>
+          <%= notice.html_safe %>
         </p>
       <% end %>
 

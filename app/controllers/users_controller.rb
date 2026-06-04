@@ -19,6 +19,7 @@ class UsersController < ApplicationController
     redirect_to root_path, notice: "Signups are currently paused. Please check back later." and return if ENV.fetch("SIGN_UP_OPEN", "true") == "false"
 
     if User.where("created_at > ?", UsersController::SIGNUP_WINDOW_START).count >= UsersController::SIGNUP_CAP
+      # This renders in the sign up form which uses turbo so doesn't redirect, so the flash message works.
       return redirect_to root_path, notice: I18n.t("controllers.users.create.notice")
     end
 
@@ -129,6 +130,7 @@ class UsersController < ApplicationController
     @no_padding = true
     @hide_sidebar = true
 
+    # This renders in the sign up form which uses turbo so doesn't redirect, so the flash message works.
     flash.now[:notice] = I18n.t("controllers.users.rate_limit_exceeded.notice")
     render :new, status: :unprocessable_content
   end
