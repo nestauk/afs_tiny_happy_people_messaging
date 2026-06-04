@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  PROGRAMME_LENGTH = 52
-
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   has_many :survey_sends, dependent: :destroy

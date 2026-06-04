@@ -57,6 +57,9 @@ en:
           flyer: "Flyer/Poster"
           email: "Email"
           other: "Other"
+        language:
+          welsh: "Welsh"
+          english: "English"
     hints:
       user:
         child_birthday: "This helps make sure the texts we send fit your child's age and stage"
