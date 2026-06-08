@@ -6,7 +6,7 @@ class UpdateMessageStatusJobTest < ActiveSupport::TestCase
   test "#perform should update message status" do
     message = create(:message, message_sid: "123")
 
-    UpdateMessageStatusJob.new.perform({MessageSid: message.message_sid, MessageStatus: "failed"})
+    UpdateMessageStatusJob.new.perform(message_sid: message.message_sid, status: "failed")
 
     message.reload
     assert_equal "failed", message.status
@@ -14,7 +14,7 @@ class UpdateMessageStatusJobTest < ActiveSupport::TestCase
 
   test "#perform should not crash if it can't find the message" do
     assert_nothing_raised do
-      UpdateMessageStatusJob.new.perform({MessageSid: "123", MessageStatus: "delivered"})
+      UpdateMessageStatusJob.new.perform(message_sid: "missing-sid", status: "delivered")
     end
   end
 end

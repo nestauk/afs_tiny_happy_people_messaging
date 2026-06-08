@@ -34,7 +34,7 @@ rails db:schema:load
 ```
 
 The local development server will now be accessible at http://localhost:3000.<br />
-[Blazer](https://github.com/ankane/blazer) dashboard can be found at http://localhost:3000/admin.
+[Blazer](https://github.com/ankane/blazer) dashboard can be found at http://localhost:3000/blazer. 
 
 To view the admin dashboard, create an admin user in the database. Login is done via [magic Link](https://github.com/abevoelker/devise-passwordless).
 
@@ -51,10 +51,13 @@ or contact a maintainer for the keys.
 
 We use Heroku to host and deploy this app.
 
-### Heroku Scheduler
+### Job scheduling
 
-The tasks to send messages to parents are set in recurring.yml. To see a list of all jobs queued/ running/ scheduled, go to /jobs.
+The tasks to send messages to parents are set in recurring.yml. To see a list of all jobs queued/running/scheduled, go to /jobs.
 
 ### Sending texts
 
-We currently use [Twilio](https://www.twilio.com/en-us) to send the text messages, and [Sendgrid](https://sendgrid.com/en-us) to send login links to administrators.
+Users pre May 2026 launch receive texts via [Twilio](https://www.twilio.com/en-us). 
+Users post May 2026 receive texts via [AWS End User Messaging](https://aws.amazon.com/end-user-messaging/) and [Simple Notification Service](https://aws.amazon.com/sns/) updates the delivery status and sends user responses.
+
+[Sendgrid](https://sendgrid.com/en-us) to send login links to administrators.

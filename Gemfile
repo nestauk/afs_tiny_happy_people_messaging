@@ -64,6 +64,8 @@ end
 
 gem "ahoy_matey"
 gem "appsignal"
+gem "aws-sdk-pinpointsmsvoicev2"
+gem "aws-sdk-sns"
 gem "blazer"
 gem "devise"
 gem "devise-passwordless"

@@ -21,7 +21,7 @@ class SendMessageJob < ApplicationJob
     end
 
     if save_user_and_message(user, message, content)
-      Twilio::Client.new.send_message(message)
+      Sms::Client.new(message).send_message
       Survey.trigger_for(user, message_count: user.programme_message_count)
 
       if user.finished_programme?
