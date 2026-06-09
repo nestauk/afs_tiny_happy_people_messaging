@@ -3,13 +3,6 @@ class Admin::SurveySectionsController < ApplicationController
   before_action :set_survey
   before_action :set_survey_section, only: [:edit, :update, :destroy]
 
-  def index
-    @survey_sections = @survey.survey_sections
-  end
-
-  def show
-  end
-
   def new
     @survey_section = @survey.survey_sections.new
   end
@@ -17,7 +10,7 @@ class Admin::SurveySectionsController < ApplicationController
   def create
     @survey_section = @survey.survey_sections.new(survey_section_params)
     if @survey_section.save
-      redirect_to admin_survey_path(@survey), notice: "Survey was successfully created."
+      redirect_to admin_survey_path(@survey), notice: "Survey section was successfully created."
     else
       render :new, status: :unprocessable_content
     end
@@ -29,7 +22,7 @@ class Admin::SurveySectionsController < ApplicationController
 
   def update
     if @survey_section.update(survey_section_params)
-      redirect_to admin_survey_path(@survey), notice: "Survey was successfully updated."
+      redirect_to admin_survey_path(@survey), notice: "Survey section was successfully updated."
     else
       render :edit
     end
