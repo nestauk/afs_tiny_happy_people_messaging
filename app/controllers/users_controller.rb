@@ -23,26 +23,21 @@ class UsersController < ApplicationController
       return redirect_to root_path, notice: I18n.t("controllers.users.create.notice")
     end
 
-    @user = User.new(user_params)
-    @user.terms_agreed_at = Time.zone.now if @user.terms_agreed == "1"
+    registration = Registration.new(user_params: user_params, referrer_params: user_referrer_params)
 
-    if @user.save
-      @user.update_local_authority
-      UserReferrer.create(user_referrer_params) if user_referrer_params.values.any?(&:present?)
+    if registration.submit
+      user = registration.user
+      token = user.generate_token_for(:profile_token)
 
-      if @user.child_birthday > 9.months.ago.to_date
-        @user.put_on_waitlist
-        token = @user.generate_token_for(:profile_token)
-
-        redirect_to thank_you_user_path(@user, token:)
+      if user.on_waitlist?
+        redirect_to thank_you_user_path(user, token: token)
       else
-        token = @user.generate_token_for(:profile_token)
-
-        redirect_to edit_user_path(@user, token:)
+        redirect_to edit_user_path(user, token: token)
       end
     else
       @no_padding = true
       @hide_sidebar = true
+      @user = registration.user
 
       render :new, status: :unprocessable_content
     end
