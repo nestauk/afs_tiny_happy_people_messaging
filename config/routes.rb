@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       resources :surveys do
         get "preview", on: :member
         get "preview_thank_you", on: :member
-        resources :survey_sections, except: %i[index] do
+        resources :survey_sections, except: %i[index show] do
           resources :questions, except: [:index] do
             patch "update_position", on: :member
           end
