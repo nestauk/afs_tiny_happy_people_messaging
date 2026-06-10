@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ResponseMatcherServiceTest < ActiveSupport::TestCase
+class AutoResponseMatchTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   setup do
@@ -15,7 +15,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "stop", status: "received", user:)
 
     assert_no_changes Message.count do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     refute user.contactable
@@ -26,7 +26,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "End", status: "received", user:)
 
     assert_enqueued_with(job: SendCustomMessageJob) do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     refute user.contactable
@@ -38,7 +38,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "stop", status: "received", user:)
 
     assert_no_changes Message.count do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     refute user.contactable
@@ -49,7 +49,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "start", status: "received", user:)
 
     assert_no_changes Message.count do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     assert user.contactable
@@ -60,7 +60,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "yes", status: "received", user:)
 
     assert_enqueued_with(job: SendCustomMessageJob) do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     assert_equal user.asked_for_feedback, false
@@ -72,7 +72,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "no", status: "received", user:)
 
     assert_enqueued_with(job: SendCustomMessageJob) do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     assert_equal user.asked_for_feedback, false
@@ -84,7 +84,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "no", status: "received", user:)
 
     assert_no_changes Message.count do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     assert_equal user.asked_for_feedback, false
@@ -94,14 +94,14 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     travel_to Time.current.beginning_of_week
     message = build(:message, body: "Hi there", status: "received")
 
-    ResponseMatcherService.new(message).match_response
+    AutoResponseMatch.new(message: message).deliver
 
     assert_no_changes Message.count do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     assert_no_changes message.user do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
   end
 
@@ -111,10 +111,55 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     message = build(:message, body: "Hi there", status: "received")
 
     assert_enqueued_with(job: SendCustomMessageJob) do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     assert_equal message.user.messages.last.body, "The team's working hours are 9am - 6pm, Monday to Friday. We'll get back to you as soon as we can."
+  end
+
+  test "should ignore leading and trailing whitespace in the body" do
+    user = create(:user, contactable: true)
+    message = build(:message, body: "  stop  ", status: "received", user:)
+
+    AutoResponseMatch.new(message: message).deliver
+
+    refute user.contactable
+  end
+
+  test "should use the user's language for the out-of-hours response" do
+    travel_to Time.current.end_of_week
+    create(:group, language: "cy")
+    user = create(:user, language: "cy")
+    message = build(:message, body: "Hi there", status: "received", user:)
+
+    assert_enqueued_with(job: SendCustomMessageJob) do
+      AutoResponseMatch.new(message: message).deliver
+    end
+
+    assert_equal "Oriau gwaith y tîm yw 9am–6pm, dydd Llun i ddydd Gwener. Byddwn yn ymateb cyn gynted ag y gallwn.", user.messages.last.body
+  end
+
+  test "should fire only the first matching response when multiple share a trigger phrase" do
+    create(:auto_response, trigger_phrase: "ping", response: "conditional reply", user_conditions: "{\"asked_for_feedback\": true}")
+    create(:auto_response, trigger_phrase: "ping", response: "unconditional reply", user_conditions: "{}")
+    user = create(:user, asked_for_feedback: false)
+    message = build(:message, body: "ping", status: "received", user:)
+
+    AutoResponseMatch.new(message: message).deliver
+
+    assert_equal "unconditional reply", user.messages.last.body
+  end
+
+  test "should not change the user when update_user is empty" do
+    create(:auto_response, trigger_phrase: "ping", response: "hi", update_user: "{}")
+    user = create(:user, contactable: true, asked_for_feedback: true)
+    message = build(:message, body: "ping", status: "received", user:)
+
+    AutoResponseMatch.new(message: message).deliver
+    user.reload
+
+    assert user.contactable
+    assert user.asked_for_feedback
   end
 
   test "doesn't fall over if updates aren't possible" do
@@ -126,7 +171,7 @@ class ResponseMatcherServiceTest < ActiveSupport::TestCase
     refute user.valid?
 
     assert_enqueued_with(job: SendCustomMessageJob) do
-      ResponseMatcherService.new(message).match_response
+      AutoResponseMatch.new(message: message).deliver
     end
 
     assert_equal user.messages.last.body, "You're all set to start receiving messages again!"

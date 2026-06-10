@@ -2,6 +2,6 @@ class ResponseMatcherJob < ApplicationJob
   queue_as :background
 
   def perform(message)
-    ResponseMatcherService.new(message).match_response
+    AutoResponseMatch.new(message: message).deliver
   end
 end
