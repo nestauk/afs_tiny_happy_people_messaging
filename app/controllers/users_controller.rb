@@ -13,6 +13,10 @@ class UsersController < ApplicationController
   def new
     @no_padding = true
     @user = User.new
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def create
