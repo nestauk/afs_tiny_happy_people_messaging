@@ -1,24 +1,22 @@
-class ResponseMatcherService
-  def initialize(message)
-    @message = message
-    @user = message.user
-  end
+class AutoResponseMatch
+  include ActiveModel::Model
 
-  def match_response
-    responses = AutoResponse.where(trigger_phrase: normalized_message_body)
+  attr_accessor :message
+  delegate :user, to: :message
+
+  def deliver
+    responses = AutoResponse.where(trigger_phrase: normalized_body)
 
     if responses.any?
-      responses.each do |response|
-        process_response(response) and break if conditions_met?(response)
-      end
+      responses.each { |r| process_response(r) and break if conditions_met?(r) }
     elsif weekend?
-      send_message(I18n.t(".messages.out_of_hours_response", locale: @user.language))
+      send_message(I18n.t(".messages.out_of_hours_response", locale: user.language))
     end
   end
 
   private
 
-  def normalized_message_body
+  def normalized_body
     @message.body.downcase.strip
   end
 
@@ -32,12 +30,12 @@ class ResponseMatcherService
   end
 
   def send_message(body)
-    reply = Message.new(user: @user, body:)
+    reply = Message.new(user: user, body:)
     SendCustomMessageJob.perform_later(reply) if reply.save
   end
 
   def conditions_met?(response)
-    check_conditions(response.user_conditions, @user)
+    check_conditions(response.user_conditions, user)
   end
 
   def check_conditions(conditions, object)
@@ -51,7 +49,7 @@ class ResponseMatcherService
 
   def apply_updates(response)
     updates = JSON.parse(response.update_user)
-    updates.each { |key, value| update_attribute(key, value, @user) } if updates.any?
+    updates.each { |key, value| update_attribute(key, value, user) } if updates.any?
   end
 
   def update_attribute(key, value, object)

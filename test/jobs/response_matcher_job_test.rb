@@ -3,11 +3,10 @@ require "test_helper"
 class ResponseMatcherJobTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
-  test "#perform delegates to ResponseMatcherService" do
+  test "#perform delegates to AutoResponseMatch" do
     message = create(:message)
-    service = mock
-    service.expects(:match_response).once
-    ResponseMatcherService.expects(:new).with(message).returns(service)
+
+    AutoResponseMatch.expects(:new).with(message: message).returns(mock(deliver: true))
 
     ResponseMatcherJob.new.perform(message)
   end
