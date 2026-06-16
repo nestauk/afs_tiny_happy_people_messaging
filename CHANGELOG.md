@@ -1,3 +1,6 @@
+## [2026-06-16]
+- Replace Sendgrid with AWS SES
+
 ## [2026-04-23]
 - Users receive 52 messages with content, rather than receiving all remaining content
 
