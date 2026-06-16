@@ -53,8 +53,8 @@ We use Heroku to host and deploy this app.
 
 ### Heroku Scheduler
 
-The tasks to send messages to parents are set in recurring.yml. To see a list of all jobs queued/ running/ scheduled, go to /jobs.
+The tasks to send messages to parents are set in recurring.yml. To see a list of all jobs queued/running/scheduled, go to /jobs.
 
 ### Sending texts
 
-We currently use [Twilio](https://www.twilio.com/en-us) to send the text messages, and [Sendgrid](https://sendgrid.com/en-us) to send login links to administrators.
+We currently use [Twilio](https://www.twilio.com/en-us) to send the text messages, and [AWS SES](https://aws.amazon.com/ses/) to send login links to administrators.

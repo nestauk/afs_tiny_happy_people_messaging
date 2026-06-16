@@ -56,17 +56,8 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  # Set host to be used by links generated in mailer templates.
-  config.action_mailer.smtp_settings = {
-    user_name: "apikey",
-    password: ENV["SENDGRID_API_KEY"],
-    domain: ENV["PRODUCTION_DOMAIN"],
-    address: "smtp.sendgrid.net",
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true,
-  }
-
+  config.action_mailer.delivery_method = :ses_v2
+  ActionMailer::Base.default from: ENV.fetch("MAIL_FROM", "info@nesta.org.uk")
   config.action_mailer.default_url_options = {host: ENV.fetch("PRODUCTION_DOMAIN") || "cbeebies-text.uk"}
 
   Rails.application.routes.default_url_options[:host] = ENV.fetch("PRODUCTION_DOMAIN") || "cbeebies-text.uk"
