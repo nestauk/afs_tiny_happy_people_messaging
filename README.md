@@ -57,7 +57,7 @@ The tasks to send messages to parents are set in recurring.yml. To see a list of
 
 ### Sending texts
 
-Users pre May 2026 launch receive texts via [Twilio](https://www.twilio.com/en-us). 
-Users post May 2026 receive texts via [AWS End User Messaging](https://aws.amazon.com/end-user-messaging/) and [Simple Notification Service](https://aws.amazon.com/sns/) updates the delivery status and sends user responses.
+Users pre June 2026 launch receive texts via [Twilio](https://www.twilio.com/en-us). 
+Users post June 2026 receive texts via [AWS End User Messaging](https://aws.amazon.com/end-user-messaging/) and [Simple Notification Service](https://aws.amazon.com/sns/) updates the delivery status and sends user responses.
 
 [AWS SES](https://aws.amazon.com/ses/) to send login links to administrators.
