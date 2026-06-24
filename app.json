@@ -2,7 +2,7 @@
   "name": "CBeebies Parenting text messaging service",
   "website": "https://cbeebies-text.uk/",
   "repository": "https://github.com/nestauk/afs_tiny_happy_people_messaging",
-  "stack": "heroku-24",
+  "stack": "heroku-26",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
@@ -12,8 +12,7 @@
     }
   ],
   "addons": [
-    "heroku-postgresql",
-    "scheduler"
+    "heroku-postgresql"
   ],
   "env": {
     "PRODUCTION_DOMAIN": {
