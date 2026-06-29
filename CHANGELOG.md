@@ -1,6 +1,9 @@
 ## [2026-06-16]
 - Replace Sendgrid with AWS SES
 
+## [2026-05-02]
+- Add AWS as the SMS provider for all new users, users already on the system continue using Twilio
+
 ## [2026-04-23]
 - Users receive 52 messages with content, rather than receiving all remaining content
 
