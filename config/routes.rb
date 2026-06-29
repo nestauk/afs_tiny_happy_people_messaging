@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   post "messages/aws_incoming" => "messages#aws_incoming"
   get "/m/:token/", to: "messages#next", as: "track_link"
 
+  post "cookie_consent" => "cookie_consents#create"
+
   get "/privacy_policy", to: "pages#privacy_policy"
   get "/terms", to: "pages#terms"
   get "/resources", to: "pages#resources"
