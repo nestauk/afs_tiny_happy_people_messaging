@@ -75,6 +75,22 @@
         // "turned off" — but it won't load on the next page view because onAccept
         // won't fire, and without the cookie there's no persistent identifier.
       }
+    },
+    {
+      name: "statistical",
+      label: "Statistical",
+      lawfulBasis: "legitimate interest",
+      description: "We track user behavior to help us understand how you use our website.",
+      cookies: [],
+      onAccept: function() {
+        trackConsent('statistical', 'accepted');
+        window.ahoy?.start?.();
+        document.cookie = `ahoy_dnt=; path=/; max-age=0; Secure; SameSite=Lax`;
+      },
+      onRevoke: function() {
+        trackConsent('statistical', 'revoked');
+        document.cookie = `ahoy_dnt=1; path=/; max-age=${365 * 24 * 60 * 60}; Secure; SameSite=Lax`;
+      }
     }],
     position: "left",
   };

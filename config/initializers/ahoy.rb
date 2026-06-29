@@ -14,10 +14,30 @@ Ahoy.cookies = :none
 
 Ahoy.user_method = :current_admin
 
-module AhoyRandomVisitorToken
-  def visitor_anonymity_set
-    @visitor_anonymity_set ||= SecureRandom.hex(16)
-  end
+Ahoy.exclude_method = lambda do |controller, _request|
+  controller.send(:cookies)[:ahoy_dnt] == "1" unless controller.nil?
 end
 
-Ahoy::Tracker.prepend(AhoyRandomVisitorToken)
+module Ahoy
+  class Tracker
+    def visitor_anonymity_set
+      @visitor_anonymity_set ||= Digest::UUID.uuid_v5(UUID_NAMESPACE, [
+        "visitor",
+        Ahoy.mask_ip(request.remote_ip),
+        request.user_agent,
+        anonymity_set_pepper,
+      ].join("/"))
+    end
+
+    # A transient pepper is used to hash the visitor's private data. This pepper expires daily at 3am
+    # at which point the pepper is renewed and existing data becomes aggregated.
+    # See https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guidance-on-the-use-of-storage-and-access-technologies/what-are-the-exceptions/#statistical
+    private def anonymity_set_pepper
+      pepper_expiry = ((Time.current.hour < 3) ? Time.current : Time.current.tomorrow).change(hour: 3) - Time.current
+
+      Rails.cache.fetch("ahoy_anonymity_pepper", expires_in: pepper_expiry.to_i) do
+        SecureRandom.hex(32)
+      end
+    end
+  end
+end
