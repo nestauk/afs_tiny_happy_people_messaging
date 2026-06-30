@@ -9,6 +9,7 @@
 
 <% if @step == "personalisation" %>
   <script nonce="<%= content_security_policy_nonce %>">
-    window.queueGtagEvent('conversion_stage_1_completed');
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ pendingConversion: 'conversion_stage_1_completed' });
   </script>
 <% end %>

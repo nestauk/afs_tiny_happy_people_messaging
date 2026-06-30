@@ -36,5 +36,6 @@
 </div>
 
 <script nonce="<%= content_security_policy_nonce %>">
-  window.queueGtagEvent('conversion_stage_2_completed');
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ pendingConversion: 'conversion_stage_2_completed' });
 </script>
