@@ -2,6 +2,16 @@
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
 
+  window._analyticsConsented = false;
+  window._gtagEventQueue = [];
+  window.queueGtagEvent = function(eventName, params) {
+    if (window._analyticsConsented) {
+      dataLayer.push(Object.assign({ event: eventName }, params || {}));
+    } else {
+      window._gtagEventQueue.push({ eventName: eventName, params: params });
+    }
+  };
+
   function trackConsent(page, category, decision) {
     fetch('/cookie_consent', {
       method: 'POST',
@@ -28,6 +38,11 @@
         gtag('consent', 'update', {
           'analytics_storage': 'granted'
         });
+        window._analyticsConsented = true;
+        window._gtagEventQueue.forEach(function(item) {
+          dataLayer.push(Object.assign({ event: item.eventName }, item.params || {}));
+        });
+        window._gtagEventQueue = [];
         dataLayer.push({ event: 'analytics_accept' });
         trackConsent(window.location.pathname, 'analytics', 'accepted');
       },
@@ -35,6 +50,8 @@
         gtag('consent', 'update', {
           'analytics_storage': 'denied'
         });
+        window._analyticsConsented = false;
+        window._gtagEventQueue = [];
         trackConsent(window.location.pathname, 'analytics', 'declined');
       }
     },
