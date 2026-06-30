@@ -2,14 +2,14 @@
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
 
-  function trackConsent(category, decision) {
+  function trackConsent(page, category, decision) {
     fetch('/cookie_consent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       },
-      body: JSON.stringify({ category: category, decision: decision })
+      body: JSON.stringify({ page: page, category: category, decision: decision })
     });
   }
 
@@ -29,13 +29,13 @@
           'analytics_storage': 'granted'
         });
         dataLayer.push({ event: 'analytics_accept' });
-        trackConsent('analytics', 'accepted');
+        trackConsent(window.location.pathname, 'analytics', 'accepted');
       },
       onRevoke: function() {
         gtag('consent', 'update', {
           'analytics_storage': 'denied'
         });
-        trackConsent('analytics', 'declined');
+        trackConsent(window.location.pathname, 'analytics', 'declined');
       }
     },
     {
@@ -50,7 +50,7 @@
           'ad_personalization': 'granted'
         });
         dataLayer.push({ event: 'marketing_accept' });
-        trackConsent('marketing', 'accepted');
+        trackConsent(window.location.pathname, 'marketing', 'accepted');
         // TikTok Pixel — load on demand so no tt_* cookies are set before consent.
         !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)}}(window,document,'ttq');
         ttq.load('D7TJP6RC77U9E9A36HLG');
@@ -62,7 +62,7 @@
           'ad_user_data': 'denied',
           'ad_personalization': 'denied'
         });
-        trackConsent('marketing', 'declined');
+        trackConsent(window.location.pathname, 'marketing', 'declined');
         if (typeof fbq === 'function') fbq('consent', 'revoke');
         if (typeof ttq !== 'undefined') ttq.revokeConsent();
         // Clear Reddit's first-party cookie so attribution stops on next load.
@@ -83,12 +83,12 @@
       description: "We track user behavior to help us understand how you use our website.",
       cookies: [],
       onAccept: function() {
-        trackConsent('statistical', 'accepted');
+        trackConsent(window.location.pathname, 'statistical', 'accepted');
         window.ahoy?.start?.();
         document.cookie = `ahoy_dnt=; path=/; max-age=0; Secure; SameSite=Lax`;
       },
       onRevoke: function() {
-        trackConsent('statistical', 'revoked');
+        trackConsent(window.location.pathname, 'statistical', 'revoked');
         document.cookie = `ahoy_dnt=1; path=/; max-age=${365 * 24 * 60 * 60}; Secure; SameSite=Lax`;
       }
     }],
