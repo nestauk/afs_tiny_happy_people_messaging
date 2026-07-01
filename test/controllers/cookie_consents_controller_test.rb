@@ -21,9 +21,29 @@ class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :no_content
   end
 
+  test "returns no_content for valid statistical revoked" do
+    post cookie_consent_path, params: {page: "home", category: "statistical", decision: "revoked"}, as: :json
+    assert_response :no_content
+  end
+
+  test "returns no_content for banner dismissed" do
+    post cookie_consent_path, params: {page: "home", category: "banner", decision: "dismissed"}, as: :json
+    assert_response :no_content
+  end
+
   test "tracks a cookie_consent event in ahoy for valid params" do
     Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "home", category: "analytics", decision: "accepted")
     post cookie_consent_path, params: {page: "home", category: "analytics", decision: "accepted"}, as: :json
+  end
+
+  test "tracks a cookie_consent event in ahoy for statistical revoked" do
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "home", category: "statistical", decision: "revoked")
+    post cookie_consent_path, params: {page: "home", category: "statistical", decision: "revoked"}, as: :json
+  end
+
+  test "tracks a cookie_consent event in ahoy for banner dismissed" do
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "home", category: "banner", decision: "dismissed")
+    post cookie_consent_path, params: {page: "home", category: "banner", decision: "dismissed"}, as: :json
   end
 
   test "does not track an event for an unknown category" do

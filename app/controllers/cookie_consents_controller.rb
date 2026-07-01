@@ -6,7 +6,7 @@ class CookieConsentsController < ApplicationController
     decision = params[:decision].to_s
     page = params[:page].to_s
 
-    if %w[analytics marketing statistical].include?(category) && %w[accepted declined].include?(decision)
+    if %w[analytics marketing statistical banner].include?(category) && %w[accepted declined revoked dismissed].include?(decision)
       ahoy.track "cookie_consent", page: page, category: category, decision: decision
     end
 
