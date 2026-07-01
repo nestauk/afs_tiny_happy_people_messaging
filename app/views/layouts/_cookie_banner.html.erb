@@ -98,4 +98,10 @@
     position: "left",
   };
   CookieControl.load(config);
+
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('#ccc-close')) {
+      trackConsent(window.location.pathname, 'banner', 'dismissed');
+    }
+  });
 </script>
