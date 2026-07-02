@@ -103,5 +103,9 @@
     if (e.target.closest('#ccc-close')) {
       trackConsent(window.location.pathname, 'banner', 'dismissed');
     }
+
+    if (e.target.closest('#ccc-icon')) {
+      trackConsent(window.location.pathname, 'banner', 'dismissed');
+    }
   });
 </script>
