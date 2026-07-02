@@ -71,8 +71,8 @@
         // Clear Reddit's first-party cookie so attribution stops on next load.
         // Adjust domain to match where it was set (often the bare domain).
         document.cookie = '_rdt_uuid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
-        document.cookie = '_ttp; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
-        document.cookie = '_tt_enable_cookie; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+        document.cookie = '_ttp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+        document.cookie = '_tt_enable_cookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
         document.cookie = '_fbp; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
         // The pixel script that's already loaded in the current page can't be
         // "turned off" — but it won't load on the next page view because onAccept
