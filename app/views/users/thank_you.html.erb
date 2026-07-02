@@ -36,6 +36,5 @@
 </div>
 
 <script nonce="<%= content_security_policy_nonce %>">
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event: 'conversion_stage_2_completed' });
+  pushConversion('conversion_stage_2_completed');
 </script>
