@@ -6,9 +6,3 @@
   <% end %>
 </div>
 <% turbo_page_requires_reload %>
-
-<% if @step == "personalisation" %>
-  <script nonce="<%= content_security_policy_nonce %>">
-    pushConversion('conversion_stage_1_completed');
-  </script>
-<% end %>
