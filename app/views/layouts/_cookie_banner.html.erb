@@ -73,7 +73,7 @@
         document.cookie = '_rdt_uuid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
         document.cookie = '_ttp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
         document.cookie = '_tt_enable_cookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
-        document.cookie = '_fbp; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+        document.cookie = '_fbp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
         // The pixel script that's already loaded in the current page can't be
         // "turned off" — but it won't load on the next page view because onAccept
         // won't fire, and without the cookie there's no persistent identifier.
@@ -87,7 +87,6 @@
       cookies: [],
       onAccept: function() {
         trackConsent(window.location.pathname, 'statistical', 'accepted');
-        window.ahoy?.start?.();
         document.cookie = `ahoy_dnt=; path=/; max-age=0; Secure; SameSite=Lax`;
       },
       onRevoke: function() {

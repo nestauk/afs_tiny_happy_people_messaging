@@ -24,7 +24,7 @@ class PagesController < ApplicationController
   private
 
   def track_action
-    ahoy.track request.path_parameters[:action], request.path_parameters
+    ahoy.track request.path_parameters[:action], request.path_parameters if cookies[:ahoy_dnt].blank?
   end
 
   def set_page_variables
