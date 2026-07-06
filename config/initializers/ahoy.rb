@@ -11,6 +11,7 @@ Ahoy.geocode = false
 
 # Don't collect cookies
 Ahoy.cookies = :none
+Ahoy.mask_ips = true
 
 Ahoy.user_method = :current_admin
 
@@ -21,6 +22,9 @@ end
 module Ahoy
   class Tracker
     def visitor_anonymity_set
+      # If the user has requested anonymity, do not track across visits
+      return "dnt-#{SecureRandom.hex(16)}" if request.cookies["ahoy_dnt"] == "1"
+
       @visitor_anonymity_set ||= Digest::UUID.uuid_v5(UUID_NAMESPACE, [
         "visitor",
         Ahoy.mask_ip(request.remote_ip),

@@ -53,7 +53,7 @@ class UsersController < ApplicationController
 
   def update
     @step = params[:step].presence_in(STEPS) || STEPS.first
-    ahoy.track @step, request.path_parameters
+    ahoy.track @step, request.path_parameters if cookies[:ahoy_dnt].blank?
 
     if @step == "personalisation"
       if @user.update(personalisation_params)
@@ -107,7 +107,7 @@ class UsersController < ApplicationController
   end
 
   def track_action
-    ahoy.track request.path_parameters[:action], request.path_parameters.merge(local: I18n.locale)
+    ahoy.track request.path_parameters[:action], request.path_parameters.merge(local: I18n.locale) if cookies[:ahoy_dnt].blank?
   end
 
   def set_page_variables
