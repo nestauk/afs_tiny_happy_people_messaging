@@ -5,5 +5,5 @@ class Admin < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
 
-  attribute :role, admin: "admin", local_authority: "local_authority"
+  attribute :role, admin: "admin"
 end

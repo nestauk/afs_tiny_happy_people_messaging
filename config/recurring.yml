@@ -35,12 +35,6 @@ production:
     class: SendBulkMessageJob
     args: [ offboarding ]
     schedule: 0 11 * * 5
-  update_all_las:
-    command: "AllLasDashboard.refresh"
-    schedule: 0 0 * * 0
-  update_las_specific:
-    command: "LaSpecificDashboard.refresh"
-    schedule: 0 0 * * 0
   clear_finished_jobs:
     class: ClearFinishedJobsJob
     schedule: 0 2 * * *
