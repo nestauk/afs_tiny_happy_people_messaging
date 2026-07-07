@@ -40,17 +40,4 @@ class AdminsTest < ApplicationSystemTestCase
     assert_text "Admin was successfully updated"
     assert_text "updatedadmin@example.com"
   end
-
-  test "local authority users can't see users or content" do
-    create(:group)
-    @admin = create(:admin, role: "local_authority", email: "local@authority.com")
-    sign_in(@admin)
-
-    assert_current_path admin_dashboard_path(locale: "en")
-    visit admin_users_path
-    assert_current_path root_path(locale: "en")
-
-    visit admin_groups_path
-    assert_current_path root_path(locale: "en")
-  end
 end

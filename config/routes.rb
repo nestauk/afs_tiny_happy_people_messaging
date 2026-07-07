@@ -32,10 +32,6 @@ Rails.application.routes.draw do
 
       resources :admins, except: %i[show destroy]
 
-      get "dashboard", to: "dashboards#show"
-      get "dashboards/sign_up", to: "dashboards/sign_up#show"
-      get "dashboards/click_through", to: "dashboards/click_through#show"
-
       patch "/admin/update_position/:id/", to: "contents#update_position", as: "update_position"
     end
   end
