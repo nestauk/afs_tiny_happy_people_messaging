@@ -22,8 +22,7 @@
     fetch('/cookie_consent', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ page: page, category: category, decision: decision })
     });
@@ -116,6 +115,10 @@
   CookieControl.load(config);
 
   document.addEventListener('click', function(e) {
+    if (e.target.closest('#ccc-notify-dismiss')) {
+      trackConsent(window.location.pathname, 'banner', 'dismissed');
+    }
+
     if (e.target.closest('#ccc-close')) {
       trackConsent(window.location.pathname, 'banner', 'dismissed');
     }
