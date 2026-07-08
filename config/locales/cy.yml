@@ -202,8 +202,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showMentalHealth = !showMentalHealth" @keyup.enter="showMentalHealth = !showMentalHealth" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Cymorth iechyd meddwl i rieni a phlant
-                <span x-show="!showMentalHealth" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showMentalHealth" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showMentalHealth" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showMentalHealth" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul x-show="showMentalHealth" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>Cymorth iechyd meddwl y GIG:</span> Cewch gyngor am anawsterau iechyd meddwl a <a href=’https://www.nhs.uk/mental-health/’ target=’_blank’ class=’link’>dewch o hyd i gymorth lleol.</a></li>
@@ -216,8 +216,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showSpeechLanguage = !showSpeechLanguage" @keyup.enter="showSpeechLanguage = !showSpeechLanguage" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
                 Anawsterau lleferydd, iaith a chyfathrebu
-                <span x-show="!showSpeechLanguage" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showSpeechLanguage" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showSpeechLanguage" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showSpeechLanguage" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul x-show="showSpeechLanguage" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>Therapi lleferydd ac iaith lleol:</span> Gallwch gael atgyfeiriad at wasanaeth therapi lleferydd ac iaith drwy eich meddyg teulu, ymwelydd iechyd, nyrs ardal, staff meithrin, athro neu athrawes eich plentyn, canolfan blant, pediatrydd cymunedol neu drwy’r sector preifat. Gallwch hefyd gyfeirio eich hun at y gwasanaeth drwy ffonio eich gwasanaeth GIG lleol a gofyn am rif y gwasanaeth therapi lleferydd ac iaith</li>
@@ -228,8 +228,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showFinancialSupport = !showFinancialSupport" @keyup.enter="showFinancialSupport = !showFinancialSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Cymorth ariannol
-                <span x-show="!showFinancialSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showFinancialSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showFinancialSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showFinancialSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul x-show="showFinancialSupport" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>Gwiriwr budd-daliadau:</span> Defnyddiwch <a href=’https://www.turn2us.org.uk/’ target=’_blank’ class=’link’>Turn2Us</a> i wirio pa fudd-daliadau y gallech fod â hawl iddynt</li>
@@ -240,8 +240,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showChildDevelopment = !showChildDevelopment" @keyup.enter="showChildDevelopment = !showChildDevelopment" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Datblygiad plant
-                <span x-show="!showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showChildDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showChildDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul x-show="showChildDevelopment" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>Camau datblygiadol yn ôl oedran:</span> Edrychwch ar <a href=’https://cambspborochildrenshealth.nhs.uk/child-development-and-growing-up/milestones/’ target=’_blank’ class=’link’>dudalen cerrig milltir datblygiadol GIG Swydd Gaergrawnt and Community</a> am ganllaw bras i gamau datblygiadol plant ac i weld pryd y gallai fod yn briodol cysylltu â’ch ymwelydd iechyd.<br><br>Os nad ydych yn byw yng Nghaergrawnt ond eisiau gwybod ble i gael cymorth lleol yn ymwneud â datblygiad eich plentyn, <a href=’https://www.gov.uk/find-local-council’ target=’_blank’ class=’link’>chwiliwch am wefan eich cyngor lleol</a>.</li>
@@ -271,8 +271,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showHealthVisitor = !showHealthVisitor" @keyup.enter="showHealthVisitor = !showHealthVisitor" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Eich Ymwelydd Iechyd
-                <span x-show="!showHealthVisitor" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showHealthVisitor" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showHealthVisitor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showHealthVisitor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="showHealthVisitor" class="mt-4">
                 <p class="mb-4">Eich prif bwynt cyswllt.</p>
@@ -283,8 +283,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showChildDevelopment = !showChildDevelopment" @keyup.enter="showChildDevelopment = !showChildDevelopment" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
                 Gwiriadau datblygiad plant
-                <span x-show="!showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showChildDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showChildDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="showChildDevelopment" class="mt-4">
                 <p class="mb-1">
@@ -316,8 +316,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showFindingLocalSupport = !showFindingLocalSupport" @keyup.enter="showFindingLocalSupport = !showFindingLocalSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Dod o hyd i gymorth lleol
-                <span x-show="!showFindingLocalSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showFindingLocalSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showFindingLocalSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showFindingLocalSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul class="list-disc ml-6 mt-4" x-show="showFindingLocalSupport">
                 <li>
@@ -335,8 +335,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showExtraSupport = !showExtraSupport" @keyup.enter="showExtraSupport = !showExtraSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Cymorth ychwanegol (os ydych yn gymwys)
-                <span x-show="!showExtraSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showExtraSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showExtraSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showExtraSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="showExtraSupport" class="mt-4">
                 Gall <a href="https://www.gov.wales/flying-start-guide-parents-and-carers" target="_blank" class="link">Dechrau’n Deg</a> gynnig:
@@ -358,8 +358,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="childTalking = !childTalking" @keyup.enter="childTalking = !childTalking" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Rwy’n poeni am siarad neu gyfathrebu fy mhlentyn
-                <span x-show="!childTalking" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="childTalking" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!childTalking" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="childTalking" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="childTalking" class="mt-4">
                 <p class="mb-1">
@@ -401,8 +401,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="overwhelmed = !overwhelmed" @keyup.enter="overwhelmed = !overwhelmed" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
                 Rwy’n teimlo dan straen neu’n poeni am fy iechyd meddwl
-                <span x-show="!overwhelmed" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="overwhelmed" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!overwhelmed" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="overwhelmed" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="overwhelmed" class="mt-4">
                 <p class="mb-1">
@@ -430,8 +430,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="childCries = !childCries" @keyup.enter="childCries = !childCries" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Mae fy mhlentyn yn crio llawer neu’n teimlo’n anodd ei reoli
-                <span x-show="!childCries" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="childCries" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!childCries" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="childCries" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul class="list-disc ml-6 mt-4" x-show="childCries">
                 <li>
@@ -449,8 +449,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="supportDevelopment = !supportDevelopment" @keyup.enter="supportDevelopment = !supportDevelopment" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Dw i eisiau syniadau i gefnogi datblygiad fy mhlentyn
-                <span x-show="!supportDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="supportDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!supportDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="supportDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="supportDevelopment" class="mt-4">
                 <p>
@@ -470,8 +470,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="speakWelsh = !speakWelsh" @keyup.enter="speakWelsh = !speakWelsh" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Dw i eisiau magu fy mhlentyn gyda’r Gymraeg
-                <span x-show="!speakWelsh" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="speakWelsh" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!speakWelsh" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="speakWelsh" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul class="list-disc ml-6" x-show="speakWelsh">
                 <li>
@@ -489,8 +489,8 @@ cy:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="money = !money" @keyup.enter="money = !money" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Dw i’n poeni am arian neu fudd-daliadau
-                <span x-show="!money" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="money" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!money" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="money" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="money" class="mt-4">
                 <p>

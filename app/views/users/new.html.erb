@@ -13,9 +13,7 @@
     </div>
   </div>
 </div>
-<div class="block md:hidden">
-  <%= vite_image_tag "images/children-playing.jpg", alt: "", "aria-hidden": "true" %>
-</div>
+<div class="block md:hidden mobile-hero-banner" aria-hidden="true"></div>
 
 <div class="flex flex-col justify-around squiggle-banner px-5 md:px-36 h-[35rem] md:h-[50rem]">
   <div class="w-full md:w-2/3 mx-auto">
@@ -52,7 +50,10 @@
     <div>
       <div class="flex flex-col items-center gap-5 bg-bbc-green p-8 object-fill">
         <div class="h-40 w-40 bg-bbc-yellow p-8 rounded-full flex items-center justify-center"> 
-          <%= vite_image_tag "images/mobile.png", alt: "", "aria-hidden": "true" %>
+          <picture>
+            <source type="image/webp" srcset="<%= vite_asset_path('images/mobile.webp') %>">
+            <%= vite_image_tag "images/mobile.png", alt: "", "aria-hidden": "true", loading: "lazy" %>
+          </picture>
         </div>
       </div>
       <div class="bg-white flex flex-col items-center p-5">
@@ -68,7 +69,10 @@
     <div>
       <div class="flex flex-col items-center gap-5 bg-bbc-purple p-8">
         <div class="h-40 w-40 bg-bbc-orange p-8 rounded-full flex items-center justify-center">
-          <%= vite_image_tag "images/sms.png", alt: "", "aria-hidden": "true" %>
+          <picture>
+            <source type="image/webp" srcset="<%= vite_asset_path('images/sms.webp') %>">
+            <%= vite_image_tag "images/sms.png", alt: "", "aria-hidden": "true", loading: "lazy" %>
+          </picture>
         </div>
       </div>
       <div class="bg-white flex flex-col items-center p-5">
@@ -84,7 +88,10 @@
     <div>
       <div class="flex flex-col items-center gap-5 bg-bbc-pink p-8">
         <div class="h-40 w-40 bg-bbc-green p-8 rounded-full flex items-center justify-center">
-          <%= vite_image_tag "images/child.png", alt: "", "aria-hidden": "true" %>
+          <picture>
+            <source type="image/webp" srcset="<%= vite_asset_path('images/child.webp') %>">
+            <%= vite_image_tag "images/child.png", alt: "", "aria-hidden": "true", loading: "lazy" %>
+          </picture>
         </div>
       </div>
       <div class="bg-white flex flex-col items-center p-5">
@@ -100,8 +107,14 @@
 </div>
 
 <div class="items-center bg-bbc-dark-blue w-full relative">
-  <%= vite_image_tag "images/corner-accent.png", alt: "", "aria-hidden": "true", class: "h-20 md:h-36 absolute top-0 right-0" %>
-  <%= vite_image_tag "images/left-accent.png", alt: "", "aria-hidden": "true", class: "hidden xl:block h-full absolute top-0 left-0" %>
+  <picture>
+    <source type="image/webp" srcset="<%= vite_asset_path('images/corner-accent.webp') %>">
+    <%= vite_image_tag "images/corner-accent.png", alt: "", "aria-hidden": "true", class: "h-20 md:h-36 absolute top-0 right-0", loading: "lazy" %>
+  </picture>
+  <picture>
+    <source type="image/webp" srcset="<%= vite_asset_path('images/left-accent.webp') %>">
+    <%= vite_image_tag "images/left-accent.png", alt: "", "aria-hidden": "true", class: "hidden xl:block h-full absolute top-0 left-0", loading: "lazy" %>
+  </picture>
   <div class="md:flex md:justify-around px-5 md:px-20">
     <h2 class="text-3xl md:text-5xl md:mb-20 mb-6 pt-14 md:text-center font-bold text-bbc-yellow">
       <%= t('pages.home.why_sign_up') %>
@@ -119,8 +132,14 @@
       <% end %>
     </div>
     <div class="w-full lg:w-1/2">
-      <%= vite_image_tag "images/bottom-accent.png", alt: "", "aria-hidden": "true", class: "left-0 right-0 block lg:hidden" %>
-      <%= vite_image_tag "images/frisbee.jpg", alt: "", "aria-hidden": "true", class: "md:col-span-2 xl:col-span-1" %>
+      <picture>
+        <source type="image/webp" srcset="<%= vite_asset_path('images/bottom-accent.webp') %>">
+        <%= vite_image_tag "images/bottom-accent.png", alt: "", "aria-hidden": "true", class: "left-0 right-0 block lg:hidden", loading: "lazy" %>
+      </picture>
+      <picture>
+        <source type="image/webp" srcset="<%= vite_asset_path('images/frisbee.webp') %>">
+        <%= vite_image_tag "images/frisbee.jpg", alt: "", "aria-hidden": "true", class: "md:col-span-2 xl:col-span-1", loading: "lazy" %>
+      </picture>
       <div class="bg-bbc-yellow text-black p-5 md:p-8 col-span-1 flex flex-col justify-around">
         <div>
           <p class="text-lg md:text-xl font-bold">

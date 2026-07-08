@@ -199,8 +199,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showMentalHealth = !showMentalHealth" @keyup.enter="showMentalHealth = !showMentalHealth" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Mental Health Support for Parents and Children
-                <span x-show="!showMentalHealth" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showMentalHealth" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showMentalHealth" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showMentalHealth" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul x-show="showMentalHealth" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>NHS Mental Health Support:</span> Get advice about mental health difficulties and <a href=’https://www.nhs.uk/mental-health/’ target=’_blank’ class=’link’>find local support</a></li>
@@ -213,8 +213,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showSpeechLanguage = !showSpeechLanguage" @keyup.enter="showSpeechLanguage = !showSpeechLanguage" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
                 Speech, Language and Communication Difficulties
-                <span x-show="!showSpeechLanguage" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showSpeechLanguage" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showSpeechLanguage" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showSpeechLanguage" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul x-show="showSpeechLanguage" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>Local Speech and Language Therapy:</span> You can get a referral to a speech and language therapy department through your GP, health visitor, district nurse, nursery staff or your child’s teacher, children’s centre, community paediatrician or through the private sector. You can also refer yourself to the service by calling your local NHS service and asking for the speech and language therapy number.</li>
@@ -225,8 +225,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showFinancialSupport = !showFinancialSupport" @keyup.enter="showFinancialSupport = !showFinancialSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Financial Support
-                <span x-show="!showFinancialSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showFinancialSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showFinancialSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showFinancialSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul x-show="showFinancialSupport" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>Benefit Checker:</span> Use <a href=’https://www.turn2us.org.uk/’ target=’_blank’ class=’link’>Turn2Us</a> to check your benefit eligibility.</li>
@@ -237,8 +237,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showChildDevelopment = !showChildDevelopment" @keyup.enter="showChildDevelopment = !showChildDevelopment" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Child Development
-                <span x-show="!showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showChildDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showChildDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul x-show="showChildDevelopment" class="mt-4">
                 <li class="mb-4"><span class=’font-bold’>Developmental milestones by age:</span> Check out the <a href=’https://cambspborochildrenshealth.nhs.uk/child-development-and-growing-up/milestones/’ target=’_blank’ class=’link’>NHS Cambridgeshire and Community’s Milestones page</a> for a rough guide on children’s different developmental milestones and when to contact your health visitor.<br><br>If you don’t live in Cambridgeshire but would like to know where to get local support related to your child’s development, <a href=’https://www.gov.uk/find-local-council’ target=’_blank’ class=’link’>find your local council’s website</a>.</li>
@@ -268,8 +268,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showHealthVisitor = !showHealthVisitor" @keyup.enter="showHealthVisitor = !showHealthVisitor" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Your Health Visitor
-                <span x-show="!showHealthVisitor" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showHealthVisitor" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showHealthVisitor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showHealthVisitor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="showHealthVisitor" class="mt-4">
                 <p class="mb-4">Your main point of contact.</p>
@@ -280,8 +280,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showChildDevelopment = !showChildDevelopment" @keyup.enter="showChildDevelopment = !showChildDevelopment" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
                 Child Development Checks
-                <span x-show="!showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showChildDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showChildDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showChildDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="showChildDevelopment" class="mt-4">
                 <p class="mb-1">
@@ -313,8 +313,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showFindingLocalSupport = !showFindingLocalSupport" @keyup.enter="showFindingLocalSupport = !showFindingLocalSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Finding local support
-                <span x-show="!showFindingLocalSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showFindingLocalSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showFindingLocalSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showFindingLocalSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul class="list-disc ml-6 mt-4" x-show="showFindingLocalSupport">
                 <li>
@@ -332,8 +332,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="showExtraSupport = !showExtraSupport" @keyup.enter="showExtraSupport = !showExtraSupport" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 Extra support
-                <span x-show="!showExtraSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="showExtraSupport" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!showExtraSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="showExtraSupport" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="showExtraSupport" class="mt-4">
                 <a href="https://www.gov.wales/flying-start-guide-parents-and-carers" target="_blank" class="link">Flying Start (Dechrau’n Deg)</a> can offer:
@@ -355,8 +355,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="childTalking = !childTalking" @keyup.enter="childTalking = !childTalking" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 I’m worried about my child’s talking or communication
-                <span x-show="!childTalking" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="childTalking" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!childTalking" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="childTalking" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="childTalking" class="mt-4">
                 <p class="mb-1">
@@ -398,8 +398,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="overwhelmed = !overwhelmed" @keyup.enter="overwhelmed = !overwhelmed" class="flex items-center text-xl gap-4 font-semibold cursor-pointer" tabindex=0>
                 I’m feeling overwhelmed or worried about mental health
-                <span x-show="!overwhelmed" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="overwhelmed" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!overwhelmed" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="overwhelmed" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="overwhelmed" class="mt-4">
                 <p class="mb-1">
@@ -427,8 +427,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="childCries = !childCries" @keyup.enter="childCries = !childCries" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 My child cries a lot or feels hard to manage
-                <span x-show="!childCries" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="childCries" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!childCries" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="childCries" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul class="list-disc ml-6 mt-4" x-show="childCries">
                 <li>
@@ -446,8 +446,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="supportDevelopment = !supportDevelopment" @keyup.enter="supportDevelopment = !supportDevelopment" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 I want ideas to support my child’s development
-                <span x-show="!supportDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="supportDevelopment" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!supportDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="supportDevelopment" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="supportDevelopment" class="mt-4">
                 <p>
@@ -467,8 +467,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="speakWelsh = !speakWelsh" @keyup.enter="speakWelsh = !speakWelsh" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 I want to raise my child with Welsh
-                <span x-show="!speakWelsh" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="speakWelsh" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!speakWelsh" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="speakWelsh" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <ul class="list-disc ml-6" x-show="speakWelsh">
                 <li>
@@ -486,8 +486,8 @@ en:
             <div class="p-4 flex flex-col justify-around py-6">
               <a @click.prevent="money = !money" @keyup.enter="money = !money" class="flex items-center gap-4 text-xl font-semibold cursor-pointer" tabindex=0>
                 I’m worried about money or benefits
-                <span x-show="!money" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_down</span>
-                <span x-show="money" class="material-symbols-sharp" aria-hidden="true">keyboard_arrow_up</span>
+                <span x-show="!money" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg></span>
+                <span x-show="money" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14l5-5 5 5z"/></svg></span>
               </a>
               <div x-show="money" class="mt-4">
                 <p>
