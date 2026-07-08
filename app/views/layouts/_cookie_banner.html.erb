@@ -9,7 +9,7 @@
     'ad_user_data': 'denied',
     'ad_personalization': 'denied',
     'analytics_storage': 'denied',
-    'wait_for_update': 500 // Gives Cookie Control time to load saved settings
+    'wait_for_update': 1000 // Gives Cookie Control time to load saved settings
   });
 
   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -21,6 +21,7 @@
   function trackConsent(page, category, decision) {
     fetch('/cookie_consent', {
       method: 'POST',
+      keepalive: true,
       headers: {
         'Content-Type': 'application/json'
       },
