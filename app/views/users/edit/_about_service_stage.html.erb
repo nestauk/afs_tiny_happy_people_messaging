@@ -2,7 +2,10 @@
 
 <div class="bg-white px-5 py-10 md:px-20 lg:px-40 md:py-20">
   <div class="bg-bbc-dark-blue p-10 md:p-6 relative">
-    <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0" %>
+    <picture>
+      <source type="image/webp" srcset="<%= vite_asset_path('images/bottom-corner-accent.webp') %>">
+      <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0", loading: "lazy" %>
+    </picture>
     <h1 class="text-3xl text-bbc-yellow">
       <%= t("pages.form.about_service.title") %>
     </h1>

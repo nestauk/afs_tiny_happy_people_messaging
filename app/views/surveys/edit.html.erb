@@ -5,7 +5,10 @@
     <%= link_to "Back to editing survey", @back_link, class: "link mb-4 inline-block" %>
   <% end %>
   <div class="bg-bbc-dark-blue p-4 relative pb-14 survey-header">
-    <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0" %>
+    <picture>
+      <source type="image/webp" srcset="<%= vite_asset_path('images/bottom-corner-accent.webp') %>">
+      <%= vite_image_tag "images/bottom-corner-accent.png", alt: "", "aria-hidden": "true", class: "absolute bottom-0 right-0 w-14 md:w-18 lg:w-24 z-0", loading: "lazy" %>
+    </picture>
     <h1 class="text-3xl text-bbc-yellow">
       <%= @language == "cy" ? @survey.title_cy : @survey.title_en %>
     </h1>

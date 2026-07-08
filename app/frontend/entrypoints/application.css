@@ -1,7 +1,6 @@
 @import "../stylesheets/tailwind.css";
 @import "../stylesheets/fonts.css";
 @import "../stylesheets/forms.css";
-@import "../../../node_modules/material-symbols/sharp.css";
 @import "../stylesheets/actiontext.css";
 
 h1 {
@@ -61,27 +60,63 @@ ol {
 }
 
 .hero-banner {
-  background: url('../../frontend/images/children-playing.jpg') no-repeat center center; 
+  background: url('../../frontend/images/children-playing.jpg') no-repeat center center;
+  background: image-set(
+    url('../../frontend/images/children-playing.webp') type("image/webp"),
+    url('../../frontend/images/children-playing.jpg') type("image/jpeg")
+  ) no-repeat center center;
   background-size: cover;
   opacity: .9;
+}
+
+.mobile-hero-banner {
+  aspect-ratio: 1500 / 687;
+  background: url('../../frontend/images/children-playing.jpg') no-repeat center center;
+  background: image-set(
+    url('../../frontend/images/children-playing.webp') type("image/webp"),
+    url('../../frontend/images/children-playing.jpg') type("image/jpeg")
+  ) no-repeat center center;
+  background-size: cover;
 }
 
 .squiggle-banner {
   @media (min-width: 768px) {
     background-image: url('../../frontend/images/blue-squiggles-lg.png');
+    background-image: image-set(
+      url('../../frontend/images/blue-squiggles-lg.webp') type("image/webp"),
+      url('../../frontend/images/blue-squiggles-lg.png') type("image/png")
+    );
   }
 
   @media (max-width: 767px) {
     background-image: url('../../frontend/images/blue-squiggles.png');
+    background-image: image-set(
+      url('../../frontend/images/blue-squiggles.webp') type("image/webp"),
+      url('../../frontend/images/blue-squiggles.png') type("image/png")
+    );
   }
 
   background-size: cover;
 }
 
 .thank-you-banner {
-  background: url('../../frontend/images/family-playing.jpg') no-repeat 0% 25%; 
+  background: url('../../frontend/images/family-playing.jpg') no-repeat 0% 25%;
+  background: image-set(
+    url('../../frontend/images/family-playing.webp') type("image/webp"),
+    url('../../frontend/images/family-playing.jpg') type("image/jpeg")
+  ) no-repeat 0% 25%;
   background-size: cover;
   opacity: .9;
+}
+
+.mobile-thank-you-banner {
+  aspect-ratio: 1500 / 1289;
+  background: url('../../frontend/images/family-playing.jpg') no-repeat center center;
+  background: image-set(
+    url('../../frontend/images/family-playing.webp') type("image/webp"),
+    url('../../frontend/images/family-playing.jpg') type("image/jpeg")
+  ) no-repeat center center;
+  background-size: cover;
 }
 
 .h-85svh {
