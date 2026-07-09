@@ -1,6 +1,10 @@
 require "test_helper"
 
 class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    Ahoy::Tracker.any_instance.stubs(:visit).returns(Ahoy::Visit.new)
+  end
+
   test "returns no_content for valid analytics accepted" do
     post cookie_consent_path, params: {page: "home", category: "analytics", decision: "accepted"}, as: :json
     assert_response :no_content
