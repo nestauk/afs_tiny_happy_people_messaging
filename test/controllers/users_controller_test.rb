@@ -42,6 +42,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert User.exists?(phone_number: "+447123456700")
   end
 
+  test "create failure tracks the too_old error when child is over 18 months" do
+    Ahoy::Tracker.any_instance.expects(:track).with do |name, properties|
+      name == "signup_failed" && properties.dig(:errors, :child_birthday)&.include?(:too_old)
+    end
+
+    post users_path, params: {user: {phone_number: "07123456700", terms_agreed: "1", child_birthday: 2.years.ago, postcode: "ABC 123", language: "en"}}
+
+    assert_response :unprocessable_content
+  end
+
   test "edit accepts a restart_token" do
     user = create(:user, contactable: false)
     token = user.generate_token_for(:restart_token)

@@ -43,6 +43,8 @@ class UsersController < ApplicationController
       @hide_sidebar = true
       @user = registration.user
 
+      ahoy.track "signup_failed", request.path_parameters.merge(errors: @user.errors.group_by_attribute.transform_values { |e| e.map(&:type) }) if cookies[:ahoy_dnt].blank?
+
       render :new, status: :unprocessable_content
     end
   end
