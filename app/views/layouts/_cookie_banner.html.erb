@@ -1,5 +1,5 @@
-<script defer src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js" data-turbo-track="reload" nonce="<%= content_security_policy_nonce %>"></script>
-<script nonce="<%= content_security_policy_nonce %>" type="module">
+<script async src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js" data-turbo-track="reload" nonce="<%= content_security_policy_nonce %>" onload="initCookieControl()"></script>
+<script nonce="<%= content_security_policy_nonce %>">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
 
@@ -29,91 +29,96 @@
     });
   }
 
-  var config = {
-    apiKey: "2ea9ac86d74c9a17bacc2e3d1db71f3666f61150",
-    product: "PRO_MULTISITE",
-    initialState: "notify",
-    necessaryCookies: ["ahoy_dnt"],
-    optionalCookies: [{
-      name: "analytics",
-      label: "Analytics",
-      description: "We use analytics cookies to help us understand how you use our website.",
-      cookies: [
-        "_ga",
-        "_ga_*",
-      ],
-      onAccept: function() {
-        gtag('consent', 'update', {
-          'analytics_storage': 'granted'
-        });
-        window._analyticsConsented = true;
-        dataLayer.push({ event: 'analytics_accept' });
-        trackConsent(window.location.pathname, 'analytics', 'accepted');
+  function initCookieControl() {
+    var config = {
+      apiKey: "2ea9ac86d74c9a17bacc2e3d1db71f3666f61150",
+      product: "PRO_MULTISITE",
+      initialState: "notify",
+      necessaryCookies: ["ahoy_dnt"],
+      optionalCookies: [{
+        name: "analytics",
+        label: "Analytics",
+        description: "We use analytics cookies to help us understand how you use our website.",
+        cookies: [
+          "_ga",
+          "_ga_*",
+        ],
+        onAccept: function() {
+          gtag('consent', 'update', {
+            'analytics_storage': 'granted'
+          });
+          window._analyticsConsented = true;
+          dataLayer.push({ event: 'analytics_accept' });
+          trackConsent(window.location.pathname, 'analytics', 'accepted');
+        },
+        onRevoke: function() {
+          gtag('consent', 'update', {
+            'analytics_storage': 'denied'
+          });
+          window._analyticsConsented = false;
+          trackConsent(window.location.pathname, 'analytics', 'declined');
+        }
       },
-      onRevoke: function() {
-        gtag('consent', 'update', {
-          'analytics_storage': 'denied'
-        });
-        window._analyticsConsented = false;
-        trackConsent(window.location.pathname, 'analytics', 'declined');
-      }
-    },
-    {
-      name: "marketing",
-      label: "Marketing Cookies",
-      description: "We use marketing cookies to help us improve the relevancy of advertising campaigns you receive.",
-      cookies: ['_fbp', '_rdt_uuid', '_tt_enable_cookie', '_ttp'],
-      onAccept: function () {
-        gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data': 'granted',
-          'ad_personalization': 'granted'
-        });
-        dataLayer.push({ event: 'marketing_accept' });
-        trackConsent(window.location.pathname, 'marketing', 'accepted');
-        // TikTok Pixel — load on demand so no tt_* cookies are set before consent.
-        !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)}}(window,document,'ttq');
-        ttq.load('D7TJP6RC77U9E9A36HLG');
-        ttq.page();
+      {
+        name: "marketing",
+        label: "Marketing Cookies",
+        description: "We use marketing cookies to help us improve the relevancy of advertising campaigns you receive.",
+        cookies: ['_fbp', '_rdt_uuid', '_tt_enable_cookie', '_ttp'],
+        onAccept: function () {
+          gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted'
+          });
+          dataLayer.push({ event: 'marketing_accept' });
+          trackConsent(window.location.pathname, 'marketing', 'accepted');
+          // TikTok Pixel — load on demand so no tt_* cookies are set before consent.
+          !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)}}(window,document,'ttq');
+          ttq.load('D7TJP6RC77U9E9A36HLG');
+          ttq.page();
+        },
+        onRevoke: function () {
+          gtag('consent', 'update', {
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied'
+          });
+          trackConsent(window.location.pathname, 'marketing', 'declined');
+          if (typeof fbq === 'function') fbq('consent', 'revoke');
+          if (typeof ttq !== 'undefined') ttq.revokeConsent();
+          // Clear Reddit's first-party cookie so attribution stops on next load.
+          // Adjust domain to match where it was set (often the bare domain).
+          document.cookie = '_rdt_uuid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+          document.cookie = '_ttp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+          document.cookie = '_tt_enable_cookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+          document.cookie = '_fbp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+          // The pixel script that's already loaded in the current page can't be
+          // "turned off" — but it won't load on the next page view because onAccept
+          // won't fire, and without the cookie there's no persistent identifier.
+        }
       },
-      onRevoke: function () {
-        gtag('consent', 'update', {
-          'ad_storage': 'denied',
-          'ad_user_data': 'denied',
-          'ad_personalization': 'denied'
-        });
-        trackConsent(window.location.pathname, 'marketing', 'declined');
-        if (typeof fbq === 'function') fbq('consent', 'revoke');
-        if (typeof ttq !== 'undefined') ttq.revokeConsent();
-        // Clear Reddit's first-party cookie so attribution stops on next load.
-        // Adjust domain to match where it was set (often the bare domain).
-        document.cookie = '_rdt_uuid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
-        document.cookie = '_ttp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
-        document.cookie = '_tt_enable_cookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
-        document.cookie = '_fbp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + location.hostname.replace(/^www\./, '');
-        // The pixel script that's already loaded in the current page can't be
-        // "turned off" — but it won't load on the next page view because onAccept
-        // won't fire, and without the cookie there's no persistent identifier.
-      }
-    },
-    {
-      name: "statistical",
-      label: "Statistical",
-      lawfulBasis: "legitimate interest",
-      description: "We track user behavior to help us understand how you use our website.",
-      cookies: [],
-      onAccept: function() {
-        trackConsent(window.location.pathname, 'statistical', 'accepted');
-        document.cookie = `ahoy_dnt=; path=/; max-age=0; Secure; SameSite=Lax`;
-      },
-      onRevoke: function() {
-        trackConsent(window.location.pathname, 'statistical', 'revoked');
-        document.cookie = `ahoy_dnt=1; path=/; max-age=${365 * 24 * 60 * 60}; Secure; SameSite=Lax`;
-      }
-    }],
-    position: "left",
-  };
-  CookieControl.load(config);
+      {
+        name: "statistical",
+        label: "Statistical",
+        lawfulBasis: "legitimate interest",
+        description: "We track user behavior to help us understand how you use our website.",
+        cookies: [],
+        onAccept: function() {
+          trackConsent(window.location.pathname, 'statistical', 'accepted');
+          document.cookie = `ahoy_dnt=; path=/; max-age=0; Secure; SameSite=Lax`;
+        },
+        onRevoke: function() {
+          trackConsent(window.location.pathname, 'statistical', 'revoked');
+          document.cookie = `ahoy_dnt=1; path=/; max-age=${365 * 24 * 60 * 60}; Secure; SameSite=Lax`;
+        }
+      }],
+      position: "left",
+    };
+    CookieControl.load(config);
+  }
+
+  // CivicComputing may already be loaded (e.g. from cache) before this script ran
+  if (typeof CookieControl !== 'undefined') initCookieControl();
 
   document.addEventListener('click', function(e) {
     if (e.target.closest('#ccc-notify-dismiss')) {
