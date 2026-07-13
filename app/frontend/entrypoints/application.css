@@ -134,3 +134,7 @@ ol {
     color: white;
   }
 }
+
+#ccc-overlay {
+  position: relative !important;
+}
