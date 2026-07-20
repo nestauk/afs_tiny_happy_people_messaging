@@ -8,6 +8,7 @@ cy:
           attributes:
             child_birthday:
               too_young: Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd — ond ddim am hir! Byddwn yn defnyddio’r rhif rydych eisoes wedi’i rannu i roi gwybod i chi pan fydd yn barod. {{waitlist_link}} i gael y wybodaeth ddiweddaraf.
+              too_young_for_waitlist: Mae dy un bach yn rhy ifanc am y gwasanaeth ’ma ar hyn o bryd. Rhaid iddyn nhw fod o leiaf 4 mis oed i ymuno.
               too_old: Rhaid i’ch plentyn fod rhwng 9 a 18 mis oed i gofrestru ar gyfer y gwasanaeth hwn.
             postcode:
               not_welsh: Dim ond yng Nghymru mae’r gwasanaeth hwn ar gael ar hyn o bryd. Ond peidiwch â phoeni — gallwch chi fwynhau holl gynnwys <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>Tiny Happy People</a> o hyd.

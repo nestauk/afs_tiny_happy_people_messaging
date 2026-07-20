@@ -59,7 +59,7 @@ class UserTest < ActiveSupport::TestCase
 
   test("child_birthday required") { assert_present(:child_birthday) }
 
-  test "child_birthday raises error if child is too young" do
+  test "child_birthday raises error if child is too young but can join the waitlist" do
     user = build(:user, child_birthday: 8.months.ago)
     assert_raises ActiveRecord::RecordInvalid do
       user.save!
@@ -70,6 +70,14 @@ class UserTest < ActiveSupport::TestCase
   test "child_birthday does not raise error if child is too young but skip_validation is present" do
     user = build(:user, child_birthday: 8.months.ago, skip_age_validation: true)
     assert user.save!
+  end
+
+  test "child_birthday raises error for child who is too young for the waitlist" do
+    user = build(:user, child_birthday: 3.months.ago)
+    assert_raises ActiveRecord::RecordInvalid do
+      user.save!
+    end
+    assert_includes user.errors[:child_birthday], "Your child is too young for this service right now, they must be at least 4 months old to join."
   end
 
   test "child_birthday raises error if child is too old" do

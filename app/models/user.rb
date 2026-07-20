@@ -237,7 +237,30 @@ class User < ApplicationRecord
 
   def child_is_correct_age?
     return if child_birthday.blank?
-    errors.add(:child_birthday, :too_old) if child_birthday < 18.months.ago.to_date
-    errors.add(:child_birthday, :too_young) if child_birthday > 9.months.ago.to_date && !skip_age_validation
+
+    months_old_now = months_between(child_birthday, Date.current)
+    months_old_by_november = months_between(child_birthday, upcoming_november_first)
+
+    if months_old_now > 18
+      errors.add(:child_birthday, :too_old)
+    elsif months_old_now >= 9 || skip_age_validation
+      # 9–18 months now: eligible, no error
+    elsif months_old_by_november >= 9 && !skip_age_validation
+      errors.add(:child_birthday, :too_young)
+    else
+      errors.add(:child_birthday, :too_young_for_waitlist)
+    end
+  end
+
+  def months_between(from_date, to_date)
+    months = (to_date.year - from_date.year) * 12 + (to_date.month - from_date.month)
+    months -= 1 if to_date.day < from_date.day
+    months
+  end
+
+  def upcoming_november_first
+    nov = Date.new(Date.current.year, 11, 1)
+    nov += 1.year if nov < Date.current
+    nov
   end
 end
