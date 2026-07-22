@@ -79,6 +79,20 @@ cy:
       partnership: "Partneriaeth â BBC Education a Phrifysgol Sheffield"
       email: "info@cbeebies-text.uk"
       accessibility: "Hygyrchedd"
+    cookie_banner:
+      message: "Rydym yn defnyddio cwcis i helpu ein gwasanaeth i redeg yn esmwyth ac i ddeall sut mae'n cael ei ddefnyddio."
+      accept_all: "Derbyn pob un"
+      reject_all: "Gwrthod pob un"
+      settings: "Gosodiadau cwcis"
+      dismiss: "Cau"
+      save_preferences: "Cadw dewisiadau"
+      manage_preferences: "Rheoli dewisiadau cwcis"
+      analytics_label: "Dadansoddeg"
+      analytics_description: "Rydym yn defnyddio cwcis dadansoddeg i'n helpu i ddeall sut rydych yn defnyddio ein gwefan."
+      marketing_label: "Cwcis marchnata"
+      marketing_description: "Rydym yn defnyddio cwcis marchnata i'n helpu i wella perthnasedd ymgyrchoedd hysbysebu a dderbyniwch."
+      statistical_label: "Ystadegol"
+      statistical_description: "Rydym yn tracio ymddygiad defnyddwyr i'n helpu i ddeall sut rydych yn defnyddio ein gwefan."
     form:
       personalisation: 
         page_title: Personoli eich profiad

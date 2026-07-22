@@ -81,6 +81,20 @@ en:
       partnership: "Partnership with BBC Education and the University of Sheffield"
       email: "info@cbeebies-text.uk"
       accessibility: "Accessibility"
+    cookie_banner:
+      message: "We use cookies to help our service run smoothly and to understand how it's used."
+      accept_all: "Accept all"
+      reject_all: "Reject all"
+      settings: "Cookie settings"
+      dismiss: "Dismiss"
+      save_preferences: "Save preferences"
+      manage_preferences: "Manage cookie preferences"
+      analytics_label: "Analytics"
+      analytics_description: "We use analytics cookies to help us understand how you use our website."
+      marketing_label: "Marketing cookies"
+      marketing_description: "We use marketing cookies to help us improve the relevancy of advertising campaigns you receive."
+      statistical_label: "Statistical"
+      statistical_description: "We track user behaviour to help us understand how you use our website."
     form:
       personalisation: 
         title: "Thanks for signing up!"
