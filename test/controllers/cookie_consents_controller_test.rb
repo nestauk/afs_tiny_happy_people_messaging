@@ -5,66 +5,84 @@ class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
     Ahoy::Tracker.any_instance.stubs(:visit).returns(Ahoy::Visit.new)
   end
 
-  test "returns no_content for valid analytics accepted" do
-    post cookie_consent_path, params: {page: "home", category: "analytics", decision: "accepted"}, as: :json
-    assert_response :no_content
+  test "accept_all sets the cookie_consent cookie with all categories granted" do
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+    consent = JSON.parse(cookies[:cookie_consent])
+    assert consent["analytics"]
+    assert consent["marketing"]
+    assert consent["statistical"]
   end
 
-  test "returns no_content for valid analytics declined" do
-    post cookie_consent_path, params: {page: "home", category: "analytics", decision: "declined"}, as: :json
-    assert_response :no_content
+  test "reject_all sets the cookie_consent cookie with all categories denied" do
+    post cookie_consent_path, params: {decision: "reject_all", return_to: "/"}
+    consent = JSON.parse(cookies[:cookie_consent])
+    assert_not consent["analytics"]
+    assert_not consent["marketing"]
+    assert_not consent["statistical"]
   end
 
-  test "returns no_content for valid marketing accepted" do
-    post cookie_consent_path, params: {page: "home", category: "marketing", decision: "accepted"}, as: :json
-    assert_response :no_content
+  test "saving granular preferences only grants the checked categories" do
+    post cookie_consent_path, params: {analytics: "1", marketing: "0", statistical: "1", return_to: "/cookie_policy"}
+    consent = JSON.parse(cookies[:cookie_consent])
+    assert consent["analytics"]
+    assert_not consent["marketing"]
+    assert consent["statistical"]
   end
 
-  test "returns no_content for valid marketing declined" do
-    post cookie_consent_path, params: {page: "home", category: "marketing", decision: "declined"}, as: :json
-    assert_response :no_content
+  test "unchecked checkboxes (absent params) are treated as declined" do
+    post cookie_consent_path, params: {return_to: "/"}
+    consent = JSON.parse(cookies[:cookie_consent])
+    assert_not consent["analytics"]
+    assert_not consent["marketing"]
+    assert_not consent["statistical"]
   end
 
-  test "returns no_content for valid statistical revoked" do
-    post cookie_consent_path, params: {page: "home", category: "statistical", decision: "revoked"}, as: :json
-    assert_response :no_content
+  test "redirects to the return_to path when it is a relative path" do
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "/cookie_policy"}
+    assert_redirected_to "/cookie_policy"
   end
 
-  test "returns no_content for banner dismissed" do
-    post cookie_consent_path, params: {page: "home", category: "banner", decision: "dismissed"}, as: :json
-    assert_response :no_content
+  test "ignores a return_to that is not a same-site relative path and falls back to root" do
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "//evil.example.com"}
+    assert_redirected_to root_path
   end
 
-  test "tracks a cookie_consent event in ahoy for valid params" do
-    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "home", category: "analytics", decision: "accepted")
-    post cookie_consent_path, params: {page: "home", category: "analytics", decision: "accepted"}, as: :json
+  test "sets a result flash so the next page shows a confirmation message" do
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+    assert_equal "accepted", flash[:cookie_consent_result]
   end
 
-  test "tracks a cookie_consent event in ahoy for statistical revoked" do
-    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "home", category: "statistical", decision: "revoked")
-    post cookie_consent_path, params: {page: "home", category: "statistical", decision: "revoked"}, as: :json
+  test "clears ahoy_dnt when statistical consent is granted" do
+    cookies[:ahoy_dnt] = "1"
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+    assert_nil cookies[:ahoy_dnt]
   end
 
-  test "tracks a cookie_consent event in ahoy for banner dismissed" do
-    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "home", category: "banner", decision: "dismissed")
-    post cookie_consent_path, params: {page: "home", category: "banner", decision: "dismissed"}, as: :json
+  test "sets ahoy_dnt when statistical consent is declined" do
+    post cookie_consent_path, params: {decision: "reject_all", return_to: "/"}
+    assert_equal "1", cookies[:ahoy_dnt]
   end
 
-  test "does not track an event for an unknown category" do
+  test "tracks an ahoy cookie_consent event per category" do
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "analytics", decision: "accepted")
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "marketing", decision: "accepted")
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "statistical", decision: "accepted")
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+  end
+
+  test "does not track when there is no ahoy visit" do
+    Ahoy::Tracker.any_instance.stubs(:visit).returns(nil)
     Ahoy::Tracker.any_instance.expects(:track).never
-    post cookie_consent_path, params: {page: "home", category: "unknown", decision: "accepted"}, as: :json
-    assert_response :no_content
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
   end
 
-  test "does not track an event for an unknown decision" do
-    Ahoy::Tracker.any_instance.expects(:track).never
-    post cookie_consent_path, params: {page: "home", category: "analytics", decision: "maybe"}, as: :json
-    assert_response :no_content
-  end
-
-  test "does not track an event when params are missing" do
-    Ahoy::Tracker.any_instance.expects(:track).never
-    post cookie_consent_path, as: :json
-    assert_response :no_content
+  test "rejects a request without a valid CSRF token when forgery protection is enabled" do
+    original = ActionController::Base.allow_forgery_protection
+    ActionController::Base.allow_forgery_protection = true
+    assert_raises(ActionController::InvalidAuthenticityToken) do
+      post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+    end
+  ensure
+    ActionController::Base.allow_forgery_protection = original
   end
 end

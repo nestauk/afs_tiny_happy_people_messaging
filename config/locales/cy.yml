@@ -75,18 +75,21 @@ cy:
       about_us: "Amdanom ni"
       terms: "Telerau defnyddio"
       privacy: "Polisi preifatrwydd"
-      cookie: "Polisi cwcis"
+      cookie: "Rheoli dewisiadau cwcis"
       partnership: "Partneriaeth â BBC Education a Phrifysgol Sheffield"
       email: "info@cbeebies-text.uk"
       accessibility: "Hygyrchedd"
     cookie_banner:
+      aria_label: "Baner cwcis"
       message: "Rydym yn defnyddio cwcis i helpu ein gwasanaeth i redeg yn esmwyth ac i ddeall sut mae'n cael ei ddefnyddio."
       accept_all: "Derbyn pob un"
       reject_all: "Gwrthod pob un"
-      settings: "Gosodiadau cwcis"
-      dismiss: "Cau"
       save_preferences: "Cadw dewisiadau"
       manage_preferences: "Rheoli dewisiadau cwcis"
+      accepted_message: "Rydych wedi derbyn pob cwci. Gallwch newid eich dewisiadau cwcis ar unrhyw adeg."
+      rejected_message: "Rydych wedi gwrthod cwcis nad ydynt yn hanfodol. Gallwch newid eich dewisiadau cwcis ar unrhyw adeg."
+      saved_message: "Mae eich dewisiadau cwcis wedi’u cadw."
+      hide_message: "Cuddio’r neges hon"
       analytics_label: "Dadansoddeg"
       analytics_description: "Rydym yn defnyddio cwcis dadansoddeg i'n helpu i ddeall sut rydych yn defnyddio ein gwefan."
       marketing_label: "Cwcis marchnata"
@@ -605,13 +608,14 @@ cy:
     cookie_policy:
       title: "Polisi cwcis"
       page_title: "Polisi cwcis"
+      preferences_heading: "Rheoli eich dewisiadau cwcis"
       body: |
         <h2>Ynglŷn â chwcis</h2>
         <p class="mb-2">
           Ffeiliau testun bach yw cwcis sy’n cael eu gosod ar eich cyfrifiadur gan y gwefannau rydych yn ymweld â nhw. Mae cwcis yn ein galluogi i’ch adnabod chi (neu, yn fwy cywir, eich cyfrifiadur) pan fyddwch yn ymweld â’n gwefan. Mae gwybod pa mor aml mae pobl yn ymweld â phob tudalen ar ein gwefan yn ein helpu i weld sut a ble i wella’r wefan.
         </p>
         <p class="mb-2">
-          Mae ein gwefan yn defnyddio cymysgedd o gwcis hanfodol a chwcis nad ydynt yn hanfodol (cwcis perfformiad a marchnata). Er bod y cwcis hanfodol yn angenrheidiol i’r wefan weithio’n iawn, gallwch osod eich dewisiadau ar gyfer y cwcis nad ydynt yn hanfodol drwy ddefnyddio ein hofferyn dewisiadau cwcis. Bydd hwn yn ymddangos yn awtomatig y tro cyntaf y byddwch yn ymweld â’n gwefan, neu os byddwch yn agor ein gwefan mewn porwr preifat. Gallwch hefyd ddod o hyd iddo unrhyw bryd drwy glicio ar yr eicon yng nghornel chwith isaf y sgrin.
+          Mae ein gwefan yn defnyddio cymysgedd o gwcis hanfodol a chwcis nad ydynt yn hanfodol (cwcis perfformiad a marchnata). Er bod y cwcis hanfodol yn angenrheidiol i’r wefan weithio’n iawn, gallwch osod eich dewisiadau ar gyfer y cwcis nad ydynt yn hanfodol gan ddefnyddio’r ffurflen uchod. Bydd hwn yn ymddangos yn awtomatig y tro cyntaf y byddwch yn ymweld â’n gwefan, neu os byddwch yn agor ein gwefan mewn porwr preifat. Gallwch hefyd ddod o hyd iddo unrhyw bryd gan ddefnyddio’r ddolen ‘Rheoli dewisiadau cwcis’ yn nhroedyn unrhyw dudalen.
         </p>
         <p class="mb-6">
           <strong>Mae’r polisi cwcis hwn yn rhan o’n <a href="/privacy-policy" class="link">Polisi Preifatrwydd</a>.</strong>
@@ -658,7 +662,7 @@ cy:
           <strong>_afs_tiny_happy_people_session</strong> Mae hwn yn gwci swyddogaethol angenrheidiol a ddefnyddir i gadw golwg ar pryd mae defnyddiwr wedi mewngofnodi i’r wefan.
         </p>
         <p class="mb-2">
-          <strong>CookieControl</strong> Mae’r cwci hwn yn cofnodi dewisiadau defnyddiwr ar gyfer cwcis dadansoddi a marchnata, ac yn cofio a ydych wedi gosod eich dewisiadau cwcis ar ein gwefan.
+          <strong>cookie_consent</strong> Mae’r cwci hwn yn cofnodi eich dewisiadau ar gyfer cwcis dadansoddi, marchnata ac ystadegol, ac yn cofio eich bod wedi gosod eich dewisiadau cwcis ar ein gwefan.
         </p>
         <h2>Cwcis Google Analytics</h2>
         <p class="mb-2">

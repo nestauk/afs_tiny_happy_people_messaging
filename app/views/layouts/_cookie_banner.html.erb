@@ -1,3 +1,5 @@
+<% consent = CookieConsent.from_cookie(cookies[CookieConsent::COOKIE_NAME]) %>
+
 <script nonce="<%= content_security_policy_nonce %>">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -7,9 +9,17 @@
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
     'ad_personalization': 'denied',
-    'analytics_storage': 'denied',
-    'wait_for_update': 1000 // Gives our cookie banner time to load saved settings
+    'analytics_storage': 'denied'
   });
+
+  <% if consent.decided? %>
+  gtag('consent', 'update', {
+    'analytics_storage': '<%= consent.analytics? ? "granted" : "denied" %>',
+    'ad_storage': '<%= consent.marketing? ? "granted" : "denied" %>',
+    'ad_user_data': '<%= consent.marketing? ? "granted" : "denied" %>',
+    'ad_personalization': '<%= consent.marketing? ? "granted" : "denied" %>'
+  });
+  <% end %>
 
   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -18,75 +28,38 @@
   })(window,document,'script','dataLayer','GTM-NWN4JM5J');
 </script>
 
-<div
-  x-data
-  x-show="$store.cookieConsent.visible"
-  x-cloak
-  class="fixed inset-x-0 bottom-0 z-50 bg-white border-t border-gray-400 shadow-lg"
-  role="region"
-  aria-label="<%= t('pages.cookie_banner.settings') %>"
->
-  <div class="max-w-4xl mx-auto p-4 md:p-6 relative">
-    <button
-      type="button"
-      x-on:click="$store.cookieConsent.dismiss()"
-      class="absolute top-2 right-2 p-2 text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-      aria-label="<%= t('pages.cookie_banner.dismiss') %>"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
+<% if consent.marketing? %>
+<script nonce="<%= content_security_policy_nonce %>">
+  // TikTok Pixel - only loaded once marketing consent has been given server-side.
+  !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)}}(window,document,'ttq');
+  ttq.load('D7TJP6RC77U9E9A36HLG');
+  ttq.page();
+</script>
+<% end %>
 
-    <div x-show="!$store.cookieConsent.showSettings" class="pr-8">
-      <p class="text-sm md:text-base mb-4"><%= t('pages.cookie_banner.message') %></p>
-      <div class="flex flex-wrap gap-3">
-        <button type="button" x-on:click="$store.cookieConsent.acceptAll()" class="btn btn-sm btn-primary"><%= t('pages.cookie_banner.accept_all') %></button>
-        <button type="button" x-on:click="$store.cookieConsent.rejectAll()" class="btn btn-sm bg-white border border-gray-500"><%= t('pages.cookie_banner.reject_all') %></button>
-        <button type="button" x-on:click="$store.cookieConsent.openSettings()" class="btn btn-sm bg-white border border-gray-500"><%= t('pages.cookie_banner.settings') %></button>
-      </div>
-    </div>
-
-    <div x-show="$store.cookieConsent.showSettings" class="pr-8">
-      <fieldset class="mb-4">
-        <legend class="sr-only"><%= t('pages.cookie_banner.settings') %></legend>
-
-        <div class="flex items-start gap-2 py-2 border-b border-gray-200">
-          <input type="checkbox" id="cookie-consent-analytics" x-model="$store.cookieConsent.analytics" class="form-checkbox mt-1 !grow-0">
-          <label for="cookie-consent-analytics">
-            <span class="font-semibold block"><%= t('pages.cookie_banner.analytics_label') %></span>
-            <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.analytics_description') %></span>
-          </label>
-        </div>
-
-        <div class="flex items-start gap-2 py-2 border-b border-gray-200">
-          <input type="checkbox" id="cookie-consent-marketing" x-model="$store.cookieConsent.marketing" class="form-checkbox mt-1 !grow-0">
-          <label for="cookie-consent-marketing">
-            <span class="font-semibold block"><%= t('pages.cookie_banner.marketing_label') %></span>
-            <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.marketing_description') %></span>
-          </label>
-        </div>
-
-        <div class="flex items-start gap-2 py-2">
-          <input type="checkbox" id="cookie-consent-statistical" x-model="$store.cookieConsent.statistical" class="form-checkbox mt-1 !grow-0">
-          <label for="cookie-consent-statistical">
-            <span class="font-semibold block"><%= t('pages.cookie_banner.statistical_label') %></span>
-            <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.statistical_description') %></span>
-          </label>
-        </div>
-      </fieldset>
-
-      <button type="button" x-on:click="$store.cookieConsent.saveSettings()" class="btn btn-sm btn-primary"><%= t('pages.cookie_banner.save_preferences') %></button>
+<% if flash[:cookie_consent_result] %>
+  <% confirmation_message =
+       case flash[:cookie_consent_result]
+       when "accepted" then t("pages.cookie_banner.accepted_message")
+       when "rejected" then t("pages.cookie_banner.rejected_message")
+       else t("pages.cookie_banner.saved_message")
+       end %>
+  <div role="region" aria-label="<%= t('pages.cookie_banner.aria_label') %>" class="bg-blue-50 border-b border-blue-200">
+    <div class="max-w-4xl mx-auto px-4 py-4 md:px-6 flex flex-wrap items-center justify-between gap-3">
+      <p class="text-sm md:text-base"><%= confirmation_message %></p>
+      <a href="<%= request.original_fullpath %>" class="btn btn-sm bg-white border border-gray-500"><%= t('pages.cookie_banner.hide_message') %></a>
     </div>
   </div>
-</div>
-
-<button
-  type="button"
-  x-data
-  x-show="!$store.cookieConsent.visible"
-  x-cloak
-  x-on:click="$store.cookieConsent.openSettings()"
-  class="fixed bottom-3 left-3 z-40 bg-bbc-dark-blue text-white rounded-full p-3 shadow-lg hover:bg-opacity-75 focus:outline-none focus:ring-4 focus:ring-blue-500"
-  aria-label="<%= t('pages.cookie_banner.manage_preferences') %>"
->
-  <span class="text-2xl leading-none" aria-hidden="true">🍪</span>
-</button>
+<% elsif !consent.decided? %>
+  <div role="region" aria-label="<%= t('pages.cookie_banner.aria_label') %>" class="bg-white border-b border-gray-400">
+    <div class="max-w-4xl mx-auto px-4 py-4 md:px-6">
+      <p class="text-sm md:text-base mb-4"><%= t('pages.cookie_banner.message') %></p>
+      <%= form_with url: cookie_consent_path, method: :post, class: "flex flex-wrap items-center gap-3" do %>
+        <input type="hidden" name="return_to" value="<%= request.original_fullpath %>">
+        <button type="submit" name="decision" value="accept_all" class="btn btn-sm btn-primary"><%= t('pages.cookie_banner.accept_all') %></button>
+        <button type="submit" name="decision" value="reject_all" class="btn btn-sm bg-white border border-gray-500"><%= t('pages.cookie_banner.reject_all') %></button>
+        <%= link_to t('pages.cookie_banner.manage_preferences'), cookie_policy_path, class: 'link' %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
