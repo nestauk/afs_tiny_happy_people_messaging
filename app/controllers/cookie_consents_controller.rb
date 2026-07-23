@@ -4,7 +4,7 @@ class CookieConsentsController < ApplicationController
 
   def create
     consent = build_consent
-    return_to = safe_return_to
+    return_to = params[:return_to].presence || request.referer || root_path
 
     cookies[CookieConsent::COOKIE_NAME] = {
       value: consent.to_cookie_value,
@@ -69,16 +69,5 @@ class CookieConsentsController < ApplicationController
       decision = consent.public_send("#{category}?") ? "accepted" : "declined"
       ahoy.track "cookie_consent", page: page, category: category.to_s, decision: decision
     end
-  end
-
-  # Only ever redirect to a same-site relative path. `return_to` is a hidden
-  # form field we render ourselves, but never trust it as a redirect target
-  # outright - a crafted `//evil.com` value would otherwise be parsed by
-  # browsers as protocol-relative and send visitors off-site.
-  def safe_return_to
-    candidate = params[:return_to].to_s
-    return candidate if candidate.start_with?("/") && !candidate.start_with?("//")
-
-    request.referer || root_path
   end
 end

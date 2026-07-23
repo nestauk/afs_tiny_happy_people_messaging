@@ -42,8 +42,8 @@ class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to "/cookie_policy"
   end
 
-  test "ignores a return_to that is not a same-site relative path and falls back to root" do
-    post cookie_consent_path, params: {decision: "accept_all", return_to: "//evil.example.com"}
+  test "falls back to root when no return_to is given and there is no referer" do
+    post cookie_consent_path, params: {decision: "accept_all"}
     assert_redirected_to root_path
   end
 

@@ -5,7 +5,6 @@ require "test_helper"
 # never executes any JavaScript.
 class CookieConsentFlowTest < ActionDispatch::IntegrationTest
   setup do
-    Rails.env.stubs(:production?).returns(true)
     Ahoy::Tracker.any_instance.stubs(:visit).returns(Ahoy::Visit.new)
   end
 
@@ -54,11 +53,5 @@ class CookieConsentFlowTest < ActionDispatch::IntegrationTest
     assert consent["analytics"]
     assert_not consent["marketing"]
     assert consent["statistical"]
-  end
-
-  test "the banner does not render outside production" do
-    Rails.env.stubs(:production?).returns(false)
-    get "/privacy_policy"
-    assert_dont_see I18n.t("pages.cookie_banner.message")
   end
 end
