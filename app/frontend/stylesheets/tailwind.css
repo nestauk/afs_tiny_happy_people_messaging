@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+[x-cloak] {
+  display: none !important;
+}
+
 @layer components {
   /* Button */
   /* ======================================================================== */
@@ -25,7 +29,7 @@
   }
 
   .btn-sm {
-    @apply x-4 py-1.5 pb-1 text-sm sm:text-base font-medium;
+    @apply px-4 py-1.5 pb-1 text-sm sm:text-base font-medium;
   }
 
   /* Link */

@@ -11,10 +11,8 @@ Rails.application.configure do
     policy.img_src :self, :https, :data
     policy.object_src :none
     policy.script_src :self,
-      :https,
-      "https://cc.cdn.civiccomputing.com"
+      :https
     policy.style_src :self,
-      "https://apikeys.civiccomputing.com",
       :unsafe_inline
 
     if Rails.env.development?
@@ -40,11 +38,9 @@ Rails.application.configure do
     SecureRandom.base64(16)
   }
 
-  # Apply the CSP nonce only to script-src. We deliberately do NOT nonce style-src
-  # because Civic Cookie Control injects <style> blocks at runtime that can't carry
-  # our nonce — and per CSP3, a nonce on style-src causes 'unsafe-inline' to be
-  # ignored, which would block Civic. Inline-style XSS is materially lower risk
-  # than inline-script XSS, so this tradeoff is acceptable.
+  # Apply the CSP nonce only to script-src. style-src keeps unsafe-inline
+  # unnonced for now (inline-style XSS is materially lower risk than inline-script
+  # XSS); revisit if/when everything generating inline styles is audited.
   config.content_security_policy_nonce_directives = %w[script-src]
 end
 

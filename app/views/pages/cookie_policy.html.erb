@@ -1,8 +1,52 @@
 <% content_for(:page_title) { I18n.t("pages.cookie_policy.page_title") } %>
 
+<% consent = CookieConsent.from_cookie(cookies[CookieConsent::COOKIE_NAME]) %>
+
 <div class="px-3 md:flex justify-around py-8 xl:py-10">
   <div class="md:w-1/2">
     <h1 class="text-blue-900 md:text-4xl text-2xl"><%= t("pages.cookie_policy.title") %></h1>
+
+    <section class="my-6 p-4 md:p-6 border border-gray-300 bg-gray-50" aria-labelledby="cookie-preferences-heading">
+      <h2 id="cookie-preferences-heading" class="text-xl mb-3"><%= t("pages.cookie_policy.preferences_heading") %></h2>
+
+      <% if flash[:cookie_consent_result] %>
+        <p class="text-sm md:text-base mb-4 font-semibold"><%= t("pages.cookie_banner.saved_message") %></p>
+      <% end %>
+
+      <%= form_with url: cookie_consent_path, method: :post do %>
+        <input type="hidden" name="return_to" value="<%= request.original_fullpath %>">
+
+        <fieldset class="mb-4">
+          <legend class="sr-only"><%= t("pages.cookie_policy.preferences_heading") %></legend>
+
+          <div class="flex items-start gap-2 py-2 border-b border-gray-200">
+            <input type="checkbox" id="cookie-consent-analytics" name="analytics" value="1" <%= "checked" if consent.analytics? %> class="form-checkbox mt-1 !grow-0">
+            <label for="cookie-consent-analytics">
+              <span class="font-semibold block"><%= t('pages.cookie_banner.analytics_label') %></span>
+              <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.analytics_description') %></span>
+            </label>
+          </div>
+
+          <div class="flex items-start gap-2 py-2 border-b border-gray-200">
+            <input type="checkbox" id="cookie-consent-marketing" name="marketing" value="1" <%= "checked" if consent.marketing? %> class="form-checkbox mt-1 !grow-0">
+            <label for="cookie-consent-marketing">
+              <span class="font-semibold block"><%= t('pages.cookie_banner.marketing_label') %></span>
+              <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.marketing_description') %></span>
+            </label>
+          </div>
+
+          <div class="flex items-start gap-2 py-2">
+            <input type="checkbox" id="cookie-consent-statistical" name="statistical" value="1" <%= "checked" if consent.statistical? %> class="form-checkbox mt-1 !grow-0">
+            <label for="cookie-consent-statistical">
+              <span class="font-semibold block"><%= t('pages.cookie_banner.statistical_label') %></span>
+              <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.statistical_description') %></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-sm btn-primary"><%= t('pages.cookie_banner.save_preferences') %></button>
+      <% end %>
+    </section>
 
     <div>
       <%= t("pages.cookie_policy.body").html_safe %>
