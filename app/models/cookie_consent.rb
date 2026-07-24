@@ -12,7 +12,7 @@ class CookieConsent
       decided: true,
       analytics: parsed["analytics"] == true,
       marketing: parsed["marketing"] == true,
-      statistical: parsed["statistical"] == true
+      statistical: parsed["statistical"] == true,
     )
   rescue JSON::ParserError
     new(decided: false)
@@ -32,7 +32,7 @@ class CookieConsent
       decided: true,
       analytics: boolean.cast(params[:analytics]) || false,
       marketing: boolean.cast(params[:marketing]) || false,
-      statistical: boolean.cast(params[:statistical]) || false
+      statistical: boolean.cast(params[:statistical]) || false,
     )
   end
 

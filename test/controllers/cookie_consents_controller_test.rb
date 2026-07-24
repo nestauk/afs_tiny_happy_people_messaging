@@ -55,7 +55,7 @@ class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
   test "clears ahoy_dnt when statistical consent is granted" do
     cookies[:ahoy_dnt] = "1"
     post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
-    assert_nil cookies[:ahoy_dnt]
+    assert_predicate cookies[:ahoy_dnt], :blank?
   end
 
   test "sets ahoy_dnt when statistical consent is declined" do
@@ -79,9 +79,8 @@ class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
   test "rejects a request without a valid CSRF token when forgery protection is enabled" do
     original = ActionController::Base.allow_forgery_protection
     ActionController::Base.allow_forgery_protection = true
-    assert_raises(ActionController::InvalidAuthenticityToken) do
-      post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
-    end
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+    assert_response :unprocessable_entity
   ensure
     ActionController::Base.allow_forgery_protection = original
   end

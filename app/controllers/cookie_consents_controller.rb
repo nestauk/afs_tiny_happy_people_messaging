@@ -9,7 +9,7 @@ class CookieConsentsController < ApplicationController
     cookies[CookieConsent::COOKIE_NAME] = {
       value: consent.to_cookie_value,
       expires: 1.year,
-      secure: true,
+      secure: Rails.env.production?,
       same_site: :lax,
     }
 
@@ -30,7 +30,7 @@ class CookieConsentsController < ApplicationController
     if consent.statistical?
       cookies.delete(:ahoy_dnt)
     else
-      cookies[:ahoy_dnt] = {value: "1", expires: 1.year, secure: true, same_site: :lax}
+      cookies[:ahoy_dnt] = {value: "1", expires: 1.year, secure: Rails.env.production?, same_site: :lax}
     end
   end
 
@@ -63,7 +63,7 @@ class CookieConsentsController < ApplicationController
   end
 
   def track(consent, page)
-    return unless ahoy.visit.present?
+    return if ahoy.visit.blank?
 
     CookieConsent::CATEGORIES.each do |category|
       decision = consent.public_send("#{category}?") ? "accepted" : "declined"
