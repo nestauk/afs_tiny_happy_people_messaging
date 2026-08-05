@@ -81,6 +81,7 @@ cy:
       accessibility: "Hygyrchedd"
     cookie_banner:
       aria_label: "Baner cwcis"
+      dismiss: "Cau baner cwcis"
       message_necessary: "Rydym yn defnyddio rhai cwcis angenrheidiol i wneud i'r wefan hon weithio."
       message_optional: "Hoffem osod rhai cwcis ychwanegol sy'n ein helpu i ddeall sut rydych chi'n defnyddio'r wefan a thargedu ymgyrchoedd hysbysebu yn fwy effeithiol."
       accept_all: "Derbyn pob un"

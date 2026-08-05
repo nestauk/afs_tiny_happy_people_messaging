@@ -83,6 +83,7 @@ en:
       accessibility: "Accessibility"
     cookie_banner:
       aria_label: "Cookie banner"
+      dismiss: "Close cookie banner"
       message_necessary: "We use some necessary cookies to make this site work."
       message_optional: "We’d like to set some additional cookies that help us understand how you use the site and target advertising campaigns more effectively."
       accept_all: "Accept additional cookies"

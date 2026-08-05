@@ -64,10 +64,19 @@ class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "tracks an ahoy cookie_consent event per category" do
-    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "analytics", decision: "accepted")
-    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "marketing", decision: "accepted")
-    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "statistical", decision: "accepted")
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "analytics", decision: "accepted", source: "accept_all")
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "marketing", decision: "accepted", source: "accept_all")
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "statistical", decision: "accepted", source: "accept_all")
     post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+  end
+
+  test "tracks the dismissed source and rejects all categories when the banner is closed via the X" do
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "analytics", decision: "declined", source: "dismissed")
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "marketing", decision: "declined", source: "dismissed")
+    Ahoy::Tracker.any_instance.expects(:track).with("cookie_consent", page: "/", category: "statistical", decision: "declined", source: "dismissed")
+    post cookie_consent_path, params: {decision: "dismissed", return_to: "/"}
+
+    assert_nil flash[:cookie_consent_result]
   end
 
   test "does not track when there is no ahoy visit" do

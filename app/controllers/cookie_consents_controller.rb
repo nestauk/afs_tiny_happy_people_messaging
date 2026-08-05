@@ -13,10 +13,14 @@ class CookieConsentsController < ApplicationController
       same_site: :lax,
     }
 
+    # Track before applying statistical consent: apply_statistical sets the
+    # ahoy_dnt cookie, which Ahoy's exclude_method reads (and memoizes for
+    # the rest of the request) to decide whether to track at all. Tracking
+    # after would silently exclude the very event recording this decision.
+    track(consent, return_to)
     apply_statistical(consent)
     apply_marketing(consent)
-    track(consent, return_to)
-    flash[:cookie_consent_result] = result_key
+    flash[:cookie_consent_result] = result_key unless params[:decision] == "dismissed"
 
     redirect_to return_to
   end
@@ -49,7 +53,7 @@ class CookieConsentsController < ApplicationController
   def build_consent
     case params[:decision]
     when "accept_all" then CookieConsent.accept_all
-    when "reject_all" then CookieConsent.reject_all
+    when "reject_all", "dismissed" then CookieConsent.reject_all
     else CookieConsent.from_params(params)
     end
   end
@@ -67,7 +71,7 @@ class CookieConsentsController < ApplicationController
 
     CookieConsent::CATEGORIES.each do |category|
       decision = consent.public_send("#{category}?") ? "accepted" : "declined"
-      ahoy.track "cookie_consent", page: page, category: category.to_s, decision: decision
+      ahoy.track "cookie_consent", page: page, category: category.to_s, decision: decision, source: params[:decision]
     end
   end
 end
