@@ -51,7 +51,7 @@
       <a href="<%= request.original_fullpath %>" class="btn btn-sm bg-white border border-gray-500"><%= t('pages.cookie_banner.hide_message') %></a>
     </div>
   </div>
-<% elsif !consent.decided? && request.path != cookie_policy_path.split("?").first %>
+<% elsif !consent.decided? && !on_cookie_policy_page %>
   <div role="region" aria-label="<%= t('pages.cookie_banner.aria_label') %>" class="bg-white border-b border-gray-400">
     <div class="max-w-4xl mx-auto px-4 py-4 md:px-6">
       <p class="text-sm md:text-base"><%= t('pages.cookie_banner.message_necessary') %></p>
