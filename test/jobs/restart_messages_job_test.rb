@@ -9,8 +9,6 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
 
     User.any_instance.stubs(:generate_token_for).returns("123")
 
-    stub_successful_twilio_call("Welcome to CBeebies Parenting! Your child is now old enough to start receiving activities. Fill in the registration form to get started #{edit_user_url(user, token: "123")}.", user)
-
     RestartMessagesJob.new.perform(user)
 
     assert_equal 1, Message.count
@@ -24,13 +22,12 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
     user = create(:user, contactable: false, language: "cy")
     User.any_instance.stubs(:generate_token_for).returns("123")
 
-    stub_successful_twilio_call("Croeso i CBeebies Parenting! Mae eich plentyn bellach yn ddigon hen i ddechrau derbyn gweithgareddau. Llenwch y ffurflen gofrestru i ddechrau #{edit_user_url(user, token: "123")}.", user)
-
     RestartMessagesJob.new.perform(user)
 
     assert_equal 1, Message.count
     assert_nil user.reload.restart_at
     assert_equal false, user.contactable
     assert Message.last.body.include?(edit_user_url(user, token: "123"))
+    assert Message.last.body.include?("Mae'r aros drosodd o'r diwedd!")
   end
 end

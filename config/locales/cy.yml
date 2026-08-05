@@ -49,7 +49,7 @@ cy:
     survey_reminder: "Cymerwch funud i gwblhau'r arolwg byr hwn: {{survey_url}}"
     waitlist: Helo! Diolch am ymuno â rhestr aros ein negeseuon wythnosol llawn syniadau i gefnogi datblygiad dy blentyn. Byddwn mewn cysylltiad pan fydd hi’n bryd dechrau. Yn y cyfamser, arbeda’r rhif hwn fel 'CBeebies Parenting'.
     out_of_hours_response: Oriau gwaith y tîm yw 9am–6pm, dydd Llun i ddydd Gwener. Byddwn yn ymateb cyn gynted ag y gallwn.
-    restart: "Croeso i CBeebies Parenting! Mae dy blentyn bellach yn ddigon hen i ddechrau cael gweithgareddau. Llenwa’r ffurflen gofrestru i ddechrau arni: {{link}}"
+    restart: "Mae'r aros drosodd o'r diwedd! Mae dy un bach nawr yn barod am fyd o chwarae a darganfod gyda CBeebies. Dim ond nifer gyfyngedig o lefydd sydd ar gael, felly cadwa dy le nawr i gael dy weithgareddau cyntaf: {{link}}"
   pages:
     about_us:
       page_title: "Amdanom ni"
