@@ -1,0 +1,50 @@
+<%= form_with(model: [:admin, @broadcast], local: true) do |form| %>
+  <p>
+    You can use the following placeholders in your message body:
+    <ul class="list-disc ml-5">
+      <li><code>{{first_name}}</code> - will be replaced with the user's first name</li>
+      <li><code>{{survey_link}}</code> - will be replaced with the survey link</li>
+    </ul>
+  </p>
+
+  <% if form.object.errors[:survey].any? %>
+    <div class="text-red-500 border-red-500 border-2 p-5"><%= form.object.errors.full_messages_for(:survey).join(", ") %></div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.label :body_en, class: "block text-sm font-medium text-gray-700" %>
+    <div class="text-red-500"><%= form.object.errors.full_messages_for(:body_en).join(", ") %></div>
+    <%= form.text_area :body_en, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :body_cy, class: "block text-sm font-medium text-gray-700" %>
+    <div class="text-red-500"><%= form.object.errors.full_messages_for(:body_cy).join(", ") %></div>
+    <%= form.text_area :body_cy, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :user_groups, "Send to", class: "block text-sm font-medium text-gray-700" %>
+    <div class="text-red-500"><%= form.object.errors.full_messages_for(:user_groups).join(", ") %></div>
+    <%= form.collection_check_boxes :user_groups, Broadcast::USER_GROUPS, :first, :second do |b| %>
+      <div>
+        <%= b.check_box %>
+        <%= b.label %>
+        <% if b.value.to_s == "received_at_least_x_messages" %>
+          <%= form.number_field :message_threshold, min: 1, placeholder: "e.g. 6", class: "ml-2 w-20 border border-gray-300 rounded-md" %>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="text-red-500"><%= form.object.errors.full_messages_for(:message_threshold).join(", ") %></div>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :survey_id, "Survey (optional)", class: "block text-sm font-medium text-gray-700" %>
+    <div class="text-red-500"><%= form.object.errors.full_messages_for(:survey_id).join(", ") %></div>
+    <%= form.collection_select :survey_id, Survey.all, :id, :title_en, include_blank: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.submit "Send broadcast", class: "bg-blue-500 text-white rounded p-2" %>
+  </div>
+<% end %>

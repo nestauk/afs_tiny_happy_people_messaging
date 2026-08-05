@@ -96,6 +96,21 @@ class User < ApplicationRecord
       .where.not(contactable: false)
       .distinct
   }
+  scope :welsh_pilot, -> { where("created_at > ?", Date.new(2026, 05, 1)) }
+  scope :received_at_least_x_messages, ->(x) {
+    joins(:messages)
+      .where(
+        messages: {
+          id: Message
+            .select(:id)
+            .where("messages.user_id = users.id")
+            .where.not(content_id: nil),
+        },
+      )
+      .where(finished_content_at: nil)
+      .group("users.id")
+      .having("COUNT(*) >= ?", x)
+  }
 
   attribute :hour_preference,
     morning: "morning",
