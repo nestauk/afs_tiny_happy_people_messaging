@@ -1,0 +1,47 @@
+<div class="mb-2">
+  <%= link_to '< Back', admin_broadcasts_path, class: 'underline hover:no-underline' %>
+</div>
+<h1 class="md:text-4xl text-2xl">
+  Broadcast details
+</h1>
+<div class="md:mt-8 w-full">
+  <p class="text-gray-700 mb-2">
+    <strong>Message in English:</strong>
+    <%= @broadcast.body_en %>
+  </p>
+  <p class="text-gray-700 mb-2">
+    <strong>Message in Welsh:</strong>
+    <%= @broadcast.body_cy %>
+  </p>
+  <p class="text-gray-700 mb-2">
+    <strong>Sent to:</strong>
+    <ul class="list-disc ml-10">
+      <% @broadcast.user_groups.each do |group| %>
+        <li>
+          <%= Broadcast::USER_GROUPS.to_h[group.to_sym] %>
+          <% if group == "received_at_least_x_messages" %>
+            (with at least <%= @broadcast.message_threshold %> messages)
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </p>
+  <% if @broadcast.survey.present? %>
+    <p class="text-gray-700">
+      <strong>Survey:</strong>
+      <%= @broadcast.survey.title_en %>
+    </p>
+  <% end %>
+  <p class="text-gray-700 mb-2">
+    <strong>Created at:</strong>
+    <%= @broadcast.created_at.strftime("%d/%m/%Y %H:%M") %>
+  </p>
+  <p class="text-gray-700 mb-2">
+    <strong>Sent at:</strong>
+    <%= @broadcast.sent_at.present? ? @broadcast.sent_at.strftime("%d/%m/%Y %H:%M") : "Not sent yet" %>
+  </p>
+  <p class="text-gray-700 mb-2">
+    <strong>Number of users sent to:</strong>
+    <%= @broadcast.users.count %>
+  </p>
+</div>
