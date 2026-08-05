@@ -20,6 +20,22 @@
           <legend class="sr-only"><%= t("pages.cookie_policy.preferences_heading") %></legend>
 
           <div class="flex items-start gap-2 py-2 border-b border-gray-200">
+            <input type="checkbox" id="cookie-consent-essential" checked disabled class="form-checkbox mt-1 !grow-0">
+            <label for="cookie-consent-essential">
+              <span class="font-semibold block"><%= t('pages.cookie_banner.essential_label') %></span>
+              <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.essential_description') %></span>
+            </label>
+          </div>
+
+          <div class="flex items-start gap-2 py-2 border-b border-gray-200">
+            <input type="checkbox" id="cookie-consent-statistical" name="statistical" value="1" <%= "checked" if !consent.decided? || consent.statistical? %> class="form-checkbox mt-1 !grow-0">
+            <label for="cookie-consent-statistical">
+              <span class="font-semibold block"><%= t('pages.cookie_banner.statistical_label') %></span>
+              <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.statistical_description') %></span>
+            </label>
+          </div>
+
+          <div class="flex items-start gap-2 py-2 border-b border-gray-200">
             <input type="checkbox" id="cookie-consent-analytics" name="analytics" value="1" <%= "checked" if consent.analytics? %> class="form-checkbox mt-1 !grow-0">
             <label for="cookie-consent-analytics">
               <span class="font-semibold block"><%= t('pages.cookie_banner.analytics_label') %></span>
@@ -27,19 +43,11 @@
             </label>
           </div>
 
-          <div class="flex items-start gap-2 py-2 border-b border-gray-200">
+          <div class="flex items-start gap-2 py-2">
             <input type="checkbox" id="cookie-consent-marketing" name="marketing" value="1" <%= "checked" if consent.marketing? %> class="form-checkbox mt-1 !grow-0">
             <label for="cookie-consent-marketing">
               <span class="font-semibold block"><%= t('pages.cookie_banner.marketing_label') %></span>
               <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.marketing_description') %></span>
-            </label>
-          </div>
-
-          <div class="flex items-start gap-2 py-2">
-            <input type="checkbox" id="cookie-consent-statistical" name="statistical" value="1" <%= "checked" if consent.statistical? %> class="form-checkbox mt-1 !grow-0">
-            <label for="cookie-consent-statistical">
-              <span class="font-semibold block"><%= t('pages.cookie_banner.statistical_label') %></span>
-              <span class="text-sm text-gray-700"><%= t('pages.cookie_banner.statistical_description') %></span>
             </label>
           </div>
         </fieldset>

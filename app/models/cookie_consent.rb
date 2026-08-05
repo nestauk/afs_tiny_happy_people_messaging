@@ -14,7 +14,8 @@ class CookieConsent
       marketing: parsed["marketing"] == true,
       statistical: parsed["statistical"] == true,
     )
-  rescue JSON::ParserError
+  rescue JSON::ParserError => e
+    Appsignal.report_error(e)
     new(decided: false)
   end
 
@@ -27,12 +28,11 @@ class CookieConsent
   end
 
   def self.from_params(params)
-    boolean = ActiveModel::Type::Boolean.new
     new(
       decided: true,
-      analytics: boolean.cast(params[:analytics]) || false,
-      marketing: boolean.cast(params[:marketing]) || false,
-      statistical: boolean.cast(params[:statistical]) || false,
+      analytics: params[:analytics] == "1",
+      marketing: params[:marketing] == "1",
+      statistical: params[:statistical] == "1",
     )
   end
 

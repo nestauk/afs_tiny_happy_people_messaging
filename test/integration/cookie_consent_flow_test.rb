@@ -11,7 +11,7 @@ class CookieConsentFlowTest < ActionDispatch::IntegrationTest
   test "ask banner shows on first visit, accepting all persists consent and shows a confirmation, then the banner is gone" do
     get "/privacy_policy"
     assert_response :success
-    assert_see I18n.t("pages.cookie_banner.message")
+    assert_see I18n.t("pages.cookie_banner.message_necessary")
 
     post cookie_consent_path, params: {decision: "accept_all", return_to: "/privacy_policy"}
     assert_redirected_to "/privacy_policy"
@@ -19,11 +19,11 @@ class CookieConsentFlowTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_see I18n.t("pages.cookie_banner.accepted_message")
-    assert_dont_see I18n.t("pages.cookie_banner.message")
+    assert_dont_see I18n.t("pages.cookie_banner.message_necessary")
 
     get "/privacy_policy"
     assert_response :success
-    assert_dont_see I18n.t("pages.cookie_banner.message")
+    assert_dont_see I18n.t("pages.cookie_banner.message_necessary")
     assert_dont_see I18n.t("pages.cookie_banner.accepted_message")
   end
 

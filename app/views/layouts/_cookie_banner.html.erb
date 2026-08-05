@@ -37,7 +37,7 @@
 </script>
 <% end %>
 
-<% if flash[:cookie_consent_result] %>
+<% if flash[:cookie_consent_result] && request.path != cookie_policy_path.split("?").first %>
   <% confirmation_message =
        case flash[:cookie_consent_result]
        when "accepted" then t("pages.cookie_banner.accepted_message")
@@ -50,15 +50,16 @@
       <a href="<%= request.original_fullpath %>" class="btn btn-sm bg-white border border-gray-500"><%= t('pages.cookie_banner.hide_message') %></a>
     </div>
   </div>
-<% elsif !consent.decided? %>
+<% elsif !consent.decided? && request.path != cookie_policy_path.split("?").first %>
   <div role="region" aria-label="<%= t('pages.cookie_banner.aria_label') %>" class="bg-white border-b border-gray-400">
     <div class="max-w-4xl mx-auto px-4 py-4 md:px-6">
-      <p class="text-sm md:text-base mb-4"><%= t('pages.cookie_banner.message') %></p>
-      <%= form_with url: cookie_consent_path, method: :post, class: "flex flex-wrap items-center gap-3" do %>
+      <p class="text-sm md:text-base"><%= t('pages.cookie_banner.message_necessary') %></p>
+      <p class="text-sm md:text-base mb-4"><%= t('pages.cookie_banner.message_optional') %></p>
+      <%= form_with url: cookie_consent_path, method: :post, class: "flex md:flex-row flex-nowrap items-center justify-left gap-3 overflow-x-auto" do %>
         <input type="hidden" name="return_to" value="<%= request.original_fullpath %>">
-        <button type="submit" name="decision" value="accept_all" class="btn btn-sm btn-primary"><%= t('pages.cookie_banner.accept_all') %></button>
-        <button type="submit" name="decision" value="reject_all" class="btn btn-sm bg-white border border-gray-500"><%= t('pages.cookie_banner.reject_all') %></button>
-        <%= link_to t('pages.cookie_banner.manage_preferences'), cookie_policy_path, class: 'link' %>
+        <button type="submit" name="decision" value="accept_all" class="btn btn-sm btn-primary border shrink-0"><%= t('pages.cookie_banner.accept_all') %></button>
+        <button type="submit" name="decision" value="reject_all" class="btn btn-sm bg-white border shrink-0"><%= t('pages.cookie_banner.reject_all') %></button>
+        <%= link_to t('pages.cookie_banner.manage_preferences'), cookie_policy_path, class: 'link shrink-0' %>
       <% end %>
     </div>
   </div>
