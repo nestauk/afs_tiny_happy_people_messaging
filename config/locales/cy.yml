@@ -81,7 +81,8 @@ cy:
       accessibility: "Hygyrchedd"
     cookie_banner:
       aria_label: "Baner cwcis"
-      message: "Rydym yn defnyddio cwcis i helpu ein gwasanaeth i redeg yn esmwyth ac i ddeall sut mae'n cael ei ddefnyddio."
+      message_necessary: "Rydym yn defnyddio rhai cwcis angenrheidiol i wneud i'r wefan hon weithio."
+      message_optional: "Hoffem osod rhai cwcis ychwanegol sy'n ein helpu i ddeall sut rydych chi'n defnyddio'r wefan a thargedu ymgyrchoedd hysbysebu yn fwy effeithiol."
       accept_all: "Derbyn pob un"
       reject_all: "Gwrthod pob un"
       save_preferences: "Cadw dewisiadau"
@@ -90,6 +91,8 @@ cy:
       rejected_message: "Rydych wedi gwrthod cwcis nad ydynt yn hanfodol. Gallwch newid eich dewisiadau cwcis ar unrhyw adeg."
       saved_message: "Mae eich dewisiadau cwcis wedi’u cadw."
       hide_message: "Cuddio’r neges hon"
+      essential_label: "Cwcis hanfodol"
+      essential_description: "Mae cwcis hanfodol yn hanfodol i’r wefan weithio’n iawn. Ni allwch eu diffodd."
       analytics_label: "Dadansoddeg"
       analytics_description: "Rydym yn defnyddio cwcis dadansoddeg i'n helpu i ddeall sut rydych yn defnyddio ein gwefan."
       marketing_label: "Cwcis marchnata"
