@@ -1,4 +1,5 @@
 <% consent = CookieConsent.from_cookie(cookies[CookieConsent::COOKIE_NAME]) %>
+<% on_cookie_policy_page = request.path == cookie_policy_path.split("?").first %>
 
 <script nonce="<%= content_security_policy_nonce %>">
   window.dataLayer = window.dataLayer || [];
@@ -37,7 +38,7 @@
 </script>
 <% end %>
 
-<% if flash[:cookie_consent_result] && request.path != cookie_policy_path.split("?").first %>
+<% if flash[:cookie_consent_result] && !on_cookie_policy_page %>
   <% confirmation_message =
        case flash[:cookie_consent_result]
        when "accepted" then t("pages.cookie_banner.accepted_message")
