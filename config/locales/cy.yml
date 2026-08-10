@@ -118,8 +118,8 @@ cy:
         skip: Hepgor y rhan hon
     home:
       page_title: Negeseuon Testun Rhianta CBeebies
-      title: Gweithgareddau hwyliog am ddim i gefnogi datblygiad eich plentyn
-      subtitle: Cewch syniadau wythnosol byr a difyr yn syth i’ch ffôn ar gyfer plant 9–18 mis oed
+      title: Syniadau chwarae am ddim i feithrin twf eich plentyn
+      subtitle: Cael gweithgareddau wythnosol, bach a hylaw drwy neges destun. Ar gyfer plant 9–18 mis oed
       sign_up: "Cofrestru"
       video_aria_label: "Cefnogi llais eich plentyn drwy'r dydd"
       sneak_peek: Dyma flas bach o’r fideos fydd ar gael i chi eu mwynhau fel rhan o’n gwasanaeth rhad ac am ddim
@@ -134,7 +134,7 @@ cy:
       reason_1_title: "Wedi’i deilwra i’ch teulu"
       reason_1_text: Cynnwys sy’n addas i anghenion eich plentyn, pryd bynnag y bydd yn gyfleus i chi.
       reason_2_title: Cyflym a hawdd
-      reason_2_text: Dim apiau, dim ffwdan — un neges yr wythnos yn unig.
+      reason_2_text: Dim ffwdan — un neges yr wythnos yn unig.
       reason_3_title: Ar gyfer bywyd go iawn
       reason_3_text: Gweithgareddau hwyliog a syml i’w cynnwys yn eich trefn bob dydd.
       reason_4_title: Wedi’i greu gan arbenigwyr

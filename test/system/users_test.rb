@@ -11,7 +11,7 @@ class UsersTest < ApplicationSystemTestCase
   test "user can switch language" do
     visit new_user_path
 
-    assert_text "Nurture your child's growth with fun, free activities"
+    assert_text "Free play ideas to nurture your child's growth"
 
     click_on "Cymraeg"
 
@@ -19,7 +19,7 @@ class UsersTest < ApplicationSystemTestCase
 
     click_on "English"
 
-    assert_text "Nurture your child's growth with fun, free activities"
+    assert_text "Free play ideas to nurture your child's growth"
   end
 
   test "user can sign up" do

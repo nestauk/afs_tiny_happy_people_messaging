@@ -120,8 +120,8 @@ en:
         skip: "Skip this section"
     home:
       page_title: CBeebies Parenting Text Messaging
-      title: "Nurture your child's growth with fun, free activities"
-      subtitle: "Get weekly bite-sized activities that spark imagination delivered to your phone, for ages 9-18 months"
+      title: "Free play ideas to nurture your child's growth"
+      subtitle: "Get weekly, bite-sized activities delivered by text message. For ages 9-18 months"
       sign_up: "Sign up"
       how_it_works: "How does it work?"
       video_aria_label: "Supporting your child's voice all day long"
@@ -136,7 +136,7 @@ en:
       reason_1_title: "Personalized for your family"
       reason_1_text: "Content is tailored to meet your child’s needs, delivered any time you want!"
       reason_2_title: "Quick & Easy"
-      reason_2_text: "No apps, no hassle — just one message per week."
+      reason_2_text: "No hassle — just one message per week."
       reason_3_title: "For Busy Lives"
       reason_3_text: "Easy-to-try fun activities that fit right into your daily routines."
       reason_4_title: "Expert-designed"
