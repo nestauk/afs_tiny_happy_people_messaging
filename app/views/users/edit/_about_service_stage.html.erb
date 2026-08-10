@@ -27,11 +27,11 @@
       <p class="hint mb-2"><%= t("simple_form.hints.user.referral_sources") %></p>
 
       <%= f.collection_check_boxes :referral_sources,
-        [[:facebook, "Facebook"], [:instagram, "Instagram"], [:professional, "Referral by a professional"], [:flyer, "Flyer/Poster"], [:email, "Email"], [:other, "Other"]],
+        [[:facebook], [:instagram], [:google], [:reddit], [:tiktok], [:professional], [:poster], [:postcard], [:email], [:friend_referral], [:other]],
         :last,
         ->(el) { t "simple_form.options.user.referral_sources.#{el.first}" } do |b| %>
         <%= b.label(class: "flex items-center mb-2") do %>
-          <%= b.check_box(class: "form-checkbox focus:!ring-2 focus:!ring-blue-500 !grow-0") %>
+          <%= b.check_box(class: "form-checkbox focus:!ring-2 focus:!ring-blue-500 !grow-0 shrink-0") %>
           <%= b.text %>
         <% end %>
       <% end %>

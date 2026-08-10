@@ -53,8 +53,13 @@ en:
         referral_sources:
           facebook: "Facebook"
           instagram: "Instagram"
+          google: "Google"
+          tiktok: "TikTok"
+          reddit: "Reddit"
           professional: "Referral by a professional"
-          flyer: "Flyer/Poster"
+          poster: "Poster"
+          postcard: Postcard ("Wheels on the bus" or "Let's babble together")
+          friend_referral: "Referred by a friend"
           email: "Email"
           other: "Other"
         language:
