@@ -47,9 +47,14 @@ cy:
           facebook: Facebook
           instagram: Instagram
           professional: Argymhelliad gan weithiwr proffesiynol
-          flyer: Taflen/Poster
+          poster: Poster
           email: E-bost
           other: Arall
+          google: Google
+          tiktok: TikTok
+          reddit: Reddit
+          postcard: Cerdyn post ("Mae’r olwynion y bws" neu "Clebran amdani gyda’n gilydd")
+          friend_referral: Wedi'u cyfeirio gan ffrind
         language:
           welsh: "Cymraeg"
           english: "Saesneg"

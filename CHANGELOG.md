@@ -1,3 +1,6 @@
+## [2026-08-06]
+- Replace header image and text
+
 ## [2026-06-16]
 - Replace Sendgrid with AWS SES
 
