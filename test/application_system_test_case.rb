@@ -2,7 +2,11 @@ require "test_helper"
 require "capybara/cuprite"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  Capybara.default_max_wait_time = 10
+  # GitHub Actions runners are shared/slower than local dev, so Turbo frame
+  # swaps can occasionally take longer than a local 10s wait allows.
+  WAIT_TIMEOUT = ENV["CI"] ? 20 : 10
+
+  Capybara.default_max_wait_time = WAIT_TIMEOUT
   Capybara.disable_animation = true
   Capybara.javascript_driver = :cuprite
   driven_by(
@@ -13,9 +17,15 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       browser_options: {
         "no-sandbox": nil,
       },
-      timeout: 10,
+      timeout: WAIT_TIMEOUT,
     },
   )
+
+  # The failure screenshot isn't uploaded as a CI artifact, so on a slow CI
+  # runner it just adds a second Ferrum timeout on top of the real failure.
+  def take_failed_screenshot
+    super unless ENV["CI"]
+  end
 
   def sign_in(admin = @admin)
     token = @admin.encode_passwordless_token(expires_at: 2.hours.from_now)

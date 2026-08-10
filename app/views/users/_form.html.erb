@@ -1,5 +1,5 @@
 <div class="md:mt-8 w-full">
-  <%= turbo_frame_tag "form" do %>
+  <%= turbo_frame_tag "form", target: "_top" do %>
     <%= simple_form_for @user, anchor: "sign-up-form"  do |form| %>
       <% if notice %>
         <p class="border border-blue-500 bg-blue-50 text-blue-900 p-3 mb-8">
