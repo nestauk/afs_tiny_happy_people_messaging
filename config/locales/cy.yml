@@ -570,7 +570,7 @@ cy:
       page_title: "Diolch am gofrestru!"
       title: Rydych chi wedi cofrestru, llongyfarchiadau!
       title_waitlist: Rwyt ti wedi cael dy ychwanegu at ein rhestr aros!
-      subtitle: Bob wythnos, byddwn ni’n anfon neges destun atoch. Y cyfan sydd angen i chi ei wneud yw gwylio’r fideo a rhoi cynnig ar y gweithgaredd.
+      subtitle: Chei di destun cadarnhau yn fuan. Mae ein gweithgareddau chwarae wedi'u dylunio ar gyfer plant rhwng 9 a 18 mis oed, felly byddwn ni mewn cysylltiad eto pan fydd dy blentyn yn barod i ymuno.
       para_1: "Oes gyda chi 2 funud? Helpwch ni i lunio’r gwasanaeth o amgylch eich anghenion. Mae gennym 12 cwestiwn byr i chi. Rhowch eich barn, ac i ddiolch i chi, cewch gyfle i ennill taleb gwerth £50!<br> <a href='{{survey_url}}' class='btn bg-white text-black mt-6'>Cymerwch ran yn yr arolwg</a>"
       para_2: Os ydych chi’n chwilio am gymorth gyda’ch iechyd chi neu iechyd eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>resources page</a> i weld pa gymorth sydd ar gael yn y DU.
     terms:
