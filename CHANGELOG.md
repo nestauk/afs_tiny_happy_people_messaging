@@ -1,3 +1,6 @@
+## [2026-08-11]
+- Make option to join the waitlist more obvious
+
 ## [2026-08-06]
 - Replace header image and text
 

@@ -61,12 +61,14 @@
             </select>
           </div>
         </div>
-         <% if @user.errors.of_kind?(:child_birthday, :too_young) %>
+        <% if @user.errors.of_kind?(:child_birthday, :too_young) %>
+          <div class="border-2 border-yellow-600 bg-yellow-50 p-3 mt-2 rounded">
             <%= form.hidden_field :skip_age_validation, value: true %>
-            <p class="text-red-600 text-base mt-2" id="child-birthday-error" role="alert">
+            <p class="text-yellow-800 text-base" id="child-birthday-error" role="alert">
               <%= t("activerecord.errors.models.user.attributes.child_birthday.too_young").gsub("{{waitlist_link}}", "<input type='submit' value='#{t("pages.home.waitlist")}' name='commit' class='link'>").html_safe %>
             </p>
-          <% end %>
+          </div>
+        <% end %>
       </fieldset>
 
       <%= form.input :language, as: :hidden, input_html: { value: params[:locale] || I18n.default_locale } %>
