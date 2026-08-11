@@ -30,8 +30,18 @@
   })(window,document,'script','dataLayer','GTM-NWN4JM5J');
 </script>
 
+<% if consent.analytics? %>
+  <script nonce="<%= content_security_policy_nonce %>">
+    window._analyticsConsented = true;
+    dataLayer.push({ event: 'analytics_accept' });
+  </script>
+<% end %>
+
+
 <% if consent.marketing? %>
   <script nonce="<%= content_security_policy_nonce %>">
+    dataLayer.push({ event: 'marketing_accept' });
+    
     // TikTok Pixel - only loaded once marketing consent has been given server-side.
     !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)}}(window,document,'ttq');
     ttq.load('D7TJP6RC77U9E9A36HLG');
@@ -59,10 +69,10 @@
       <p class="text-sm md:text-base mb-4"><%= t('pages.cookie_banner.message_optional') %></p>
       <%= form_with url: cookie_consent_path, method: :post, class: "flex md:flex-row flex-nowrap items-center justify-left gap-2 overflow-x-auto" do %>
         <input type="hidden" name="return_to" value="<%= request.original_fullpath %>">
-        <button type="submit" name="decision" value="accept_all" class="btn btn-sm btn-primary border shrink-0"><%= t('pages.cookie_banner.accept_all') %></button>
-        <button type="submit" name="decision" value="reject_all" class="btn btn-sm bg-white border shrink-0"><%= t('pages.cookie_banner.reject_all') %></button>
+        <button data-turbo="false" type="submit" name="decision" value="accept_all" class="btn btn-sm btn-primary border shrink-0"><%= t('pages.cookie_banner.accept_all') %></button>
+        <button data-turbo="false" type="submit" name="decision" value="reject_all" class="btn btn-sm bg-white border shrink-0"><%= t('pages.cookie_banner.reject_all') %></button>
         <%= link_to t('pages.cookie_banner.manage_preferences'), cookie_policy_path, class: 'link shrink-0' %>
-        <button type="submit" name="decision" value="dismissed" aria-label="<%= t('pages.cookie_banner.dismiss') %>" class="absolute top-2 right-2 text-xl leading-none text-gray-500 hover:text-gray-800 px-2">&times;</button>
+        <button data-turbo="false" type="submit" name="decision" value="dismissed" aria-label="<%= t('pages.cookie_banner.dismiss') %>" class="absolute top-2 right-2 text-xl leading-none text-gray-500 hover:text-gray-800 px-2">&times;</button>
       <% end %>
     </div>
   </div>
