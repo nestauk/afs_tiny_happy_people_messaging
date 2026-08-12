@@ -37,6 +37,20 @@ class Message < ApplicationRecord
 
   def generate_reply
     ResponseMatcherJob.perform_later(self)
+    notify_admin unless AdminNotification.already_sent_today?
+  end
+
+  # The already_sent_today? check above is just an optimisation to skip the
+  # DB hit on most messages - it's the unique index on sent_on that actually
+  # prevents two concurrent messages from both sending an admin email.
+  def notify_admin
+    AdminNotification.transaction(requires_new: true) do
+      AdminNotification.create!(sent_on: Date.current)
+    end
+
+    SendAdminNotificationJob.perform_later
+  rescue ActiveRecord::RecordNotUnique
+    nil
   end
 
   def user_anonymised?
