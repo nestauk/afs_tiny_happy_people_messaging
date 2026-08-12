@@ -80,6 +80,8 @@ class UsersTest < ApplicationSystemTestCase
 
     sign_up
 
+    assert_text "Thanks for signing up!"
+
     user_referrer = UserReferrer.last
     assert_equal "google", user_referrer.utm_source
     assert_equal "poster", user_referrer.utm_medium
@@ -140,9 +142,7 @@ class UsersTest < ApplicationSystemTestCase
     select date.strftime("%B")
     select date.strftime("%Y")
 
-    within("#sign-up-form") do
-      click_on "Sign up"
-    end
+    click_button "Sign up"
 
     assert_field_has_errors_not_simple_form("What's your phone number?", "Can't be blank")
     assert_field_has_errors_not_simple_form("What's your postcode?", "Can't be blank")
