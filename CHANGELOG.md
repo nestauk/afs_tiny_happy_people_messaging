@@ -1,3 +1,6 @@
+## [2026-08-12]
+- Send admin inbox an email when a user texts in to the service (one per day, not per user)
+
 ## [2026-08-11]
 - Make option to join the waitlist more obvious
 

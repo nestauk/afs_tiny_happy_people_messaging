@@ -50,6 +50,36 @@ class MessageTest < ActiveSupport::TestCase
     end
   end
 
+  test "#generate_reply sends an admin notification when none has been sent today" do
+    assert_enqueued_jobs 1, only: SendAdminNotificationJob do
+      create(:message, body: "hello", status: "received")
+    end
+
+    assert_equal 1, AdminNotification.count
+    assert_equal Date.current, AdminNotification.last.sent_on
+  end
+
+  test "#generate_reply does not send another admin notification if one was already sent today" do
+    create(:admin_notification)
+
+    assert_no_enqueued_jobs only: SendAdminNotificationJob do
+      create(:message, body: "hello", status: "received")
+    end
+
+    assert_equal 1, AdminNotification.count
+  end
+
+  test "#generate_reply safely handles two messages racing to send the first admin notification of the day" do
+    create(:admin_notification)
+    AdminNotification.stubs(:already_sent_today?).returns(false)
+
+    assert_no_enqueued_jobs only: SendAdminNotificationJob do
+      assert_no_difference "AdminNotification.count" do
+        create(:message, body: "hello", status: "received")
+      end
+    end
+  end
+
   test "#admin_status returns the status of the message" do
     message = create(:message, status: "delivered")
     assert_equal "Delivered", message.admin_status
