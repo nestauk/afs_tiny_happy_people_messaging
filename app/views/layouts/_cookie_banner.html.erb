@@ -56,14 +56,14 @@
        when "rejected" then t("pages.cookie_banner.rejected_message")
        else t("pages.cookie_banner.saved_message")
        end %>
-  <div role="region" aria-label="<%= t('pages.cookie_banner.aria_label') %>" class="bg-white border-b border-blue-200">
+  <div x-data="{ dismissed: false }" x-show="!dismissed" role="region" aria-label="<%= t('pages.cookie_banner.aria_label') %>" class="fixed inset-x-0 bottom-0 z-50 bg-white border border-gray-400 mb-1 mx-1 rounded">
     <div class="max-w-4xl mx-auto px-4 py-4 md:px-6 flex flex-wrap items-center justify-between gap-3">
       <p class="text-sm md:text-base"><%= confirmation_message %></p>
-      <a href="<%= request.original_fullpath %>" class="btn btn-sm bg-white border border-grey-500"><%= t('pages.cookie_banner.hide_message') %></a>
+      <button type="button" @click="dismissed = true" class="btn btn-sm bg-white border border-grey-500"><%= t('pages.cookie_banner.hide_message') %></button>
     </div>
   </div>
 <% elsif !consent.decided? && !on_cookie_policy_page %>
-  <div role="region" aria-label="<%= t('pages.cookie_banner.aria_label') %>" class="relative bg-white border-b border-gray-400">
+  <div role="region" aria-label="<%= t('pages.cookie_banner.aria_label') %>" class="fixed inset-x-0 bottom-0 z-50 bg-white border border-gray-400 mb-1 mx-1 rounded">
     <div class="max-w-4xl mx-auto px-4 py-4 md:px-6">
       <p class="text-sm md:text-base"><%= t('pages.cookie_banner.message_necessary') %></p>
       <p class="text-sm md:text-base mb-4"><%= t('pages.cookie_banner.message_optional') %></p>
