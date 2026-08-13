@@ -48,4 +48,7 @@ production:
   anonymise_user_cleanup:
     class: AnonymiseUsersJob
     schedule: 0 3 * * *
+  retry_failed_messages:
+    class: RetryFailedMessagesJob
+    schedule: 0 * * * *
 

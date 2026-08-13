@@ -1,3 +1,6 @@
+## [2026-08-13]
+- Retry sending failed SMSs once
+
 ## [2026-08-12]
 - Send admin inbox an email when a user texts in to the service (one per day, not per user)
 
