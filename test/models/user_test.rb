@@ -330,8 +330,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "welsh_pilot scope" do
-    user1 = create(:user, created_at: Date.new(2025, 06, 1))
-    user2 = create(:user, created_at: Date.new(2026, 06, 1))
+    user1 = create(:user, created_at: Date.new(2025, 0o6, 1))
+    user2 = create(:user, created_at: Date.new(2026, 0o6, 1))
     assert_not_includes User.welsh_pilot, user1
     assert_includes User.welsh_pilot, user2
   end
