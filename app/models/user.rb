@@ -35,35 +35,12 @@ class User < ApplicationRecord
   scope :due_for_restart, -> { opted_out.where("restart_at < ?", Time.zone.now) }
   scope :not_clicked_last_x_messages, ->(x) {
     joins(:messages)
-      .where(
-        messages: {
-          id: Message
-            .select(:id)
-            .where("messages.user_id = users.id")
-            .where.not(content_id: nil)
-            .where.not(link: nil)
-            .order(created_at: :desc)
-            .limit(x),
-        },
-      )
+      .where(messages: {id: content_messages.where.not(link: nil).order(created_at: :desc).limit(x)})
       .where(finished_content_at: nil)
       .group("users.id")
       .having("COUNT(CASE WHEN messages.clicked_at IS NULL THEN 1 END) = #{x.to_i}")
   }
-  scope :received_two_or_eighteen_messages, -> {
-    joins(:messages)
-      .where(
-        messages: {
-          id: Message
-            .select(:id)
-            .where("messages.user_id = users.id")
-            .where.not(content_id: nil),
-        },
-      )
-      .where(finished_content_at: nil)
-      .group("users.id")
-      .having("COUNT(*) = 2 OR COUNT(*) = 18")
-  }
+  scope :received_two_or_eighteen_messages, -> { content_message_counts.having("COUNT(*) IN (2, 18)") }
   scope :with_four_messages_left, -> {
     joins(:messages)
       .where.not(programme_length: nil)
@@ -73,19 +50,7 @@ class User < ApplicationRecord
       .group("users.id")
   }
   scope :received_six_messages_without_bilingual_text, -> {
-    where(sent_bilingual_text_at: nil)
-      .joins(:messages)
-      .where(
-        messages: {
-          id: Message
-            .select(:id)
-            .where("messages.user_id = users.id")
-            .where.not(content_id: nil),
-        },
-      )
-      .where(finished_content_at: nil)
-      .group("users.id")
-      .having("COUNT(*) >= 6")
+    received_at_least_x_messages(6).where(sent_bilingual_text_at: nil)
   }
   scope :not_finished, -> {
     where(finished_content_at: nil)
@@ -96,21 +61,19 @@ class User < ApplicationRecord
       .where.not(contactable: false)
       .distinct
   }
-  scope :welsh_pilot, -> { where("created_at > ?", Date.new(2026, 05, 1)) }
-  scope :received_at_least_x_messages, ->(x) {
+  scope :welsh_pilot, -> { where("created_at > ?", Date.new(2026, 0o5, 1)) }
+  scope :received_at_least_x_messages, ->(x) { content_message_counts.having("COUNT(*) >= ?", x) }
+
+  def self.content_messages
+    Message.select(:id).where("messages.user_id = users.id").where.not(content_id: nil)
+  end
+
+  def self.content_message_counts
     joins(:messages)
-      .where(
-        messages: {
-          id: Message
-            .select(:id)
-            .where("messages.user_id = users.id")
-            .where.not(content_id: nil),
-        },
-      )
+      .where(messages: {id: content_messages})
       .where(finished_content_at: nil)
       .group("users.id")
-      .having("COUNT(*) >= ?", x)
-  }
+  end
 
   attribute :hour_preference,
     morning: "morning",
