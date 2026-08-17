@@ -55,6 +55,46 @@ class BroadcastTest < ActiveSupport::TestCase
     assert_not_includes @broadcast.matching_users, user1
   end
 
+  test "matching_users returns the intersection of users when multiple groups are selected" do
+    group = create(:group, language: "esp")
+    content = create(:content, group:)
+
+    in_pilot_with_message = create(:user, created_at: Date.new(2026, 0o5, 2))
+    create(:message, user: in_pilot_with_message, content:)
+
+    in_pilot_without_message = create(:user, created_at: Date.new(2026, 0o5, 2))
+
+    not_in_pilot_with_message = create(:user, created_at: Date.new(2026, 0o4, 30))
+    create(:message, user: not_in_pilot_with_message, content:)
+
+    @broadcast.user_groups = ["welsh_pilot", "received_at_least_x_messages"]
+    @broadcast.message_threshold = 1
+
+    assert_includes @broadcast.matching_users, in_pilot_with_message
+    assert_not_includes @broadcast.matching_users, in_pilot_without_message
+    assert_not_includes @broadcast.matching_users, not_in_pilot_with_message
+  end
+
+  test "matching_users excludes opted-out users" do
+    opted_out_user = create(:user, created_at: Date.new(2026, 0o5, 2), contactable: false)
+    contactable_user = create(:user, created_at: Date.new(2026, 0o5, 2))
+
+    @broadcast.user_groups = ["welsh_pilot"]
+
+    assert_not_includes @broadcast.matching_users, opted_out_user
+    assert_includes @broadcast.matching_users, contactable_user
+  end
+
+  test "matching_users excludes anonymised users" do
+    anonymised_user = create(:user, created_at: Date.new(2026, 0o5, 2), anonymised_at: Time.zone.now)
+    non_anonymised_user = create(:user, created_at: Date.new(2026, 0o5, 2))
+
+    @broadcast.user_groups = ["welsh_pilot"]
+
+    assert_not_includes @broadcast.matching_users, anonymised_user
+    assert_includes @broadcast.matching_users, non_anonymised_user
+  end
+
   test "save_and_send! saves the broadcast and enqueues a job" do
     assert_difference "Broadcast.count", 1 do
       assert_enqueued_with(job: SendBroadcastJob) do

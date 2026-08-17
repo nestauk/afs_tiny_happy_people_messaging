@@ -43,6 +43,42 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
     assert_nil SurveySend.find_by(user: user, survey: broadcast.survey)
   end
 
+  test "#perform does not mark the broadcast as sent if every message fails to persist" do
+    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
+    create(:user)
+
+    Appsignal.expects(:report_error)
+
+    Message.stubs(:create!).raises(ActiveRecord::RecordInvalid.new(Message.new))
+    SendBroadcastJob.perform_now(broadcast)
+
+    assert_nil broadcast.reload.sent_at
+  end
+
+  test "#perform rescues database errors when persisting a message" do
+    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
+    create(:user)
+
+    Appsignal.expects(:report_error)
+
+    Message.stubs(:create!).raises(ActiveRecord::StatementInvalid.new("connection lost"))
+    SendBroadcastJob.perform_now(broadcast)
+
+    assert_nil broadcast.reload.sent_at
+  end
+
+  test "#perform does not re-message users who already received this broadcast" do
+    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
+    user = create(:user, created_at: Date.new(2026, 0o5, 2))
+    create(:message, user: user, broadcast: broadcast)
+
+    assert_no_enqueued_jobs only: SendCustomMessageJob do
+      SendBroadcastJob.perform_now(broadcast)
+    end
+
+    assert_equal 1, Message.where(user: user, broadcast: broadcast).count
+  end
+
   test "#perform does not create a SurveySend if the message fails to persist" do
     survey = create(:survey)
     broadcast = create(:broadcast, user_groups: ["welsh_pilot"], survey: survey)
