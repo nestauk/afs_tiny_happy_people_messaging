@@ -45,7 +45,7 @@ class BroadcastTest < ActiveSupport::TestCase
 
   test "matching_users returns users in the specified groups" do
     user1 = create(:user)
-    user1.update(created_at: Date.new(2025, 06, 1))
+    user1.update(created_at: Date.new(2025, 0o6, 1))
     user2 = create(:user)
     user3 = create(:user)
 

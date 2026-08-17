@@ -5,8 +5,8 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
 
   test "#perform sends messages to all matching users" do
     broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
-    matching_users = create_list(:user, 3, created_at: Date.new(2026, 05, 2))
-    non_matching_user = create(:user, created_at: Date.new(2026, 04, 30))
+    matching_users = create_list(:user, 3, created_at: Date.new(2026, 0o5, 2))
+    non_matching_user = create(:user, created_at: Date.new(2026, 0o4, 30))
 
     assert_enqueued_jobs matching_users.count do
       SendBroadcastJob.perform_now(broadcast)
@@ -38,7 +38,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
 
     Message.stubs(:create!).raises(ActiveRecord::RecordInvalid.new(Message.new))
     SendBroadcastJob.perform_now(broadcast)
- 
+
     assert_nil Message.find_by(user: user, broadcast: broadcast)
     assert_nil SurveySend.find_by(user: user, survey: broadcast.survey)
   end

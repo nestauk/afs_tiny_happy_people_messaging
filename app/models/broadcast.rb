@@ -19,7 +19,7 @@ class Broadcast < ApplicationRecord
   validate :survey_present_if_survey_link_used
 
   def user_groups=(value)
-    super(Array(value).reject(&:blank?))
+    super(Array(value).compact_blank)
   end
 
   def save_and_send!
@@ -39,7 +39,7 @@ class Broadcast < ApplicationRecord
     return false unless body_en.present? && body_cy.present?
 
     if body_en.include?("{{survey_link}}") || body_cy.include?("{{survey_link}}")
-      errors.add(:survey, "must be present if {{survey_link}} placeholder is used") unless survey.present?
+      errors.add(:survey, "must be present if {{survey_link}} placeholder is used") if survey.blank?
     end
   end
 
