@@ -49,7 +49,6 @@ end
 
 group :development do
   gem "faker"
-  gem "hotwire-livereload", "~> 1.2"
   gem "web-console"
 end
 

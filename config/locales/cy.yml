@@ -105,7 +105,6 @@ cy:
         page_title: Personoli eich profiad
         title: Diolch am gofrestru!
         blurb: Dywedwch wrthym beth sy’n fwyaf addas i chi er mwyn i ni allu cynnig profiad gwell a mwy perthnasol i chi.
-        saving: "Yn cadw..."
         skip: Hepgor y rhan hon
         save: "Nesaf"
       about_service:
@@ -114,7 +113,6 @@ cy:
         title: Bron â gorffen
         blurb: Dywedwch wrthym sut y clywsoch chi am y gwasanaeth.
         save: "Gorffen"
-        saving: "Yn cadw..."
         skip: Hepgor y rhan hon
     home:
       page_title: Negeseuon Testun Rhianta CBeebies
@@ -570,7 +568,8 @@ cy:
       page_title: "Diolch am gofrestru!"
       title: Rydych chi wedi cofrestru, llongyfarchiadau!
       title_waitlist: Rwyt ti wedi cael dy ychwanegu at ein rhestr aros!
-      subtitle: Chei di destun cadarnhau yn fuan. Mae ein gweithgareddau chwarae wedi'u dylunio ar gyfer plant rhwng 9 a 18 mis oed, felly byddwn ni mewn cysylltiad eto pan fydd dy blentyn yn barod i ymuno.
+      subtitle_waitlist: Chei di destun cadarnhau yn fuan. Mae ein gweithgareddau chwarae wedi'u dylunio ar gyfer plant rhwng 9 a 18 mis oed, felly byddwn ni mewn cysylltiad eto pan fydd dy blentyn yn barod i ymuno.
+      waitlist: Bob wythnos, byddwn ni’n anfon neges destun atoch. Y cyfan sydd angen i chi ei wneud yw gwylio’r fideo a rhoi cynnig ar y gweithgaredd.
       para_1: "Oes gyda chi 2 funud? Helpwch ni i lunio’r gwasanaeth o amgylch eich anghenion. Mae gennym 12 cwestiwn byr i chi. Rhowch eich barn, ac i ddiolch i chi, cewch gyfle i ennill taleb gwerth £50!<br> <a href='{{survey_url}}' class='btn bg-white text-black mt-6'>Cymerwch ran yn yr arolwg</a>"
       para_2: Os ydych chi’n chwilio am gymorth gyda’ch iechyd chi neu iechyd eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>resources page</a> i weld pa gymorth sydd ar gael yn y DU.
     terms:

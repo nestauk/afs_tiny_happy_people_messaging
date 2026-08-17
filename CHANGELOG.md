@@ -1,3 +1,6 @@
+## [2026-08-17]
+- Remove turbo
+
 ## [2026-08-13]
 - Retry sending failed SMSs once
 

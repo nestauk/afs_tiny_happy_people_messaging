@@ -2,8 +2,8 @@ require "test_helper"
 require "capybara/cuprite"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  # GitHub Actions runners are shared/slower than local dev, so Turbo frame
-  # swaps can occasionally take longer than a local 10s wait allows.
+  # GitHub Actions runners are shared/slower than local dev, so page renders
+  # can occasionally take longer than a local 10s wait allows.
   WAIT_TIMEOUT = ENV["CI"] ? 20 : 10
 
   Capybara.default_max_wait_time = WAIT_TIMEOUT

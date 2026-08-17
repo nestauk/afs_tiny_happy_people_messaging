@@ -14,7 +14,7 @@
       <%= t("pages.form.personalisation.blurb") %>
     </h2>
 
-    <%= f.button :submit, t("pages.form.personalisation.skip"), class: 'link text-white p-0 shadow-none bg-bbc-dark-blue z-10 relative', data: { turbo_submits_with:  t("pages.form.personalisation.saving") } %>
+    <%= f.button :submit, t("pages.form.personalisation.skip"), class: 'link text-white p-0 shadow-none bg-bbc-dark-blue z-10 relative' %>
   </div>
 
   <div class="mt-6 w-full px-5">
@@ -54,7 +54,7 @@
     %>
 
     <div class="mt-5">
-      <%= f.button :submit, t("pages.form.personalisation.save"), class: 'btn btn-primary mt-2 w-full', data: { turbo_submits_with: t("pages.form.personalisation.saving") } %>
+      <%= f.button :submit, t("pages.form.personalisation.save"), class: 'btn btn-primary mt-2 w-full' %>
     </div>
   </div>
 </div>

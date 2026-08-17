@@ -5,7 +5,6 @@ import Alpine from '@alpinejs/csp'
 import { Application } from "@hotwired/stimulus";
 import Sortable from "@stimulus-components/sortable";
 import { registerControllers } from "stimulus-vite-helpers";
-import "@hotwired/turbo";
 import "trix";
 import "@rails/actiontext";
 
@@ -116,7 +115,7 @@ Alpine.magic("json", () => {
   return (encodedString) => window.parseB64Json(encodedString);
 });
 
-document.addEventListener("turbo:load", (event) => {
+document.addEventListener("DOMContentLoaded", (event) => {
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());

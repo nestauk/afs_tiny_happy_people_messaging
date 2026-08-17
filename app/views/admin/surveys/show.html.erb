@@ -37,7 +37,7 @@
         <td colspan="1" class="p-4">
           <%= link_to "New question", new_admin_survey_survey_section_question_path(@survey, section), class: "text-green-800 hover:underline" %><br>
           <%= link_to "Edit", edit_admin_survey_survey_section_path(@survey, section), class: "text-blue-500 hover:underline" %><br>
-          <%= link_to "Delete", admin_survey_survey_section_path(@survey, section), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
+          <%= button_to "Delete", admin_survey_survey_section_path(@survey, section), method: :delete, form: {onsubmit: "return confirm('Are you sure?')"}, class: "text-red-500 hover:underline bg-transparent border-0 p-0 cursor-pointer" %>
         </td>
       </tr>
       <% section.questions.order(:position).each do |question| %>
@@ -56,7 +56,7 @@
           </td>
           <td class="px-4 py-4">
             <%= link_to "Edit", edit_admin_survey_survey_section_question_path(@survey, section, question), class: "text-blue-500 hover:underline" %><br>
-            <%= link_to "Delete", admin_survey_survey_section_question_path(@survey, section, question), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
+            <%= button_to "Delete", admin_survey_survey_section_question_path(@survey, section, question), method: :delete, form: {onsubmit: "return confirm('Are you sure?')"}, class: "text-red-500 hover:underline bg-transparent border-0 p-0 cursor-pointer" %>
           </td>
         </tr>
       <% end %>

@@ -69,10 +69,10 @@
       <p class="text-sm md:text-base mb-4"><%= t('pages.cookie_banner.message_optional') %></p>
       <%= form_with url: cookie_consent_path, method: :post, class: "flex md:flex-row flex-nowrap items-center justify-left gap-2 overflow-x-auto" do %>
         <input type="hidden" name="return_to" value="<%= request.original_fullpath %>">
-        <button data-turbo="false" type="submit" name="decision" value="accept_all" class="btn btn-sm btn-primary border shrink-0"><%= t('pages.cookie_banner.accept_all') %></button>
-        <button data-turbo="false" type="submit" name="decision" value="reject_all" class="btn btn-sm bg-white border shrink-0"><%= t('pages.cookie_banner.reject_all') %></button>
+        <button type="submit" name="decision" value="accept_all" class="btn btn-sm btn-primary border shrink-0"><%= t('pages.cookie_banner.accept_all') %></button>
+        <button type="submit" name="decision" value="reject_all" class="btn btn-sm bg-white border shrink-0"><%= t('pages.cookie_banner.reject_all') %></button>
         <%= link_to t('pages.cookie_banner.manage_preferences'), cookie_policy_path, class: 'link shrink-0' %>
-        <button data-turbo="false" type="submit" name="decision" value="dismissed" aria-label="<%= t('pages.cookie_banner.dismiss') %>" class="absolute top-2 right-2 text-xl leading-none text-gray-500 hover:text-gray-800 px-2">&times;</button>
+        <button type="submit" name="decision" value="dismissed" aria-label="<%= t('pages.cookie_banner.dismiss') %>" class="absolute top-2 right-2 text-xl leading-none text-gray-500 hover:text-gray-800 px-2">&times;</button>
       <% end %>
     </div>
   </div>

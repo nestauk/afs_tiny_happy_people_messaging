@@ -1,6 +1,10 @@
 <div class="md:mt-8 w-full">
-  <%= turbo_frame_tag "form", target: "_top" do %>
-    <%= simple_form_for @user, anchor: "sign-up-form"  do |form| %>
+    <% if @user.errors.any? %>
+      <script nonce="<%= content_security_policy_nonce %>">
+        window.addEventListener("load", () => document.getElementById("sign-up-form")?.scrollIntoView())
+      </script>
+    <% end %>
+    <%= simple_form_for @user, anchor: "sign-up-form" do |form| %>
       <% if notice %>
         <p class="border border-blue-500 bg-blue-50 text-blue-900 p-3 mb-8">
           <%= notice.html_safe %>
@@ -114,8 +118,7 @@
       <%= hidden_field_tag "user_referrer[utm_content]", params[:utm_content] %>
       <%= hidden_field_tag "user_referrer[gclid]", params[:gclid] %>
 
-      <%= form.submit I18n.t("pages.home.submit"), class: "btn btn-primary mt-2 w-full", "data-turbolinks": "false" %>
+      <%= form.submit I18n.t("pages.home.submit"), class: "btn btn-primary mt-2 w-full" %>
     <% end %>
-  <% end %>
   <div class="hidden text-red-600"></div>
 </div>
