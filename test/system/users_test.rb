@@ -6,11 +6,11 @@ class UsersTest < ApplicationSystemTestCase
   setup do
     create(:group, language: "en")
     create(:group, language: "cy")
+    visit new_user_path
+    click_on "Reject additional cookies"
   end
 
   test "user can switch language" do
-    visit new_user_path
-
     assert_text "Free play ideas to nurture your child's growth"
 
     click_on "Cymraeg"
@@ -24,7 +24,6 @@ class UsersTest < ApplicationSystemTestCase
 
   test "user can sign up" do
     create(:survey, title_en: "Pre-programme survey")
-    visit new_user_path
 
     assert_page_is_accessible
 
@@ -94,16 +93,12 @@ class UsersTest < ApplicationSystemTestCase
   test "User can't sign up if max capacity reached" do
     create_list(:user, 3000)
 
-    visit new_user_path
-
     sign_up
 
     assert_text "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now."
   end
 
   test "user can skip non-essential form fields" do
-    visit new_user_path
-
     sign_up
 
     assert_text "Thanks for signing up!"
@@ -135,14 +130,14 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "form shows errors" do
-    visit new_user_path
-
     date = DateTime.current - 19.months
 
     select date.strftime("%B")
     select date.strftime("%Y")
 
     click_button "Sign up"
+
+    assert_selector "[role='alert']", minimum: 1
 
     assert_field_has_errors_not_simple_form("What's your phone number?", "Can't be blank")
     assert_field_has_errors_not_simple_form("What's your postcode?", "Can't be blank")
@@ -184,8 +179,6 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "users can join the waitlist if their child is too young" do
-    visit new_user_path
-
     month = 6.months.ago.strftime("%B")
     year = 6.months.ago.strftime("%Y")
     fill_in "What's your phone number?", with: "07444930200"
@@ -254,8 +247,6 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "users can't edit after token has expired" do
-    visit new_user_path
-
     sign_up
 
     assert_text "Thanks for signing up!"
