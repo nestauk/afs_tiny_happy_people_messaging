@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  WELSH_PILOT_START_DATE = Date.new(2026, 0o5, 1)
+
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   has_many :survey_sends, dependent: :destroy
@@ -61,7 +63,7 @@ class User < ApplicationRecord
       .where.not(contactable: false)
       .distinct
   }
-  scope :welsh_pilot, -> { where("created_at > ?", Date.new(2026, 0o5, 1)) }
+  scope :welsh_pilot, -> { where("created_at > ?", WELSH_PILOT_START_DATE) }
   scope :received_at_least_x_messages, ->(x) { content_message_counts.having("COUNT(*) >= ?", x) }
 
   def self.content_messages

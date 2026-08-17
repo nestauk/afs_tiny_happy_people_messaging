@@ -4,9 +4,13 @@ class SendBroadcastJob < ApplicationJob
   queue_as :default
 
   def perform(broadcast)
-    broadcast.matching_users.find_in_batches do |users|
+    sent_any = false
+    already_messaged_user_ids = broadcast.messages.select(:user_id)
+
+    broadcast.matching_users.where.not(id: already_messaged_user_ids).find_in_batches do |users|
       jobs = users.filter_map do |user|
         message = create_message_and_survey(broadcast, user)
+        sent_any ||= message.present?
 
         SendCustomMessageJob.new(message) if message
       end
@@ -14,7 +18,7 @@ class SendBroadcastJob < ApplicationJob
       ActiveJob.perform_all_later(jobs) if jobs.any?
     end
 
-    broadcast.update!(sent_at: Time.zone.now)
+    broadcast.update!(sent_at: Time.zone.now) if sent_any
   end
 
   private
@@ -37,7 +41,7 @@ class SendBroadcastJob < ApplicationJob
 
       message
     end
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::StatementInvalid => e
     Appsignal.report_error("Message and/or SurveySend failed to persist: #{e.message}")
   end
 
