@@ -1,6 +1,4 @@
 class Broadcast < ApplicationRecord
-  include Rails.application.routes.url_helpers
-
   belongs_to :admin
   has_many :messages, dependent: :nullify
   has_many :users, through: :messages
@@ -38,6 +36,8 @@ class Broadcast < ApplicationRecord
   private
 
   def survey_present_if_survey_link_used
+    return false unless body_en.present? && body_cy.present?
+
     if body_en.include?("{{survey_link}}") || body_cy.include?("{{survey_link}}")
       errors.add(:survey, "must be present if {{survey_link}} placeholder is used") unless survey.present?
     end
