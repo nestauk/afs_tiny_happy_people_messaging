@@ -50,9 +50,9 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Finish"
 
-    perform_enqueued_jobs
-
     assert_text "You're all signed up, congratulations!"
+
+    perform_enqueued_jobs
 
     assert_equal 1, User.last.survey_sends.count
 
@@ -116,9 +116,9 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Skip this section"
 
-    perform_enqueued_jobs
-
     assert_text "You're all signed up, congratulations!"
+
+    perform_enqueued_jobs
 
     assert_equal 1, Message.count
 
