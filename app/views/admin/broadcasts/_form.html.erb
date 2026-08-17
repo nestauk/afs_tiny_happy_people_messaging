@@ -25,6 +25,7 @@
 
   <div class="mb-4">
     <%= form.label :user_groups, "Send to", class: "block text-sm font-medium text-gray-700" %>
+    <p class="text-sm text-gray-500">Selecting more than one option will only include users who match all selected criteria.</p>
     <div class="text-red-500"><%= form.object.errors.full_messages_for(:user_groups).join(", ") %></div>
     <%= form.collection_check_boxes :user_groups, Broadcast::USER_GROUPS, :first, :second do |b| %>
       <div>

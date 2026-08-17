@@ -30,7 +30,11 @@ class Broadcast < ApplicationRecord
   end
 
   def matching_users
-    User.where(id: user_groups.flat_map { |group| resolve_group(group) }.uniq)
+    ids = user_groups.map { |group| resolve_group(group) }.reduce(:&) || []
+
+    User.contactable
+      .where(anonymised_at: nil)
+      .where(id: ids)
   end
 
   private
