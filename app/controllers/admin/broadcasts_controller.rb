@@ -14,9 +14,9 @@ class Admin::BroadcastsController < ApplicationController
     @broadcast.admin = current_admin
     @broadcast.save_and_send!
 
-    redirect_to admin_broadcasts_path, notice: 'Broadcast sent successfully.'
+    redirect_to admin_broadcasts_path, notice: "Broadcast sent successfully."
   rescue ActiveRecord::RecordInvalid
-    render :new, status: :unprocessable_entity
+    render :new, status: :unprocessable_content
   end
 
   def show

@@ -1,5 +1,6 @@
 class SendBroadcastJob < ApplicationJob
   include Rails.application.routes.url_helpers
+
   queue_as :default
 
   def perform(broadcast)
@@ -28,12 +29,12 @@ class SendBroadcastJob < ApplicationJob
 
       if broadcast.survey.present?
         SurveySend.create!(
-        user: user,
-        survey: broadcast.survey,
-        sent_at: Time.zone.now
+          user: user,
+          survey: broadcast.survey,
+          sent_at: Time.zone.now,
         )
       end
-      
+
       message
     end
   rescue ActiveRecord::RecordInvalid => e
@@ -46,7 +47,7 @@ class SendBroadcastJob < ApplicationJob
       "{{survey_link}}": broadcast.survey.present? ? edit_survey_url(broadcast.survey, token: user.generate_token_for(:survey_token)) : "",
     }
 
-    body = user.language == "en" ? broadcast.body_en : broadcast.body_cy
+    body = (user.language == "en") ? broadcast.body_en : broadcast.body_cy
 
     result = body.gsub(/({{first_name}}|{{survey_link}})/) do |match|
       translations[match.to_sym]
