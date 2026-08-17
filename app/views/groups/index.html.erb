@@ -20,7 +20,7 @@
             <td class="p-4"><%= group.contents.active.size %></td>
             <td class="p-4">
               <%= link_to "Edit", edit_group_path(group), class: "underline hover:no-underline" %>
-              <%= link_to "Delete", group_path(group), class: "underline hover:no-underline", data: {turbo_method: :delete, turbo_confirm: 'Are you sure? This will also delete all the content in this group'} %>
+              <%= button_to "Delete", group_path(group), method: :delete, form: {onsubmit: "return confirm('Are you sure? This will also delete all the content in this group')"}, class: "underline hover:no-underline bg-transparent border-0 p-0 cursor-pointer" %>
             </td>
           </tr>
         <% end %>

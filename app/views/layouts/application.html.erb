@@ -6,8 +6,6 @@
     <meta name="description" content="<%= I18n.t('descriptions.application') %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <meta name="turbo-prefetch" content="false">
-    <meta name="turbo-cache-control" content="no-preview">
     <%= yield :head %>
 
     <%= vite_client_tag %>
@@ -18,7 +16,7 @@
   </head>
 
   <body class="bg-slate-50">
-    <a href="#main" data-turbo="false" class="absolute -top-20 left-0 z-[100] focus:top-0 focus:left-0 p-4 text-white bg-bbc-dark-blue text-lg"><%= I18n.t('layouts.skip_to_main_content') %></a>
+    <a href="#main" class="absolute -top-20 left-0 z-[100] focus:top-0 focus:left-0 p-4 text-white bg-bbc-dark-blue text-lg"><%= I18n.t('layouts.skip_to_main_content') %></a>
     <%= render "layouts/cookie_banner" %>
     <%= render "layouts/navbar" %>
     <main class="w-full" role="main" id="main" tabindex="-1">
