@@ -1,4 +1,4 @@
-<div class="mx-auto md:w-2/3 md:py-20">
+<div class="mx-auto md:w-2/3 md:py-20" id="edit-form">
   <%= simple_form_for @user, url: user_path(@user), method: :patch do |form| %>
     <%= hidden_field_tag :step, @step %>
     <%= hidden_field_tag :token, params[:token] %>
