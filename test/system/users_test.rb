@@ -6,8 +6,8 @@ class UsersTest < ApplicationSystemTestCase
   setup do
     create(:group, language: "en")
     create(:group, language: "cy")
+
     visit new_user_path
-    click_on "Reject additional cookies"
   end
 
   test "user can switch language" do
