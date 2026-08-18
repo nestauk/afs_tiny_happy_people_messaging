@@ -4,7 +4,6 @@ Sends weekly texts with links to content from BBC's CBeebies Parenting to parent
 
 Users can sign up, and then only interact with the service via text.<br />
 Admins maintain content via the admin dashboard.<br />
-Local authorities can view sign up and clickthrough data.
 
 ## Getting started
 
@@ -23,13 +22,13 @@ Docker
 
 3. Install Ruby dependencies and start the local development server.
 ```shell
-docker compose build
-docker compose up
+./do build
+./do up
 ```
 
 4. Run the database migrations and seed the database
 ```shell
-docker compose exec rails bash
+./do console
 rails db:schema:load
 ```
 
@@ -41,6 +40,8 @@ To view the admin dashboard, create an admin user in the database. Login is done
 Most features should work locally though for some you may need to add the appropriate credentials -
 see the `.env.template` for an example. You may need to set up accounts for the relevant services -
 or contact a maintainer for the keys.
+
+You can run Claude in a docker container with `./do claude`
 
 ### Running tests
 
