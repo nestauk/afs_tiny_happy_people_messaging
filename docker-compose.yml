@@ -1,14 +1,15 @@
 services:
   rails:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.development
     restart: unless-stopped
     ports:
       - "3000:3000"
     volumes:
       - ".:/var/source"
       - "ruby-gems:/usr/local/bundle"
-      # Store profile data where Heroku credentials are kept
-      - "profile:/root/"
+      - "claude:/root/.claude"
     environment:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: true
       DATABASE_URL: "postgres://pgsql:password@pgsql:5432"
@@ -92,7 +93,7 @@ services:
 volumes:
   pgsql-data:
   ruby-gems:
-  profile:
+  claude:
 
 configs:
   pgadmin.password:
