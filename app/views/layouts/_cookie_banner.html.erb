@@ -22,12 +22,17 @@
     });
   <% end %>
 
-  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.nonce=
-  '<%= content_security_policy_nonce %>';j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-NWN4JM5J');
+  // Defer the actual GTM container fetch until after the page has loaded, so it
+  // doesn't compete for bandwidth with critical above-the-fold resources.
+  // Consent state above is already set, so nothing is lost by loading GTM slightly later.
+  window.addEventListener('load', function() {
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.nonce=
+    '<%= content_security_policy_nonce %>';j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NWN4JM5J');
+  });
 </script>
 
 <% if consent.analytics? %>
