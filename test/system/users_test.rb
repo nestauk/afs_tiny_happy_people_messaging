@@ -93,7 +93,7 @@ class UsersTest < ApplicationSystemTestCase
   test "User can't sign up if max capacity reached" do
     create_list(:user, 3000)
 
-    sign_up
+    sign_up(success: false)
 
     assert_text "Thank you for your interest. Due to overwhelming demand, we've reached our maximum signup capacity for now."
   end
@@ -194,6 +194,8 @@ class UsersTest < ApplicationSystemTestCase
 
     click_button "Join our waitlist"
 
+    find(".thank-you-banner")
+
     assert_text "You’ve been added to our waitlist!"
 
     user = User.last
@@ -261,7 +263,7 @@ class UsersTest < ApplicationSystemTestCase
 
   private
 
-  def sign_up
+  def sign_up(success: true)
     month = 10.months.ago.strftime("%B")
     year = 10.months.ago.strftime("%Y")
     fill_in "What's your phone number?", with: "07444930200"
@@ -274,5 +276,7 @@ class UsersTest < ApplicationSystemTestCase
     LocationGeocoder.any_instance.stubs(:geocode).returns(geocode_payload)
 
     click_button "Sign up"
+
+    find("#edit-form") if success
   end
 end

@@ -45,14 +45,14 @@
         <% if flash[:notice] %>
           <div class="md:px-28 px-3 py-5">
             <p class="">
-              <%= flash[:notice] %>
+              <%= flash[:notice].html_safe %>
             </p>
           </div>
         <% end %>
         <% if flash[:alert] %>
           <div class="px-3 py-5 bg-red-300 mb-10">
             <p class="">
-              <%= flash[:alert] %>
+              <%= flash[:alert].html_safe %>
             </p>
           </div>
         <% end %>
