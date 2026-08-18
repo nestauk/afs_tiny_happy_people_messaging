@@ -1,0 +1,28 @@
+# Development Dockerfile. See root Dockerfile for production.
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+ARG RUBY_VERSION=4.0.5
+
+FROM ruby:$RUBY_VERSION
+
+# Setup default directory
+RUN mkdir /var/source
+WORKDIR /var/source
+
+# Install ruby package manager
+RUN gem install bundler
+
+# Install the Heroku CLI
+RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | bash
+
+# Install node 22
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash
+RUN apt-get install -y nodejs
+
+# Install Chromium for Cuprite
+RUN apt install -y chromium
+
+# Install Claude Code
+RUN npm install -g @anthropic-ai/claude-code
+ENV IS_SANDBOX=1
+
+CMD ["rails", "server", "-b", "0.0.0.0"]
