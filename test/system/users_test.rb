@@ -3,6 +3,20 @@ require "application_system_test_case"
 class UsersTest < ApplicationSystemTestCase
   include ActiveJob::TestHelper
 
+  # The sign-up form sits far down a long landing page. Capybara/Cuprite scrolls
+  # to an element before interacting with it, and for a scroll this long the
+  # click coordinates can be computed before the browser's scroll has actually
+  # settled, causing clicks (e.g. on the terms checkbox) to land on whatever was
+  # at that position before the page finished scrolling. Scrolling there once,
+  # up front, avoids that race for the rest of the test.
+  def visit(*)
+    super
+    if page.has_css?("#sign-up-form", wait: 0)
+      page.execute_script("document.getElementById('sign-up-form').scrollIntoView({block: 'end'})")
+      sleep 0.2
+    end
+  end
+
   setup do
     create(:group, language: "en")
     create(:group, language: "cy")
