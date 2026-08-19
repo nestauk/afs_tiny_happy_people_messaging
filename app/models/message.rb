@@ -1,6 +1,7 @@
 class Message < ApplicationRecord
   belongs_to :user
   belongs_to :content, optional: true
+  belongs_to :broadcast, optional: true
   validates :body, presence: true, unless: :user_anonymised?
 
   scope :with_content, -> { where.not(content: nil) }

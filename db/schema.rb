@@ -181,6 +181,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_100913) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "broadcasts", force: :cascade do |t|
+    t.bigint "admin_id", null: false
+    t.text "body_cy"
+    t.text "body_en"
+    t.datetime "created_at", null: false
+    t.integer "message_threshold"
+    t.datetime "sent_at"
+    t.bigint "survey_id"
+    t.datetime "updated_at", null: false
+    t.string "user_groups", default: [], null: false, array: true
+    t.index ["admin_id"], name: "index_broadcasts_on_admin_id"
+    t.index ["survey_id"], name: "index_broadcasts_on_survey_id"
+  end
+
   create_table "contents", force: :cascade do |t|
     t.integer "age_in_months", null: false
     t.datetime "archived_at"
@@ -218,6 +232,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_100913) do
 
   create_table "messages", force: :cascade do |t|
     t.text "body"
+    t.bigint "broadcast_id"
     t.datetime "clicked_at"
     t.bigint "content_id"
     t.datetime "created_at", null: false
@@ -229,6 +244,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_100913) do
     t.string "token"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.index ["broadcast_id"], name: "index_messages_on_broadcast_id"
     t.index ["content_id"], name: "index_messages_on_content_id"
     t.index ["token"], name: "index_messages_on_token", unique: true
     t.index ["user_id"], name: "index_messages_on_user_id"
@@ -463,7 +479,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_100913) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "broadcasts", "admins"
+  add_foreign_key "broadcasts", "surveys"
   add_foreign_key "interests", "users"
+  add_foreign_key "messages", "broadcasts"
   add_foreign_key "messages", "contents"
   add_foreign_key "messages", "users"
   add_foreign_key "questions", "survey_sections"
