@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users, only: %i[index show update] do
+      resources :users, only: %i[index show update edit] do
         get "dashboard", on: :collection
         resources :messages
       end
