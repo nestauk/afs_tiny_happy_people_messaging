@@ -43,4 +43,50 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_dont_see "Paul"
     assert_dont_see "Jane"
   end
+
+  test "edit shows the age in months of the user's current content" do
+    group = create(:group)
+    content = create(:content, group:, age_in_months: 14)
+    user = create(:user)
+    user.update!(group:, last_content_id: content.id)
+
+    get edit_admin_user_path(user)
+
+    assert_response :success
+    assert_select "input#user_content_in_months[value='14']"
+  end
+
+  test "edit does not error for a user who has not received any content yet" do
+    user = create(:user, last_content_id: nil)
+
+    get edit_admin_user_path(user)
+
+    assert_response :success
+  end
+
+  test "update sets next_content_override_id to the lowest-positioned content for the submitted age" do
+    group = create(:group)
+    content1 = create(:content, group:, position: 1, age_in_months: 12)
+    create(:content, group:, position: 2, age_in_months: 12)
+    user = create(:user)
+    user.update!(group:, last_content_id: nil)
+
+    patch admin_user_path(user), params: {user: {content_in_months: 12}}
+
+    assert_redirected_to admin_user_path(user)
+    assert_equal content1.id, user.reload.next_content_override_id
+  end
+
+  test "update re-renders the edit form with an error for an age with no matching content" do
+    group = create(:group)
+    create(:content, group:, age_in_months: 12)
+    user = create(:user)
+    user.update!(group:, last_content_id: nil)
+
+    patch admin_user_path(user), params: {user: {content_in_months: 99}}
+
+    assert_response :unprocessable_content
+    assert_see "There is no existing content for this age group"
+    assert_nil user.reload.last_content_id
+  end
 end

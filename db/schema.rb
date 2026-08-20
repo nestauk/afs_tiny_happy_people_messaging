@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_100913) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_20_152043) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -443,6 +443,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_100913) do
     t.string "language", default: "en", null: false
     t.bigint "last_content_id"
     t.bigint "local_authority_id"
+    t.bigint "next_content_override_id"
     t.datetime "nudged_at"
     t.string "phone_number", null: false
     t.string "postcode", null: false
@@ -456,6 +457,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_100913) do
     t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["last_content_id"], name: "index_users_on_last_content_id"
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
+    t.index ["next_content_override_id"], name: "index_users_on_next_content_override_id"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
   end
 
@@ -477,6 +479,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_100913) do
   add_foreign_key "survey_sends", "surveys"
   add_foreign_key "survey_sends", "users"
   add_foreign_key "users", "contents", column: "last_content_id"
+  add_foreign_key "users", "contents", column: "next_content_override_id"
   add_foreign_key "users", "groups"
   add_foreign_key "users", "local_authorities"
 end

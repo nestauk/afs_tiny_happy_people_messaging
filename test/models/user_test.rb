@@ -522,6 +522,116 @@ class UserTest < ActiveSupport::TestCase
     assert_equal @subject.next_content, content2
   end
 
+  test "#content_in_months= sets next_content_override to the lowest-positioned content for that age in the user's group" do
+    group = create(:group)
+    @subject.update(group:)
+    target_content = create(:content, group:, position: 1, age_in_months: 12)
+    create(:content, group:, position: 2, age_in_months: 12)
+
+    @subject.content_in_months = 12
+
+    assert @subject.valid?
+    assert_equal target_content, @subject.next_content_override
+  end
+
+  test "#content_in_months= results in the target age's content being what's sent next" do
+    group = create(:group)
+    @subject.update(group:)
+    create(:content, group:, position: 1, age_in_months: 11)
+    target_content = create(:content, group:, position: 2, age_in_months: 12)
+    create(:content, group:, position: 3, age_in_months: 12)
+
+    @subject.content_in_months = 12
+
+    assert_equal target_content, @subject.next_content
+  end
+
+  test "#content_in_months= resends content the user has already seen, even if they've since aged past it" do
+    group = create(:group)
+    content6 = create(:content, group:, position: 1, age_in_months: 6)
+    content7 = create(:content, group:, position: 2, age_in_months: 7)
+    @subject.update(group:, last_content_id: content7.id, child_birthday: 10.months.ago)
+    create(:message, user: @subject, content: content6)
+    create(:message, user: @subject, content: content7)
+
+    @subject.content_in_months = 6
+
+    assert @subject.valid?
+    assert_equal content6, @subject.next_content
+  end
+
+  test "#content_in_months= is respected even for a user who has no content history yet" do
+    group = create(:group)
+    create(:content, group:, position: 1, age_in_months: 6)
+    age_appropriate_content = create(:content, group:, position: 2, age_in_months: 10)
+    @subject.update(group:, last_content_id: nil, child_birthday: 10.months.ago)
+
+    @subject.content_in_months = 6
+
+    assert @subject.valid?
+    assert_not_equal age_appropriate_content, @subject.next_content
+    assert_equal 6, @subject.next_content.age_in_months
+  end
+
+  test "#content_in_months= stops applying once the override has actually been sent" do
+    group = create(:group)
+    @subject.update(group:)
+    target_content = create(:content, group:, position: 1, age_in_months: 6)
+    later_content = create(:content, group:, position: 2, age_in_months: 7)
+
+    @subject.content_in_months = 6
+    @subject.save!
+    @subject.update!(last_content_id: target_content.id) # what SendMessageJob does once it's sent
+
+    assert_equal later_content, @subject.next_content
+  end
+
+  test "#content_in_months= only matches content in the user's own group" do
+    group = create(:group)
+    other_group = create(:group)
+    @subject.update(group:)
+    create(:content, group: other_group, position: 1, age_in_months: 12)
+
+    @subject.content_in_months = 12
+
+    assert_not @subject.valid?
+    assert_includes @subject.errors[:content_in_months], "There is no existing content for this age group"
+  end
+
+  test "#content_in_months= ignores archived content" do
+    group = create(:group)
+    @subject.update(group:)
+    create(:content, group:, position: 1, age_in_months: 12, archived_at: Time.zone.now)
+
+    @subject.content_in_months = 12
+
+    assert_not @subject.valid?
+    assert_includes @subject.errors[:content_in_months], "There is no existing content for this age group"
+  end
+
+  test "#content_in_months getter returns the age of last_content when present" do
+    group = create(:group)
+    content = create(:content, group:, age_in_months: 14)
+    @subject.update(group:, last_content_id: content.id)
+
+    assert_equal 14, @subject.content_in_months
+  end
+
+  test "#content_in_months getter prefers the age of the next unseen content over last_content's own age" do
+    group = create(:group)
+    content_before = create(:content, group:, position: 1, age_in_months: 11)
+    create(:content, group:, position: 2, age_in_months: 12)
+    @subject.update(group:, last_content_id: content_before.id)
+
+    assert_equal 12, @subject.content_in_months
+  end
+
+  test "#content_in_months getter falls back to the child's current age when there is no last_content" do
+    @subject.update(last_content_id: nil, child_birthday: 10.months.ago)
+
+    assert_equal @subject.child_age_in_months_today, @subject.content_in_months
+  end
+
   test "#had_content_this_week? method returns true if user has had content" do
     user = create(:user)
     content = create(:content)
