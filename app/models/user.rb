@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :surveys, through: :survey_sends
   belongs_to :local_authority, optional: true
   belongs_to :group
+  belongs_to :last_content, class_name: "Content", optional: true
+  belongs_to :next_content_override, class_name: "Content", optional: true
 
   validates :terms_agreed_at, :child_birthday, presence: true
   validates :phone_number, :postcode, presence: true, unless: :anonymised?
@@ -14,9 +16,9 @@ class User < ApplicationRecord
   phony_normalize :phone_number, default_country_code: "UK", unless: :anonymised?
   validate :child_is_correct_age?, on: :create
   validate :has_welsh_postcode?, on: :create
+  validate :content_in_months_matches_a_content, if: :content_in_months_changed?
 
-  attr_accessor :terms_agreed
-  attr_accessor :skip_age_validation
+  attr_accessor :terms_agreed, :skip_age_validation
 
   before_validation :assign_group_by_language, if: -> { new_record? || language_changed? }
 
@@ -102,6 +104,7 @@ class User < ApplicationRecord
     afternoon: "afternoon",
     evening: "evening",
     no_preference: "no_preference"
+  attribute :content_in_months, :integer
 
   def programme_message_count
     messages.where.not(content_id: nil).count
@@ -119,8 +122,13 @@ class User < ApplicationRecord
     (Time.zone.now.year * 12 + Time.zone.now.month) - (child_birthday.year * 12 + child_birthday.month)
   end
 
+  # Once the override is actually sent, SendMessageJob sets last_content_id to it
+  # (same as it does for any other content), which is what makes it stop applying
+  # here - no separate step needed to clear it.
   def next_content
-    if had_any_content_before?
+    if next_content_override_id.present? && next_content_override_id != last_content_id
+      next_content_override
+    elsif had_any_content_before?
       find_next_unseen_content
     else
       group.contents.where(age_in_months: child_age_in_months_today).order(:position).first
@@ -201,7 +209,26 @@ class User < ApplicationRecord
     nil
   end
 
+  def content_in_months
+    super || next_content&.age_in_months || last_content&.age_in_months || child_age_in_months_today
+  end
+
+  def content_in_months=(months)
+    super
+    self.next_content_override = content_for_month(months)
+  end
+
   private
+
+  def content_for_month(months)
+    group.contents.active.where(age_in_months: months).order(:position).first
+  end
+
+  def content_in_months_matches_a_content
+    return if content_for_month(content_in_months)
+
+    errors.add(:content_in_months, "There is no existing content for this age group")
+  end
 
   def assign_group_by_language
     self.group = Group.find_by(language: language)
@@ -216,7 +243,7 @@ class User < ApplicationRecord
   end
 
   def find_next_unseen_content
-    last_position = Content.find(last_content_id).position
+    last_position = last_content.position
     seen_ids = messages.where.not(content_id: nil).select(:content_id)
 
     group

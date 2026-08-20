@@ -1,0 +1,33 @@
+<div class="mb-2">
+  <%= link_to '< Back', admin_user_path(@user), class: 'underline hover:no-underline' %>
+</div>
+<h1>
+  Change age of content user is receiving
+</h1>
+<% if @user.last_content.present? %>
+  <p>Currently receiving content for <%= @user.content_in_months %> month old</p>
+<% else %>
+  <p>Will start receiving content for <%= @user.content_in_months %> month old</p>
+<% end %>
+
+<%= form_for @user, url: admin_user_path(@user), method: :patch do |f| %>
+  <div class="mt-5 flex flex-col w-1/3">
+    <%= f.label :content_in_months, "Age in months of content they should receive" %>
+    <% if @user.errors[:content_in_months].any? %>
+      <p class="text-red-600 font-bold"><%= @user.errors[:content_in_months].to_sentence %></p>
+    <% end %>
+    <%= f.text_field :content_in_months %>
+  </div>
+
+  <p>
+    After updating, please send a message to the user letting them know about the change.
+  </p>
+  <%= f.submit "Update", class: "btn btn-primary w-1/4" %>
+
+  <p class="mt-4">
+    Example message to user:
+  </p>
+  <p>
+    Hi PARENT_NAME! Thank you so much for sharing your thoughts with us. We truly appreciate your feedback, and we’ve made adjustments to the content we send you to better align with your child’s unique developmental journey. Every child is different, and we’re here to support you along the way, so please don’t hesitate to reach out if the content still doesn’t feel quite right for your family’s needs! Also, if you’re looking for more support outside of the programme, we’ve compiled a list of other helpful resources here: https://cbeebies-text.uk/resources. Thanks so much again!
+  </p>
+<% end %>
