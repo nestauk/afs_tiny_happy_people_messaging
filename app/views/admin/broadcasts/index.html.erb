@@ -1,0 +1,29 @@
+<div class="flex justify-between items-baseline">
+  <h1 class="text-4xl mb-8">Broadcasts</h1>
+  <%= link_to "New broadcast", new_admin_broadcast_path, class: "bg-blue-500 text-white rounded p-2" %>
+</div>
+
+<table class="table-auto w-full">
+  <thead>
+    <tr class="bg-blue-300 text-left">
+      <th class="px-4 py-4">Body</th>
+      <th class="px-4 py-4">Sent at</th>
+      <th class="px-4 py-4">Sent by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @broadcasts.each do |broadcast| %>
+      <tr class="border-b-2">
+        <td class="px-4 py-4 bg-white">
+          <%= link_to broadcast.body_en, admin_broadcast_path(broadcast), class: "underline hover:no-underline" %>
+        </td>
+        <td class="px-4 py-4 bg-white">
+          <%= broadcast.sent_at&.strftime("%d/%m/%Y %H:%M") %>
+        </td>
+        <td class="px-4 py-4 bg-white">
+          <%= broadcast.admin.email if broadcast.admin %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

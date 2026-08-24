@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
       resources :admins, except: %i[show destroy]
 
+      resources :broadcasts, only: %i[index new create show]
+
       patch "/admin/update_position/:id/", to: "contents#update_position", as: "update_position"
     end
   end
