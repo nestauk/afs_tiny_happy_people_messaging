@@ -1,0 +1,25 @@
+<div class="mb-2">
+  <%= link_to '< Back', admin_auto_responses_path, class: 'underline hover:no-underline' %>
+</div>
+<h1 class="md:text-4xl text-2xl mb-0">
+  Edit auto response
+</h1>
+<p>
+  To edit other fields, please ask a developer
+</p>
+<div class="md:mt-8 w-full">
+  <p class="text-xl">
+    <%= @auto_response.description %>
+  </p>
+
+  <%= form_for @auto_response, url: admin_auto_response_path(@auto_response) do |f| %>
+    <%= f.label :response, class: "mt-4" %>
+    <div class="text-red-500"><%= f.object.errors.full_messages_for(:response).join(", ") %></div>
+    <%= f.text_field :response %>
+
+    <p class="mt-5">
+      Check your update - this will automatically start going out to users
+    </p>
+    <%= f.submit "Update", class: "btn btn-primary w-full" %>
+  <% end %>
+</div>
