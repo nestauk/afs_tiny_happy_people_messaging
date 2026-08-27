@@ -1,3 +1,10 @@
+## [2026-08-26]
+- Add nudge to surveys to encourage users to give longer responses
+
+## [2026-08-23]
+- Admins can update what age content a user receives
+- Admins can edit the text of auto-responses sent by the system
+
 ## [2026-08-17]
 - Remove turbo
 

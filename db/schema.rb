@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_27_111825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -243,6 +243,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.string "options_en", default: [], array: true
     t.integer "position", null: false
     t.string "question_type", null: false
+    t.boolean "show_word_count_nudge", default: false
     t.bigint "survey_section_id"
     t.string "text_cy", default: "", null: false
     t.string "text_en", null: false

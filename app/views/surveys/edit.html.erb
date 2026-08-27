@@ -18,7 +18,7 @@
 
   <%= simple_form_for @survey, url: survey_path(@survey), method: :patch do |f| %>
     <%= hidden_field_tag :token, params[:token] %>
-    <div class="px-2">
+    <div class="px-2" x-data="{word_count: 0}">
       <% @survey.survey_sections.order(:position).each do |section| %>
         <h2 class="mb-0 mt-8"><%= @language == "cy" ? section.title_cy : section.title_en %></h2>
         <%= f.simple_fields_for :questions, @questions.group_by(&:survey_section_id)[section.id].sort_by(&:position) do |q| %>
@@ -27,14 +27,35 @@
             <%= ff.input :question_id, as: :hidden, value: q.object.id %>
             <% case q.object.question_type %>
             <% when "text" %>
+              <%=
+                ff.label :response,
+                (sanitize @language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
+                class: "!font-semibold"
+              %>
+              <p class="text-sm text-slate-500">
+                <%= sanitize @language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe %>
+              </p>
+
+              <% if q.object.show_word_count_nudge %>
+                <div class="mt-2 mb-4">
+                  <span class="text-sm pl-1" x-show="word_count < 10">Tell us a bit more...</span>
+                  <span class="text-sm pl-1" x-show="word_count >= 10 && word_count < 20">Getting there</span>
+                  <span class="text-sm pl-1" x-show="word_count >= 20">That's a good amount</span>
+                  <div class="w-full bg-slate-100 rounded-full h-4">
+                    <div class="rounded-full w-1/3 bg-red-300 h-4" x-show="word_count < 10">
+                    </div>
+                    <div class="rounded-full w-2/3 bg-yellow-300 h-4" x-show="word_count >= 10 && word_count < 20">
+                    </div>
+                    <div class="rounded-full w-full bg-green-300 h-4" x-show="word_count >= 20">
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
               <%= 
-                ff.input :response,
-                label: (sanitize @language == "cy" ? q.object.text_cy.html_safe : q.object.text_en.html_safe),
-                hint: (sanitize @language == "cy" ? q.object.hint_cy&.html_safe : q.object.hint_en&.html_safe),
-                input_html: { class: "w-full" },
-                wrapper_html: { class: "my-4" },
-                required: false,
-                label_html: { class: "!font-semibold" }
+                ff.text_area :response,
+                class: "w-full mb-4",
+                "x-on:input": "word_count = $event.target.value.split(' ').length"
               %>
             
             <% when "check_boxes" %>

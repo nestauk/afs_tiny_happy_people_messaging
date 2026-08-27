@@ -60,7 +60,7 @@ class Admin::QuestionsController < ApplicationController
   def question_params
     permitted = params.require(:question).permit(
       :text_en, :text_cy, :survey_section_id, :position, :hint_en, :hint_cy,
-      :question_type, :options_text_en, :options_text_cy
+      :question_type, :options_text_en, :options_text_cy, :show_word_count_nudge
     )
 
     options_en = permitted.delete(:options_text_en).to_s.split("\n").map(&:strip).reject(&:empty?)
