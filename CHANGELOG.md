@@ -1,3 +1,6 @@
+## [2026-08-27]
+- Batch sending messages to avoid throttling exception
+
 ## [2026-08-17]
 - Remove turbo
 
