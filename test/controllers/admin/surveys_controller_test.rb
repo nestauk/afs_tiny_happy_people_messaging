@@ -41,4 +41,18 @@ class Admin::SurveysControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to admin_surveys_path
   end
+
+  test "preview shows a blank form, not other users' answers" do
+    section = create(:survey_section, survey: @survey)
+    question = create(:question, survey_section: section, text_en: "How are you feeling?")
+    create(:answer, question:, response: "Someone else's private answer")
+    create(:answer, question:, response: "Another respondent's answer")
+
+    get preview_admin_survey_path(@survey)
+
+    assert_response :success
+    assert_see "How are you feeling?"
+    assert_dont_see "Someone else's private answer"
+    assert_dont_see "Another respondent's answer"
+  end
 end
