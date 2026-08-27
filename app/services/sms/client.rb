@@ -1,5 +1,9 @@
 module Sms
   class Client
+    # Our AWS Pinpoint account's default send rate is 20 SMS/second; batch bulk
+    # sends comfortably under that so we don't trigger Aws::PinpointSMSVoiceV2::Errors::ThrottlingException.
+    BATCH_SIZE = 15
+
     def initialize(message)
       @message = message
     end

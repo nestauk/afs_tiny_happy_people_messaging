@@ -45,6 +45,28 @@ class RetryFailedMessagesJobTest < ActiveSupport::TestCase
     RetryFailedMessagesJob.new.perform
   end
 
+  test "#perform pauses between batches to stay under the SMS provider's rate limit" do
+    messages = create_list(:message, Sms::Client::BATCH_SIZE + 1, status: "failed", created_at: 30.minutes.ago)
+    client = mock
+    client.stubs(:send_message)
+    messages.each { |message| Sms::Client.stubs(:new).with(message).returns(client) }
+
+    RetryFailedMessagesJob.any_instance.expects(:sleep).with(1).once
+
+    RetryFailedMessagesJob.new.perform
+  end
+
+  test "#perform does not pause when the failed messages fit in a single batch" do
+    messages = create_list(:message, Sms::Client::BATCH_SIZE, status: "failed", created_at: 30.minutes.ago)
+    client = mock
+    client.stubs(:send_message)
+    messages.each { |message| Sms::Client.stubs(:new).with(message).returns(client) }
+
+    RetryFailedMessagesJob.any_instance.expects(:sleep).never
+
+    RetryFailedMessagesJob.new.perform
+  end
+
   test "#perform reports errors to Appsignal and continues processing the remaining messages" do
     broken_message = create(:message, status: "failed", created_at: 30.minutes.ago)
     other_message = create(:message, status: "failed", created_at: 20.minutes.ago)

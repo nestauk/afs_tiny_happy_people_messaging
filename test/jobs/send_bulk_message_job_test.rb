@@ -158,6 +158,17 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
+  test "#perform staggers sends in batches to stay under the SMS provider's rate limit" do
+    travel_to_monday
+    create_list(:user, Sms::Client::BATCH_SIZE + 2, hour_preference: "morning", day_preference: 1)
+
+    SendBulkMessageJob.perform_now("weekly_message", "morning")
+
+    scheduled_ats = enqueued_jobs.select { |job| job[:job] == SendMessageJob }.pluck(:at)
+    assert_equal Sms::Client::BATCH_SIZE, scheduled_ats.count(&:blank?)
+    assert_equal 2, scheduled_ats.count { |at| at.present? && Time.zone.at(at) >= 1.second.from_now }
+  end
+
   test "#perform does not create jobs if not passed a valid message type" do
     create_list(:user, 3, child_birthday: 10.months.ago)
 
