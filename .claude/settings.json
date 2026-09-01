@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./do ci)",
+      "Bash(./do cs)",
+      "Bash(./do cs:*)",
+      "Bash(./do js)",
+      "Bash(./do js:*)",
+      "Bash(./do bm)",
+      "Bash(./do brakeman)",
+      "Bash(./do test)",
+      "Bash(./do test:*)",
+      "Bash(bin/rails test)",
+      "Bash(bin/rails test:*)",
+      "Bash(bundle exec rubocop:*)",
+      "Bash(bundle exec brakeman:*)",
+      "Bash(npx @biomejs/biome check:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(git blame:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git status:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./config/master.key)",
+      "Read(./config/credentials/**)"
+    ]
+  }
+}
