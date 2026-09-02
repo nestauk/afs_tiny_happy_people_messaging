@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  enum :cohort, {first_uk: 0, wales: 1}
+
   has_many :messages, dependent: :destroy
   has_many :contents, through: :messages
   has_many :survey_sends, dependent: :destroy
@@ -15,12 +17,13 @@ class User < ApplicationRecord
   validates_plausible_phone :phone_number, unless: :anonymised?
   phony_normalize :phone_number, default_country_code: "UK", unless: :anonymised?
   validate :child_is_correct_age?, on: :create
-  validate :has_welsh_postcode?, on: :create
+  validate :has_welsh_postcode?, on: :create, if: :wales?
   validate :content_in_months_matches_a_content, if: :content_in_months_changed?
 
   attr_accessor :terms_agreed, :skip_age_validation
 
   before_validation :assign_group_by_language, if: -> { new_record? || language_changed? }
+  before_validation :set_default_programme_length, on: :create
 
   generates_token_for :profile_token, expires_in: 15.minutes
   generates_token_for :restart_token, expires_in: 2.days
@@ -234,6 +237,12 @@ class User < ApplicationRecord
     self.group = Group.find_by(language: language)
   end
 
+  # Wales cohort users work through a fixed 52-message programme; first_uk
+  # cohort users keep receiving content until their group's content runs out.
+  def set_default_programme_length
+    self.programme_length ||= 52 if wales?
+  end
+
   def had_any_content_before?
     last_content_id.present?
   end
@@ -262,16 +271,23 @@ class User < ApplicationRecord
     end
   end
 
-  # The 2026 cohort's waitlist cutoff. Once this passes, children who won't
+  # The wales cohort's waitlist cutoff. Once this passes, children who won't
   # reach 9 months by then are rejected outright rather than waitlisted.
   CHILD_AGE_WAITLIST_CUTOFF_DATE = Date.parse(ENV.fetch("CHILD_AGE_WAITLIST_CUTOFF_DATE", "2026-11-01"))
+  FIRST_UK_CHILD_AGE_RANGE_MONTHS = 3..27
 
   def child_is_correct_age?
     return if child_birthday.blank?
 
     months_old_now = months_between(child_birthday, Date.current)
 
-    if months_old_now > 18
+    if first_uk?
+      if months_old_now > FIRST_UK_CHILD_AGE_RANGE_MONTHS.max
+        errors.add(:child_birthday, :first_uk_too_old)
+      elsif months_old_now < FIRST_UK_CHILD_AGE_RANGE_MONTHS.min && !skip_age_validation
+        errors.add(:child_birthday, :first_uk_too_young)
+      end
+    elsif months_old_now > 18
       errors.add(:child_birthday, :too_old)
     elsif months_old_now >= 9 || skip_age_validation
       # 9–18 months now: eligible, no error

@@ -120,6 +120,36 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "child_birthday allows 3-27 months for first_uk cohort, with no waitlist offer" do
+    user = build(:user, cohort: :first_uk, child_birthday: 3.months.ago)
+
+    assert user.valid?
+  end
+
+  test "child_birthday raises first_uk_too_young, not too_young_for_waitlist, for first_uk cohort" do
+    user = build(:user, cohort: :first_uk, child_birthday: 2.months.ago)
+    assert_raises ActiveRecord::RecordInvalid do
+      user.save!
+    end
+    assert_includes user.errors[:child_birthday], "Your child is too young for this service right now, they must be at least 3 months old to join."
+  end
+
+  test "child_birthday raises first_uk_too_old, not too_old, for first_uk cohort" do
+    user = build(:user, cohort: :first_uk, child_birthday: 28.months.ago)
+    assert_raises ActiveRecord::RecordInvalid do
+      user.save!
+    end
+    assert_includes user.errors[:child_birthday], "Your child must be between 3 and 27 months old to sign up for the service."
+  end
+
+  test "child_birthday for first_uk cohort ignores the wales waitlist cutoff" do
+    travel_to(User::CHILD_AGE_WAITLIST_CUTOFF_DATE + 1.day) do
+      user = build(:user, cohort: :first_uk, child_birthday: 3.months.ago)
+
+      assert user.valid?
+    end
+  end
+
   test "child_birthday is not validated on update" do
     @subject.update(child_birthday: 28.months.from_now)
 
@@ -133,6 +163,12 @@ class UserTest < ActiveSupport::TestCase
       create(:user, postcode: "SW1A 1AA")
     end
     assert_includes error.record.errors[:postcode], "This service is only available in Wales currently. Not to worry - you can still enjoy all <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>the Tiny Happy People content</a>."
+  end
+
+  test "has_welsh_postcode? validation does not apply to first_uk cohort" do
+    LocationGeocoder.any_instance.stubs(:geocode).returns(Geokit::GeoLoc.new(country_code: "England"))
+
+    assert create(:user, cohort: :first_uk, postcode: "SW1A 1AA")
   end
 
   test "contactable scope" do
@@ -326,9 +362,10 @@ class UserTest < ActiveSupport::TestCase
     20.times { create(:content, group:) }
     fourth_from_last = group.contents.order(position: :desc).offset(3).first
 
-    user = create(:user, group:, language: "esp", programme_length: nil)
+    user = create(:user, cohort: :first_uk, group:, language: "esp")
     create(:message, user:, content: fourth_from_last)
 
+    assert_nil user.programme_length
     assert_equal 0, User.with_four_messages_left.to_a.size
   end
 
@@ -399,10 +436,11 @@ class UserTest < ActiveSupport::TestCase
     group = create(:group, language: "cy")
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
-    user = create(:user, programme_length: nil, language: "cy", last_content_id: content1.id)
+    user = create(:user, cohort: :first_uk, language: "cy", last_content_id: content1.id)
     create(:message, user:, content: content1)
     create(:message, user:, content: content2)
 
+    assert_nil user.programme_length
     assert user.finished_programme?
   end
 
@@ -411,9 +449,10 @@ class UserTest < ActiveSupport::TestCase
     content1 = create(:content, group:, position: 1)
     content2 = create(:content, group:, position: 2)
     create(:content, group:, position: 3)
-    user = create(:user, programme_length: nil, last_content_id: content1.id, language: "cy")
+    user = create(:user, cohort: :first_uk, last_content_id: content1.id, language: "cy")
     create(:message, user:, content: content2)
 
+    assert_nil user.programme_length
     assert_not user.finished_programme?
   end
 
@@ -422,9 +461,10 @@ class UserTest < ActiveSupport::TestCase
     content1 = create(:content, group:, position: 1)
     create(:content, group:, position: 2)
     create(:content, group:, position: 3)
-    user = create(:user, programme_length: nil, last_content_id: nil, language: "cy")
+    user = create(:user, cohort: :first_uk, last_content_id: nil, language: "cy")
     create(:message, user:, content: content1)
 
+    assert_nil user.programme_length
     assert_not user.finished_programme?
   end
 

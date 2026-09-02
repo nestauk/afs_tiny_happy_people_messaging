@@ -1,3 +1,6 @@
+## [2026-09-02]
+- Add cohorts to users to differentiate batches 
+
 ## [2026-08-27]
 - Batch sending messages to avoid throttling exception
 
