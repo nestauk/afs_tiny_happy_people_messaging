@@ -45,3 +45,12 @@ node_modules
 *.local
 
 .claude.json
+
+AGENTS.local.md
+
+# .claude/ is in a lot of people's global gitignore, so re-include the directory
+# here, then share only the settings file. Everything else Claude Code or you
+# put in there stays local.
+!.claude/
+.claude/*
+!.claude/settings.json

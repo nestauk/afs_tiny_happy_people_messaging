@@ -48,6 +48,13 @@ You can run Claude in a docker container with `./do claude`
 - `docker compose exec rails rails test` to run unit tests.
 - `docker compose exec rails rails test:system` to run system/end-to-end tests.
 
+## Shipping changes
+
+See the [pull request guide](docs/pull-requests.md) for how we open, review and
+merge pull requests - when to open a draft PR, how to write a description for
+your reviewer, and how we use ship/show/ask to decide whether a change needs a
+review.
+
 ## Deployment
 
 We use Heroku to host and deploy this app.
