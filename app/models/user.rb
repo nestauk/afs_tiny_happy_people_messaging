@@ -264,7 +264,7 @@ class User < ApplicationRecord
 
   # The 2026 cohort's waitlist cutoff. Once this passes, children who won't
   # reach 9 months by then are rejected outright rather than waitlisted.
-  CHILD_AGE_WAITLIST_CUTOFF_DATE = Date.new(2026, 11, 1)
+  CHILD_AGE_WAITLIST_CUTOFF_DATE = Date.parse(ENV.fetch("CHILD_AGE_WAITLIST_CUTOFF_DATE", "2026-11-01"))
 
   def child_is_correct_age?
     return if child_birthday.blank?
