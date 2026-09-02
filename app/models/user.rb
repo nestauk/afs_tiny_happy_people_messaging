@@ -262,17 +262,20 @@ class User < ApplicationRecord
     end
   end
 
+  # The 2026 cohort's waitlist cutoff. Once this passes, children who won't
+  # reach 9 months by then are rejected outright rather than waitlisted.
+  CHILD_AGE_WAITLIST_CUTOFF_DATE = Date.new(2026, 11, 1)
+
   def child_is_correct_age?
     return if child_birthday.blank?
 
     months_old_now = months_between(child_birthday, Date.current)
-    months_old_by_november = months_between(child_birthday, upcoming_november_first)
 
     if months_old_now > 18
       errors.add(:child_birthday, :too_old)
     elsif months_old_now >= 9 || skip_age_validation
       # 9–18 months now: eligible, no error
-    elsif months_old_by_november >= 9 && !skip_age_validation
+    elsif waitlist_open? && months_between(child_birthday, CHILD_AGE_WAITLIST_CUTOFF_DATE) >= 9 && !skip_age_validation
       errors.add(:child_birthday, :too_young)
     else
       errors.add(:child_birthday, :too_young_for_waitlist)
@@ -285,9 +288,7 @@ class User < ApplicationRecord
     months
   end
 
-  def upcoming_november_first
-    nov = Date.new(Date.current.year, 11, 1)
-    nov += 1.year if nov < Date.current
-    nov
+  def waitlist_open?
+    Date.current < CHILD_AGE_WAITLIST_CUTOFF_DATE
   end
 end

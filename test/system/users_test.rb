@@ -193,57 +193,61 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "users can join the waitlist if their child is too young" do
-    month = 6.months.ago.strftime("%B")
-    year = 6.months.ago.strftime("%Y")
-    fill_in "What's your phone number?", with: "07444930200"
-    fill_in "What's your postcode?", with: "ABC123"
-    select month
-    select year
-    check "I accept the terms of service and privacy policy"
-    click_button "Sign up"
+    travel_to Date.new(2026, 7, 15) do
+      month = 6.months.ago.strftime("%B")
+      year = 6.months.ago.strftime("%Y")
+      fill_in "What's your phone number?", with: "07444930200"
+      fill_in "What's your postcode?", with: "ABC123"
+      select month
+      select year
+      check "I accept the terms of service and privacy policy"
+      click_button "Sign up"
 
-    assert_text "Your child is just a bit too young for this service right now - but not for long!"
+      assert_text "Your child is just a bit too young for this service right now - but not for long!"
 
-    stub_successful_aws_call("Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", build(:user, phone_number: "+447444930200"))
+      stub_successful_aws_call("Hi! Thanks for joining the waitlist for our programme of weekly texts with fun activities for your child's development. We'll be in touch when it's time to get started. In the meantime, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", build(:user, phone_number: "+447444930200"))
 
-    click_button "Join our waitlist"
+      click_button "Join our waitlist"
 
-    find(".thank-you-banner")
+      find(".thank-you-banner")
 
-    assert_text "You’ve been added to our waitlist!"
+      assert_text "You’ve been added to our waitlist!"
 
-    user = User.last
+      user = User.last
 
-    refute user.contactable?
-    assert_equal user.restart_at, user.child_birthday + 9.months
+      refute user.contactable?
+      assert_equal user.restart_at, user.child_birthday + 9.months
+    end
   end
 
   test "users can join the waitlist in Welsh if their child is too young" do
-    visit new_user_path(locale: "cy")
+    travel_to Date.new(2026, 7, 15) do
+      visit new_user_path(locale: "cy")
 
-    month = I18n.l(6.months.ago, format: "%B", locale: "cy")
-    year = I18n.l(6.months.ago, format: "%Y", locale: "cy")
-    fill_in "Beth yw eich rhif ffôn?", with: "07444930200"
-    fill_in "Beth yw eich cod post?", with: "ABC123"
-    select month
-    select year
-    check "Rwy’n derbyn y telerau gwasanaeth a’r polisi preifatrwydd"
-    click_button "Cofrestru"
+      month = I18n.l(6.months.ago, format: "%B", locale: "cy")
+      year = I18n.l(6.months.ago, format: "%Y", locale: "cy")
+      fill_in "Beth yw eich rhif ffôn?", with: "07444930200"
+      fill_in "Beth yw eich cod post?", with: "ABC123"
+      select month
+      select year
+      check "Rwy’n derbyn y telerau gwasanaeth a’r polisi preifatrwydd"
+      click_button "Cofrestru"
 
-    assert_text "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd — ond ddim am hir!"
+      assert_text "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd — ond ddim am hir!"
 
-    stub_successful_aws_call("Helo! Diolch am ymuno â rhestr aros ein negeseuon wythnosol llawn syniadau i gefnogi datblygiad dy blentyn. Byddwn mewn cysylltiad pan fydd hi’n bryd dechrau. Yn y cyfamser, arbeda’r rhif hwn fel 'CBeebies Parenting'.", build(:user, phone_number: "+447444930200"))
+      stub_successful_aws_call("Helo! Diolch am ymuno â rhestr aros ein negeseuon wythnosol llawn syniadau i gefnogi datblygiad dy blentyn. Byddwn mewn cysylltiad pan fydd hi’n bryd dechrau. Yn y cyfamser, arbeda’r rhif hwn fel 'CBeebies Parenting'.", build(:user, phone_number: "+447444930200"))
 
-    click_button "Ymunwch â’n rhestr aros"
+      click_button "Ymunwch â’n rhestr aros"
 
-    assert_text "Rwyt ti wedi cael dy ychwanegu at ein rhestr aros!"
+      assert_text "Rwyt ti wedi cael dy ychwanegu at ein rhestr aros!"
 
-    user = User.last
+      user = User.last
 
-    refute user.contactable?
-    assert_equal user.restart_at, user.child_birthday + 9.months
-    assert_equal "cy", user.language
-    assert_equal "cy", user.group.language
+      refute user.contactable?
+      assert_equal user.restart_at, user.child_birthday + 9.months
+      assert_equal "cy", user.language
+      assert_equal "cy", user.group.language
+    end
   end
 
   test "users can't edit without token" do
