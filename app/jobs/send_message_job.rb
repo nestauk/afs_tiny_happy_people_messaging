@@ -22,7 +22,7 @@ class SendMessageJob < ApplicationJob
 
     if save_user_and_message(user, message, content)
       Sms::Client.new(message).send_message
-      Survey.trigger_for(user, message_count: user.programme_message_count)
+      Survey.trigger_for(user, message_count: user.programme_message_count) if user.wales?
 
       if user.finished_programme?
         user.update!(finished_content_at: Time.zone.now) if user.finished_content_at.nil?

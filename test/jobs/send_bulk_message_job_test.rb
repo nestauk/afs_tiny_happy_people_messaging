@@ -135,6 +135,15 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     end
   end
 
+  test "#perform doesn't send bilingual text messages to first_uk cohort users" do
+    user = create(:user, cohort: :first_uk)
+    6.times { create(:message, user:, content: create(:content)) }
+
+    assert_no_enqueued_jobs only: SendBilingualMessageJob do
+      SendBulkMessageJob.perform_now("bilingual_text")
+    end
+  end
+
   test "#perform sends offboarding text messages to new users" do
     content = create(:content)
     user = create(:user, programme_length: 52)
@@ -150,7 +159,7 @@ class SendBulkMessageJobTest < ActiveSupport::TestCase
     10.times { create(:content, group:) }
     fourth_from_last = group.contents.order(position: :desc).offset(3).first
 
-    user = create(:user, group:, language: "esp", programme_length: nil)
+    user = create(:user, cohort: :first_uk, group:, language: "esp")
     create(:message, user:, content: fourth_from_last)
 
     assert_no_enqueued_jobs do

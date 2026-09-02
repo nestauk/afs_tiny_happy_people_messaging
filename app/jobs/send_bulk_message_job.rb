@@ -8,7 +8,7 @@ class SendBulkMessageJob < ApplicationJob
         enqueue_in_batches(users_for(time).map { |user| SendMessageJob.new(user) })
       end
     when "bilingual_text"
-      enqueue_in_batches(User.contactable.received_six_messages_without_bilingual_text.map { |user| SendBilingualMessageJob.new(user) })
+      enqueue_in_batches(User.wales.contactable.received_six_messages_without_bilingual_text.map { |user| SendBilingualMessageJob.new(user) })
     when "feedback"
       enqueue_in_batches(User.contactable.received_two_or_eighteen_messages.map { |user| SendFeedbackMessageJob.new(user) })
     when "nudge"
@@ -21,7 +21,7 @@ class SendBulkMessageJob < ApplicationJob
         enqueue_in_batches(User.contactable.needs_survey_reminder(survey.id).map { |user| SendSurveyReminderJob.new(user, survey) })
       end
     when "offboarding"
-      enqueue_in_batches(User.contactable.with_four_messages_left.uniq.map { |user| OffboardingPreparationMessageJob.new(user) })
+      enqueue_in_batches(User.wales.contactable.with_four_messages_left.uniq.map { |user| OffboardingPreparationMessageJob.new(user) })
     end
   end
 

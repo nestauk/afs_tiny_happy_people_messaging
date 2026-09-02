@@ -77,7 +77,7 @@ class UsersController < ApplicationController
     @no_padding = true
     @survey = Survey.find_by(title_en: "Pre-programme survey")
 
-    if @survey
+    if @survey && @user.wales?
       SurveySend.find_or_create_by(user: @user, survey: @survey) do |ss|
         ss.sent_at = Time.zone.now
       end
