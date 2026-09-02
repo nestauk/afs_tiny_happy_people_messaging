@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_02_124500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -433,6 +433,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.boolean "can_be_quoted_for_research", default: false
     t.date "child_birthday", null: false
     t.string "child_name"
+    t.integer "cohort", default: 1, null: false
     t.datetime "consent_given_at"
     t.boolean "contactable", default: true
     t.datetime "created_at", null: false
@@ -448,7 +449,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.datetime "nudged_at"
     t.string "phone_number", null: false
     t.string "postcode", null: false
-    t.integer "programme_length", default: 52
+    t.integer "programme_length"
     t.jsonb "referral_sources", default: []
     t.datetime "restart_at"
     t.datetime "sent_bilingual_text_at"
