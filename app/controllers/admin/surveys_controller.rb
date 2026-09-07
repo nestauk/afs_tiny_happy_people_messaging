@@ -1,6 +1,7 @@
 class Admin::SurveysController < ApplicationController
   before_action :check_admin_role
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
+  after_action :do_not_track!
 
   def index
     @surveys = Survey.all

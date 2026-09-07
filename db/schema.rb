@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_03_125812) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -182,6 +182,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "broadcasts", force: :cascade do |t|
+    t.bigint "admin_id", null: false
+    t.text "body_cy"
+    t.text "body_en"
+    t.datetime "created_at", null: false
+    t.integer "message_threshold"
+    t.datetime "sent_at"
+    t.bigint "survey_id"
+    t.datetime "updated_at", null: false
+    t.string "user_groups", default: [], null: false, array: true
+    t.index ["admin_id"], name: "index_broadcasts_on_admin_id"
+    t.index ["survey_id"], name: "index_broadcasts_on_survey_id"
+  end
+
   create_table "contents", force: :cascade do |t|
     t.integer "age_in_months", null: false
     t.datetime "archived_at"
@@ -219,6 +233,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
 
   create_table "messages", force: :cascade do |t|
     t.text "body"
+    t.bigint "broadcast_id"
     t.datetime "clicked_at"
     t.bigint "content_id"
     t.datetime "created_at", null: false
@@ -230,6 +245,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.string "token"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.index ["broadcast_id"], name: "index_messages_on_broadcast_id"
     t.index ["content_id"], name: "index_messages_on_content_id"
     t.index ["token"], name: "index_messages_on_token", unique: true
     t.index ["user_id"], name: "index_messages_on_user_id"
@@ -243,6 +259,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.string "options_en", default: [], array: true
     t.integer "position", null: false
     t.string "question_type", null: false
+    t.boolean "show_word_count_nudge", default: false
     t.bigint "survey_section_id"
     t.string "text_cy", default: "", null: false
     t.string "text_en", null: false
@@ -256,6 +273,76 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.string "postcode", null: false
     t.datetime "updated_at", null: false
     t.index ["last_four_digits_phone_number", "postcode"], name: "idx_on_last_four_digits_phone_number_postcode_9947703d95", unique: true
+  end
+
+  create_table "skadi_dashboards", force: :cascade do |t|
+    t.jsonb "configuration", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "skadi_demographics", force: :cascade do |t|
+    t.integer "count", default: 0, null: false
+    t.string "name", null: false
+    t.date "recorded_on", null: false
+    t.string "uri", null: false
+    t.string "value", null: false
+    t.index ["uri", "name", "value", "recorded_on"], name: "idx_on_uri_name_value_recorded_on_79f5412e49", unique: true
+  end
+
+  create_table "skadi_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.jsonb "properties"
+    t.bigint "view_id"
+    t.bigint "visit_id"
+    t.index ["created_at"], name: "index_skadi_events_on_created_at"
+    t.index ["name", "created_at"], name: "index_skadi_events_on_name_and_created_at"
+    t.index ["properties"], name: "index_skadi_events_on_properties", opclass: :jsonb_path_ops, using: :gin
+    t.index ["view_id", "created_at"], name: "index_skadi_events_on_view_id_and_created_at"
+    t.index ["visit_id", "created_at"], name: "index_skadi_events_on_visit_id_and_created_at"
+  end
+
+  create_table "skadi_views", force: :cascade do |t|
+    t.string "action", null: false
+    t.string "controller", null: false
+    t.datetime "created_at", null: false
+    t.text "exit_page"
+    t.text "path", null: false
+    t.jsonb "query_params"
+    t.datetime "updated_at", null: false
+    t.string "verb", null: false
+    t.boolean "verified", default: false, null: false
+    t.string "version"
+    t.uuid "view_token", null: false
+    t.bigint "visit_id"
+    t.index ["created_at"], name: "index_skadi_views_on_created_at"
+    t.index ["path", "created_at"], name: "index_skadi_views_on_path_and_created_at"
+    t.index ["view_token"], name: "index_skadi_views_on_view_token", unique: true
+    t.index ["visit_id", "created_at"], name: "index_skadi_views_on_visit_id_and_created_at"
+  end
+
+  create_table "skadi_visits", force: :cascade do |t|
+    t.boolean "cookies_enabled", default: false, null: false
+    t.datetime "created_at", null: false
+    t.text "landing_page"
+    t.text "referrer"
+    t.uuid "tracking_token"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.text "utm_campaign"
+    t.text "utm_content"
+    t.text "utm_medium"
+    t.text "utm_source"
+    t.text "utm_term"
+    t.boolean "verified", default: false, null: false
+    t.uuid "visit_token", null: false
+    t.index ["created_at"], name: "index_skadi_visits_on_created_at"
+    t.index ["tracking_token", "created_at"], name: "index_skadi_visits_on_tracking_token_and_created_at"
+    t.index ["user_id", "created_at"], name: "index_skadi_visits_on_user_id_and_created_at"
+    t.index ["visit_token"], name: "index_skadi_visits_on_visit_token", unique: true
   end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
@@ -433,6 +520,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.boolean "can_be_quoted_for_research", default: false
     t.date "child_birthday", null: false
     t.string "child_name"
+    t.integer "cohort", default: 1, null: false
     t.datetime "consent_given_at"
     t.boolean "contactable", default: true
     t.datetime "created_at", null: false
@@ -448,7 +536,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
     t.datetime "nudged_at"
     t.string "phone_number", null: false
     t.string "postcode", null: false
-    t.integer "programme_length", default: 52
+    t.integer "programme_length"
     t.jsonb "referral_sources", default: []
     t.datetime "restart_at"
     t.datetime "sent_bilingual_text_at"
@@ -466,10 +554,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_100100) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "broadcasts", "admins"
+  add_foreign_key "broadcasts", "surveys"
   add_foreign_key "interests", "users"
+  add_foreign_key "messages", "broadcasts"
   add_foreign_key "messages", "contents"
   add_foreign_key "messages", "users"
   add_foreign_key "questions", "survey_sections"
+  add_foreign_key "skadi_events", "skadi_views", column: "view_id", on_delete: :cascade
+  add_foreign_key "skadi_events", "skadi_visits", column: "visit_id", on_delete: :cascade
+  add_foreign_key "skadi_views", "skadi_visits", column: "visit_id", on_delete: :cascade
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
