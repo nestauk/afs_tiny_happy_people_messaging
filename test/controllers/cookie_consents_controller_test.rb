@@ -85,11 +85,19 @@ class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
     post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
   end
 
-  test "does not record a Skadi view for the create action itself, even once statistical consent is accepted" do
+  test "records a Skadi cookie_consent event once statistical consent is accepted" do
     post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
 
-    assert_no_difference "Skadi::View.count" do
+    assert_difference -> { Skadi::Event.where(name: "cookie_consent").count }, 1 do
       post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+    end
+  end
+
+  test "does not record a Skadi cookie_consent event when statistical consent is declined" do
+    post cookie_consent_path, params: {decision: "reject_all", return_to: "/"}
+
+    assert_no_difference -> { Skadi::Event.where(name: "cookie_consent").count } do
+      post cookie_consent_path, params: {decision: "reject_all", return_to: "/"}
     end
   end
 

@@ -1,7 +1,6 @@
 class CookieConsentsController < ApplicationController
   skip_before_action :authenticate_admin!
   skip_before_action :track_ahoy_visit, only: [:create]
-  do_not_track! only: [:create]
 
   def create
     consent = build_consent
@@ -68,11 +67,26 @@ class CookieConsentsController < ApplicationController
   end
 
   def track(consent, page)
+    track_ahoy(consent, page)
+    track_skadi(consent, page)
+  end
+
+  def track_ahoy(consent, page)
     return if ahoy.visit.blank?
 
     CookieConsent::CATEGORIES.each do |category|
       decision = consent.public_send("#{category}?") ? "accepted" : "declined"
       ahoy.track "cookie_consent", page: page, category: category.to_s, decision: decision, source: params[:decision]
     end
+  end
+
+  def track_skadi(consent, page)
+    skadi.event("cookie_consent", {
+      page: page,
+      source: params[:decision],
+      analytics: consent.analytics?,
+      marketing: consent.marketing?,
+      statistical: consent.statistical?,
+    })
   end
 end
