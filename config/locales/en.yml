@@ -37,6 +37,7 @@ en:
         update: "Next"
   messages:
     bilingual_text: "Wales celebrates all languages! Using your home language(s) is a gift for {{child_name}}'s development. Learn more: {{link}}"
+    # NEEDS CHANGING
     feedback: "Are the activities we send you suitable for your child? Respond 'Yes' or 'No' to let us know."
     nudge: "You've not interacted with any videos lately. You can text 'END' to stop."
     restart: "The wait is finally over! Your little one is now ready for a world of CBeebies play and discovery. We have limited spots available, secure your place now to get your first activities: {{link}}."

@@ -1,3 +1,6 @@
+## [2026-09-08]
+- Send a different "activities not suitable" auto-response depending on the child's age in months
+
 ## [2026-09-02]
 - Add cohorts to users to differentiate batches 
 

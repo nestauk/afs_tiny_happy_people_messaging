@@ -43,8 +43,17 @@ class AutoResponseMatch
     return true if parsed_conditions.empty?
 
     parsed_conditions.all? do |key, value|
-      object[key] == value
+      if key == "child_age_in_months_between"
+        child_age_in_range?(object, value)
+      else
+        object[key] == value
+      end
     end
+  end
+
+  def child_age_in_range?(user, (min, max))
+    age = user.child_age_in_months_today
+    age >= min && (max.nil? || age <= max)
   end
 
   def apply_updates(response)

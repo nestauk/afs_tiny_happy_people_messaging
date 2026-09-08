@@ -3,6 +3,8 @@ class AutoResponse < ApplicationRecord
 
   before_validation :validate_condition_and_update_fields
 
+  SPECIAL_USER_CONDITION_FIELDS = %w[child_age_in_months_between].freeze
+
   private
 
   def validate_condition_and_update_fields
@@ -26,6 +28,8 @@ class AutoResponse < ApplicationRecord
 
   def check_fields(attribute, fields, model)
     fields.each do |field, _value|
+      next if attribute == :user_conditions && SPECIAL_USER_CONDITION_FIELDS.include?(field.to_s)
+
       unless model.column_names.include?(field.to_s) || model.reflect_on_association(field)
         errors.add(attribute, "invalid field '#{field}' - not found in #{model.name} model")
       end
