@@ -1,6 +1,7 @@
 class Admin::AdminsController < ApplicationController
   before_action :set_admin, only: [:edit, :update]
   before_action :check_admin_role
+  after_action :do_not_track!
 
   # GET /admins
   def index

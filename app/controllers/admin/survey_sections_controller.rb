@@ -2,6 +2,7 @@ class Admin::SurveySectionsController < ApplicationController
   before_action :check_admin_role
   before_action :set_survey
   before_action :set_survey_section, only: [:edit, :update, :destroy]
+  after_action :do_not_track!
 
   def new
     @survey_section = @survey.survey_sections.new

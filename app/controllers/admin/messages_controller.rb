@@ -1,5 +1,6 @@
 class Admin::MessagesController < ApplicationController
   before_action :check_admin_role
+  after_action :do_not_track!
 
   def index
     @messages = Message.all

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   authenticate :admin do
     mount Blazer::Engine, at: "blazer"
+    mount Skadi::Engine, at: "/skadi"
     mount MissionControl::Jobs::Engine, at: "jobs"
 
     namespace :admin do

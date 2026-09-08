@@ -1,5 +1,6 @@
 class Admin::GroupsController < ApplicationController
   before_action :check_admin_role
+  after_action :do_not_track!
 
   def index
     @groups = Group.all

@@ -1,6 +1,7 @@
 class Admin::ContentsController < ApplicationController
   before_action :check_admin_role
   before_action :set_content, except: %i[new create]
+  after_action :do_not_track!
 
   def new
     @group = Group.find_by(id: params[:group_id])

@@ -85,6 +85,14 @@ class CookieConsentsControllerTest < ActionDispatch::IntegrationTest
     post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
   end
 
+  test "does not record a Skadi view for the create action itself, even once statistical consent is accepted" do
+    post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+
+    assert_no_difference "Skadi::View.count" do
+      post cookie_consent_path, params: {decision: "accept_all", return_to: "/"}
+    end
+  end
+
   test "rejects a request without a valid CSRF token when forgery protection is enabled" do
     original = ActionController::Base.allow_forgery_protection
     ActionController::Base.allow_forgery_protection = true

@@ -2,6 +2,7 @@ class Admin::QuestionsController < ApplicationController
   before_action :check_admin_role
   before_action :set_survey, :set_survey_section
   before_action :set_question, only: [:show, :edit, :update, :destroy, :update_position]
+  after_action :do_not_track!
 
   def show
   end
