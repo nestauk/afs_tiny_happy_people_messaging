@@ -29,7 +29,7 @@ class Admin::BroadcastsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference "Broadcast.count", 1 do
       post admin_broadcasts_path, params: {
-        broadcast: {body_en: "New broadcast", body_cy: "New broadcast in Welsh", user_groups: ["welsh_pilot"]},
+        broadcast: {body_en: "New broadcast", body_cy: "New broadcast in Welsh", user_groups: ["wales"]},
       }
     end
     assert_redirected_to admin_broadcasts_path

@@ -4,7 +4,7 @@ FactoryBot.define do
     body_cy { "Some body in Welsh" }
     association :admin
     survey { nil }
-    user_groups { [:welsh_pilot] }
+    user_groups { [:wales] }
     message_threshold { nil }
   end
 end

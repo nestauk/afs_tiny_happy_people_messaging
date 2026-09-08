@@ -5,7 +5,7 @@ class Broadcast < ApplicationRecord
   belongs_to :survey, optional: true
 
   USER_GROUPS = {
-    welsh_pilot: "Users in Welsh Pilot",
+    wales: "Users in Wales cohort",
     received_at_least_x_messages: "Users who have received at least X messages",
   }.freeze
 
