@@ -8,6 +8,11 @@ Rails.application.configure do
     Bullet.console = true
     Bullet.rails_logger = true
     Bullet.add_footer = true
+
+    # Skadi::TrackingController#set_view always reads view.visit after eager
+    # loading it - Bullet can't see that from inside the gem's own code, so it
+    # flags the include as unused. Not something we can fix from this app.
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "Skadi::View", association: :visit)
   end
 
   # Settings specified here will take precedence over those in config/application.rb.
