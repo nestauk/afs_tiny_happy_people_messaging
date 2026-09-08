@@ -97,6 +97,7 @@ version - read the full guide before opening a PR.
 - Open a **draft** PR as soon as there is a first commit, so the work is visible
   early.
 - Ship the smallest unit of change you can.
+- Add a short line in CHANGELOG.md describing the change
 - Before marking a PR as ready for review, run `./do ci` locally and make sure it
   passes.
 - Write the PR description for someone with no context. Use whichever sections

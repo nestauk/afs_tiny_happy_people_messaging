@@ -84,6 +84,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert user.reload.contactable
   end
 
+  test "thank_you creates a pre-programme survey send for wales cohort users" do
+    survey = create(:survey, title_en: "Pre-programme survey")
+    user = create(:user)
+    token = user.generate_token_for(:profile_token)
+
+    get thank_you_user_url(user, token: token)
+
+    assert SurveySend.exists?(user: user, survey: survey)
+  end
+
+  test "thank_you does not create a pre-programme survey send for first_uk cohort users" do
+    create(:survey, title_en: "Pre-programme survey")
+    user = create(:user, cohort: :first_uk)
+    token = user.generate_token_for(:profile_token)
+
+    get thank_you_user_url(user, token: token)
+
+    assert_not SurveySend.exists?(user: user)
+  end
+
   test "puts user on waitlist if child is under 9 months" do
     create(:group, language: "cy")
 
