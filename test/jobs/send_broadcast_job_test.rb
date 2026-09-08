@@ -4,9 +4,9 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
   test "#perform sends messages to all matching users" do
-    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
-    matching_users = create_list(:user, 3, created_at: Date.new(2026, 0o5, 2))
-    non_matching_user = create(:user, created_at: Date.new(2026, 0o4, 30))
+    broadcast = create(:broadcast, user_groups: ["wales"])
+    matching_users = create_list(:user, 3)
+    non_matching_user = create(:user, cohort: :first_uk)
 
     assert_enqueued_jobs matching_users.count do
       SendBroadcastJob.perform_now(broadcast)
@@ -22,7 +22,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
 
   test "#perform creates a SurveySend if the broadcast has a survey" do
     survey = create(:survey)
-    broadcast = create(:broadcast, user_groups: ["welsh_pilot"], survey: survey)
+    broadcast = create(:broadcast, user_groups: ["wales"], survey: survey)
     user = create(:user)
 
     SendBroadcastJob.perform_now(broadcast)
@@ -31,7 +31,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
   end
 
   test "#perform does not send a broadcast if the messsage fails to persist" do
-    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
+    broadcast = create(:broadcast, user_groups: ["wales"])
     user = create(:user)
 
     Appsignal.expects(:report_error)
@@ -44,7 +44,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
   end
 
   test "#perform does not mark the broadcast as sent if every message fails to persist" do
-    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
+    broadcast = create(:broadcast, user_groups: ["wales"])
     create(:user)
 
     Appsignal.expects(:report_error)
@@ -56,7 +56,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
   end
 
   test "#perform rescues database errors when persisting a message" do
-    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
+    broadcast = create(:broadcast, user_groups: ["wales"])
     create(:user)
 
     Appsignal.expects(:report_error)
@@ -68,8 +68,8 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
   end
 
   test "#perform does not re-message users who already received this broadcast" do
-    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
-    user = create(:user, created_at: Date.new(2026, 0o5, 2))
+    broadcast = create(:broadcast, user_groups: ["wales"])
+    user = create(:user)
     create(:message, user: user, broadcast: broadcast)
 
     assert_no_enqueued_jobs only: SendCustomMessageJob do
@@ -81,7 +81,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
 
   test "#perform does not create a SurveySend if the message fails to persist" do
     survey = create(:survey)
-    broadcast = create(:broadcast, user_groups: ["welsh_pilot"], survey: survey)
+    broadcast = create(:broadcast, user_groups: ["wales"], survey: survey)
     user = create(:user)
     Appsignal.expects(:report_error)
 
@@ -92,7 +92,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
   end
 
   test "#perform if message fails for one user, it still sends messages to other users" do
-    broadcast = create(:broadcast, user_groups: ["welsh_pilot"])
+    broadcast = create(:broadcast, user_groups: ["wales"])
     failing_user = create(:user)
     succeeding_user = create(:user)
     Appsignal.expects(:report_error)

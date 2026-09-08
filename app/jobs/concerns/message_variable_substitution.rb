@@ -3,14 +3,15 @@ module MessageVariableSubstitution
 
   private
 
-  def substitute_variables(content, user, token: nil)
+  def substitute_variables(content, user, token: nil, survey_link: nil)
     translations = {
       "{{parent_name}}": user.first_name || "",
       "{{child_name}}": user.child_name.presence || I18n.t(".messages.your_child", locale: user.language || I18n.default_locale),
       "{{link}}": token ? track_link_url(token) : nil,
+      "{{survey_link}}": survey_link,
     }
 
-    result = content.gsub(/({{parent_name}}|{{child_name}}|{{link}})/) do |match|
+    result = content.gsub(/({{parent_name}}|{{child_name}}|{{link}}|{{survey_link}})/) do |match|
       translations[match.to_sym]
     end
 

@@ -1,5 +1,6 @@
 class SendBroadcastJob < ApplicationJob
   include Rails.application.routes.url_helpers
+  include MessageVariableSubstitution
 
   queue_as :default
 
@@ -28,7 +29,7 @@ class SendBroadcastJob < ApplicationJob
       message = Message.create!(
         user: user,
         broadcast: broadcast,
-        body: substitute_variables(broadcast, user),
+        body: substitute_variables(body_for(broadcast, user), user, survey_link: survey_link_for(broadcast, user)),
       )
 
       if broadcast.survey.present?
@@ -45,18 +46,13 @@ class SendBroadcastJob < ApplicationJob
     Appsignal.report_error("Message and/or SurveySend failed to persist: #{e.message}")
   end
 
-  def substitute_variables(broadcast, user)
-    translations = {
-      "{{first_name}}": user.first_name || "",
-      "{{survey_link}}": broadcast.survey.present? ? edit_survey_url(broadcast.survey, token: user.generate_token_for(:survey_token)) : "",
-    }
+  def body_for(broadcast, user)
+    (user.language == "en") ? broadcast.body_en : broadcast.body_cy
+  end
 
-    body = (user.language == "en") ? broadcast.body_en : broadcast.body_cy
+  def survey_link_for(broadcast, user)
+    return if broadcast.survey.blank?
 
-    result = body.gsub(/({{first_name}}|{{survey_link}})/) do |match|
-      translations[match.to_sym]
-    end
-
-    result.gsub(/\s+([!?,.:])/, '\1').gsub(/\s{2,}/, " ").strip
+    edit_survey_url(broadcast.survey, token: user.generate_token_for(:survey_token))
   end
 end
