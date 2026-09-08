@@ -5,8 +5,8 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     Ahoy::Tracker.any_instance.stubs(:visit).returns(Ahoy::Visit.new)
   end
 
-  test "does not record a Skadi view when statistical consent has not been decided" do
-    assert_no_difference "Skadi::View.count" do
+  test "records a Skadi view by default when statistical consent has not been decided" do
+    assert_difference "Skadi::View.count", 1 do
       get "/privacy_policy"
     end
   end

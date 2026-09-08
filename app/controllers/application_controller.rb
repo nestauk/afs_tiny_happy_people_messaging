@@ -28,9 +28,12 @@ class ApplicationController < ActionController::Base
     current_admin.role == "admin"
   end
 
-  # Skadi is a first-party behavioural tracker so it's gated by the same "statistical" consent category
+  # Skadi is a first-party behavioural tracker so it's gated by the same "statistical" consent
+  # category as ahoy_dnt - tracked by default (legally permitted for statistical purposes),
+  # stopped only once a visitor explicitly declines, same as Ahoy's exclude_method.
   def apply_skadi_consent
-    skadi.do_not_track! unless CookieConsent.from_cookie(cookies[CookieConsent::COOKIE_NAME]).statistical?
+    consent = CookieConsent.from_cookie(cookies[CookieConsent::COOKIE_NAME])
+    skadi.do_not_track! if consent.decided? && !consent.statistical?
   end
 
   def extract_locale_from_params
