@@ -150,6 +150,40 @@ class AutoResponseMatchTest < ActiveSupport::TestCase
     assert_equal "unconditional reply", user.messages.last.body
   end
 
+  test "should match response based on the child's age in months" do
+    create(:auto_response, trigger_phrase: "age", response: "9 to 11 months message", user_conditions: '{"child_age_in_months_between": [9, 11]}')
+    create(:auto_response, trigger_phrase: "age", response: "12 to 15 months message", user_conditions: '{"child_age_in_months_between": [12, 15]}')
+    user = create(:user, child_birthday: 10.months.ago)
+    message = build(:message, body: "age", status: "received", user:)
+
+    AutoResponseMatch.new(message: message).deliver
+
+    assert_equal "9 to 11 months message", user.messages.last.body
+  end
+
+  test "should match the open-ended top age bracket" do
+    create(:auto_response, trigger_phrase: "age", response: "22 to 24 months message", user_conditions: '{"child_age_in_months_between": [22, 24]}')
+    create(:auto_response, trigger_phrase: "age", response: "25+ months message", user_conditions: '{"child_age_in_months_between": [25, null]}')
+    user = create(:user)
+    user.update!(child_birthday: 30.months.ago)
+    message = build(:message, body: "age", status: "received", user:)
+
+    AutoResponseMatch.new(message: message).deliver
+
+    assert_equal "25+ months message", user.messages.last.body
+  end
+
+  test "should not send a message when the child's age doesn't fall in any bracket" do
+    create(:auto_response, trigger_phrase: "age", response: "9 to 11 months message", user_conditions: '{"child_age_in_months_between": [9, 11]}')
+    user = create(:user)
+    user.update!(child_birthday: 6.months.ago)
+    message = build(:message, body: "age", status: "received", user:)
+
+    assert_no_difference "Message.count" do
+      AutoResponseMatch.new(message: message).deliver
+    end
+  end
+
   test "should not change the user when update_user is empty" do
     create(:auto_response, trigger_phrase: "ping", response: "hi", update_user: "{}")
     user = create(:user, contactable: true, asked_for_feedback: true)
