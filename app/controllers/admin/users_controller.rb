@@ -23,7 +23,9 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
+    @user.video_number = user_params[:video_number]
+
+    if @user.update(user_params.except(:video_number))
       redirect_to admin_user_path(@user), notice: "User updated successfully."
     elsif user_params.key?(:content_in_months)
       render :edit, status: :unprocessable_content
@@ -35,7 +37,7 @@ class Admin::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:contactable, :content_in_months)
+    params.require(:user).permit(:contactable, :content_in_months, :video_number)
   end
 
   def set_user

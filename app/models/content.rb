@@ -18,6 +18,12 @@ class Content < ApplicationRecord
     archived_at.present?
   end
 
+  def video_number
+    active_positions = group.contents.active.where(age_in_months: age_in_months).order(:position).pluck(:position)
+    index = active_positions.index(position)
+    index + 1 if index
+  end
+
   private
 
   def check_link_status

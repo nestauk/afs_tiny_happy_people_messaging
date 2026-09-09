@@ -20,13 +20,14 @@ class AdminsTest < ApplicationSystemTestCase
   end
 
   test "can only edit yourself" do
-    create(:admin, email: "admin2@example.com")
+    admin_count = Admin.count + 1
+    create(:admin, email: "admin#{admin_count}@example.com")
 
     sign_in(@admin)
 
     visit admin_admins_path
 
-    within("tr", text: "admin2@example.com") do
+    within("tr", text: "admin#{admin_count}@example.com") do
       refute_text "Edit"
     end
 

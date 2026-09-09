@@ -588,28 +588,18 @@ class UserTest < ActiveSupport::TestCase
     assert_equal @subject.next_content, content2
   end
 
-  test "#content_in_months= sets next_content_override to the lowest-positioned content for that age in the user's group" do
+  test "#content_in_months= sets next_content_override to the video number position's content for that age in the user's group" do
     group = create(:group)
     @subject.update(group:)
-    target_content = create(:content, group:, position: 1, age_in_months: 12)
-    create(:content, group:, position: 2, age_in_months: 12)
+    create(:content, group:, position: 1, age_in_months: 12)
+    target_content = create(:content, group:, position: 2, age_in_months: 12)
+    create(:content, group:, position: 3, age_in_months: 12)
 
+    @subject.video_number = 2
     @subject.content_in_months = 12
 
     assert @subject.valid?
     assert_equal target_content, @subject.next_content_override
-  end
-
-  test "#content_in_months= results in the target age's content being what's sent next" do
-    group = create(:group)
-    @subject.update(group:)
-    create(:content, group:, position: 1, age_in_months: 11)
-    target_content = create(:content, group:, position: 2, age_in_months: 12)
-    create(:content, group:, position: 3, age_in_months: 12)
-
-    @subject.content_in_months = 12
-
-    assert_equal target_content, @subject.next_content
   end
 
   test "#content_in_months= resends content the user has already seen, even if they've since aged past it" do
@@ -620,6 +610,7 @@ class UserTest < ActiveSupport::TestCase
     create(:message, user: @subject, content: content6)
     create(:message, user: @subject, content: content7)
 
+    @subject.video_number = 1
     @subject.content_in_months = 6
 
     assert @subject.valid?
@@ -632,6 +623,7 @@ class UserTest < ActiveSupport::TestCase
     age_appropriate_content = create(:content, group:, position: 2, age_in_months: 10)
     @subject.update(group:, last_content_id: nil, child_birthday: 10.months.ago)
 
+    @subject.video_number = 1
     @subject.content_in_months = 6
 
     assert @subject.valid?
@@ -645,6 +637,7 @@ class UserTest < ActiveSupport::TestCase
     target_content = create(:content, group:, position: 1, age_in_months: 6)
     later_content = create(:content, group:, position: 2, age_in_months: 7)
 
+    @subject.video_number = 1
     @subject.content_in_months = 6
     @subject.save!
     @subject.update!(last_content_id: target_content.id) # what SendMessageJob does once it's sent
@@ -658,10 +651,11 @@ class UserTest < ActiveSupport::TestCase
     @subject.update(group:)
     create(:content, group: other_group, position: 1, age_in_months: 12)
 
+    @subject.video_number = 1
     @subject.content_in_months = 12
 
     assert_not @subject.valid?
-    assert_includes @subject.errors[:content_in_months], "There is no existing content for this age group"
+    assert_includes @subject.errors[:content_in_months], "There is no existing video for this age group"
   end
 
   test "#content_in_months= ignores archived content" do
@@ -669,10 +663,23 @@ class UserTest < ActiveSupport::TestCase
     @subject.update(group:)
     create(:content, group:, position: 1, age_in_months: 12, archived_at: Time.zone.now)
 
+    @subject.video_number = 1
     @subject.content_in_months = 12
 
     assert_not @subject.valid?
-    assert_includes @subject.errors[:content_in_months], "There is no existing content for this age group"
+    assert_includes @subject.errors[:content_in_months], "There is no existing video for this age group"
+  end
+
+  test "#content_in_months= raises error if video not specified" do
+    group = create(:group)
+    @subject.update(group:)
+    create(:content, group:, position: 1, age_in_months: 12, archived_at: Time.zone.now)
+
+    @subject.video_number = nil
+    @subject.content_in_months = 12
+
+    assert_not @subject.valid?
+    assert_includes @subject.errors[:video_number], "must be specified"
   end
 
   test "#content_in_months getter returns the age of last_content when present" do

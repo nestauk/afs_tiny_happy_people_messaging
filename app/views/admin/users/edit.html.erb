@@ -11,23 +11,39 @@
 <% end %>
 
 <%= form_for @user, url: admin_user_path(@user), method: :patch do |f| %>
-  <div class="mt-5 flex flex-col w-1/3">
-    <%= f.label :content_in_months, "Age in months of content they should receive" %>
-    <% if @user.errors[:content_in_months].any? %>
-      <p class="text-red-600 font-bold"><%= @user.errors[:content_in_months].to_sentence %></p>
-    <% end %>
-    <%= f.text_field :content_in_months %>
+  <div class="mt-5 flex w-full gap-5 items-end">
+    <div class="flex flex-col w-1/3">
+      <%= f.label :content_in_months, "Age in months of content they should receive" %>
+      <% if @user.errors[:content_in_months].any? %>
+        <p class="text-red-600 font-bold"><%= @user.errors[:content_in_months].to_sentence %></p>
+      <% end %>
+      <%= f.text_field :content_in_months %>
+    </div>
+
+    <div class="flex flex-col w-1/3">
+      <%= f.label :video_number, "Video number" %>
+      <% if @user.errors[:video_number].any? %>
+        <p class="text-red-600 font-bold"><%= @user.errors[:video_number].to_sentence %></p>
+      <% end %>
+      <%= f.text_field :video_number, class: "!grow-0" %>
+    </div>
   </div>
+
 
   <p>
     After updating, please send a message to the user letting them know about the change.
   </p>
   <%= f.submit "Update", class: "btn btn-primary w-1/4" %>
 
-  <p class="mt-4">
-    Example message to user:
-  </p>
-  <p>
-    Hi PARENT_NAME! Thank you so much for sharing your thoughts with us. We truly appreciate your feedback, and we’ve made adjustments to the content we send you to better align with your child’s unique developmental journey. Every child is different, and we’re here to support you along the way, so please don’t hesitate to reach out if the content still doesn’t feel quite right for your family’s needs! Also, if you’re looking for more support outside of the programme, we’ve compiled a list of other helpful resources here: https://cbeebies-text.uk/resources. Thanks so much again!
-  </p>
+  <div class="mt-4 border border-blue-500 p-4 rounded bg-white">
+    <p>
+      Example message to user:
+    </p>
+    <p class="mt-4">
+      Thank you for letting us know! We’ve adjusted the activities we send to better suit [Child Name]’s current age and stage. Look out for your next message, which will feature ideas tailored to support their development right where they are.
+    </p>
+    <p class="mt-1">
+      Remember, this is an automated service. If you have any concerns about your child's language that aren't addressed, please contact your health visitor, GP or local flying start centre.
+    </p>
+  </div>
 <% end %>
