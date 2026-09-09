@@ -11,8 +11,11 @@
       <p><%= @user.phone_number %></p>
       <p><%= @user.child_age_in_months_today %> month old child</p>
       
-      <% if @user.last_content.present? %>
-        <p>Receiving content for <%= @user.content_in_months %> month old</p>
+      <% next_content = @user.next_content %>
+      <% if next_content.present? && next_content != @user.last_content %>
+        <p>Receiving content for <%= next_content.age_in_months %> month old, video <%= next_content.video_number %></p>
+      <% elsif @user.last_content.present? %>
+        <p>Last received content was for <%= @user.last_content.age_in_months %> month old, video <%= @user.last_content.video_number %></p>
       <% else %>
         <p>Will start receiving content for <%= @user.content_in_months %> month old</p>
       <% end %>

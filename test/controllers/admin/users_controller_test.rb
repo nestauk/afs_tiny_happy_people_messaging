@@ -64,17 +64,18 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "update sets next_content_override_id to the lowest-positioned content for the submitted age" do
+  test "update sets next_content_override_id to the video specified for the submitted age" do
     group = create(:group)
-    content1 = create(:content, group:, position: 1, age_in_months: 12)
-    create(:content, group:, position: 2, age_in_months: 12)
+    create(:content, group:, position: 1, age_in_months: 12)
+    content2 = create(:content, group:, position: 2, age_in_months: 12)
+    create(:content, group:, position: 3, age_in_months: 12)
     user = create(:user)
     user.update!(group:, last_content_id: nil)
 
-    patch admin_user_path(user), params: {user: {content_in_months: 12}}
+    patch admin_user_path(user), params: {user: {content_in_months: 12, video_number: 2}}
 
     assert_redirected_to admin_user_path(user)
-    assert_equal content1.id, user.reload.next_content_override_id
+    assert_equal content2.id, user.reload.next_content_override_id
   end
 
   test "update re-renders the edit form with an error for an age with no matching content" do
@@ -83,10 +84,36 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     user.update!(group:, last_content_id: nil)
 
-    patch admin_user_path(user), params: {user: {content_in_months: 99}}
+    patch admin_user_path(user), params: {user: {content_in_months: 99, video_number: 1}}
 
     assert_response :unprocessable_content
-    assert_see "There is no existing content for this age group"
+    assert_see "There is no existing video for this age group"
+    assert_nil user.reload.last_content_id
+  end
+
+  test "update re-renders the edit form with an error for an age with no matching video" do
+    group = create(:group)
+    create(:content, group:, age_in_months: 12)
+    user = create(:user)
+    user.update!(group:, last_content_id: nil)
+
+    patch admin_user_path(user), params: {user: {content_in_months: 12, video_number: 10}}
+
+    assert_response :unprocessable_content
+    assert_see "There is no existing video for this age group"
+    assert_nil user.reload.last_content_id
+  end
+
+  test "update re-renders the edit form with an error if no video number specified" do
+    group = create(:group)
+    create(:content, group:, age_in_months: 12)
+    user = create(:user)
+    user.update!(group:, last_content_id: nil)
+
+    patch admin_user_path(user), params: {user: {content_in_months: 12, video_number: nil}}
+
+    assert_response :unprocessable_content
+    assert_see "must be specified"
     assert_nil user.reload.last_content_id
   end
 end

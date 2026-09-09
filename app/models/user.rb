@@ -18,7 +18,7 @@ class User < ApplicationRecord
   phony_normalize :phone_number, default_country_code: "UK", unless: :anonymised?
   validate :child_is_correct_age?, on: :create
   validate :has_welsh_postcode?, on: :create, if: :wales?
-  validate :content_in_months_matches_a_content, if: :content_in_months_changed?
+  validate :content_in_months_matches_a_content?, if: :content_in_months_changed?
 
   attr_accessor :terms_agreed, :skip_age_validation
 
@@ -108,6 +108,7 @@ class User < ApplicationRecord
     evening: "evening",
     no_preference: "no_preference"
   attribute :content_in_months, :integer
+  attribute :video_number, :integer
 
   def programme_message_count
     messages.where.not(content_id: nil).count
@@ -218,19 +219,25 @@ class User < ApplicationRecord
 
   def content_in_months=(months)
     super
-    self.next_content_override = content_for_month(months)
+    self.next_content_override = content_for_month(months) unless video_number_missing?
   end
 
   private
 
-  def content_for_month(months)
-    group.contents.active.where(age_in_months: months).order(:position).first
+  def video_number_missing?
+    video_number.nil? || video_number < 1
   end
 
-  def content_in_months_matches_a_content
-    return if content_for_month(content_in_months)
+  def content_for_month(months)
+    group.contents.active.where(age_in_months: months).order(:position).to_a[video_number - 1]
+  end
 
-    errors.add(:content_in_months, "There is no existing content for this age group")
+  def content_in_months_matches_a_content?
+    if video_number_missing?
+      errors.add(:video_number, "must be specified")
+    elsif content_for_month(content_in_months).blank?
+      errors.add(:content_in_months, "There is no existing video for this age group")
+    end
   end
 
   def assign_group_by_language
