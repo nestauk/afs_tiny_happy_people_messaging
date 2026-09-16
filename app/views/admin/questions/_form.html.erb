@@ -31,9 +31,21 @@
     <%= form.text_area :hint_cy, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :question_type, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.select :question_type, options_for_select([["Text", "text"], ["Check boxes", "check_boxes"], ["Radio buttons", "radio_buttons"]], @question.question_type), {}, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  <div x-data="{question_type: '<%= @question.question_type %>'}">
+    <div class="mb-4">
+      <%= form.label :question_type, class: "block text-sm font-medium text-gray-700" %>
+      <%= 
+        form.select :question_type, 
+        options_for_select([["Text", "text"], ["Check boxes", "check_boxes"], ["Radio buttons", "radio_buttons"]], @question.question_type),
+        { class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"},
+        "x-on:change": "question_type = $event.target.value"
+      %>
+    </div>
+
+    <div class="mb-4 flex gap-2" x-show="question_type == 'text'">
+      <%= form.check_box :show_word_count_nudge, {class: "!grow-0"}, true, false %>
+      <%= form.label :show_word_count_nudge, "Show word count nudge to users", class: "block text-lg font-medium text-gray-700" %>
+    </div>
   </div>
 
   <div class="mb-4">
