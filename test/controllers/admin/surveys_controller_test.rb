@@ -42,6 +42,14 @@ class Admin::SurveysControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_surveys_path
   end
 
+  test "show links to previewing the survey in either language" do
+    get admin_survey_path(@survey)
+
+    assert_response :success
+    assert_select "a[href=?]", preview_admin_survey_path(@survey, locale: "en")
+    assert_select "a[href=?]", preview_admin_survey_path(@survey, locale: "cy")
+  end
+
   test "preview shows a blank form, not other users' answers" do
     section = create(:survey_section, survey: @survey)
     question = create(:question, survey_section: section, text_en: "How are you feeling?")
@@ -54,5 +62,16 @@ class Admin::SurveysControllerTest < ActionDispatch::IntegrationTest
     assert_see "How are you feeling?"
     assert_dont_see "Someone else's private answer"
     assert_dont_see "Another respondent's answer"
+  end
+
+  test "preview only shows questions matching the previewed language" do
+    section = create(:survey_section, survey: @survey)
+    create(:question, survey_section: section, language: "en", text_en: "English only question")
+    create(:question, survey_section: section, language: "cy", text_en: "Welsh only question")
+
+    get preview_admin_survey_path(@survey, locale: "en")
+
+    assert_see "English only question"
+    assert_dont_see "Welsh only question"
   end
 end
