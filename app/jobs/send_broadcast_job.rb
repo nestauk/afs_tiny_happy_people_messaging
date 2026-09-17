@@ -2,7 +2,7 @@ class SendBroadcastJob < ApplicationJob
   include Rails.application.routes.url_helpers
   include MessageVariableSubstitution
 
-  queue_as :default
+  queue_as :background
 
   def perform(broadcast)
     sent_any = false
