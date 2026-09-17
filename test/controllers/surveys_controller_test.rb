@@ -24,6 +24,27 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
+  test "edit only shows questions matching the user's language" do
+    @user.update!(language: "en")
+    en_question = create(:question, survey_section: @survey_section, language: "en", text_en: "English only question")
+    cy_question = create(:question, survey_section: @survey_section, language: "cy", text_en: "Welsh only question")
+
+    get edit_survey_path(@survey, token: @token)
+
+    assert_includes response.body, en_question.text_en
+    assert_not_includes response.body, cy_question.text_en
+  end
+
+  test "edit hides a survey section entirely if none of its questions match the user's language" do
+    @user.update!(language: "en")
+    cy_section = create(:survey_section, survey: @survey, title_en: "Welsh only section")
+    create(:question, survey_section: cy_section, language: "cy")
+
+    get edit_survey_path(@survey, token: @token)
+
+    assert_not_includes response.body, cy_section.title_en
+  end
+
   test "update saves answer and redirects" do
     create(:survey_send, survey: @survey, user: @user)
     answer = create(:answer, question: @question, user: @user, response: "Old answer")

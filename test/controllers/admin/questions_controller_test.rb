@@ -37,6 +37,13 @@ class Admin::QuestionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  test "create sets language when restricting a question to one language" do
+    post admin_survey_survey_section_questions_path(@survey, @survey_section), params: {
+      question: {text_en: "Welsh only?", text_cy: "Cymraeg yn unig?", question_type: "text", options_text_en: "", options_text_cy: "", position: 2, language: "cy"},
+    }
+    assert_equal "cy", Question.last.language
+  end
+
   test "update updates question and redirects to survey" do
     patch admin_survey_survey_section_question_path(@survey, @survey_section, @question), params: {
       question: {text_en: "Updated?", text_cy: "Diweddarwyd?", question_type: "text", options_text_en: "", options_text_cy: "", position: 2},

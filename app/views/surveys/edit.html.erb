@@ -20,8 +20,10 @@
     <%= hidden_field_tag :token, params[:token] %>
     <div class="px-2" x-data="{word_count: 0}">
       <% @survey.survey_sections.order(:position).each do |section| %>
+        <% section_questions = @questions.group_by(&:survey_section_id).fetch(section.id, []).sort_by(&:position) %>
+        <% next if section_questions.empty? %>
         <h2 class="mb-0 mt-8"><%= @language == "cy" ? section.title_cy : section.title_en %></h2>
-        <%= f.simple_fields_for :questions, @questions.group_by(&:survey_section_id)[section.id].sort_by(&:position) do |q| %>
+        <%= f.simple_fields_for :questions, section_questions do |q| %>
           <%= q.simple_fields_for :answers do |ff| %>
             <%= ff.input :user_id, as: :hidden, value: @user.id %>
             <%= ff.input :question_id, as: :hidden, value: q.object.id %>

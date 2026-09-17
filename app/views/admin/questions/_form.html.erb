@@ -31,6 +31,16 @@
     <%= form.text_area :hint_cy, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>
 
+  <div class="mb-4">
+    <%= form.label :language, "Only show to users who signed up in", class: "block text-sm font-medium text-gray-700" %>
+    <%=
+      form.select :language,
+      options_for_select([["All languages", ""], ["English", "en"], ["Welsh", "cy"]], @question.language),
+      {},
+      class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
+    %>
+  </div>
+
   <div x-data="{question_type: '<%= @question.question_type %>'}">
     <div class="mb-4">
       <%= form.label :question_type, class: "block text-sm font-medium text-gray-700" %>
