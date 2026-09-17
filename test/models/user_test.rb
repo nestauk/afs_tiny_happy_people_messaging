@@ -392,6 +392,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.needs_survey_reminder(survey.id), [user3]
   end
 
+  test "received_at_least_x_messages scope" do
+    group = create(:group, language: "esp")
+    content = create(:content, group:)
+    user = create(:user)
+    create(:message, user:, content:)
+
+    user2 = create(:user)
+
+    assert_equal 1, User.received_at_least_x_messages(1).to_a.size
+    assert_includes User.received_at_least_x_messages(1), user
+    assert_not_includes User.received_at_least_x_messages(1), user2
+  end
+
   test "child_age_in_months_today method" do
     user = create(:user, child_birthday: 10.months.ago)
 
