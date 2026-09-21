@@ -41,7 +41,7 @@
     %>
   </div>
 
-  <div x-data="{question_type: '<%= @question.question_type %>'}">
+  <div x-data="{question_type: '<%= @question.question_type.presence || "text" %>'}">
     <div class="mb-4">
       <%= form.label :question_type, class: "block text-sm font-medium text-gray-700" %>
       <%= 

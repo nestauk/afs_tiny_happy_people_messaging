@@ -84,6 +84,25 @@ class SurveysTest < ApplicationSystemTestCase
     refute_text @survey.title_en
   end
 
+  test "word count nudge option is visible by default for a new question, since text is the default type" do
+    @admin = create(:admin)
+    sign_in
+
+    visit new_admin_survey_survey_section_question_path(@survey, @survey_section1)
+
+    assert_selector "label", text: "Show word count nudge to users", visible: :visible
+  end
+
+  test "word count nudge option is hidden for a new question if a non-text type is chosen" do
+    @admin = create(:admin)
+    sign_in
+
+    visit new_admin_survey_survey_section_question_path(@survey, @survey_section1)
+    select "Check boxes", from: "Question type"
+
+    assert_no_selector "label", text: "Show word count nudge to users", visible: :visible
+  end
+
   test "user can't access survey without token" do
     create(:group)
     survey = create(:survey)
