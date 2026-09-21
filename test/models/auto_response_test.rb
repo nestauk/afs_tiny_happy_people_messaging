@@ -36,4 +36,17 @@ class AutoResponseTest < ActiveSupport::TestCase
     @subject.valid?
     assert_error(:update_user, "invalid field 'blah' - not found in User model")
   end
+
+  test "allows child_age_in_months_between as a user condition even though it isn't a User column" do
+    @subject.user_conditions = '{"child_age_in_months_between": [9, 11]}'
+
+    assert @subject.valid?
+  end
+
+  test "does not allow child_age_in_months_between as an update_user field" do
+    @subject.update_user = '{"child_age_in_months_between": [9, 11]}'
+    @subject.valid?
+
+    assert_error(:update_user, "invalid field 'child_age_in_months_between' - not found in User model")
+  end
 end

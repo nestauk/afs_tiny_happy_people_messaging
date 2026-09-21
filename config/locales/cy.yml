@@ -39,6 +39,7 @@ cy:
     skip_to_main_content: Neidio i’r prif gynnwys
   messages:
     bilingual_text: "Mae Cymru'n dathlu pob iaith! Mae defnyddio iaith y cartref yn gallu helpu datblygiad {{child_name}}. Dysga fwy: {{link}}"
+    # NEEDS CHANGING
     feedback: Ydy’r gweithgareddau rydyn ni’n eu hanfon yn addas i dy blentyn? Ateba 'Ydyn' neu 'Nac ydyn' i roi gwybod i ni.
     nudge: Dwyt ti ddim wedi defnyddio’r fideos yn ddiweddar. Anfona ‘DIWEDD’ i stopio.
     welcome: "Helo {{parent_name}}, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad {{child_name}}. Mwynhewch y daith gyda’ch gilydd!"
