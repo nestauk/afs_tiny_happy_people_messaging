@@ -16,7 +16,8 @@
 
 <div class="mb-4 text-right">
   <%= link_to "New survey section", new_admin_survey_survey_section_path(@survey), class: "bg-green-700 text-white rounded p-2" %>
-  <%= link_to "Preview survey", preview_admin_survey_path(@survey), class: "bg-blue-500 text-white rounded p-2" %>
+  <%= link_to "Preview survey (English)", preview_admin_survey_path(@survey, locale: "en"), class: "bg-blue-500 text-white rounded p-2" %>
+  <%= link_to "Preview survey (Welsh)", preview_admin_survey_path(@survey, locale: "cy"), class: "bg-blue-500 text-white rounded p-2" %>
   <%= link_to "Preview thank you", preview_thank_you_admin_survey_path(@survey), class: "bg-blue-500 text-white rounded p-2" %>
 </div>
 
@@ -47,6 +48,9 @@
           </td>
           <td class="px-4 py-4">
             <%= question.text_en %>
+            <% if question.language.present? %>
+              <span class="text-sm text-gray-500">(<%= question.language == "cy" ? "Welsh" : "English" %> only)</span>
+            <% end %>
           </td>
           <td class="px-4 py-4"><%= question.question_type.humanize %></td>
           <td class="px-4 py-4">

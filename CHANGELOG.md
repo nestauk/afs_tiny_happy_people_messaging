@@ -1,3 +1,6 @@
+## [2026-09-17]
+- Certain survey questions only shown in certain languages
+
 ## [2026-09-09]
 - Admins must specify which video within content age user receives
 

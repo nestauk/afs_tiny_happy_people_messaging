@@ -16,7 +16,7 @@ class SurveysController < ApplicationController
       redirect_to thank_you_survey_path(@survey, token: params[:token], locale: @user.language)
     else
       set_user
-      @questions = @survey.questions.sort_by(&:position)
+      set_questions
       set_answers
       render :edit
     end
@@ -34,7 +34,7 @@ class SurveysController < ApplicationController
   end
 
   def set_questions
-    @questions = @survey.questions.includes(:answers).order(:position)
+    @questions = @survey.questions.for_language(@user.language).includes(:answers).order(:position)
   end
 
   def set_user

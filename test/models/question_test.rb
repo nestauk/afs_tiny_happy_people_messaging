@@ -27,6 +27,46 @@ class QuestionTest < ActiveSupport::TestCase
     assert_error(:question_type, "can't be blank", subject: @question)
   end
 
+  test "language defaults to nil" do
+    assert_nil @question.language
+  end
+
+  test "language must be en or cy if present" do
+    @question.language = "esp"
+    assert_not @question.valid?
+    assert_error(:language, "is not included in the list", subject: @question)
+  end
+
+  test "language can be en or cy" do
+    @question.language = "en"
+    assert @question.valid?
+
+    @question.language = "cy"
+    assert @question.valid?
+  end
+
+  test "blank language normalizes to nil" do
+    @question.update!(language: "")
+    assert_nil @question.reload.language
+  end
+
+  test ".for_language includes questions with no language restriction" do
+    unrestricted = create(:question, survey_section: @question.survey_section)
+    assert_includes Question.for_language("en"), unrestricted
+    assert_includes Question.for_language("cy"), unrestricted
+  end
+
+  test ".for_language includes only questions matching the given language" do
+    en_only = create(:question, survey_section: @question.survey_section, language: "en")
+    cy_only = create(:question, survey_section: @question.survey_section, language: "cy")
+
+    assert_includes Question.for_language("en"), en_only
+    assert_not_includes Question.for_language("en"), cy_only
+
+    assert_includes Question.for_language("cy"), cy_only
+    assert_not_includes Question.for_language("cy"), en_only
+  end
+
   test "options presence validation" do
     @question.options_en = []
     @question.options_cy = []

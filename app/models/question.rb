@@ -4,7 +4,12 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   accepts_nested_attributes_for :answers
 
+  scope :for_language, ->(language) { where(language: [nil, language]) }
+
+  normalizes :language, with: ->(language) { language.presence }
+
   validates :text_en, :text_cy, :question_type, :position, presence: true
+  validates :language, inclusion: {in: %w[en cy]}, allow_nil: true
   validate :options_presence_for_choice_types
 
   private
