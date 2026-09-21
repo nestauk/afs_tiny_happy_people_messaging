@@ -70,6 +70,20 @@ class SurveysTest < ApplicationSystemTestCase
     assert_equal "Ydw", Answer.find_by(question: @radio_q, user:).response
   end
 
+  test "admin can delete a survey" do
+    @admin = create(:admin)
+    @survey.survey_sections.destroy_all
+    sign_in
+
+    visit admin_surveys_path
+    assert_text @survey.title_en
+
+    click_on "Delete", match: :first
+
+    assert_text "Survey was successfully deleted."
+    refute_text @survey.title_en
+  end
+
   test "user can't access survey without token" do
     create(:group)
     survey = create(:survey)
