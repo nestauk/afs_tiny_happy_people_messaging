@@ -16,7 +16,7 @@ class Registration
   end
 
   def waitlisted?
-    @user.child_birthday > 9.months.ago.to_date
+    @user.child_birthday > 6.months.ago.to_date
   end
 
   private

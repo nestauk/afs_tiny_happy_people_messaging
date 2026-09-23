@@ -155,7 +155,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_field_has_errors_not_simple_form("What's your phone number?", "Can't be blank")
     assert_field_has_errors_not_simple_form("What's your postcode?", "Can't be blank")
-    assert_text "Your child must be between 9 and 18 months old to sign up for the service."
+    assert_text "Your child must be between 6 and 18 months old to sign up for the service."
     assert_text "You must accept the terms of service and privacy policy to sign up for the service."
   end
 
@@ -194,8 +194,8 @@ class UsersTest < ApplicationSystemTestCase
 
   test "users can join the waitlist if their child is too young" do
     travel_to Date.new(2026, 7, 15) do
-      month = 6.months.ago.strftime("%B")
-      year = 6.months.ago.strftime("%Y")
+      month = 5.months.ago.strftime("%B")
+      year = 5.months.ago.strftime("%Y")
       fill_in "What's your phone number?", with: "07444930200"
       fill_in "What's your postcode?", with: "ABC123"
       select month
@@ -216,7 +216,7 @@ class UsersTest < ApplicationSystemTestCase
       user = User.last
 
       refute user.contactable?
-      assert_equal user.restart_at, user.child_birthday + 9.months
+      assert_equal user.restart_at, user.child_birthday + 6.months
     end
   end
 
@@ -224,8 +224,8 @@ class UsersTest < ApplicationSystemTestCase
     travel_to Date.new(2026, 7, 15) do
       visit new_user_path(locale: "cy")
 
-      month = I18n.l(6.months.ago, format: "%B", locale: "cy")
-      year = I18n.l(6.months.ago, format: "%Y", locale: "cy")
+      month = I18n.l(5.months.ago, format: "%B", locale: "cy")
+      year = I18n.l(5.months.ago, format: "%Y", locale: "cy")
       fill_in "Beth yw eich rhif ffôn?", with: "07444930200"
       fill_in "Beth yw eich cod post?", with: "ABC123"
       select month
@@ -244,7 +244,7 @@ class UsersTest < ApplicationSystemTestCase
       user = User.last
 
       refute user.contactable?
-      assert_equal user.restart_at, user.child_birthday + 9.months
+      assert_equal user.restart_at, user.child_birthday + 6.months
       assert_equal "cy", user.language
       assert_equal "cy", user.group.language
     end

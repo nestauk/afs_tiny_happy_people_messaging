@@ -9,7 +9,7 @@ cy:
             child_birthday:
               too_young: Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd — ond ddim am hir! Byddwn yn defnyddio’r rhif rydych eisoes wedi’i rannu i roi gwybod i chi pan fydd yn barod. {{waitlist_link}} i gael y wybodaeth ddiweddaraf.
               too_young_for_waitlist: Mae dy un bach yn rhy ifanc am y gwasanaeth ’ma ar hyn o bryd. Rhaid iddyn nhw fod o leiaf 4 mis oed i ymuno.
-              too_old: Rhaid i’ch plentyn fod rhwng 9 a 18 mis oed i gofrestru ar gyfer y gwasanaeth hwn.
+              too_old: Rhaid i’ch plentyn fod rhwng 6 a 18 mis oed i gofrestru ar gyfer y gwasanaeth hwn.
             postcode:
               not_welsh: Dim ond yng Nghymru mae’r gwasanaeth hwn ar gael ar hyn o bryd. Ond peidiwch â phoeni — gallwch chi fwynhau holl gynnwys <a href='https://www.bbc.co.uk/tiny-happy-people' class='link'>Tiny Happy People</a> o hyd.
             terms_agreed:
@@ -49,7 +49,7 @@ cy:
     survey_reminder: "Cymerwch funud i gwblhau'r arolwg byr hwn: {{survey_url}}"
     waitlist: Helo! Diolch am ymuno â rhestr aros ein negeseuon wythnosol llawn syniadau i gefnogi datblygiad dy blentyn. Byddwn mewn cysylltiad pan fydd hi’n bryd dechrau. Yn y cyfamser, arbeda’r rhif hwn fel 'CBeebies Parenting'.
     out_of_hours_response: Oriau gwaith y tîm yw 9am–6pm, dydd Llun i ddydd Gwener. Byddwn yn ymateb cyn gynted ag y gallwn.
-    restart: "Mae'r aros drosodd o'r diwedd! Mae dy un bach nawr yn barod am fyd o chwarae a darganfod gyda CBeebies. Dim ond nifer gyfyngedig o lefydd sydd ar gael, felly cadwa dy le nawr i gael dy weithgareddau cyntaf: {{link}}"
+    restart: "Helo gan Dîm Negeseuon Testun CBeebies! Ydy dy blentyn bach yn 6, 7 neu 8 mis oed? Newyddion da! Roedd cymaint o rieni eisiau dechrau’r hwyl yn gynt, felly rydyn ni wedi gwneud hynny’n bosib! Mae ein negeseuon wythnosol bellach yn dechrau o 6 mis oed. Gan dy fod ti ar ein rhestr aros, dyma wahoddiad mynediad cynnar i ti! Sicrha dy le cyn i’r llefydd lenwi: {{link}}"
   pages:
     about_us:
       page_title: "Amdanom ni"
@@ -117,7 +117,7 @@ cy:
     home:
       page_title: Negeseuon Testun Rhianta CBeebies
       title: Syniadau chwarae am ddim i feithrin twf eich plentyn
-      subtitle: Cael gweithgareddau wythnosol, bach a hylaw drwy neges destun. Ar gyfer plant 9–18 mis oed
+      subtitle: Cael gweithgareddau wythnosol, bach a hylaw drwy neges destun. Ar gyfer plant 6–18 mis oed
       sign_up: "Cofrestru"
       video_aria_label: "Cefnogi llais eich plentyn drwy'r dydd"
       sneak_peek: Dyma flas bach o’r fideos fydd ar gael i chi eu mwynhau fel rhan o’n gwasanaeth rhad ac am ddim
@@ -144,7 +144,7 @@ cy:
       what_to_expect: Beth i’w ddisgwyl cyn dechrau
       free: | 
         <p>Mae’r gwasanaeth hwn yn rhad ac am ddim, ac fe fydd felly o hyd.</p>
-        <p class='mt-2'>Mae’r gweithgareddau yn y fideos hyn yn dangos y math o ddatblygiad a welir yn aml rhwng 9 a 18 mis oed. Os yw eich plentyn wedi cael diagnosis o anhawster lleferydd, iaith neu gyfathrebu, neu oedi datblygiadol, neu os oes gennych unrhyw bryderon am hynny, efallai y bydd ei ddatblygiad yn edrych yn wahanol i’r hyn a welwch yma.</p>
+        <p class='mt-2'>Mae’r gweithgareddau yn y fideos hyn yn dangos y math o ddatblygiad a welir yn aml rhwng 6 a 18 mis oed. Os yw eich plentyn wedi cael diagnosis o anhawster lleferydd, iaith neu gyfathrebu, neu oedi datblygiadol, neu os oes gennych unrhyw bryderon am hynny, efallai y bydd ei ddatblygiad yn edrych yn wahanol i’r hyn a welwch yma.</p>
         <p class='mt-2'>Os yw eich plentyn wedi cael diagnosis o anhawster lleferydd, iaith neu gyfathrebu, neu oedi datblygiadol—neu os oes gennych bryderon am y materion hyn—gallai eu cynnydd edrych yn wahanol i’r hyn a welwch yma.</p>
         <p class='mt-2'>Os cafodd eich plentyn ei eni’n gynamserol, mae’n bosibl y bydd yn datblygu ar amserlen ychydig yn wahanol, ac mae hynny’n gwbl normal.</p>
         <p class='mt-2 mb-4'>Gellir mwynhau llawer o’r gweithgareddau hyn a’u haddasu ar gyfer ystod eang o gamau datblygiadol. Ond rydym yn eich annog i ystyried anghenion unigol eich plentyn ac, os byddai hynny’n ddefnyddiol, i geisio cyngor gan weithiwr proffesiynol perthnasol er mwyn cael y gorau o’r gweithgareddau hyn.</p>
@@ -568,7 +568,7 @@ cy:
       page_title: "Diolch am gofrestru!"
       title: Rydych chi wedi cofrestru, llongyfarchiadau!
       title_waitlist: Rwyt ti wedi cael dy ychwanegu at ein rhestr aros!
-      subtitle_waitlist: Chei di destun cadarnhau yn fuan. Mae ein gweithgareddau chwarae wedi'u dylunio ar gyfer plant rhwng 9 a 18 mis oed, felly byddwn ni mewn cysylltiad eto pan fydd dy blentyn yn barod i ymuno.
+      subtitle_waitlist: Chei di destun cadarnhau yn fuan. Mae ein gweithgareddau chwarae wedi'u dylunio ar gyfer plant rhwng 6 a 18 mis oed, felly byddwn ni mewn cysylltiad eto pan fydd dy blentyn yn barod i ymuno.
       waitlist: Bob wythnos, byddwn ni’n anfon neges destun atoch. Y cyfan sydd angen i chi ei wneud yw gwylio’r fideo a rhoi cynnig ar y gweithgaredd.
       para_1: "Oes gyda chi 2 funud? Helpwch ni i lunio’r gwasanaeth o amgylch eich anghenion. Mae gennym 12 cwestiwn byr i chi. Rhowch eich barn, ac i ddiolch i chi, cewch gyfle i ennill taleb gwerth £50!<br> <a href='{{survey_url}}' class='btn bg-white text-black mt-6'>Cymerwch ran yn yr arolwg</a>"
       para_2: Os ydych chi’n chwilio am gymorth gyda’ch iechyd chi neu iechyd eich plentyn, cyllid eich teulu, neu os oes gennych bryderon am ddatblygiad eich plentyn, ewch i’n <a href='/resources' class='link'>resources page</a> i weld pa gymorth sydd ar gael yn y DU.
@@ -576,7 +576,7 @@ cy:
       page_title: "Telerau Defnyddio"
       title: "Telerau Defnyddio"
       body: |
-        <p class="mb-4">Pwrpas y wefan hon yw galluogi rhieni a gofalwyr plant 3–24 mis oed i gofrestru ar gyfer rhaglen negeseuon testun sy’n darparu awgrymiadau a chyngor ar themâu sy’n ymwneud â datblygiad plant.</p>
+        <p class="mb-4">Pwrpas y wefan hon yw galluogi rhieni a gofalwyr plant 6-18 mis oed i gofrestru ar gyfer rhaglen negeseuon testun sy’n darparu awgrymiadau a chyngor ar themâu sy’n ymwneud â datblygiad plant.</p>
         <p class="mb-4"><a href='https://www.nesta.org.uk/' target='_blank' class='link'>Nesta</a> sy’n berchen ar y wefan hon ac yn ei gweithredu – mae ein manylion llawn isod. Mae defnyddio’r wefan hon yn ddarostyngedig i’r Telerau hyn. Mae ein <a href='/privacy_policy' class='link'>Hysbysiad Preifatrwydd</a> yn esbonio sut rydym yn defnyddio unrhyw wybodaeth bersonol y gallwn ei chasglu drwy’r wefan. Os nad ydych yn cytuno â’r Telerau hyn neu â’n Polisi Preifatrwydd, peidiwch â defnyddio’r wefan hon.</p>
         <p class="mb-4">Mae’r wybodaeth, y deunyddiau a’r logos ar y wefan hon yn perthyn i Nesta, ein partneriaid neu ein trwyddedwyr. Nid ydym yn rhoi unrhyw ddatganiad na gwarant ynghylch y cynnwys, gan gynnwys mewn perthynas ag unrhyw dorri hawliau eiddo deallusol.</p>
         <p class="mb-4">Pwrpas cynnwys y wefan a’r negeseuon testun yw darparu gwybodaeth yn unig, ac ni fydd Nesta yn atebol am unrhyw benderfyniadau a wnewch o ganlyniad i edrych ar y cynnwys. Ni all Nesta eich digolledu am unrhyw golled y gallech ei dioddef o ganlyniad i’r canlynol:</p>

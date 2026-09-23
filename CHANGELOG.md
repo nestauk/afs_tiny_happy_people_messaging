@@ -1,3 +1,6 @@
+## [2026-09-23]
+- Lower the age to 6 months
+
 ## [2026-09-17]
 - Certain survey questions only shown in certain languages
 

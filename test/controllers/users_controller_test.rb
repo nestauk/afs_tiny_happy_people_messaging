@@ -104,16 +104,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not SurveySend.exists?(user: user)
   end
 
-  test "puts user on waitlist if child is under 9 months" do
+  test "puts user on waitlist if child is under 6 months" do
     create(:group, language: "cy")
 
     stub_successful_twilio_call("Helo! Diolch am ymuno â'r rhestr aros ar gyfer ein rhaglen o negeseuon wythnosol gyda gweithgareddau hwyliog ar gyfer datblygiad eich plentyn. Byddwn mewn cysylltiad pan ddaw'r amser i ddechrau. Yn y cyfamser, beth am gadw'r rhif hwn fel 'CBeebies Parenting' fel eich bod yn gwybod mai ni sy'n anfon negeseuon atoch?", build(:user, phone_number: "+447123456700"))
 
-    post users_path, params: {user: {phone_number: "07123456700", terms_agreed: "1", child_birthday: 6.months.ago, postcode: "ABC 123", language: "cy", skip_age_validation: "1"}}
+    post users_path, params: {user: {phone_number: "07123456700", terms_agreed: "1", child_birthday: 5.months.ago, postcode: "ABC 123", language: "cy", skip_age_validation: "1"}}
     assert_response :redirect
 
     user = User.find_by(phone_number: "+447123456700")
     assert_not user.contactable
-    assert_equal (user.child_birthday + 9.months), user.restart_at
+    assert_equal (user.child_birthday + 6.months), user.restart_at
   end
 end

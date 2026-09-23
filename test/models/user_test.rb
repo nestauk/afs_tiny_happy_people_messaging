@@ -61,7 +61,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "child_birthday raises error if child is too young but can join the waitlist" do
     travel_to(Date.new(2026, 9, 15)) do
-      user = build(:user, child_birthday: 8.months.ago)
+      user = build(:user, child_birthday: 5.months.ago)
       assert_raises ActiveRecord::RecordInvalid do
         user.save!
       end
@@ -70,13 +70,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "child_birthday does not raise error if child is too young but skip_validation is present" do
-    user = build(:user, child_birthday: 8.months.ago, skip_age_validation: true)
+    user = build(:user, child_birthday: 5.months.ago, skip_age_validation: true)
     assert user.save!
   end
 
   test "child_birthday raises error for child who is too young for the waitlist" do
     travel_to(Date.new(2026, 9, 15)) do
-      user = build(:user, child_birthday: 3.months.ago)
+      user = build(:user, child_birthday: 4.months.ago)
       assert_raises ActiveRecord::RecordInvalid do
         user.save!
       end
@@ -86,7 +86,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "child_birthday raises too_young_for_waitlist, not too_young, once the waitlist cutoff has passed" do
     travel_to(User::CHILD_AGE_WAITLIST_CUTOFF_DATE + 1.day) do
-      # Without the cutoff, this child would reach 9 months well within the
+      # Without the cutoff, this child would reach 6 months well within the
       # time it'd take to reach the following November, and be waitlisted.
       user = build(:user, child_birthday: 1.month.ago)
       assert_raises ActiveRecord::RecordInvalid do
@@ -98,7 +98,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "child_birthday still offers the waitlist right up to the cutoff" do
     travel_to(User::CHILD_AGE_WAITLIST_CUTOFF_DATE - 1.day) do
-      user = build(:user, child_birthday: Date.new(2026, 2, 1))
+      user = build(:user, child_birthday: Date.new(2026, 5, 1))
       assert_raises ActiveRecord::RecordInvalid do
         user.save!
       end
@@ -111,12 +111,12 @@ class UserTest < ActiveSupport::TestCase
     assert_raises ActiveRecord::RecordInvalid do
       user.save!
     end
-    assert_includes user.errors[:child_birthday], "Your child must be between 9 and 18 months old to sign up for the service."
+    assert_includes user.errors[:child_birthday], "Your child must be between 6 and 18 months old to sign up for the service."
   end
 
-  test "child_birthday is not less than 9 months on create" do
+  test "child_birthday is not less than 6 months on create" do
     assert_raises ActiveRecord::RecordInvalid do
-      create(:user, child_birthday: 8.months.ago)
+      create(:user, child_birthday: 5.months.ago)
     end
   end
 
@@ -760,7 +760,7 @@ class UserTest < ActiveSupport::TestCase
     user.put_on_waitlist
 
     assert_not user.contactable
-    assert_equal (user.child_birthday + 9.months), user.restart_at
+    assert_equal (user.child_birthday + 6.months), user.restart_at
   end
 
   test "#put_on_waitlist method raises error if update fails" do
