@@ -92,7 +92,7 @@ class RegistrationTest < ActiveSupport::TestCase
   end
 
   test "#submit puts the user on the waitlist when the child is too young" do
-    user_params = valid_user_params(child_birthday: 6.months.ago.to_date, skip_age_validation: "true")
+    user_params = valid_user_params(child_birthday: 5.months.ago.to_date, skip_age_validation: "true")
     registration = Registration.new(user_params: user_params, referrer_params: empty_referrer_params)
 
     User.any_instance.expects(:put_on_waitlist).once
@@ -108,9 +108,9 @@ class RegistrationTest < ActiveSupport::TestCase
     assert registration.submit
   end
 
-  test "#waitlisted? is true when the child is younger than 9 months" do
+  test "#waitlisted? is true when the child is younger than 6 months" do
     registration = Registration.new(
-      user_params: valid_user_params(child_birthday: 6.months.ago.to_date, skip_age_validation: "true"),
+      user_params: valid_user_params(child_birthday: 5.months.ago.to_date, skip_age_validation: "true"),
       referrer_params: empty_referrer_params,
     )
     User.any_instance.stubs(:put_on_waitlist)
@@ -119,7 +119,7 @@ class RegistrationTest < ActiveSupport::TestCase
     assert registration.waitlisted?
   end
 
-  test "#waitlisted? is false when the child is older than 9 months" do
+  test "#waitlisted? is false when the child is older than 6 months" do
     registration = Registration.new(
       user_params: valid_user_params(child_birthday: 12.months.ago.to_date),
       referrer_params: empty_referrer_params,

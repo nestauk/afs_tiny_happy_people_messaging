@@ -129,7 +129,7 @@ class User < ApplicationRecord
   end
 
   def put_on_waitlist
-    restart_date = child_birthday + 9.months
+    restart_date = child_birthday + 6.months
     if update(contactable: false, restart_at: restart_date)
       SendWaitlistMessageJob.perform_later(self)
     else
@@ -256,7 +256,7 @@ class User < ApplicationRecord
   end
 
   # The wales cohort's waitlist cutoff. Once this passes, children who won't
-  # reach 9 months by then are rejected outright rather than waitlisted.
+  # reach 6 months by then are rejected outright rather than waitlisted.
   CHILD_AGE_WAITLIST_CUTOFF_DATE = Date.parse(ENV.fetch("CHILD_AGE_WAITLIST_CUTOFF_DATE", "2026-11-01"))
   FIRST_UK_CHILD_AGE_RANGE_MONTHS = 3..27
 
@@ -273,9 +273,9 @@ class User < ApplicationRecord
       end
     elsif months_old_now > 18
       errors.add(:child_birthday, :too_old)
-    elsif months_old_now >= 9 || skip_age_validation
-      # 9–18 months now: eligible, no error
-    elsif waitlist_open? && months_between(child_birthday, CHILD_AGE_WAITLIST_CUTOFF_DATE) >= 9 && !skip_age_validation
+    elsif months_old_now >= 6 || skip_age_validation
+      # 6–18 months now: eligible, no error
+    elsif waitlist_open? && months_between(child_birthday, CHILD_AGE_WAITLIST_CUTOFF_DATE) >= 6 && !skip_age_validation
       errors.add(:child_birthday, :too_young)
     else
       errors.add(:child_birthday, :too_young_for_waitlist)

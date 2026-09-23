@@ -28,6 +28,6 @@ class RestartMessagesJobTest < ActiveSupport::TestCase
     assert_nil user.reload.restart_at
     assert_equal false, user.contactable
     assert Message.last.body.include?(edit_user_url(user, token: "123"))
-    assert Message.last.body.include?("Mae'r aros drosodd o'r diwedd!")
+    assert Message.last.body.include?("Helo gan Dîm Negeseuon Testun CBeebies!")
   end
 end
