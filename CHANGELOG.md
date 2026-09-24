@@ -1,5 +1,6 @@
 ## [2026-09-24]
 - Surveys can have a maximum number of responses; new respondents see a survey closed message instead of the form
+- Admins send broadcasts to specific user IDs instead of predefined user groups
 
 ## [2026-09-23]
 - Lower the age to 6 months

@@ -4,22 +4,21 @@ class Broadcast < ApplicationRecord
   has_many :users, through: :messages
   belongs_to :survey, optional: true
 
-  USER_GROUPS = {
-    wales: "Users in Wales cohort",
-    received_at_least_x_messages: "Users who have received at least X messages",
-  }.freeze
-
-  GROUPS_REQUIRING_MESSAGE_THRESHOLD = [:received_at_least_x_messages].freeze
-
   validates :body_en, presence: true
   validates :body_cy, presence: true
-  validates :user_groups, presence: true
-  validates :message_threshold, presence: true, numericality: {only_integer: true, greater_than: 0}, if: :requires_message_threshold?
-  validate :user_groups_are_recognised
+  validates :recipient_ids, presence: true
+  validate :recipient_ids_are_valid
+  validate :recipient_ids_correspond_to_users
   validate :survey_present_if_survey_link_used
 
-  def user_groups=(value)
-    super(Array(value).compact_blank)
+  def recipient_ids=(value)
+    tokens = value.is_a?(String) ? value.split(/[\s,]+/) : Array(value)
+    tokens = tokens.compact_blank.map(&:to_s)
+
+    @invalid_recipient_id_tokens = tokens.reject { |token| token.match?(/\A\d+\z/) }
+    valid_tokens = tokens - @invalid_recipient_id_tokens
+
+    super(valid_tokens.map(&:to_i).uniq)
   end
 
   def save_and_send!
@@ -30,14 +29,25 @@ class Broadcast < ApplicationRecord
   end
 
   def matching_users
-    ids = user_groups.map { |group| resolve_group(group) }.reduce(:&) || []
-
     User.contactable
       .where(anonymised_at: nil)
-      .where(id: ids)
+      .where(id: recipient_ids)
   end
 
   private
+
+  def recipient_ids_are_valid
+    return if @invalid_recipient_id_tokens.blank?
+
+    errors.add(:recipient_ids, "includes values that aren't valid user ids: #{@invalid_recipient_id_tokens.join(", ")}")
+  end
+
+  def recipient_ids_correspond_to_users
+    return if recipient_ids.blank?
+
+    unknown_ids = recipient_ids - User.where(id: recipient_ids).pluck(:id)
+    errors.add(:recipient_ids, "includes unknown user ids: #{unknown_ids.join(", ")}") if unknown_ids.any?
+  end
 
   def survey_present_if_survey_link_used
     return false unless body_en.present? && body_cy.present?
@@ -45,22 +55,5 @@ class Broadcast < ApplicationRecord
     if body_en.include?("{{survey_link}}") || body_cy.include?("{{survey_link}}")
       errors.add(:survey, "must be present if {{survey_link}} placeholder is used") if survey.blank?
     end
-  end
-
-  def requires_message_threshold?
-    (user_groups.to_a.map(&:to_sym) & GROUPS_REQUIRING_MESSAGE_THRESHOLD).any?
-  end
-
-  def resolve_group(group)
-    if GROUPS_REQUIRING_MESSAGE_THRESHOLD.map(&:to_s).include?(group.to_s)
-      User.public_send(group, message_threshold).pluck(:id)
-    else
-      User.public_send(group).pluck(:id)
-    end
-  end
-
-  def user_groups_are_recognised
-    unrecognised = user_groups.to_a - USER_GROUPS.keys.map(&:to_s)
-    errors.add(:user_groups, "includes an unrecognised group: #{unrecognised.join(", ")}") if unrecognised.any?
   end
 end

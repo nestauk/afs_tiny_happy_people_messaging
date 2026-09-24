@@ -26,6 +26,6 @@ class Admin::BroadcastsController < ApplicationController
   private
 
   def broadcast_params
-    params.require(:broadcast).permit(:body_en, :body_cy, :survey_id, :message_threshold, user_groups: [])
+    params.require(:broadcast).permit(:body_en, :body_cy, :survey_id, :recipient_ids)
   end
 end

@@ -25,11 +25,12 @@ class Admin::BroadcastsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create creates a broadcast and redirects to the index" do
+    user = create(:user)
     SendBroadcastJob.expects(:perform_later)
 
     assert_difference "Broadcast.count", 1 do
       post admin_broadcasts_path, params: {
-        broadcast: {body_en: "New broadcast", body_cy: "New broadcast in Welsh", user_groups: ["wales"]},
+        broadcast: {body_en: "New broadcast", body_cy: "New broadcast in Welsh", recipient_ids: user.id.to_s},
       }
     end
     assert_redirected_to admin_broadcasts_path
@@ -39,7 +40,7 @@ class Admin::BroadcastsControllerTest < ActionDispatch::IntegrationTest
   test "create re-renders new with invalid params" do
     assert_no_difference "Broadcast.count" do
       post admin_broadcasts_path, params: {
-        broadcast: {body_en: "", body_cy: "", user_groups: []},
+        broadcast: {body_en: "", body_cy: "", recipient_ids: ""},
       }
     end
     assert_response :unprocessable_entity
