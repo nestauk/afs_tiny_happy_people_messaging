@@ -564,6 +564,8 @@ cy:
         page_title: "Diolch!"
         title: "Diolch!"
         subtitle: Bydd eich atebion yn ein helpu i wneud y gwasanaeth hwn yn well i deuluoedd ym mhobman. Gobeithiwn y byddwch yn mwynhau’r fideos ac yn cael hyd i syniadau defnyddiol a all wneud gwahaniaeth go iawn i chi a’ch teulu.
+        closed_title: "Diolch, ond mae'r arolwg hwn wedi cau"
+        closed_body: "Mae'r arolwg hwn wedi cyrraedd ei uchafswm o ymatebion, felly nid ydym yn gallu derbyn atebion newydd bellach. Diolch am eich diddordeb."
     thank_you: 
       page_title: "Diolch am gofrestru!"
       title: Rydych chi wedi cofrestru, llongyfarchiadau!

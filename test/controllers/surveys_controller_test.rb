@@ -67,6 +67,33 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
     assert_equal "New answer", answer.reload.response
   end
 
+  test "edit redirects to thank you when the survey is full" do
+    @survey.update!(max_responses: 1)
+    create(:survey_send, survey: @survey, completed_at: Time.zone.now)
+
+    get edit_survey_path(@survey, token: @token)
+
+    assert_redirected_to thank_you_survey_path(@survey, token: @token, closed: true)
+  end
+
+  test "edit does not redirect a user who already completed the full survey" do
+    @survey.update!(max_responses: 1)
+    create(:survey_send, survey: @survey, user: @user, completed_at: Time.zone.now)
+
+    get edit_survey_path(@survey, token: @token)
+
+    assert_response :success
+  end
+
+  test "thank you shows the closed message when redirected from a full survey" do
+    @survey.update!(max_responses: 1)
+    create(:survey_send, survey: @survey, completed_at: Time.zone.now)
+
+    get thank_you_survey_path(@survey, token: @token, closed: true)
+
+    assert_includes response.body, I18n.t("pages.surveys.thank_you.closed_title")
+  end
+
   test "update joins checkbox array response into string" do
     answer = create(:answer, question: @question, user: @user, response: "Old answer")
 

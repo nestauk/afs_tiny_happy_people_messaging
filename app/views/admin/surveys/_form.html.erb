@@ -45,6 +45,11 @@
   </div>
 
   <div class="mb-4">
+    <%= form.label :max_responses, "Max responses (blank = unlimited)", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.number_field :max_responses, min: 1, class: "mt-1 block w-1/2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
+  </div>
+
+  <div class="mb-4">
     <%= form.submit @survey.new_record? ? "Create survey" : "Update survey", class: "bg-blue-500 text-white rounded p-2" %>
   </div>
 <% end %>

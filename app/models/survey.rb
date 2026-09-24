@@ -21,4 +21,12 @@ class Survey < ApplicationRecord
 
     matching.each { |survey| SendSurveyJob.perform_later(user, survey) }
   end
+
+  def completed_by?(user)
+    survey_sends.where(user: user).where.not(completed_at: nil).exists?
+  end
+
+  def full?
+    max_responses.present? && survey_sends.where.not(completed_at: nil).count >= max_responses
+  end
 end

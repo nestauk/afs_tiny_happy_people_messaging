@@ -2,6 +2,7 @@ class SurveysController < ApplicationController
   skip_before_action :authenticate_admin!
   before_action :set_survey, only: [:edit, :update, :thank_you]
   before_action :set_user, only: [:edit, :update, :thank_you]
+  before_action :redirect_if_full, only: [:edit, :update]
   before_action :set_questions, :set_answers, only: [:edit]
   after_action :track_action, only: [:edit, :thank_you]
 
@@ -25,12 +26,20 @@ class SurveysController < ApplicationController
   def thank_you
     @hide_sidebar = true
     @language = params[:locale] || @user.language || I18n.locale
+    @closed = params[:closed].present?
   end
 
   private
 
   def set_survey
     @survey = Survey.find(params[:id])
+  end
+
+  def redirect_if_full
+    return if @survey.completed_by?(@user)
+    return unless @survey.full?
+
+    redirect_to thank_you_survey_path(@survey, token: params[:token], locale: @user.language, closed: true)
   end
 
   def set_questions

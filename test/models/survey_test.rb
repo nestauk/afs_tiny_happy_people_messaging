@@ -66,4 +66,46 @@ class SurveyTest < ActiveSupport::TestCase
       Survey.trigger_for(user, message_count: 0)
     end
   end
+
+  test "#completed_by? is true when the user has a completed survey_send" do
+    user = create(:user)
+    create(:survey_send, survey: @survey, user: user, completed_at: Time.zone.now)
+
+    assert @survey.completed_by?(user)
+  end
+
+  test "#completed_by? is false when the user has not completed the survey" do
+    user = create(:user)
+    create(:survey_send, survey: @survey, user: user, completed_at: nil)
+
+    assert_not @survey.completed_by?(user)
+  end
+
+  test "#full? is false when max_responses is not set" do
+    @survey.update!(max_responses: nil)
+    create_list(:survey_send, 3, survey: @survey, completed_at: Time.zone.now)
+
+    assert_not @survey.full?
+  end
+
+  test "#full? is false when completed responses are below max_responses" do
+    @survey.update!(max_responses: 3)
+    create_list(:survey_send, 2, survey: @survey, completed_at: Time.zone.now)
+
+    assert_not @survey.full?
+  end
+
+  test "#full? is true when completed responses reach max_responses" do
+    @survey.update!(max_responses: 3)
+    create_list(:survey_send, 3, survey: @survey, completed_at: Time.zone.now)
+
+    assert @survey.full?
+  end
+
+  test "#full? does not count survey_sends that were never completed" do
+    @survey.update!(max_responses: 2)
+    create_list(:survey_send, 2, survey: @survey, completed_at: nil)
+
+    assert_not @survey.full?
+  end
 end
