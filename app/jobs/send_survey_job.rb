@@ -6,7 +6,7 @@ class SendSurveyJob < ApplicationJob
   def perform(user, survey)
     return if SurveySend.exists?(user: user, survey: survey)
 
-    survey_url = edit_survey_url(survey, token: user.generate_token_for(:survey_token))
+    survey_url = edit_survey_url(survey, token: user.survey_link_token)
 
     message = Message.build do |m|
       m.user = user

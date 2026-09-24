@@ -29,6 +29,9 @@ class User < ApplicationRecord
   generates_token_for :restart_token, expires_in: 2.days
   generates_token_for :survey_token
 
+  SURVEY_TOKEN_CHARS = (("A".."Z").to_a - ["I", "O"]) + ("2".."9").to_a
+  SURVEY_TOKEN_LENGTH = 10
+
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
   scope :with_preference_for_day, ->(day) { where(day_preference: day) }
@@ -164,6 +167,20 @@ class User < ApplicationRecord
 
   def anonymised?
     anonymised_at.present?
+  end
+
+  def survey_link_token
+    return survey_token if survey_token.present?
+
+    update!(survey_token: self.class.generate_unique_survey_token)
+    survey_token
+  end
+
+  def self.generate_unique_survey_token
+    loop do
+      candidate = Array.new(SURVEY_TOKEN_LENGTH) { SURVEY_TOKEN_CHARS.sample }.join
+      break candidate unless exists?(survey_token: candidate)
+    end
   end
 
   def self.report_expired_token(token)

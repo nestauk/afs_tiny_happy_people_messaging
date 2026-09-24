@@ -10,12 +10,17 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
     @survey = create(:survey)
     @survey_section = create(:survey_section, survey: @survey)
     @user = create(:user)
-    @token = @user.generate_token_for(:survey_token)
+    @token = @user.survey_link_token
     @question = create(:question, survey_section: @survey_section)
   end
 
   test "edit renders survey with valid token" do
     get edit_survey_path(@survey, token: @token)
+    assert_response :success
+  end
+
+  test "edit renders survey with a valid old-format signed token" do
+    get edit_survey_path(@survey, token: @user.generate_token_for(:survey_token))
     assert_response :success
   end
 

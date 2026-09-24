@@ -53,6 +53,6 @@ class SendBroadcastJob < ApplicationJob
   def survey_link_for(broadcast, user)
     return if broadcast.survey.blank?
 
-    edit_survey_url(broadcast.survey, token: user.generate_token_for(:survey_token))
+    edit_survey_url(broadcast.survey, token: user.survey_link_token)
   end
 end

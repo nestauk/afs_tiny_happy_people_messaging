@@ -47,7 +47,7 @@ class SurveysController < ApplicationController
   end
 
   def set_user
-    @user = User.find_by_token_for(:survey_token, params[:token])
+    @user = User.find_by(survey_token: params[:token]) || User.find_by_token_for(:survey_token, params[:token])
     unless @user
       redirect_to root_path, alert: "Invalid survey link."
     end

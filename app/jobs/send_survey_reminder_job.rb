@@ -7,7 +7,7 @@ class SendSurveyReminderJob < ApplicationJob
     return if SurveySend.where(user: user, survey: survey, sent_at: Time.zone.now.beginning_of_day..).exists?
     return if SurveySend.where(user: user, survey: survey).count >= 2
 
-    survey_url = edit_survey_url(survey, token: user.generate_token_for(:survey_token))
+    survey_url = edit_survey_url(survey, token: user.survey_link_token)
 
     message = Message.build do |m|
       m.user = user
