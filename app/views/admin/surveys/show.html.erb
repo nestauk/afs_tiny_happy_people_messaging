@@ -11,6 +11,12 @@
   <% else %>
     Not auto-sent (manual only)
   <% end %>
+  &middot;
+  <% if @survey.max_responses.present? %>
+    <%= @survey.survey_sends.where.not(completed_at: nil).count %> / <%= @survey.max_responses %> responses
+  <% else %>
+    <%= @survey.survey_sends.where.not(completed_at: nil).count %> responses (unlimited)
+  <% end %>
   &middot; <%= link_to "Edit", edit_admin_survey_path(@survey), class: "text-blue-500 hover:underline" %>
 </div>
 

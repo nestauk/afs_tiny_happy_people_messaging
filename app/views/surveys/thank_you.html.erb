@@ -4,7 +4,10 @@
   <% if @back_link %>
     <%= link_to "Back to editing survey", @back_link, class: "link mb-4 inline-block" %>
   <% end %>
-  <% if @language == "en"  %>
+  <% if @closed %>
+    <h1><%= t("pages.surveys.thank_you.closed_title", locale: @language) %></h1>
+    <p><%= t("pages.surveys.thank_you.closed_body", locale: @language) %></p>
+  <% elsif @language == "en"  %>
     <h1><%= @survey.thank_you_title_en %></h1>
     <%= sanitize @survey.thank_you_body_en %>
   <% else %>
