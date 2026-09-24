@@ -15,6 +15,6 @@ class AdminTest < ActiveSupport::TestCase
   test "should have a default role" do
     admin = build(:admin, email: "test@example.com")
     admin.save
-    assert_includes ["admin", "local_authority"], admin.role, "Admin role is not set to a valid default"
+    assert_includes ["admin"], admin.role, "Admin role is not set to a valid default"
   end
 end
