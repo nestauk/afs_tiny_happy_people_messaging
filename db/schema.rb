@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_24_110000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_24_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -542,6 +542,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_110000) do
     t.datetime "restart_at"
     t.datetime "sent_bilingual_text_at"
     t.string "sms_provider", default: "aws", null: false
+    t.string "survey_token"
     t.datetime "terms_agreed_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_users_on_group_id"
@@ -549,6 +550,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_110000) do
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["next_content_override_id"], name: "index_users_on_next_content_override_id"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
+    t.index ["survey_token"], name: "index_users_on_survey_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

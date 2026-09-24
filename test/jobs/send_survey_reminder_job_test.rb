@@ -34,7 +34,7 @@ class SendSurveyReminderJobTest < ActiveSupport::TestCase
     user = create(:user)
     survey = create(:survey)
 
-    User.any_instance.stubs(:generate_token_for).with(:survey_token).returns("abc123")
+    User.any_instance.stubs(:survey_link_token).returns("abc123")
 
     SendSurveyReminderJob.new.perform(user, survey)
 

@@ -38,6 +38,36 @@ class UserTest < ActiveSupport::TestCase
     User.report_expired_token("")
   end
 
+  test "#survey_link_token generates and persists a short code on first call" do
+    assert_nil @subject.survey_token
+
+    token = @subject.survey_link_token
+
+    assert_equal 10, token.length
+    assert_equal token, @subject.reload.survey_token
+  end
+
+  test "#survey_link_token returns the same code on subsequent calls" do
+    first_token = @subject.survey_link_token
+    second_token = @subject.survey_link_token
+
+    assert_equal first_token, second_token
+  end
+
+  test "#survey_link_token only uses unambiguous characters" do
+    token = @subject.survey_link_token
+
+    assert_no_match(/[IO01]/, token)
+  end
+
+  test ".generate_unique_survey_token retries if the candidate already exists" do
+    User.stubs(:exists?).returns(true).then.returns(false)
+
+    token = User.generate_unique_survey_token
+
+    assert_equal 10, token.length
+  end
+
   test "has_many messages" do
     create(:message, user: @subject)
     assert_equal(1, @subject.messages.size)

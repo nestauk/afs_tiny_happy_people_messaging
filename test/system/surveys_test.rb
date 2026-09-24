@@ -13,7 +13,7 @@ class SurveysTest < ApplicationSystemTestCase
 
   test "user can fill in a survey in English" do
     user = create(:user)
-    token = user.generate_token_for(:survey_token)
+    token = user.survey_link_token
 
     visit edit_survey_path(@survey, token:)
 
@@ -43,7 +43,7 @@ class SurveysTest < ApplicationSystemTestCase
   test "user can fill in a survey in Welsh" do
     create(:group, language: "cy")
     user = create(:user, language: "cy")
-    token = user.generate_token_for(:survey_token)
+    token = user.survey_link_token
 
     visit edit_survey_path(@survey, token:)
 
