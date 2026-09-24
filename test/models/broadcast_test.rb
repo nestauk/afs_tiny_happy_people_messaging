@@ -21,20 +21,33 @@ class BroadcastTest < ActiveSupport::TestCase
     assert_not @broadcast.valid?
   end
 
-  test "requires user_groups" do
-    @broadcast.user_groups = []
+  test "requires recipient_ids" do
+    @broadcast.recipient_ids = []
     assert_not @broadcast.valid?
   end
 
-  test "validates user_groups are recognised" do
-    @broadcast.user_groups = ["unrecognised_group"]
-    assert_not @broadcast.valid?
+  test "parses recipient_ids pasted as a comma and newline separated string" do
+    @broadcast.recipient_ids = "12, 45\n190"
+    assert_equal [12, 45, 190], @broadcast.recipient_ids
   end
 
-  test "requires message_threshold if user_groups includes received_at_least_x_messages" do
-    @broadcast.user_groups = ["received_at_least_x_messages"]
-    @broadcast.message_threshold = nil
+  test "deduplicates pasted recipient_ids" do
+    @broadcast.recipient_ids = "12, 12, 45"
+    assert_equal [12, 45], @broadcast.recipient_ids
+  end
+
+  test "validates recipient_ids only contain valid user id values" do
+    @broadcast.recipient_ids = "12, abc, 45"
     assert_not @broadcast.valid?
+    assert_includes @broadcast.errors[:recipient_ids].join, "abc"
+  end
+
+  test "validates recipient_ids correspond to real users" do
+    user = create(:user)
+    @broadcast.recipient_ids = [user.id, user.id + 100_000]
+
+    assert_not @broadcast.valid?
+    assert_includes @broadcast.errors[:recipient_ids].join, (user.id + 100_000).to_s
   end
 
   test "validates survey is present if {{survey_link}} placeholder is used" do
@@ -43,42 +56,23 @@ class BroadcastTest < ActiveSupport::TestCase
     assert_not @broadcast.valid?
   end
 
-  test "matching_users returns users in the specified groups" do
-    user1 = create(:user, cohort: :first_uk)
+  test "matching_users returns users with the specified recipient_ids" do
+    user1 = create(:user)
     user2 = create(:user)
-    user3 = create(:user)
+    other_user = create(:user)
 
-    @broadcast.user_groups = ["wales"]
+    @broadcast.recipient_ids = [user1.id, user2.id]
+
+    assert_includes @broadcast.matching_users, user1
     assert_includes @broadcast.matching_users, user2
-    assert_includes @broadcast.matching_users, user3
-    assert_not_includes @broadcast.matching_users, user1
-  end
-
-  test "matching_users returns the intersection of users when multiple groups are selected" do
-    group = create(:group, language: "esp")
-    content = create(:content, group:)
-
-    in_pilot_with_message = create(:user)
-    create(:message, user: in_pilot_with_message, content:)
-
-    in_pilot_without_message = create(:user)
-
-    not_in_pilot_with_message = create(:user, cohort: :first_uk)
-    create(:message, user: not_in_pilot_with_message, content:)
-
-    @broadcast.user_groups = ["wales", "received_at_least_x_messages"]
-    @broadcast.message_threshold = 1
-
-    assert_includes @broadcast.matching_users, in_pilot_with_message
-    assert_not_includes @broadcast.matching_users, in_pilot_without_message
-    assert_not_includes @broadcast.matching_users, not_in_pilot_with_message
+    assert_not_includes @broadcast.matching_users, other_user
   end
 
   test "matching_users excludes opted-out users" do
     opted_out_user = create(:user, contactable: false)
     contactable_user = create(:user)
 
-    @broadcast.user_groups = ["wales"]
+    @broadcast.recipient_ids = [opted_out_user.id, contactable_user.id]
 
     assert_not_includes @broadcast.matching_users, opted_out_user
     assert_includes @broadcast.matching_users, contactable_user
@@ -88,7 +82,7 @@ class BroadcastTest < ActiveSupport::TestCase
     anonymised_user = create(:user, anonymised_at: Time.zone.now)
     non_anonymised_user = create(:user)
 
-    @broadcast.user_groups = ["wales"]
+    @broadcast.recipient_ids = [anonymised_user.id, non_anonymised_user.id]
 
     assert_not_includes @broadcast.matching_users, anonymised_user
     assert_includes @broadcast.matching_users, non_anonymised_user

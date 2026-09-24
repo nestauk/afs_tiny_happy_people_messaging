@@ -24,19 +24,10 @@
   </div>
 
   <div class="mb-4">
-    <%= form.label :user_groups, "Send to", class: "block text-sm font-medium text-gray-700" %>
-    <p class="text-sm text-gray-500">Selecting more than one option will only include users who match all selected criteria.</p>
-    <div class="text-red-500"><%= form.object.errors.full_messages_for(:user_groups).join(", ") %></div>
-    <%= form.collection_check_boxes :user_groups, Broadcast::USER_GROUPS, :first, :second do |b| %>
-      <div>
-        <%= b.check_box %>
-        <%= b.label %>
-        <% if b.value.to_s == "received_at_least_x_messages" %>
-          <%= form.number_field :message_threshold, min: 1, placeholder: "e.g. 6", class: "ml-2 w-20 border border-gray-300 rounded-md" %>
-        <% end %>
-      </div>
-    <% end %>
-    <div class="text-red-500"><%= form.object.errors.full_messages_for(:message_threshold).join(", ") %></div>
+    <%= form.label :recipient_ids, "Send to (user IDs)", class: "block text-sm font-medium text-gray-700" %>
+    <p class="text-sm text-gray-500">Paste in the user IDs to send this to, separated by commas, spaces or new lines.</p>
+    <div class="text-red-500"><%= form.object.errors.full_messages_for(:recipient_ids).join(", ") %></div>
+    <%= form.text_area :recipient_ids, value: form.object.recipient_ids.join("\n"), placeholder: "e.g.\n12\n45\n190", rows: 6, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>
 
   <div class="mb-4">

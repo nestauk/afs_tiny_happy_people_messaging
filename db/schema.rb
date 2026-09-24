@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_24_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_24_110000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -187,11 +187,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_100000) do
     t.text "body_cy"
     t.text "body_en"
     t.datetime "created_at", null: false
-    t.integer "message_threshold"
+    t.integer "recipient_ids", default: [], null: false, array: true
     t.datetime "sent_at"
     t.bigint "survey_id"
     t.datetime "updated_at", null: false
-    t.string "user_groups", default: [], null: false, array: true
     t.index ["admin_id"], name: "index_broadcasts_on_admin_id"
     t.index ["survey_id"], name: "index_broadcasts_on_survey_id"
   end
