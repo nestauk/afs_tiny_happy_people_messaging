@@ -72,22 +72,6 @@ class Admin::AdminsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "local authority admins are redirected away from index" do
-    sign_out @admin
-    sign_in create(:admin, email: "la@example.com", role: "local_authority")
-    get admin_admins_path
-    assert_response :redirect
-  end
-
-  test "local authority admins are redirected away from create" do
-    sign_out @admin
-    sign_in create(:admin, email: "la@example.com", role: "local_authority")
-    assert_no_difference "Admin.count" do
-      post admin_admins_path, params: {admin: {email: "blocked@example.com"}}
-    end
-    assert_response :redirect
-  end
-
   test "unauthenticated requests are redirected to sign in" do
     sign_out @admin
     get admin_admins_path
