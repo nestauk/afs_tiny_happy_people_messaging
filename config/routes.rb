@@ -32,7 +32,7 @@ Rails.application.routes.draw do
         resources :answers, only: [:index]
       end
 
-      resources :admins, except: %i[show destroy]
+      resources :admins, except: %i[show]
       resources :auto_responses, only: %i[index edit update]
       resources :broadcasts, only: %i[index new create show]
 

@@ -5,5 +5,5 @@ class Admin < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
 
-  attribute :role, admin: "admin"
+  enum :role, {admin: "admin", super_admin: "super_admin"}
 end

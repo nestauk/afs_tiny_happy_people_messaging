@@ -78,25 +78,6 @@ class Admin::ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Content archived", flash[:notice]
   end
 
-  test "local authority admins are redirected away from new" do
-    sign_out @admin
-    sign_in create(:admin, role: "local_authority", email: "la@example.com")
-    get new_admin_group_content_path(@group)
-    assert_response :redirect
-  end
-
-  test "local authority admins cannot create content" do
-    sign_out @admin
-    sign_in create(:admin, role: "local_authority", email: "la@example.com")
-
-    assert_no_difference "Content.count" do
-      post admin_group_contents_path(@group), params: {
-        content: {body: "Blocked", link: "https://www.bbc.co.uk/x", age_in_months: 12, position: 99},
-      }
-    end
-    assert_response :redirect
-  end
-
   test "unauthenticated requests are redirected to sign in" do
     sign_out @admin
     get new_admin_group_content_path(@group)

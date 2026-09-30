@@ -1,5 +1,5 @@
 class Admin::AdminsController < ApplicationController
-  before_action :set_admin, only: [:edit, :update]
+  before_action :set_admin, only: [:edit, :update, :destroy]
   before_action :check_admin_role
   after_action :do_not_track!
 
@@ -39,14 +39,20 @@ class Admin::AdminsController < ApplicationController
     end
   end
 
+  def destroy
+    @admin.destroy
+
+    redirect_to admin_admins_path, notice: "Admin was successfully deleted."
+  end
+
   private
 
   def set_admin
     @admin = Admin.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def admin_params
-    params.require(:admin).permit(:email)
+    permitted = params.require(:admin).permit(:email, :role)
+    current_admin.super_admin? ? permitted : permitted.except(:role)
   end
 end

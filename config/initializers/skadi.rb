@@ -2,9 +2,9 @@ Skadi.configure do |config|
   config.user_model = "Admin"
   config.user_controller_method = :current_admin
 
-  config.dashboard_view_controller_method = :admin_role?
-  config.dashboard_edit_controller_method = :admin_role?
-  config.dashboard_dangerously_use_sql_controller_method = :admin_role?
+  config.dashboard_view_controller_method = :has_admin_role?
+  config.dashboard_edit_controller_method = :super_admin_role?
+  config.dashboard_dangerously_use_sql_controller_method = :super_admin_role?
 
   config.use_anonymity_sets = true
 

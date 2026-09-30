@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @admins.each do |admin| %>
+        <% @admins.order(:email).each do |admin| %>
           <tr class="border-b-2">
             <td class="px-4 py-4 bg-white">
               <%= admin.email %>
@@ -20,6 +20,9 @@
             <td class="px-4 py-4 bg-white">
               <% if admin == current_admin %>
                 <%= link_to "Edit", edit_admin_admin_path(admin), class: "underline hover:no-underline" %>
+              <% end %>
+              <% if current_admin.super_admin? %>
+                <%= button_to "Delete", admin_admin_path(admin), method: :delete, form: {onsubmit: "return confirm('Are you sure?')"}, class: "link text-left" %>
               <% end %>
             </td>
           </tr>

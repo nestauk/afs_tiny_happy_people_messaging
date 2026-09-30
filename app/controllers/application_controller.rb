@@ -21,11 +21,19 @@ class ApplicationController < ActionController::Base
   private
 
   def check_admin_role
-    redirect_to root_path unless current_admin.role == "admin"
+    redirect_to root_path unless has_admin_role?
+  end
+
+  def has_admin_role?
+    admin_role? || super_admin_role?
   end
 
   def admin_role?
     current_admin.role == "admin"
+  end
+
+  def super_admin_role?
+    current_admin.role == "super_admin"
   end
 
   # Skadi is a first-party behavioural tracker so it's gated by the same "statistical" consent
