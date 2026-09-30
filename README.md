@@ -2,7 +2,7 @@
 
 Sends weekly texts with links to content from BBC's CBeebies Parenting to parents.
 
-Users can sign up, and then only interact with the service via text.<br />
+Users sign up via the [website](https://cbeebies-text.uk), and then only interact with the service via text.<br />
 Admins maintain content via the admin dashboard.<br />
 
 ## Getting started
@@ -33,7 +33,8 @@ rails db:schema:load
 ```
 
 The local development server will now be accessible at http://localhost:3000.<br />
-[Blazer](https://github.com/ankane/blazer) dashboard can be found at http://localhost:3000/blazer. 
+[Blazer](https://github.com/ankane/blazer) dashboard can be found at http://localhost:3000/blazer.<br />
+[Skadi](https://github.com/mwnciau/skadi) dashboard can be found at http://localhost:3000/skadi. 
 
 To view the admin dashboard, create an admin user in the database. Login is done via [magic Link](https://github.com/abevoelker/devise-passwordless).
 
@@ -61,11 +62,11 @@ We use Heroku to host and deploy this app.
 
 ### Job scheduling
 
-The tasks to send messages to parents are set in recurring.yml. To see a list of all jobs queued/running/scheduled, go to /jobs.
+All scheduled jobs are set in recurring.yml. To see a list of all jobs queued/running/scheduled, go to /jobs.
 
 ### Sending texts
 
 Users pre June 2026 launch receive texts via [Twilio](https://www.twilio.com/en-us). 
-Users post June 2026 receive texts via [AWS End User Messaging](https://aws.amazon.com/end-user-messaging/) and [Simple Notification Service](https://aws.amazon.com/sns/) updates the delivery status and sends user responses.
+Users post June 2026 receive texts via [AWS End User Messaging](https://aws.amazon.com/end-user-messaging/), and [Simple Notification Service](https://aws.amazon.com/sns/) updates the delivery status and sends user responses.
 
-[AWS SES](https://aws.amazon.com/ses/) to send login links to administrators.
+[AWS SES](https://aws.amazon.com/ses/) sends login links to administrators.
