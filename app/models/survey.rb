@@ -1,6 +1,7 @@
 class Survey < ApplicationRecord
   has_many :survey_sections, dependent: :destroy
   has_many :questions, through: :survey_sections
+  has_many :answers, through: :questions
   has_many :survey_sends, dependent: :destroy
   has_many :users, through: :survey_sends
   accepts_nested_attributes_for :questions

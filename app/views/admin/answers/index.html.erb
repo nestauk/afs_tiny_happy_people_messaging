@@ -1,0 +1,25 @@
+<div class="mb-2">
+  <%= link_to '< Back to survey'.html_safe, admin_survey_path(@survey), class: 'text-sm text-gray-600 underline hover:no-underline' %>
+</div>
+
+<h1 class="text-4xl font-bold mb-6">Answers to <%= @survey.title_en %></h1>
+
+<div class="space-y-4">
+  <% @survey.questions.order(:position).includes(:answers).each do |question| %>
+    <div class="bg-white rounded-lg shadow-sm p-4">
+      <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+        <h2 class="text-lg font-semibold"><%= question.text_en %></h2>
+        <span class="text-sm text-gray-500 whitespace-nowrap"><%= pluralize(question.answers.size, "answer") %></span>
+      </div>
+      <% if question.answers.any? %>
+        <ul class="divide-y divide-gray-100">
+          <% question.answers.each do |answer| %>
+            <li class="py-2 text-gray-800"><%= answer.response %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-sm text-gray-500 italic">No answers yet</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
