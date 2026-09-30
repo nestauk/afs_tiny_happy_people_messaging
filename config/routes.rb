@@ -29,6 +29,7 @@ Rails.application.routes.draw do
             patch "update_position", on: :member
           end
         end
+        resources :answers, only: [:index]
       end
 
       resources :admins, except: %i[show destroy]
