@@ -17,4 +17,12 @@ class AdminTest < ActiveSupport::TestCase
     admin.save
     assert_includes ["admin"], admin.role, "Admin role is not set to a valid default"
   end
+
+  test "role can be set to admin or super_admin" do
+    admin = build(:admin, role: "admin")
+    assert admin.admin?
+
+    admin.role = "super_admin"
+    assert admin.super_admin?
+  end
 end

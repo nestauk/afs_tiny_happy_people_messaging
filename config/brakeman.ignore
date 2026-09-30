@@ -22,6 +22,29 @@
         601
       ],
       "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "f30c39f1e1850c916e2fcf3a33ba0b671e8f54e47f4803ae7291a30677e291ca",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/admin/admins_controller.rb",
+      "line": 55,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:admin).permit(:email, :role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::AdminsController",
+        "method": "admin_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "admin_params strips :role unless current_admin.super_admin?, so only a super admin can assign or change a role - Brakeman can't see that runtime guard."
     }
   ],
   "brakeman_version": "7.1.2"
