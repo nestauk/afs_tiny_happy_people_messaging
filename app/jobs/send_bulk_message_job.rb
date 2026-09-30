@@ -1,4 +1,6 @@
 class SendBulkMessageJob < ApplicationJob
+  include EnqueuesJobsInBatches
+
   queue_as :real_time
 
   def perform(message_type, time = nil)
@@ -35,19 +37,5 @@ class SendBulkMessageJob < ApplicationJob
     when "evening" then base.wants_evening_message
     when "no_preference" then base.no_hour_preference_message
     end
-  end
-
-  # Stagger enqueued jobs so message-sending jobs execute in batches spread a
-  # second apart, keeping SMS sends under our AWS Pinpoint account's rate limit.
-  def enqueue_in_batches(jobs)
-    return if jobs.empty?
-
-    jobs.each_slice(Sms::Client::BATCH_SIZE).with_index do |batch, index|
-      next if index.zero? # first batch sends immediately, same as before batching existed
-
-      batch.each { |job| job.set(wait: index.seconds) }
-    end
-
-    ActiveJob.perform_all_later(jobs)
   end
 end
