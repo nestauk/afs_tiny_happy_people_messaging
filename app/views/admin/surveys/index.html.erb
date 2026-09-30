@@ -8,7 +8,7 @@
     <tr class="bg-blue-300 text-left">
       <th class="px-4 py-4">Title</th>
       <th class="px-4 py-4">Sent at</th>
-      <th class="px-4 py-4">Actions</th>
+      <th class="px-4 py-4">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
@@ -26,9 +26,9 @@
             Sent manually
           <% end %>
         </td>
-        <td class="px-4 py-4 bg-white">
-          <%= link_to "Edit", edit_admin_survey_path(survey), class: "text-blue-500 hover:underline" %><br>
-          <%= button_to "Delete", admin_survey_path(survey), method: :delete, form: {onsubmit: "return confirm('Are you sure?')"}, class: "text-red-500 hover:underline bg-transparent border-0 p-0 cursor-pointer" %>
+        <td class="px-4 py-4 bg-white flex flex-col">
+          <%= link_to "Edit", edit_admin_survey_path(survey), class: "link" %>
+          <%= button_to "Delete", admin_survey_path(survey), method: :delete, form: {onsubmit: "return confirm('Are you sure?')"}, class: "link text-left" %>
         </td>
       </tr>
     <% end %>
