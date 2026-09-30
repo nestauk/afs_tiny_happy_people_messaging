@@ -5,7 +5,7 @@
 <h1 class="text-4xl font-bold mb-6">Answers to <%= @survey.title_en %></h1>
 
 <div class="space-y-4">
-  <% @survey.questions.order(:position).includes(:answers).each do |question| %>
+  <% @survey.questions.joins(:survey_section).includes(:answers).order("survey_sections.position", "questions.position").each do |question| %>
     <div class="bg-white rounded-lg shadow-sm p-4">
       <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
         <h2 class="text-lg font-semibold"><%= question.text_en %></h2>
