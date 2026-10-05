@@ -31,7 +31,7 @@ class Admin::AnswersControllerTest < ActionDispatch::IntegrationTest
 
     get admin_survey_answers_path(survey)
 
-    positions = ["A1", "A2", "B1", "B2"].map { |label| response.body.index(label) }
-    assert_equal positions.sort, positions
+    question_titles = Nokogiri::HTML(response.body).css("h2").map(&:text)
+    assert_equal ["A1", "A2", "B1", "B2"], question_titles
   end
 end
