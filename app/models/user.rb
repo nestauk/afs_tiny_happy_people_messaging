@@ -19,6 +19,8 @@ class User < ApplicationRecord
   validate :child_is_correct_age?, on: :create
   validate :has_welsh_postcode?, on: :create, if: :wales?
   validate :content_in_months_matches_a_content?, if: :content_in_months_changed?
+  validate :child_name_is_not_a_blocked_word?, if: :child_name_changed?
+  validate :first_name_is_not_a_blocked_word?, if: :first_name_changed?
 
   attr_accessor :terms_agreed, :skip_age_validation
 
@@ -270,6 +272,16 @@ class User < ApplicationRecord
     unless PostcodeService.valid_welsh_postcode?(postcode)
       errors.add(:postcode, :not_welsh)
     end
+  end
+
+  def child_name_is_not_a_blocked_word?
+    return if child_name.blank?
+    errors.add(:child_name, :exact_profanity_match) if NameProfanityCheck.new(child_name).exact_match?
+  end
+
+  def first_name_is_not_a_blocked_word?
+    return if first_name.blank?
+    errors.add(:first_name, :exact_profanity_match) if NameProfanityCheck.new(first_name).exact_match?
   end
 
   # The wales cohort's waitlist cutoff. Once this passes, children who won't

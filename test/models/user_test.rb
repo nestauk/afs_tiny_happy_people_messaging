@@ -201,6 +201,28 @@ class UserTest < ActiveSupport::TestCase
     assert create(:user, cohort: :first_uk, postcode: "SW1A 1AA")
   end
 
+  test "child_name_is_not_a_blocked_word? validation" do
+    error = assert_raises ActiveRecord::RecordInvalid do
+      create(:user, child_name: "fuck")
+    end
+    assert_includes error.record.errors[:child_name], "We have flagged this as an inappropriate name, if you disagree or have any questions please reach out to info@cbeebies-text.uk."
+  end
+
+  test "child_name_is_not_a_blocked_word? does not block a name that merely contains a blocked word" do
+    assert create(:user, child_name: "Hancock")
+  end
+
+  test "first_name_is_not_a_blocked_word? validation" do
+    error = assert_raises ActiveRecord::RecordInvalid do
+      create(:user, first_name: "fuck")
+    end
+    assert_includes error.record.errors[:first_name], "We have flagged this as an inappropriate name, if you disagree or have any questions please reach out to info@cbeebies-text.uk."
+  end
+
+  test "first_name_is_not_a_blocked_word? does not block a name that merely contains a blocked word" do
+    assert create(:user, first_name: "Hancock")
+  end
+
   test "contactable scope" do
     create(:user, contactable: false)
 
