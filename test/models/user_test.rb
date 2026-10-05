@@ -223,6 +223,24 @@ class UserTest < ActiveSupport::TestCase
     assert create(:user, first_name: "Hancock")
   end
 
+  test "pending_name_review scope" do
+    user = create(:user, needs_name_review: true)
+
+    assert_equal User.pending_name_review.size, 1
+    assert_equal User.pending_name_review, [user]
+  end
+
+  test "#approve_name! clears needs_name_review and stamps name_reviewed_at" do
+    @subject.update!(needs_name_review: true)
+
+    freeze_time do
+      @subject.approve_name!
+
+      assert_not @subject.needs_name_review?
+      assert_equal Time.zone.now, @subject.name_reviewed_at
+    end
+  end
+
   test "contactable scope" do
     create(:user, contactable: false)
 

@@ -36,6 +36,7 @@ class User < ApplicationRecord
 
   scope :contactable, -> { where(contactable: true) }
   scope :opted_out, -> { where(contactable: false) }
+  scope :pending_name_review, -> { where(needs_name_review: true) }
   scope :with_preference_for_day, ->(day) { where(day_preference: day) }
   scope :wants_morning_message, -> { where(hour_preference: "morning") }
   scope :wants_afternoon_message, -> { where(hour_preference: "afternoon") }
@@ -146,6 +147,10 @@ class User < ApplicationRecord
 
   def on_waitlist?
     !contactable && restart_at.present? && restart_at > Time.zone.now
+  end
+
+  def approve_name!
+    update!(needs_name_review: false, name_reviewed_at: Time.zone.now)
   end
 
   def anonymise!
