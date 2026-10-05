@@ -7,24 +7,24 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
   test "#perform sends message with default content" do
     user = create(:user, child_birthday: 18.months.ago)
 
-    stub_successful_twilio_call("Hi Ali, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", user)
+    stub_successful_twilio_call("Hi Ali, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you? If you did not sign up to this, or do not want to receive these texts, please reply STOP", user)
 
     SendWelcomeMessageJob.new.perform(user)
 
     assert_equal 1, Message.count
-    assert_equal("Hi Ali, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", Message.last.body)
+    assert_equal("Hi Ali, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you? If you did not sign up to this, or do not want to receive these texts, please reply STOP", Message.last.body)
   end
 
   test "#perform sends message for Welsh speakers" do
     create(:group, language: "cy")
     user = create(:user, child_birthday: 18.months.ago, language: "cy")
 
-    stub_successful_twilio_call("Helo Ali, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd!", user)
+    stub_successful_twilio_call("Helo Ali, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd! Os nad ydych wedi cofrestru ar gyfer hyn, neu os nad ydych am dderbyn y negeseuon testun hyn, atebwch gyda 'diwedd' os gwelwch yn dda.", user)
 
     SendWelcomeMessageJob.new.perform(user)
 
     assert_equal 1, Message.count
-    assert_equal("Helo Ali, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd!", Message.last.body)
+    assert_equal("Helo Ali, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd! Os nad ydych wedi cofrestru ar gyfer hyn, neu os nad ydych am dderbyn y negeseuon testun hyn, atebwch gyda 'diwedd' os gwelwch yn dda.", Message.last.body)
   end
 
   test "#perform does not send message if message is not valid" do

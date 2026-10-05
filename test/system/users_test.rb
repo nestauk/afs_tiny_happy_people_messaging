@@ -59,7 +59,7 @@ class UsersTest < ApplicationSystemTestCase
 
     check "Instagram"
 
-    stub_successful_aws_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.new(phone_number: "+447444930200"))
+    stub_successful_aws_call("Hi Jo, welcome to our programme of weekly texts with fun activities for Jack's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you? If you did not sign up to this, or do not want to receive these texts, please reply STOP", User.new(phone_number: "+447444930200"))
 
     click_button "Finish"
 
@@ -121,7 +121,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "You're almost done"
 
-    stub_successful_aws_call("Hi, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you?", User.last)
+    stub_successful_aws_call("Hi, welcome to our programme of weekly texts with fun activities for your child's development. Congrats on starting this amazing journey with your little one! To get started, why not save this number as 'CBeebies Parenting' so you can easily see when it's us texting you? If you did not sign up to this, or do not want to receive these texts, please reply STOP", User.last)
 
     click_button "Skip this section"
 
@@ -182,7 +182,7 @@ class UsersTest < ApplicationSystemTestCase
 
     assert_text "Bron â gorffen"
 
-    stub_successful_aws_call("Helo, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd!", User.last)
+    stub_successful_aws_call("Helo, croeso i’n negeseuon wythnosol llawn syniadau i gefnogi datblygiad eich plentyn. Mwynhewch y daith gyda’ch gilydd! Os nad ydych wedi cofrestru ar gyfer hyn, neu os nad ydych am dderbyn y negeseuon testun hyn, atebwch gyda 'diwedd' os gwelwch yn dda.", User.last)
 
     click_button "Gorffen"
 
@@ -235,7 +235,7 @@ class UsersTest < ApplicationSystemTestCase
 
       assert_text "Mae eich plentyn ychydig yn rhy ifanc ar gyfer y gwasanaeth hwn ar hyn o bryd — ond ddim am hir!"
 
-      stub_successful_aws_call("Helo! Diolch am ymuno â rhestr aros ein negeseuon wythnosol llawn syniadau i gefnogi datblygiad dy blentyn. Byddwn mewn cysylltiad pan fydd hi’n bryd dechrau. Yn y cyfamser, arbeda’r rhif hwn fel 'CBeebies Parenting'.", build(:user, phone_number: "+447444930200"))
+      stub_successful_aws_call("Helo! Diolch am ymuno â rhestr aros ein negeseuon wythnosol llawn syniadau i gefnogi datblygiad dy blentyn. Byddwn mewn cysylltiad pan fydd hi’n bryd dechrau. Yn y cyfamser, arbeda’r rhif hwn fel 'CBeebies Parenting'. Os nad ydych wedi cofrestru ar gyfer hyn, neu os nad ydych am dderbyn y negeseuon testun hyn, atebwch gyda 'diwedd' os gwelwch yn dda.", build(:user, phone_number: "+447444930200"))
 
       click_button "Ymunwch â’n rhestr aros"
 
