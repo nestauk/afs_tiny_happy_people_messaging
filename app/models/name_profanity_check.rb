@@ -6,11 +6,12 @@ class NameProfanityCheck
   end
 
   def initialize(name)
-    @normalized = name.to_s.downcase.gsub(/[^a-z]/, "")
+    @words_in_name = name.to_s.downcase.split(/\s+/).map { |word| word.gsub(/[^a-z]/, "") }.reject(&:empty?)
+    @normalized = @words_in_name.join
   end
 
   def exact_match?
-    self.class.words.include?(@normalized)
+    @words_in_name.any? { |word| self.class.words.include?(word) }
   end
 
   def contains_match?

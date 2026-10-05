@@ -25,10 +25,34 @@ class NameProfanityCheckTest < ActiveSupport::TestCase
     assert_not NameProfanityCheck.new("Maya").exact_match?
   end
 
+  test "#exact_match? is true when one word of a multi-word name exactly matches a blocked word" do
+    NameProfanityCheck.stubs(:words).returns(["damn"])
+
+    assert NameProfanityCheck.new("Little damn").exact_match?
+  end
+
+  test "#exact_match? ignores punctuation within a word of a multi-word name" do
+    NameProfanityCheck.stubs(:words).returns(["damn"])
+
+    assert NameProfanityCheck.new("Little D.a.M.n").exact_match?
+  end
+
   test "#contains_match? is true when a blocked word appears anywhere in the name" do
     NameProfanityCheck.stubs(:words).returns(["damn"])
 
     assert NameProfanityCheck.new("Damnata").contains_match?
+  end
+
+  test "#contains_match? is true when a blocked word is split across words" do
+    NameProfanityCheck.stubs(:words).returns(["damn"])
+
+    assert NameProfanityCheck.new("Da mn").contains_match?
+  end
+
+  test "#exact_match? is false when a blocked word is split across words" do
+    NameProfanityCheck.stubs(:words).returns(["damn"])
+
+    assert_not NameProfanityCheck.new("Da mn").exact_match?
   end
 
   test "#contains_match? is true for an exact match too" do

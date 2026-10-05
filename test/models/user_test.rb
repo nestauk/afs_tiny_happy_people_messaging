@@ -208,6 +208,13 @@ class UserTest < ActiveSupport::TestCase
     assert_includes error.record.errors[:child_name], "We have flagged this as an inappropriate name, if you disagree or have any questions please reach out to info@cbeebies-text.uk."
   end
 
+  test "child_name_is_not_a_blocked_word? blocks a multi-word name containing an exact blocked word" do
+    error = assert_raises ActiveRecord::RecordInvalid do
+      create(:user, child_name: "little slut")
+    end
+    assert_includes error.record.errors[:child_name], "We have flagged this as an inappropriate name, if you disagree or have any questions please reach out to info@cbeebies-text.uk."
+  end
+
   test "child_name_is_not_a_blocked_word? does not block a name that merely contains a blocked word" do
     assert create(:user, child_name: "Hancock")
   end
