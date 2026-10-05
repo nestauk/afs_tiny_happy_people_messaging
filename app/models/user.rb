@@ -34,7 +34,7 @@ class User < ApplicationRecord
   SURVEY_TOKEN_CHARS = (("A".."Z").to_a - ["I", "O"]) + ("2".."9").to_a
   SURVEY_TOKEN_LENGTH = 10
 
-  scope :contactable, -> { where(contactable: true) }
+  scope :contactable, -> { where(contactable: true, needs_name_review: false) }
   scope :opted_out, -> { where(contactable: false) }
   scope :pending_name_review, -> { where(needs_name_review: true) }
   scope :with_preference_for_day, ->(day) { where(day_preference: day) }
@@ -137,7 +137,7 @@ class User < ApplicationRecord
   def put_on_waitlist
     restart_date = child_birthday + 6.months
     if update(contactable: false, restart_at: restart_date)
-      SendWaitlistMessageJob.perform_later(self)
+      SendWaitlistMessageJob.perform_later(self) unless needs_name_review?
     else
       Appsignal.report_error(StandardError.new("User could not be put on waitlist")) do
         Appsignal.add_tags(user_info: attributes)
@@ -150,7 +150,16 @@ class User < ApplicationRecord
   end
 
   def approve_name!
+    waitlist_message_withheld = needs_name_review? && on_waitlist?
+
     update!(needs_name_review: false, name_reviewed_at: Time.zone.now)
+
+    if waitlist_message_withheld
+      SendWaitlistMessageJob.perform_later(self)
+    elsif awaiting_welcome_message?
+      update!(awaiting_welcome_message: false)
+      SendWelcomeMessageJob.perform_later(self)
+    end
   end
 
   def anonymise!
@@ -281,12 +290,22 @@ class User < ApplicationRecord
 
   def child_name_is_not_a_blocked_word?
     return if child_name.blank?
-    errors.add(:child_name, :exact_profanity_match) if NameProfanityCheck.new(child_name).exact_match?
+    check_name_for_profanity(:child_name, child_name)
   end
 
   def first_name_is_not_a_blocked_word?
     return if first_name.blank?
-    errors.add(:first_name, :exact_profanity_match) if NameProfanityCheck.new(first_name).exact_match?
+    check_name_for_profanity(:first_name, first_name)
+  end
+
+  def check_name_for_profanity(attribute, name)
+    check = NameProfanityCheck.new(name)
+
+    if check.exact_match?
+      errors.add(attribute, :exact_profanity_match)
+    elsif check.contains_match?
+      self.needs_name_review = true
+    end
   end
 
   # The wales cohort's waitlist cutoff. Once this passes, children who won't

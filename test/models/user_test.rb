@@ -212,6 +212,12 @@ class UserTest < ActiveSupport::TestCase
     assert create(:user, child_name: "Hancock")
   end
 
+  test "child_name_is_not_a_blocked_word? flags the user for review when the name contains a blocked word" do
+    user = create(:user, child_name: "Hancock")
+
+    assert user.needs_name_review?
+  end
+
   test "first_name_is_not_a_blocked_word? validation" do
     error = assert_raises ActiveRecord::RecordInvalid do
       create(:user, first_name: "fuck")
@@ -221,6 +227,12 @@ class UserTest < ActiveSupport::TestCase
 
   test "first_name_is_not_a_blocked_word? does not block a name that merely contains a blocked word" do
     assert create(:user, first_name: "Hancock")
+  end
+
+  test "first_name_is_not_a_blocked_word? flags the user for review when the name contains a blocked word" do
+    user = create(:user, first_name: "Hancock")
+
+    assert user.needs_name_review?
   end
 
   test "pending_name_review scope" do
@@ -241,8 +253,41 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "#approve_name! sends the waitlist message when it was withheld pending review" do
+    user = create(:user, contactable: false, restart_at: 5.months.from_now, needs_name_review: true)
+
+    assert_enqueued_with(job: SendWaitlistMessageJob, args: [user]) do
+      user.approve_name!
+    end
+  end
+
+  test "#approve_name! sends the welcome message when it was withheld pending review" do
+    user = create(:user, needs_name_review: true, awaiting_welcome_message: true)
+
+    assert_enqueued_with(job: SendWelcomeMessageJob, args: [user]) do
+      user.approve_name!
+    end
+
+    assert_not user.awaiting_welcome_message?
+  end
+
+  test "#approve_name! sends no message when the user has not finished signup yet" do
+    user = create(:user, needs_name_review: true)
+
+    assert_no_enqueued_jobs do
+      user.approve_name!
+    end
+  end
+
   test "contactable scope" do
     create(:user, contactable: false)
+
+    assert_equal User.contactable.size, 1
+    assert_equal User.contactable, [@subject]
+  end
+
+  test "contactable scope excludes users pending name review" do
+    create(:user, needs_name_review: true)
 
     assert_equal User.contactable.size, 1
     assert_equal User.contactable, [@subject]
@@ -831,6 +876,16 @@ class UserTest < ActiveSupport::TestCase
 
     assert_not user.contactable
     assert_equal (user.child_birthday + 6.months), user.restart_at
+  end
+
+  test "#put_on_waitlist method does not send the waitlist message when the user needs name review" do
+    user = create(:user, contactable: true, restart_at: nil, needs_name_review: true)
+
+    assert_no_enqueued_jobs only: SendWaitlistMessageJob do
+      user.put_on_waitlist
+    end
+
+    assert_not user.contactable
   end
 
   test "#put_on_waitlist method raises error if update fails" do

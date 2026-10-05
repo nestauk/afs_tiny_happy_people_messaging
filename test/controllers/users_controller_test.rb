@@ -2,6 +2,7 @@ require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
+  include ActiveJob::TestHelper
 
   setup do
     create(:group, language: "en")
@@ -82,6 +83,29 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :redirect
     assert user.reload.contactable
+  end
+
+  test "update at the about_service step sends the welcome message" do
+    user = create(:user)
+    token = user.generate_token_for(:profile_token)
+
+    assert_enqueued_with(job: SendWelcomeMessageJob, args: [user]) do
+      patch user_url(user, token: token, step: "about_service"), params: {user: {referral_sources: ["friend"]}}
+    end
+
+    assert_response :redirect
+  end
+
+  test "update at the about_service step does not send the welcome message when the user needs name review" do
+    user = create(:user, needs_name_review: true)
+    token = user.generate_token_for(:profile_token)
+
+    assert_no_enqueued_jobs only: SendWelcomeMessageJob do
+      patch user_url(user, token: token, step: "about_service"), params: {user: {referral_sources: ["friend"]}}
+    end
+
+    assert_response :redirect
+    assert user.reload.awaiting_welcome_message?
   end
 
   test "thank_you creates a pre-programme survey send for wales cohort users" do
