@@ -44,6 +44,41 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_dont_see "Jane"
   end
 
+  test "pending_name_reviews shows users pending name review" do
+    create(:user, first_name: "Flagged", needs_name_review: true)
+
+    get pending_name_reviews_admin_users_path
+
+    assert_response :success
+    assert_see "Flagged"
+  end
+
+  test "pending_name_reviews shows a message when no names are pending review" do
+    get pending_name_reviews_admin_users_path
+
+    assert_response :success
+    assert_see "No names are pending review"
+  end
+
+  test "approve_name approves the user's name and redirects to the pending reviews page" do
+    user = create(:user, needs_name_review: true)
+
+    patch approve_name_admin_user_path(user)
+
+    assert_redirected_to pending_name_reviews_admin_users_path
+    assert_not user.reload.needs_name_review?
+  end
+
+  test "reject_name deletes the user and redirects to the pending reviews page" do
+    user = create(:user, needs_name_review: true)
+
+    assert_difference -> { User.count }, -1 do
+      delete reject_name_admin_user_path(user)
+    end
+
+    assert_redirected_to pending_name_reviews_admin_users_path
+  end
+
   test "edit shows the age in months of the user's current content" do
     group = create(:group)
     content = create(:content, group:, age_in_months: 14)

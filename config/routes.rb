@@ -18,6 +18,9 @@ Rails.application.routes.draw do
 
       resources :users, only: %i[index show update edit] do
         get "dashboard", on: :collection
+        get "pending_name_reviews", on: :collection
+        patch "approve_name", on: :member
+        delete "reject_name", on: :member
         resources :messages
       end
 
