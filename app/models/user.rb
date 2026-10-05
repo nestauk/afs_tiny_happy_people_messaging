@@ -26,6 +26,7 @@ class User < ApplicationRecord
 
   before_validation :assign_group_by_language, if: -> { new_record? || language_changed? }
   before_validation :set_default_programme_length, on: :create
+  after_commit :notify_admin_of_name_review, if: -> { saved_change_to_needs_name_review? && needs_name_review? }
 
   generates_token_for :profile_token, expires_in: 15.minutes
   generates_token_for :restart_token, expires_in: 2.days
@@ -286,6 +287,10 @@ class User < ApplicationRecord
     unless PostcodeService.valid_welsh_postcode?(postcode)
       errors.add(:postcode, :not_welsh)
     end
+  end
+
+  def notify_admin_of_name_review
+    SendNameReviewNotificationJob.perform_later(self)
   end
 
   def child_name_is_not_a_blocked_word?

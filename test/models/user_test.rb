@@ -235,6 +235,28 @@ class UserTest < ActiveSupport::TestCase
     assert user.needs_name_review?
   end
 
+  test "flagging a user for name review enqueues an admin notification" do
+    assert_enqueued_with(job: SendNameReviewNotificationJob) do
+      create(:user, child_name: "Hancock")
+    end
+  end
+
+  test "clearing needs_name_review does not enqueue an admin notification" do
+    user = create(:user, needs_name_review: true)
+
+    assert_no_enqueued_jobs only: SendNameReviewNotificationJob do
+      user.update!(needs_name_review: false)
+    end
+  end
+
+  test "saving an already-flagged user again does not re-enqueue an admin notification" do
+    user = create(:user, needs_name_review: true)
+
+    assert_no_enqueued_jobs only: SendNameReviewNotificationJob do
+      user.update!(first_name: "Ali Two")
+    end
+  end
+
   test "pending_name_review scope" do
     user = create(:user, needs_name_review: true)
 
