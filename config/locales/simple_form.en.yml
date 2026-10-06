@@ -44,12 +44,6 @@ en:
           afternoon: "Afternoon, 12pm"
           evening: "Evening, 8pm"
           no_preference: "No preference, send them any time"
-        interests:      
-          routine: "Building a better routine with my child"
-          sharing: "Sharing special moments together"
-          new_ideas: "Finding fresh ideas for activities with my child"
-          support: "Feeling supported through parenting ups and downs"
-          build: "Building on my existing parenting skills"
         referral_sources:
           facebook: "Facebook"
           instagram: "Instagram"
