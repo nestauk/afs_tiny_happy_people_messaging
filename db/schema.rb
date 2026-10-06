@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_06_094903) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_06_151252) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -213,14 +213,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_06_094903) do
     t.string "language", default: "en", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "interests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "title", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_interests_on_user_id"
   end
 
   create_table "local_authorities", force: :cascade do |t|
@@ -553,7 +545,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_06_094903) do
   add_foreign_key "answers", "users"
   add_foreign_key "broadcasts", "admins"
   add_foreign_key "broadcasts", "surveys"
-  add_foreign_key "interests", "users"
   add_foreign_key "messages", "broadcasts"
   add_foreign_key "messages", "contents"
   add_foreign_key "messages", "users"
