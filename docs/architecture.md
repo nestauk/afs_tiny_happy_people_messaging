@@ -383,10 +383,9 @@ message runs happen every day, but each one only messages parents whose
   nudges and Friday offboarding warnings all start then. They share the
   worker's 3 threads and the 15-a-second SMS batching.
 - **Jobs that aren't scheduled** run when something happens. Welcome and
-  waitlist messages run on sign-up. Surveys run after a set number of messages.
-  The offboarding survey runs a week after the last message. Broadcasts run when
-  an admin sends one. Auto-replies, admin emails and status updates run when a
-  webhook arrives.
+  waitlist messages run on sign-up. The offboarding survey runs a week after 
+  the last message. Broadcasts run when an admin sends one. Auto-replies,
+  admin emails and status updates run when a webhook arrives.
 
 ## Database
 
@@ -506,7 +505,6 @@ erDiagram
 
 Tables with no links: `auto_responses` (trigger_phrase, response,
 user_conditions, update_user), `admin_notifications` (sent_on),
-`research_study_users` (last_four_digits_phone_number, postcode),
 `user_referrers` (gclid and UTM fields).
 
 ### Surveys
@@ -535,7 +533,6 @@ erDiagram
     text thank_you_body_en
     text thank_you_body_cy
     integer max_responses
-    integer send_after_message_count
   }
   survey_sections {
     bigint id PK
