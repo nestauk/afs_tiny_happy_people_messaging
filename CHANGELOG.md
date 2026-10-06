@@ -1,3 +1,6 @@
+## [2026-10-05]
+- Block signups with a name that exactly matches a blocklist, and hold texts for manual admin review when a name merely contains a blocked word
+
 ## [2026-09-24]
 - Surveys can have a maximum number of responses; new respondents see a survey closed message instead of the form
 - Admins send broadcasts to specific user IDs instead of predefined user groups

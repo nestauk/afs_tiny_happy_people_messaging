@@ -19,11 +19,14 @@ class User < ApplicationRecord
   validate :child_is_correct_age?, on: :create
   validate :has_welsh_postcode?, on: :create, if: :wales?
   validate :content_in_months_matches_a_content?, if: :content_in_months_changed?
+  validate :child_name_is_not_a_blocked_word?, if: :child_name_changed?
+  validate :first_name_is_not_a_blocked_word?, if: :first_name_changed?
 
   attr_accessor :terms_agreed, :skip_age_validation
 
   before_validation :assign_group_by_language, if: -> { new_record? || language_changed? }
   before_validation :set_default_programme_length, on: :create
+  after_commit :notify_admin_of_name_review, if: -> { saved_change_to_needs_name_review? && needs_name_review? }
 
   generates_token_for :profile_token, expires_in: 15.minutes
   generates_token_for :restart_token, expires_in: 2.days
@@ -32,8 +35,9 @@ class User < ApplicationRecord
   SURVEY_TOKEN_CHARS = (("A".."Z").to_a - ["I", "O"]) + ("2".."9").to_a
   SURVEY_TOKEN_LENGTH = 10
 
-  scope :contactable, -> { where(contactable: true) }
+  scope :contactable, -> { where(contactable: true, needs_name_review: false) }
   scope :opted_out, -> { where(contactable: false) }
+  scope :pending_name_review, -> { where(needs_name_review: true) }
   scope :with_preference_for_day, ->(day) { where(day_preference: day) }
   scope :wants_morning_message, -> { where(hour_preference: "morning") }
   scope :wants_afternoon_message, -> { where(hour_preference: "afternoon") }
@@ -134,7 +138,7 @@ class User < ApplicationRecord
   def put_on_waitlist
     restart_date = child_birthday + 6.months
     if update(contactable: false, restart_at: restart_date)
-      SendWaitlistMessageJob.perform_later(self)
+      SendWaitlistMessageJob.perform_later(self) unless needs_name_review?
     else
       Appsignal.report_error(StandardError.new("User could not be put on waitlist")) do
         Appsignal.add_tags(user_info: attributes)
@@ -144,6 +148,19 @@ class User < ApplicationRecord
 
   def on_waitlist?
     !contactable && restart_at.present? && restart_at > Time.zone.now
+  end
+
+  def approve_name!
+    waitlist_message_withheld = needs_name_review? && on_waitlist?
+
+    update!(needs_name_review: false, name_reviewed_at: Time.zone.now)
+
+    if waitlist_message_withheld
+      SendWaitlistMessageJob.perform_later(self)
+    elsif awaiting_welcome_message?
+      update!(awaiting_welcome_message: false)
+      SendWelcomeMessageJob.perform_later(self)
+    end
   end
 
   def anonymise!
@@ -269,6 +286,30 @@ class User < ApplicationRecord
     return if postcode.blank?
     unless PostcodeService.valid_welsh_postcode?(postcode)
       errors.add(:postcode, :not_welsh)
+    end
+  end
+
+  def notify_admin_of_name_review
+    SendNameReviewNotificationJob.perform_later(self)
+  end
+
+  def child_name_is_not_a_blocked_word?
+    return if child_name.blank?
+    check_name_for_profanity(:child_name, child_name)
+  end
+
+  def first_name_is_not_a_blocked_word?
+    return if first_name.blank?
+    check_name_for_profanity(:first_name, first_name)
+  end
+
+  def check_name_for_profanity(attribute, name)
+    check = NameProfanityCheck.new(name)
+
+    if check.exact_match?
+      errors.add(attribute, :exact_profanity_match)
+    elsif check.contains_match?
+      self.needs_name_review = true
     end
   end
 

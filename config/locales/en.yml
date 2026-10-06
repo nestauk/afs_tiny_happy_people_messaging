@@ -14,6 +14,10 @@ en:
               invalid: "is not a valid URL. Please check the link and try again."
         user:
           attributes:
+            child_name:
+              exact_profanity_match: "We have flagged this as an inappropriate name, if you disagree or have any questions please reach out to info@cbeebies-text.uk."
+            first_name:
+              exact_profanity_match: "We have flagged this as an inappropriate name, if you disagree or have any questions please reach out to info@cbeebies-text.uk."
             child_birthday:
               too_young: "Your child is just a bit too young for this service right now - but not for long! We’ll use the number you’ve already shared to let you know when they’re ready. {{waitlist_link}} to stay updated."
               too_young_for_waitlist: "Your child is too young for this service right now, they must be at least 4 months old to join."

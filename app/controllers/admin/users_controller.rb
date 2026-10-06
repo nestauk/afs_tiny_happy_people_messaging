@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
   before_action :check_admin_role
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :approve_name, :reject_name]
   after_action :do_not_track!
 
   def index
@@ -14,6 +14,20 @@ class Admin::UsersController < ApplicationController
 
   def dashboard
     @messages = Message.where(status: "received", marked_as_seen_at: nil)
+  end
+
+  def pending_name_reviews
+    @pending_name_reviews = User.pending_name_review
+  end
+
+  def approve_name
+    @user.approve_name!
+    redirect_to pending_name_reviews_admin_users_path, notice: "Name approved."
+  end
+
+  def reject_name
+    @user.destroy
+    redirect_to pending_name_reviews_admin_users_path, notice: "User removed."
   end
 
   def show
