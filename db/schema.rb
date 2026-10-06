@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_06_092421) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_06_094903) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -265,14 +265,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_06_092421) do
     t.string "text_en", null: false
     t.datetime "updated_at", null: false
     t.index ["survey_section_id"], name: "index_questions_on_survey_section_id"
-  end
-
-  create_table "research_study_users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "last_four_digits_phone_number", null: false
-    t.string "postcode", null: false
-    t.datetime "updated_at", null: false
-    t.index ["last_four_digits_phone_number", "postcode"], name: "idx_on_last_four_digits_phone_number_postcode_9947703d95", unique: true
   end
 
   create_table "skadi_dashboards", force: :cascade do |t|
