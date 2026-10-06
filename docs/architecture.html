@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiny Happy People Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Public+Sans:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column; one section per topic, diagrams in their own scrolling panels */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --fg: #1c2230;
+  --muted: #5d6578;
+  --line: #dde1e8;
+  --accent: #2f6f8f;
+  --accent-soft: #e3eef4;
+  --daily: #e7eef9;
+  --weekly: #fbecd9;
+  --weekly-fg: #7a4a12;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Public Sans", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161d; --surface: #1a1f28; --fg: #e4e8ef; --muted: #9aa3b4;
+    --line: #2c3340; --accent: #7fb8d4; --accent-soft: #1f303b;
+    --daily: #1e2a3a; --weekly: #3a2b18; --weekly-fg: #f0c78f;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-inline: 16px; padding-block: 32px 64px; display: grid; gap: 48px; }
+header { display: grid; gap: 10px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(28px, 5vw, 40px); line-height: 1.1; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 26px; margin: 0; text-wrap: balance; }
+h3 { font-size: 16px; margin: 8px 0 0; }
+p, ul { margin: 0; max-width: 72ch; }
+ul { padding-left: 20px; display: grid; gap: 4px; }
+a { color: var(--accent); }
+.lede { color: var(--muted); }
+code { font-family: var(--mono); font-size: .88em; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; }
+nav a { font-size: 14px; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; background: var(--surface); }
+nav a:hover, nav a:focus-visible { border-color: var(--accent); outline: none; }
+section { display: grid; gap: 14px; scroll-margin-top: 16px; }
+.sub { display: grid; gap: 12px; }
+.meta { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-x: auto; min-width: 0; }
+.diagram pre { margin: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.standalone { font-size: 14px; }
+.table-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+table.cal { border-collapse: collapse; width: 100%; min-width: 860px; font-size: 12.5px; }
+.cal th, .cal td { border-bottom: 1px solid var(--line); padding: 8px; text-align: left; vertical-align: top; }
+.cal thead th { font-weight: 600; background: var(--accent-soft); }
+.cal tbody th { font-family: var(--mono); font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cal td { border-left: 1px solid var(--line); }
+.job { display: block; border-radius: 5px; padding: 3px 6px; margin-bottom: 4px; line-height: 1.3; }
+.job.daily { background: var(--daily); }
+.job.weekly { background: var(--weekly); color: var(--weekly-fg); font-weight: 600; }
+.swatch { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">docs/architecture.html</div>
+    <h1>Tiny Happy People architecture</h1>
+    <p class="lede">The database, the scheduled jobs, the outside services and the survey flow. For the weekly message pipeline, incoming SMS and a parent's journey, see <a href="architecture.md">architecture.md</a>.</p>
+    <nav>
+      <a href="#context">System context</a>
+      <a href="#schedule">Scheduled jobs</a>
+      <a href="#surveys-flow">Survey flow</a>
+      <a href="#database">Database</a>
+    </nav>
+  </header>
+
+  <section id="context">
+    <h2>System context</h2>
+    <p>The app runs on Heroku as a <code>web</code> dyno (Puma) and a <code>worker</code> dyno (Solid Queue), both using one Postgres database. Solid Queue keeps its jobs in that same database. All SMS goes out from background jobs. Delivery receipts and replies come back to the web dyno as webhooks (dashed lines): AWS sends them through SNS to <code>/messages/aws_*</code>, Twilio posts to <code>/messages/twilio_*</code>. Both dynos report errors to AppSignal, and AWS SES emails the team their login links and alerts about new replies.</p>
+    <div class="diagram"><pre class="mermaid">
+flowchart LR
+  Browser(["Parent's browser"])
+  Team(["Team and admins"])
+  Parent(["Parent's phone"])
+
+  Web["Heroku web dyno<br/>Rails + Puma"]
+  Worker["Heroku worker dyno<br/>Solid Queue"]
+  PG[("Heroku Postgres<br/>app data, jobs, analytics")]
+
+  AwsSms["AWS Pinpoint SMS + SNS"]
+  Twilio["Twilio"]
+  Geo["Geokit geocoder"]
+  BBC["BBC Tiny Happy People"]
+  SES["AWS SES email"]
+  AppSignal["AppSignal"]
+
+  Browser -->|"sign up, surveys, link clicks"| Web
+  Team -->|"/admin, Blazer, Skadi, /jobs"| Web
+  Web --> PG
+  Worker --> PG
+  Web -->|"postcode lookup"| Geo
+  Web -->|"redirect"| BBC
+  Worker -->|"send SMS"| AwsSms
+  Worker -->|"send SMS"| Twilio
+  Worker -->|"link check"| BBC
+  Worker -->|"emails"| SES
+  SES -->|"login links, reply alerts"| Team
+  Worker -->|"errors, check-ins"| AppSignal
+  AwsSms <-->|"SMS"| Parent
+  Twilio <-->|"SMS"| Parent
+  AwsSms -.->|"webhooks"| Web
+  Twilio -.->|"webhooks"| Web
+</pre></div>
+    <ul>
+      <li>Every <code>users</code> row has an <code>sms_provider</code> (<code>aws</code> by default, or <code>twilio</code>). <code>Sms::Client</code> uses it to pick an adapter. Nothing is sent unless <code>SMS_ENABLED</code> is <code>"true"</code>.</li>
+      <li>Webhooks are checked before they're used: the SNS message signature for AWS, and <code>X-Twilio-Signature</code> for Twilio.</li>
+      <li>The <code>/admin</code> area, Blazer, Skadi and Mission Control (<code>/jobs</code>) are only for signed-in admins (Devise).</li>
+    </ul>
+  </section>
+
+  <section id="schedule">
+    <h2>Scheduled jobs</h2>
+    <p>Everything in <code>config/recurring.yml</code>, laid out as a week. The four weekly-message runs happen every day, but each one only messages parents whose <code>day_preference</code> is today. Most other jobs pick their parents with a <code>User</code> scope, then enqueue one job per parent through <code>SendBulkMessageJob</code>.</p>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--daily)"></i>Every day</span>
+      <span><i class="swatch" style="background:var(--weekly)"></i>Once a week</span>
+    </div>
+    <div class="table-scroll">
+      <table class="cal">
+        <thead>
+          <tr><th scope="col">Time</th><th scope="col">Mon</th><th scope="col">Tue</th><th scope="col">Wed</th><th scope="col">Thu</th><th scope="col">Fri</th><th scope="col">Sat</th><th scope="col">Sun</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">01:00</th><td><span class="job daily">Check BBC links</span></td><td><span class="job daily">Check BBC links</span></td><td><span class="job daily">Check BBC links</span></td><td><span class="job daily">Check BBC links</span></td><td><span class="job daily">Check BBC links</span></td><td><span class="job daily">Check BBC links</span></td><td><span class="job daily">Check BBC links</span></td></tr>
+          <tr><th scope="row">02:00</th><td><span class="job daily">Clear finished jobs</span></td><td><span class="job daily">Clear finished jobs</span></td><td><span class="job daily">Clear finished jobs</span></td><td><span class="job daily">Clear finished jobs</span></td><td><span class="job daily">Clear finished jobs</span></td><td><span class="job daily">Clear finished jobs</span></td><td><span class="job daily">Clear finished jobs</span></td></tr>
+          <tr><th scope="row">03:00</th><td><span class="job daily">Anonymise 3-year-old users</span></td><td><span class="job daily">Anonymise 3-year-old users</span></td><td><span class="job daily">Anonymise 3-year-old users</span></td><td><span class="job daily">Anonymise 3-year-old users</span></td><td><span class="job daily">Anonymise 3-year-old users</span></td><td><span class="job daily">Anonymise 3-year-old users</span></td><td><span class="job daily">Anonymise 3-year-old users</span></td></tr>
+          <tr><th scope="row">07:00</th><td><span class="job daily">Weekly message: morning</span></td><td><span class="job daily">Weekly message: morning</span></td><td><span class="job daily">Weekly message: morning</span><span class="job weekly">Feedback request</span></td><td><span class="job daily">Weekly message: morning</span><span class="job weekly">Bilingual text (Wales)</span></td><td><span class="job daily">Weekly message: morning</span></td><td><span class="job daily">Weekly message: morning</span></td><td><span class="job daily">Weekly message: morning</span></td></tr>
+          <tr><th scope="row">07:01</th><td><span class="job daily">Weekly message: no preference</span></td><td><span class="job daily">Weekly message: no preference</span></td><td><span class="job daily">Weekly message: no preference</span></td><td><span class="job daily">Weekly message: no preference</span></td><td><span class="job daily">Weekly message: no preference</span></td><td><span class="job daily">Weekly message: no preference</span></td><td><span class="job daily">Weekly message: no preference</span></td></tr>
+          <tr><th scope="row">08:00</th><td><span class="job daily">Survey reminders</span></td><td><span class="job daily">Survey reminders</span></td><td><span class="job daily">Survey reminders</span></td><td><span class="job daily">Survey reminders</span></td><td><span class="job daily">Survey reminders</span></td><td><span class="job daily">Survey reminders</span></td><td><span class="job daily">Survey reminders</span></td></tr>
+          <tr><th scope="row">11:00</th><td><span class="job daily">Weekly message: afternoon</span><span class="job daily">Restart from waitlist</span></td><td><span class="job daily">Weekly message: afternoon</span><span class="job daily">Restart from waitlist</span><span class="job weekly">Nudge</span></td><td><span class="job daily">Weekly message: afternoon</span><span class="job daily">Restart from waitlist</span></td><td><span class="job daily">Weekly message: afternoon</span><span class="job daily">Restart from waitlist</span></td><td><span class="job daily">Weekly message: afternoon</span><span class="job daily">Restart from waitlist</span><span class="job weekly">Offboarding warning (Wales)</span></td><td><span class="job daily">Weekly message: afternoon</span><span class="job daily">Restart from waitlist</span></td><td><span class="job daily">Weekly message: afternoon</span><span class="job daily">Restart from waitlist</span></td></tr>
+          <tr><th scope="row">18:00</th><td><span class="job daily">Weekly message: evening</span></td><td><span class="job daily">Weekly message: evening</span></td><td><span class="job daily">Weekly message: evening</span></td><td><span class="job daily">Weekly message: evening</span></td><td><span class="job daily">Weekly message: evening</span></td><td><span class="job daily">Weekly message: evening</span></td><td><span class="job daily">Weekly message: evening</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Every hour, on the hour:</strong> <code>RetryFailedMessagesJob</code> resends messages that failed in the last hour.</li>
+      <li><strong>Time zone:</strong> Solid Queue reads these times in the server's time zone. On Heroku that's UTC unless the <code>TZ</code> config var is set, so in summer 07:00 would be 08:00 UK time. <code>config.time_zone</code> isn't set either, so <code>Time.zone.today</code> (used to choose the day's parents) is also UTC.</li>
+      <li><strong>11:00 is the busiest slot:</strong> the afternoon message, restarts from the waitlist, Tuesday nudges and Friday offboarding warnings all start then. They share the worker's 3 threads and the 15-a-second SMS batching.</li>
+      <li><strong>Jobs that aren't scheduled:</strong> these run when something happens. Welcome and waitlist messages run on sign-up. Surveys run after a set number of messages. The offboarding survey runs a week after the last message. Broadcasts run when an admin sends one. Auto-replies, admin emails and status updates run when a webhook arrives.</li>
+    </ul>
+  </section>
+
+  <section id="surveys-flow">
+    <h2>Survey flow</h2>
+    <p>Surveys are mainly for the Wales cohort. A <code>survey_sends</code> row records that a parent was sent a survey. Its <code>completed_at</code> is set when they submit. Survey links use the parent's <code>survey_token</code>, a short code stored on <code>users</code>, so they don't expire.</p>
+    <div class="diagram"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  participant Trig as Trigger
+  participant Job as SendSurveyJob
+  participant SS as SurveySend
+  participant Custom as SendCustomMessageJob
+  actor Parent
+  participant Ctrl as SurveysController
+  participant Rem as SendSurveyReminderJob
+
+  alt after the Nth content message (Wales)
+    Trig->>Job: Survey.trigger_for(user, message_count)<br/>for surveys with send_after_message_count = N
+    Job->>SS: skip if already sent
+    Job->>Custom: "messages.survey" text with the survey link
+    Job->>SS: create(sent_at: now)
+  else broadcast with a survey
+    Trig->>SS: SendBroadcastJob creates it with the message
+    Trig->>Custom: broadcast body with the survey link
+  else sign-up thank-you page (Wales)
+    Trig->>SS: find_or_create for "Pre-programme survey"<br/>(the page links to it)
+  else a week after the programme ends
+    Trig->>Custom: OffboardingMessageJob sends the "Offboarding" survey link
+    Note over Trig,SS: No SurveySend is created for this one
+  end
+
+  Custom-->>Parent: SMS with /surveys/:id/edit?token=...
+
+  Parent->>Ctrl: GET edit
+  Ctrl->>Ctrl: find user by survey_token
+  alt survey is full (max_responses reached) and they haven't completed it
+    Ctrl-->>Parent: redirect to thank_you (closed)
+  else
+    Ctrl-->>Parent: questions in the parent's language
+    Parent->>Ctrl: PATCH update (nested answers)
+    Ctrl->>SS: completed_at = now
+    Ctrl-->>Parent: thank_you
+  end
+
+  loop daily at 08:00, "Pre-programme survey" only
+    Rem->>SS: sent 1 to 2 days ago and not completed?
+    Rem->>Custom: reminder, unless already sent today or 2 sends already
+    Rem->>SS: create(sent_at: now)
+  end
+</pre></div>
+  </section>
+
+  <section id="database">
+    <h2>Database</h2>
+    <p>Every table in <code>db/schema.rb</code>, grouped by what it's for. Timestamps (<code>created_at</code>, <code>updated_at</code>) are left out to keep the boxes short.</p>
+    <div class="legend">
+      <span><svg width="34" height="8" aria-hidden="true"><line x1="0" y1="4" x2="34" y2="4" stroke="currentColor" stroke-width="1.5"/></svg>Foreign key constraint in the database</span>
+      <span><svg width="34" height="8" aria-hidden="true"><line x1="0" y1="4" x2="34" y2="4" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/></svg>Rails association only (no constraint)</span>
+    </div>
+
+    <div class="sub" id="db-messaging">
+      <h3>Messaging</h3>
+      <p>Parents sign up as <code>users</code> and are put in a <code>group</code>. Each group has a sequence of <code>contents</code> keyed by the child's age in months. Every SMS is a <code>message</code>, either from the content programme or from an admin's <code>broadcast</code>.</p>
+      <div class="meta">12 tables</div>
+      <div class="diagram"><pre class="mermaid">
+erDiagram
+  groups ||--o{ users : "has"
+  groups ||..o{ contents : "has"
+  local_authorities |o--o{ users : "has"
+  contents |o--o{ users : "last_content"
+  contents |o--o{ users : "next_content_override"
+  users ||--o{ messages : "receives"
+  contents |o--o{ messages : "sent as"
+  broadcasts |o--o{ messages : "sent as"
+  admins ||--o{ broadcasts : "sends"
+  users |o--o{ interests : "has"
+
+  users {
+    bigint id PK
+    bigint group_id FK
+    bigint local_authority_id FK
+    bigint last_content_id FK
+    bigint next_content_override_id FK
+    string first_name
+    string phone_number
+    string postcode
+    string language
+    string sms_provider
+    string child_name
+    date child_birthday
+    integer cohort
+    integer day_preference
+    string hour_preference
+    integer programme_length
+    jsonb referral_sources
+    string survey_token
+    boolean contactable
+    boolean asked_for_feedback
+    boolean can_be_contacted_for_research
+    boolean can_be_quoted_for_research
+    datetime terms_agreed_at
+    datetime consent_given_at
+    datetime nudged_at
+    datetime restart_at
+    datetime finished_content_at
+    datetime sent_bilingual_text_at
+    datetime anonymised_at
+  }
+  groups {
+    bigint id PK
+    string name
+    string language
+  }
+  contents {
+    bigint id PK
+    bigint group_id FK
+    integer age_in_months
+    integer position
+    text body
+    string link
+    datetime archived_at
+  }
+  messages {
+    bigint id PK
+    bigint user_id FK
+    bigint content_id FK
+    bigint broadcast_id FK
+    text body
+    string link
+    string token
+    string status
+    string message_sid
+    datetime sent_at
+    datetime clicked_at
+    datetime marked_as_seen_at
+  }
+  broadcasts {
+    bigint id PK
+    bigint admin_id FK
+    bigint survey_id FK
+    text body_en
+    text body_cy
+    integer_array recipient_ids
+    datetime sent_at
+  }
+  admins {
+    bigint id PK
+    string email
+    string encrypted_password
+    string role
+    string reset_password_token
+    datetime reset_password_sent_at
+    datetime remember_created_at
+  }
+  local_authorities {
+    bigint id PK
+    string name
+    string country
+  }
+  interests {
+    bigint id PK
+    bigint user_id FK
+    string title
+  }
+</pre></div>
+      <p class="standalone">Tables with no links: <code>auto_responses</code> (trigger_phrase, response, user_conditions, update_user), <code>admin_notifications</code> (sent_on), <code>research_study_users</code> (last_four_digits_phone_number, postcode), <code>user_referrers</code> (gclid and UTM fields).</p>
+    </div>
+
+    <div class="sub" id="db-surveys">
+      <h3>Surveys</h3>
+      <p>A <code>survey</code> is split into ordered <code>survey_sections</code> of <code>questions</code>, with English and Welsh (<code>_cy</code>) text.</p>
+      <div class="meta">5 tables, plus users and broadcasts from Messaging</div>
+      <div class="diagram"><pre class="mermaid">
+erDiagram
+  surveys ||--o{ survey_sections : "has"
+  survey_sections ||--o{ questions : "has"
+  questions ||--o{ answers : "has"
+  users ||--o{ answers : "gives"
+  surveys ||--o{ survey_sends : "sent as"
+  users ||--o{ survey_sends : "receives"
+  surveys |o--o{ broadcasts : "linked from"
+
+  surveys {
+    bigint id PK
+    string title_en
+    string title_cy
+    text intro_en
+    text intro_cy
+    text thank_you_title_en
+    text thank_you_title_cy
+    text thank_you_body_en
+    text thank_you_body_cy
+    integer max_responses
+    integer send_after_message_count
+  }
+  survey_sections {
+    bigint id PK
+    bigint survey_id FK
+    integer position
+    string title_en
+    string title_cy
+  }
+  questions {
+    bigint id PK
+    bigint survey_section_id FK
+    integer position
+    string question_type
+    string text_en
+    string text_cy
+    string hint_en
+    string hint_cy
+    string_array options_en
+    string_array options_cy
+    string language
+    boolean show_word_count_nudge
+  }
+  answers {
+    bigint id PK
+    bigint question_id FK
+    bigint user_id FK
+    text response
+  }
+  survey_sends {
+    bigint id PK
+    bigint survey_id FK
+    bigint user_id FK
+    datetime sent_at
+    datetime completed_at
+  }
+  users {
+    bigint id PK
+  }
+  broadcasts {
+    bigint id PK
+    bigint survey_id FK
+  }
+</pre></div>
+    </div>
+
+    <div class="sub" id="db-analytics">
+      <h3>Analytics</h3>
+      <p>Ahoy tracks website visits and events. Skadi tracks page views, events and daily demographic counts. Blazer stores saved SQL queries, dashboards and checks.</p>
+      <div class="meta">12 tables</div>
+      <div class="diagram"><pre class="mermaid">
+erDiagram
+  users |o..o{ ahoy_visits : "makes"
+  ahoy_visits ||..o{ ahoy_events : "has"
+  users |o..o{ ahoy_events : "triggers"
+  users |o..o{ skadi_visits : "makes"
+  skadi_visits |o--o{ skadi_views : "has"
+  skadi_visits |o--o{ skadi_events : "has"
+  skadi_views |o--o{ skadi_events : "has"
+  blazer_queries |o..o{ blazer_checks : "checked by"
+  blazer_queries |o..o{ blazer_dashboard_queries : "placed in"
+  blazer_dashboards |o..o{ blazer_dashboard_queries : "contains"
+  blazer_queries |o..o{ blazer_audits : "audited in"
+
+  users {
+    bigint id PK
+  }
+  ahoy_visits {
+    bigint id PK
+    bigint user_id
+    string visit_token
+    string visitor_token
+    text landing_page
+    text referrer
+    string referring_domain
+    string browser
+    string os
+    string device_type
+    text user_agent
+    string utm_source
+    string utm_medium
+    string utm_campaign
+    datetime started_at
+  }
+  ahoy_events {
+    bigint id PK
+    bigint visit_id
+    bigint user_id
+    string name
+    jsonb properties
+    datetime time
+  }
+  skadi_visits {
+    bigint id PK
+    bigint user_id
+    uuid visit_token
+    uuid tracking_token
+    text landing_page
+    text referrer
+    boolean cookies_enabled
+    boolean verified
+    text utm_source
+    text utm_medium
+    text utm_campaign
+  }
+  skadi_views {
+    bigint id PK
+    bigint visit_id FK
+    uuid view_token
+    string controller
+    string action
+    string verb
+    text path
+    jsonb query_params
+    text exit_page
+    boolean verified
+    string version
+  }
+  skadi_events {
+    bigint id PK
+    bigint visit_id FK
+    bigint view_id FK
+    string name
+    jsonb properties
+  }
+  blazer_queries {
+    bigint id PK
+    bigint creator_id
+    string name
+    text description
+    text statement
+    string data_source
+    string status
+  }
+  blazer_dashboards {
+    bigint id PK
+    bigint creator_id
+    string name
+  }
+  blazer_dashboard_queries {
+    bigint id PK
+    bigint dashboard_id
+    bigint query_id
+    integer position
+  }
+  blazer_checks {
+    bigint id PK
+    bigint query_id
+    bigint creator_id
+    string check_type
+    string state
+    string schedule
+    text emails
+    text slack_channels
+    text message
+    datetime last_run_at
+  }
+  blazer_audits {
+    bigint id PK
+    bigint query_id
+    bigint user_id
+    text statement
+    string data_source
+  }
+</pre></div>
+      <p class="standalone">Tables with no links: <code>skadi_dashboards</code> (name, description, configuration), <code>skadi_demographics</code> (name, value, uri, count, recorded_on).</p>
+    </div>
+
+    <div class="sub" id="db-framework">
+      <h3>Rails and jobs</h3>
+      <p>Tables owned by Rails and gems. Active Storage holds uploads, Action Text holds the rich-text survey intros, and Solid Queue runs background jobs. Each job has at most one row in each execution table, depending on its state.</p>
+      <div class="meta">15 tables</div>
+      <div class="diagram"><pre class="mermaid">
+erDiagram
+  active_storage_blobs ||--o{ active_storage_attachments : "attached as"
+  active_storage_blobs ||--o{ active_storage_variant_records : "has"
+  surveys ||..o{ action_text_rich_texts : "intro_en, intro_cy"
+  solid_queue_jobs ||--o| solid_queue_ready_executions : ""
+  solid_queue_jobs ||--o| solid_queue_scheduled_executions : ""
+  solid_queue_jobs ||--o| solid_queue_claimed_executions : ""
+  solid_queue_jobs ||--o| solid_queue_blocked_executions : ""
+  solid_queue_jobs ||--o| solid_queue_failed_executions : ""
+  solid_queue_jobs ||--o| solid_queue_recurring_executions : ""
+  solid_queue_processes |o..o{ solid_queue_claimed_executions : "claims"
+  solid_queue_recurring_tasks |o..o{ solid_queue_recurring_executions : "task_key"
+
+  active_storage_blobs {
+    bigint id PK
+    string key
+    string filename
+    string content_type
+    bigint byte_size
+    string checksum
+    string service_name
+    text metadata
+  }
+  active_storage_attachments {
+    bigint id PK
+    bigint blob_id FK
+    string name
+    string record_type
+    bigint record_id
+  }
+  active_storage_variant_records {
+    bigint id PK
+    bigint blob_id FK
+    string variation_digest
+  }
+  action_text_rich_texts {
+    bigint id PK
+    string name
+    string record_type
+    bigint record_id
+    text body
+  }
+  surveys {
+    bigint id PK
+  }
+  solid_queue_jobs {
+    bigint id PK
+    string active_job_id
+    string class_name
+    text arguments
+    string queue_name
+    integer priority
+    string concurrency_key
+    datetime scheduled_at
+    datetime finished_at
+  }
+  solid_queue_ready_executions {
+    bigint job_id FK
+    string queue_name
+    integer priority
+  }
+  solid_queue_scheduled_executions {
+    bigint job_id FK
+    string queue_name
+    integer priority
+    datetime scheduled_at
+  }
+  solid_queue_claimed_executions {
+    bigint job_id FK
+    bigint process_id
+  }
+  solid_queue_blocked_executions {
+    bigint job_id FK
+    string queue_name
+    integer priority
+    string concurrency_key
+    datetime expires_at
+  }
+  solid_queue_failed_executions {
+    bigint job_id FK
+    text error
+  }
+  solid_queue_recurring_executions {
+    bigint job_id FK
+    string task_key
+    datetime run_at
+  }
+  solid_queue_processes {
+    bigint id PK
+    string kind
+    string name
+    string hostname
+    integer pid
+    bigint supervisor_id
+    datetime last_heartbeat_at
+  }
+  solid_queue_recurring_tasks {
+    bigint id PK
+    string key
+    string schedule
+    string class_name
+    string command
+    text arguments
+    string queue_name
+    boolean static
+  }
+</pre></div>
+      <p class="standalone">Tables with no links: <code>solid_queue_pauses</code> (queue_name), <code>solid_queue_semaphores</code> (key, value, expires_at).</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Diagrams are drawn by Mermaid, loaded from jsDelivr, so this page needs an internet connection. Array columns are shown as <code>string_array</code> and <code>integer_array</code>. Polymorphic links (<code>record_type</code> + <code>record_id</code>) can point at any table, so only the known one, survey intros, is drawn.</p>
+    <p>If you change the schema, a flow or <code>config/recurring.yml</code>, update this page in the same PR.</p>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "neutral",
+    securityLevel: "strict",
+    er: { useMaxWidth: false },
+    sequence: { useMaxWidth: true },
+    flowchart: { useMaxWidth: false },
+  })
+</script>
+</body>
+</html>

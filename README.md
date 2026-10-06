@@ -56,6 +56,15 @@ merge pull requests - when to open a draft PR, how to write a description for
 your reviewer, and how we use ship/show/ask to decide whether a change needs a
 review.
 
+## Architecture
+
+- [docs/architecture.md](docs/architecture.md) shows the weekly message
+  pipeline, incoming SMS and auto-responses, and a parent's journey, as Mermaid
+  diagrams that GitHub renders.
+- [docs/architecture.html](docs/architecture.html) has the database diagram,
+  the scheduled jobs as a weekly calendar, the system context and the survey
+  flow. Open it in a browser.
+
 ## Deployment
 
 We use Heroku to host and deploy this app.
