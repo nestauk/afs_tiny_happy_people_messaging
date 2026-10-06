@@ -1,3 +1,7 @@
+## [2026-10-06]
+- Remove send_after_message_count on surveys - unused feature that adds unnecessary complexity
+- Remove ResearchStudyUsers, no longer needed
+
 ## [2026-10-05]
 - Block signups with a name that exactly matches a blocklist, and hold texts for manual admin review when a name merely contains a blocked word
 
