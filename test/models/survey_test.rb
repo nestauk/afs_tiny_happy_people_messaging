@@ -30,43 +30,6 @@ class SurveyTest < ActiveSupport::TestCase
     end
   end
 
-  test ".trigger_for enqueues SendSurveyJob when message count matches send_after_message_count" do
-    survey = create(:survey, send_after_message_count: 3)
-    user = create(:user)
-
-    assert_enqueued_with(job: SendSurveyJob, args: [user, survey]) do
-      Survey.trigger_for(user, message_count: 3)
-    end
-  end
-
-  test ".trigger_for does not enqueue if message count does not match" do
-    create(:survey, send_after_message_count: 10)
-    user = create(:user)
-
-    assert_no_enqueued_jobs only: SendSurveyJob do
-      Survey.trigger_for(user, message_count: 5)
-    end
-  end
-
-  test ".trigger_for does not enqueue if survey already sent to user" do
-    survey = create(:survey, send_after_message_count: 3)
-    user = create(:user)
-    create(:survey_send, user: user, survey: survey)
-
-    assert_no_enqueued_jobs only: SendSurveyJob do
-      Survey.trigger_for(user, message_count: 3)
-    end
-  end
-
-  test ".trigger_for does not enqueue surveys with no trigger configured" do
-    create(:survey, send_after_message_count: nil)
-    user = create(:user)
-
-    assert_no_enqueued_jobs only: SendSurveyJob do
-      Survey.trigger_for(user, message_count: 0)
-    end
-  end
-
   test "#completed_by? is true when the user has a completed survey_send" do
     user = create(:user)
     create(:survey_send, survey: @survey, user: user, completed_at: Time.zone.now)

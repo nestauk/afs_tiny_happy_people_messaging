@@ -40,11 +40,6 @@
   </div>
 
   <div class="mb-4">
-    <%= form.label :send_after_message_count, "Send after N programme messages (0 = on signup, blank = don't auto-send)", class: "block text-sm font-medium text-gray-700" %>
-    <%= form.number_field :send_after_message_count, min: 0, class: "mt-1 block w-1/2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
-  </div>
-
-  <div class="mb-4">
     <%= form.label :max_responses, "Max responses (blank = unlimited)", class: "block text-sm font-medium text-gray-700" %>
     <%= form.number_field :max_responses, min: 1, class: "mt-1 block w-1/2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500" %>
   </div>

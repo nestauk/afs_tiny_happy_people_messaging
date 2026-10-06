@@ -37,17 +37,6 @@ class SendWelcomeMessageJobTest < ActiveSupport::TestCase
     assert_equal 0, Message.count
   end
 
-  test "#perform does not trigger surveys if message fails to save" do
-    user = create(:user, child_birthday: 18.months.ago)
-    create(:survey, send_after_message_count: 0)
-
-    Message.any_instance.stubs(:save).returns(false)
-
-    assert_no_enqueued_jobs only: SendSurveyJob do
-      SendWelcomeMessageJob.new.perform(user)
-    end
-  end
-
   test "#perform reports an error to Appsignal if message fails to save" do
     user = create(:user, child_birthday: 18.months.ago)
 
