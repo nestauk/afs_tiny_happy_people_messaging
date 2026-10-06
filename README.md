@@ -58,12 +58,9 @@ review.
 
 ## Architecture
 
-- [docs/architecture.md](docs/architecture.md) shows the weekly message
-  pipeline, incoming SMS and auto-responses, and a parent's journey, as Mermaid
-  diagrams that GitHub renders.
-- [docs/architecture.html](docs/architecture.html) has the database diagram,
-  the scheduled jobs as a weekly calendar, the system context and the survey
-  flow. Open it in a browser.
+[docs/architecture.md](docs/architecture.md) has diagrams of the system
+context, the main message flows, a parent's journey, the survey flow, the
+scheduled jobs and the database.
 
 ## Deployment
 
