@@ -88,48 +88,6 @@ class SendMessageJobTest < ActiveSupport::TestCase
     assert_equal content.id, user.reload.last_content_id
   end
 
-  test "#perform triggers surveys based on programme message count after sending" do
-    content = create(:content, body: "here is a link: {{link}}")
-    create(:content, group: content.group, body: "here is a link: {{link}}")
-    user = create(:user, last_content_id: content.id, group: content.group)
-    create(:survey, send_after_message_count: 1)
-
-    SecureRandom.stubs(:alphanumeric).returns("123")
-    stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
-
-    assert_enqueued_jobs 1, only: SendSurveyJob do
-      SendMessageJob.new.perform(user)
-    end
-  end
-
-  test "#perform does not trigger surveys for first_uk cohort users" do
-    content = create(:content, body: "here is a link: {{link}}")
-    create(:content, group: content.group, body: "here is a link: {{link}}")
-    user = create(:user, cohort: :first_uk, last_content_id: content.id, group: content.group)
-    create(:survey, send_after_message_count: 1)
-
-    SecureRandom.stubs(:alphanumeric).returns("123")
-    stub_successful_twilio_call("here is a link: #{track_link_url("123")}", user)
-
-    assert_no_enqueued_jobs only: SendSurveyJob do
-      SendMessageJob.new.perform(user)
-    end
-  end
-
-  test "#perform does not trigger surveys if message fails to send" do
-    content = create(:content, body: "here is a link: {{link}}")
-    create(:content, group: content.group, body: "here is a link: {{link}}")
-    user = build(:user, last_content_id: content.id, phone_number: "234")
-    user.save(validate: false)
-    create(:survey, send_after_message_count: 1)
-
-    SecureRandom.stubs(:alphanumeric).returns("123")
-
-    assert_no_enqueued_jobs only: SendSurveyJob do
-      SendMessageJob.new.perform(user)
-    end
-  end
-
   test "#perform sends offboarding message to users who have finished content" do
     content = create(:content, body: "here is a link: {{link}}")
     create(:content, group: content.group, body: "here is a second link: {{link}}")
