@@ -56,6 +56,12 @@ merge pull requests - when to open a draft PR, how to write a description for
 your reviewer, and how we use ship/show/ask to decide whether a change needs a
 review.
 
+## Architecture
+
+[docs/architecture.md](docs/architecture.md) has diagrams of the system
+context, the main message flows, a parent's journey, the survey flow, the
+scheduled jobs and the database.
+
 ## Deployment
 
 We use Heroku to host and deploy this app.
