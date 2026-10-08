@@ -23,7 +23,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
   test "#perform creates a SurveySend if the broadcast has a survey" do
     survey = create(:survey)
     user = create(:user)
-    broadcast = create(:broadcast, recipient_ids: [user.id], survey: survey)
+    broadcast = create(:broadcast, recipient_ids: [user.id], survey: survey, body_en: "{{survey_link}}", body_cy: "{{survey_link}}")
 
     SendBroadcastJob.perform_now(broadcast)
 
@@ -82,7 +82,7 @@ class SendBroadcastJobTest < ActiveSupport::TestCase
   test "#perform does not create a SurveySend if the message fails to persist" do
     survey = create(:survey)
     user = create(:user)
-    broadcast = create(:broadcast, recipient_ids: [user.id], survey: survey)
+    broadcast = create(:broadcast, recipient_ids: [user.id], survey: survey, body_en: "{{survey_link}}", body_cy: "{{survey_link}}")
     Appsignal.expects(:report_error)
 
     Message.stubs(:create!).raises(ActiveRecord::RecordInvalid.new(Message.new))

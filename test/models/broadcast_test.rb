@@ -56,6 +56,23 @@ class BroadcastTest < ActiveSupport::TestCase
     assert_not @broadcast.valid?
   end
 
+  test "validates {{survey_link}} placeholder is present if survey is attached" do
+    @broadcast.body_en = "Please complete the survey"
+    @broadcast.body_cy = "Please complete the survey: {{survey_link}}"
+    @broadcast.survey = create(:survey)
+    assert_not @broadcast.valid?
+
+    @broadcast.body_en = "Please complete the survey: {{survey_link}}"
+    @broadcast.body_cy = "Please complete the survey"
+    @broadcast.survey = create(:survey)
+    assert_not @broadcast.valid?
+
+    @broadcast.body_en = "Please complete the survey"
+    @broadcast.body_cy = "Please complete the survey"
+    @broadcast.survey = create(:survey)
+    assert_not @broadcast.valid?
+  end
+
   test "matching_users returns users with the specified recipient_ids" do
     user1 = create(:user)
     user2 = create(:user)
