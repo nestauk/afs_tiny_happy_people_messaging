@@ -10,6 +10,7 @@ class Broadcast < ApplicationRecord
   validate :recipient_ids_are_valid
   validate :recipient_ids_correspond_to_users
   validate :survey_present_if_survey_link_used
+  validate :survey_link_present_if_survey_used
 
   def recipient_ids=(value)
     tokens = value.is_a?(String) ? value.split(/[\s,]+/) : Array(value)
@@ -54,6 +55,15 @@ class Broadcast < ApplicationRecord
 
     if body_en.include?("{{survey_link}}") || body_cy.include?("{{survey_link}}")
       errors.add(:survey, "must be present if {{survey_link}} placeholder is used") if survey.blank?
+    end
+  end
+
+  def survey_link_present_if_survey_used
+    return false unless body_en.present? && body_cy.present?
+
+    if survey.present? && (!body_en.include?("{{survey_link}}") || !body_cy.include?("{{survey_link}}"))
+      errors.add(:body_en, "{{survey_link}} placeholder must be present if survey is attached") if !body_en.include?("{{survey_link}}")
+      errors.add(:body_cy, "{{survey_link}} placeholder must be present if survey is attached") if !body_cy.include?("{{survey_link}}")
     end
   end
 end
