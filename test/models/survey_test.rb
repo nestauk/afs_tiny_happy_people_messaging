@@ -71,4 +71,21 @@ class SurveyTest < ActiveSupport::TestCase
 
     assert_not @survey.full?
   end
+
+  test "#full? counts a user with multiple completed survey_sends once" do
+    @survey.update!(max_responses: 2)
+    user = create(:user)
+    create_list(:survey_send, 2, survey: @survey, user: user, completed_at: Time.zone.now)
+
+    assert_not @survey.full?
+  end
+
+  test "#completed_respondent_count counts distinct users with a completed survey_send" do
+    user = create(:user)
+    create_list(:survey_send, 2, survey: @survey, user: user, completed_at: Time.zone.now)
+    create(:survey_send, survey: @survey, completed_at: Time.zone.now)
+    create(:survey_send, survey: @survey, completed_at: nil)
+
+    assert_equal 2, @survey.completed_respondent_count
+  end
 end

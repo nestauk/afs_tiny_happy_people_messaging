@@ -15,7 +15,11 @@ class Survey < ApplicationRecord
     survey_sends.where(user: user).where.not(completed_at: nil).exists?
   end
 
+  def completed_respondent_count
+    survey_sends.where.not(completed_at: nil).distinct.count(:user_id)
+  end
+
   def full?
-    max_responses.present? && survey_sends.where.not(completed_at: nil).count >= max_responses
+    max_responses.present? && completed_respondent_count >= max_responses
   end
 end

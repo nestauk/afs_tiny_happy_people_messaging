@@ -1,3 +1,6 @@
+## [2026-10-09]
+- Count each user once towards a survey's maximum responses and the admin response count, even if they were sent the survey more than once
+
 ## [2026-10-06]
 - Remove send_after_message_count on surveys - unused feature that adds unnecessary complexity
 - Remove ResearchStudyUsers, no longer needed

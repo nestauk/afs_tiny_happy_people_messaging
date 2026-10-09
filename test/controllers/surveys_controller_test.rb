@@ -81,6 +81,16 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to thank_you_survey_path(@survey, token: @token, closed: true)
   end
 
+  test "edit does not close the survey when one user completed it more than once" do
+    @survey.update!(max_responses: 2)
+    other_user = create(:user)
+    create_list(:survey_send, 2, survey: @survey, user: other_user, completed_at: Time.zone.now)
+
+    get edit_survey_path(@survey, token: @token)
+
+    assert_response :success
+  end
+
   test "edit does not redirect a user who already completed the full survey" do
     @survey.update!(max_responses: 1)
     create(:survey_send, survey: @survey, user: @user, completed_at: Time.zone.now)
