@@ -42,6 +42,16 @@ class Admin::SurveysControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_surveys_path
   end
 
+  test "show counts each user once when they completed the survey more than once" do
+    @survey.update!(max_responses: 5)
+    user = create(:user)
+    create_list(:survey_send, 2, survey: @survey, user: user, completed_at: Time.zone.now)
+
+    get admin_survey_path(@survey)
+
+    assert_see "1 / 5 responses"
+  end
+
   test "show links to previewing the survey in either language" do
     get admin_survey_path(@survey)
 
