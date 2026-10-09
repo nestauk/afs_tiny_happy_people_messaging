@@ -6,7 +6,7 @@
   <div>
     <h1 class="text-4xl font-bold mb-2"><%= @survey.title_en %></h1>
     <div class="text-sm text-gray-600 flex flex-wrap items-center gap-2">
-      <% count = @survey.survey_sends.where.not(completed_at: nil).count %>
+      <% count = @survey.completed_respondent_count %>
       <% if @survey.max_responses.present? %>
         <%= link_to "#{count} / #{@survey.max_responses} responses", admin_survey_answers_path(@survey), class: "link" %>
       <% else %>
