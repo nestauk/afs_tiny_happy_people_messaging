@@ -32,7 +32,9 @@ class MessagesController < ApplicationController
 
     if Sms::AwsAdapter::AWS_FAILED_EVENT_TYPES.include?(event["eventType"])
       Appsignal.report_error(StandardError.new("AWS SMS delivery failed")) do
-        Appsignal.add_tags(aws_event: event)
+        Appsignal.add_tags(aws_event_type: event["eventType"],
+          aws_message_id: event["messageId"],
+          aws_status_description: event["messageStatusDescription"].to_s.truncate(255))
       end
 
       UpdateMessageStatusJob.perform_later(message_sid: event["messageId"], status: "failed")
