@@ -37,7 +37,12 @@ module Sms
       @message.update(status: "sent", message_sid: sms.message_id)
     rescue Aws::PinpointSMSVoiceV2::Errors::ServiceError => e
       Appsignal.report_error(e) do
-        Appsignal.add_tags(message_id: @message.id, user_id: @message.user.id)
+        Appsignal.add_tags(
+          message_id: @message.id,
+          user_id: @message.user.id,
+          aws_event_type: e.code,
+          aws_status_description: e.message.to_s.truncate(255),
+        )
       end
 
       @message.update(status: "failed")

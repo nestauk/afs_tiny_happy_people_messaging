@@ -153,6 +153,35 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_enqueued_jobs 0
   end
 
+  test "#aws_status adds event type, message id and description tags to Appsignal on failure" do
+    stub_sns_verification_success
+
+    Appsignal.expects(:report_error).with { |error| error.message == "AWS SMS delivery failed" }.yields
+    Appsignal.expects(:add_tags).with(
+      aws_event_type: "TEXT_UNREACHABLE",
+      aws_message_id: "aws-1",
+      aws_status_description: "Phone is unreachable",
+    )
+
+    envelope = sns_notification_envelope(eventType: "TEXT_UNREACHABLE",
+      messageId: "aws-1",
+      messageStatusDescription: "Phone is unreachable")
+
+    post messages_aws_status_url, params: envelope, as: :json
+    assert_response :success
+  end
+
+  test "#aws_status truncates aws_status_description tag to Appsignals' tag 255 char limit" do
+    stub_sns_verification_success
+    Appsignal.stubs(:report_error).yields
+    Appsignal.expects(:add_tags).with { |tags| tags[:aws_status_description].length == 255 }
+    envelope = sns_notification_envelope(eventType: "TEXT_BLOCKED", messageId: "aws-1", messageStatusDescription: "x" * 300)
+
+    post messages_aws_status_url, params: envelope, as: :json
+
+    assert_response :success
+  end
+
   test "#aws_incoming creates a received message" do
     stub_sns_verification_success
     envelope = sns_notification_envelope(
