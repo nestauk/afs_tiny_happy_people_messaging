@@ -1,5 +1,8 @@
-## [2026-10-03]
-- Report AWS SMS delivery failure details to Appsignal (event type, message id, status description) as scalar tags, since the previous hash tag was being dropped
+## [2026-10-13]
+- Report AWS SMS failure on delivery details to Appsignal (event type, message id, status description) as scalar tags from Sms::AwsAdapter#deliver
+
+## [2026-10-13]
+- Report AWS SMS failure details to Appsignal (event type, message id, status description) as scalar tags from #aws_status callback endpoint, since the previous hash tag was being dropped
 
 ## [2026-10-09]
 - Reduce Sms::Client::BATCH_SIZE to avois AWS Pinpoint ThrottlingException errors

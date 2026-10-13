@@ -67,7 +67,7 @@ module ActiveSupport
         )
     end
 
-    def stub_unsuccessful_aws_call(message, user)
+    def stub_unsuccessful_aws_call(message, user, error_message: "Invalid phone number")
       stub_request(:post, %r{https://sms-voice\..+\.amazonaws\.com/})
         .with do |request|
           body = ::JSON.parse(request.body)
@@ -76,7 +76,7 @@ module ActiveSupport
         end
         .to_return(
           status: 400,
-          body: {"__type" => "ValidationException", "Message" => "Invalid phone number"}.to_json,
+          body: {"__type" => "ValidationException", "Message" => error_message}.to_json,
           headers: {"Content-Type" => "application/x-amz-json-1.0"},
         )
     end
