@@ -165,9 +165,8 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
 
     envelope = sns_notification_envelope(eventType: "TEXT_UNREACHABLE",
       messageId: "aws-1",
-      messageStatusDescription: "Phone is unreachable"
-    )
-    
+      messageStatusDescription: "Phone is unreachable")
+
     post messages_aws_status_url, params: envelope, as: :json
     assert_response :success
   end
