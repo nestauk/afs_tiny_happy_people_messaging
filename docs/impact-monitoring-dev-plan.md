@@ -18,16 +18,17 @@ The approach and rationale, for non-technical readers, are in
 al. (2026), *Can Digital Parenting Interventions Benefit Early Language
 Development?* (protocol and data: osf.io/yxsa4).
 
-**How to use this plan:** pick up work by step number ("let's work on step 7").
-Each step is one small PR, or a non-code task. It links to its spec section
-below. Update the **Status** column as steps land.
+**How to use this plan:** pick up work by step ID ("let's work on `m0-s07`", or
+just "step 7"). Each step is one small PR, or a non-code issue. It links to
+its spec section below. The ID is used verbatim in the branch, PR title and
+CHANGELOG (§0.d). Update the **Status** column in the PR that lands the step.
 
 ## Contents
 
 | Section | What's in it |
 | --- | --- |
 | [Step tracker](#step-tracker) | The ordered list of steps: what, where specified, flag, status |
-| [0. How we build and ship](#0-how-we-build-and-ship) | Rules, flags, feature lifecycle, definition of done |
+| [0. How we build and ship](#0-how-we-build-and-ship) | Rules, flags, feature lifecycle, definition of done, naming and PR workflow |
 | [1. Goals and decisions](#1-goals-and-decisions-so-far) | Decisions made so far |
 | [2. What the codebase gives us](#2-what-the-codebase-gives-us-today) | Starting point and gaps |
 | [3. Principles](#3-cross-cutting-principles) | Rules every step follows |
@@ -48,58 +49,61 @@ Status: **To do**, **In progress**, **Done**. The **Flag** column gives the
 Flipper flag the step ships behind (all off by default). "Invisible" means the
 step reaches current families but changes nothing they see.
 
-| Step | What | Spec | Flag | Needs | Status |
+| ID | What | Spec | Flag | Needs | Status |
 | --- | --- | --- | --- | --- | --- |
 | **M0** | **Safe foundations: nothing changes for parents** | | | | |
-| 1 | Stop survey answers being written for other users | 0.D D1 | — (fix) | — | To do |
-| 2 | Personal-data survey questions: anonymise, no pre-fill | 0.D D6 | — (fix) | — | To do |
-| 3 | Structured checkbox answers + backfill; lock option edits | 0.D D3, D4 | — (fix) | 1 | To do |
-| 4 | Unique answer index | 0.D D2 | — | 1, approved duplicate check | To do |
-| 5 | Review received SMS bodies on anonymisation | 0.D D9 | — | — | To do |
-| 6 | Bring `docs/architecture.md` up to date | 0.0 | — | — | To do |
-| 7 | Flipper, `Impact::Feature` gate, `internal_tester`, flags-off safety suite | 0.7 | all off | — | To do |
-| 8 | Programme timeline | 0.1 | — (invisible) | — | To do |
-| 9 | `impact_enrolments` (new sign-ups + observe-only Wales backfill) | 0.2 | — (invisible) | 7, 8 | To do |
-| 10 | `impact_measurements` + access tokens | 0.3 | — | 9 | To do |
-| 11 | scenic + first report views + Skadi schema | 0.4 | — | 9 | To do |
-| 12 | Click telemetry (+ UTM tags) | 2a | `impact_link_utm` | 11 | To do |
+| `m0-s01` | Stop survey answers being written for other users | 0.D D1 | — (fix) | — | To do |
+| `m0-s02` | Personal-data survey questions: anonymise, no pre-fill | 0.D D6 | — (fix) | — | To do |
+| `m0-s03` | Structured checkbox answers + backfill; lock option edits | 0.D D3, D4 | — (fix) | m0-s01 | To do |
+| `m0-s04` | Unique answer index | 0.D D2 | — | m0-s01, approved duplicate check | To do |
+| `m0-s05` | Review received SMS bodies on anonymisation | 0.D D9 | — | — | To do |
+| `m0-s06` | Bring `docs/architecture.md` up to date | 0.0 | — | — | To do |
+| `m0-s07` | Flipper, `Impact::Feature` gate, `internal_tester`, flags-off safety suite | 0.7 | all off | — | To do |
+| `m0-s08` | Programme timeline | 0.1 | — (invisible) | — | To do |
+| `m0-s09` | `impact_enrolments` (new sign-ups + observe-only Wales backfill) | 0.2 | — (invisible) | m0-s07, m0-s08 | To do |
+| `m0-s10` | `impact_measurements` + access tokens | 0.3 | — | m0-s09 | To do |
+| `m0-s11` | scenic + first report views + Skadi schema | 0.4 | — | m0-s09 | To do |
+| `m0-s12` | Click telemetry (+ UTM tags) | 2a | `impact_link_utm` | m0-s11 | To do |
 | **M1** | **Mock-ups for team feedback (admin-only)** | | | | |
-| 13 | Preview framework, demo families, en/cy toggle | 0.8 | `impact_previews` | 7 | To do |
-| 14 | `AutoResponseMatch` decide/apply split + SMS simulator | 0.8 | `impact_previews` | 7 | To do |
-| 15 | Sign-up previews: about-you, child check, signposting result | 0.8, 1a–1c | `impact_previews` | 13 | To do |
-| 16 | Simulator scenarios: activities-suitable, check-ins, confidence, signpost SMS | 0.8, 2b–2e, 1d | `impact_previews` | 14 | To do |
-| 17 | End-of-programme check preview (placeholder questionnaire) | 0.8, 3c | `impact_previews` | 13 | To do |
-| 18 | Draw-round previews | 0.8, E7 | `impact_previews` | 13, 14 | To do |
-| 19 | Team feedback round; revise copy; sign off each preview | — | — | 15–18 | To do |
+| `m1-s13` | Preview framework, demo families, en/cy toggle | 0.8 | `impact_previews` | m0-s07 | To do |
+| `m1-s14` | `AutoResponseMatch` decide/apply split + SMS simulator | 0.8 | `impact_previews` | m0-s07 | To do |
+| `m1-s15` | Sign-up previews: about-you, child check, signposting result | 0.8, 1a–1c | `impact_previews` | m1-s13 | To do |
+| `m1-s16` | Simulator scenarios: activities-suitable, check-ins, confidence, signpost SMS | 0.8, 2b–2e, 1d | `impact_previews` | m1-s14 | To do |
+| `m1-s17` | End-of-programme check preview (placeholder questionnaire) | 0.8, 3c | `impact_previews` | m1-s13 | To do |
+| `m1-s18` | Draw-round previews | 0.8, E7 | `impact_previews` | m1-s13, m1-s14 | To do |
+| `m1-s19` | Team feedback round; revise copy; sign off each preview | — | — | m1-s15–m1-s18 | To do |
 | **M2** | **Deprivation and evaluation plumbing** | | | | |
-| 20 | Deprivation lookup: versioned areas, latest WIMD, sign-up job, backfill | 0.5 | — (invisible) | B | To do |
-| 21 | Admin deprivation filter + "Copy user IDs" | 0.5 | — | 20 | To do |
-| 22 | Allocation fields, content gate, `impact_exposures`, analysis export | 0.6 | — | 9 | To do |
-| 23 | Import Pre-programme answers | 1e | — (invisible) | 3, 10 | To do |
-| 24 | Record replies to the activities-suitable text (same texts) | 2b | `impact_record_feedback_replies` | 10, 14 | To do |
+| `m2-s20` | Deprivation lookup: versioned areas, latest WIMD, sign-up job, backfill | 0.5 | — (invisible) | m2-b | To do |
+| `m2-s21` | Admin deprivation filter + "Copy user IDs" | 0.5 | — | m2-s20 | To do |
+| `m2-s22` | Allocation fields, content gate, `impact_exposures`, analysis export | 0.6 | — | m0-s09 | To do |
+| `m2-s23` | Import Pre-programme answers | 1e | — (invisible) | m0-s03, m0-s10 | To do |
+| `m2-s24` | Record replies to the activities-suitable text (same texts) | 2b | `impact_record_feedback_replies` | m0-s10, m1-s14 | To do |
 | **M3** | **Baseline at sign-up (new sign-ups)** | | | | |
-| 25 | About-you fields + consent columns | 1b | `impact_about_you` | 9, B | To do |
-| 26 | Child talking, confidence and home-talk instruments | 1a | (used by 27) | 10 | To do |
-| 27 | Child talking check step; retire the Pre-programme link for enrolled sign-ups | 1c | `impact_child_check` | 25, 26, A, 19 | To do |
-| 28 | Signpost follow-up SMS | 1d | `impact_signpost_sms` | 27 | To do |
+| `m3-s25` | About-you fields + consent columns | 1b | `impact_about_you` | m0-s09, m2-b | To do |
+| `m3-s26` | Child talking, confidence and home-talk instruments | 1a | (used by `m3-s27`) | m0-s10 | To do |
+| `m3-s27` | Child talking check step; retire the Pre-programme link for enrolled sign-ups | 1c | `impact_child_check` | m3-s25, m3-s26, m3-a, m1-s19 | To do |
+| `m3-s28` | Signpost follow-up SMS | 1d | `impact_signpost_sms` | m3-s27 | To do |
 | **M4** | **Monthly check-ins (new sign-ups)** | | | | |
-| 29 | Monthly check-in + branching replies | 2c | `impact_monthly_check_in` | 24 | To do |
-| 30 | Strategy tagging and wording (first version test) | 2d, C3 | `impact_strategy_wording` | 29, 22, C, D | To do |
-| 31 | Month-6 confidence text | 2e | `impact_month6_confidence` | 29 | To do |
+| `m4-s29` | Monthly check-in + branching replies | 2c | `impact_monthly_check_in` | m2-s24 | To do |
+| `m4-s30` | Strategy tagging and wording (first version test) | 2d, C3 | `impact_strategy_wording` | m4-s29, m2-s22, m4-c, m4-d | To do |
+| `m4-s31` | Month-6 confidence text | 2e | `impact_month6_confidence` | m4-s29 | To do |
 | **M5** | **Primary outcome (new sign-ups)** | | | | |
-| 32 | Validated language instrument | 3a | (used by 27, 33) | E | To do |
-| 33 | End-of-programme check (replaces offboarding for enrolled sign-ups) | 3c | `impact_end_check` | 32, 26 | To do |
+| `m5-s32` | Validated language instrument | 3a | (used by `m3-s27`, `m5-s33`) | m5-e | To do |
+| `m5-s33` | End-of-programme check (replaces offboarding for enrolled sign-ups) | 3c | `impact_end_check` | m5-s32, m3-s26 | To do |
 | **M6** | **Comparisons** | | | | |
-| 34 | Draw rounds | E7 | `impact_draw_round` | 22, D, sign-off on cap behaviour | To do |
+| `m6-s34` | Draw rounds | E7 | `impact_draw_round` | m2-s22, m4-d, sign-off on cap behaviour | To do |
 
-**Non-code prerequisites** (referenced by letter in **Needs**; run alongside M0
-and M1):
+**Non-code prerequisites** (GitHub issues, not PRs). Each is named for the
+milestone that first needs it, but **start them during M0–M1**, because they
+take time:
 
-- **A:** DPIA
-- **B:** privacy notice update
-- **C:** pre-registration (E1, E4)
-- **D:** ethics review
-- **E:** questionnaire licence (E2)
+| ID | What | Blocks |
+| --- | --- | --- |
+| `m2-b` | Privacy notice update | `m2-s20`, `m3-s25` |
+| `m3-a` | DPIA | `m3-s27` |
+| `m4-c` | Pre-registration (E1, E4) | `m4-s30` |
+| `m4-d` | Ethics review | `m4-s30`, `m6-s34` |
+| `m5-e` | Questionnaire licence (E2) | `m5-s32` |
 
 ---
 
@@ -182,6 +186,85 @@ flowchart LR
 - `./do ci` green. Draft PR, reviewed and merged by a human (`AGENTS.md`).
 - After deploy: switched on for internal testers. Wider rollout is a separate,
   logged decision.
+
+### 0.d Naming and PR workflow
+
+**One ID, used verbatim everywhere:** `impact/m<milestone>-s<step, 2 digits>`.
+The step number is global (matching the tracker), and the milestone gives
+context.
+
+| Where | Convention | Example |
+| --- | --- | --- |
+| Branch | `impact/m<M>-s<NN>` | `impact/m0-s07` |
+| PR title | `impact/m<M>-s<NN>: <what>` | `impact/m0-s07: Add feature flags and gate` |
+| Commits (optional) | same prefix | `impact/m0-s07: Add Impact::Feature gate` |
+| GitHub milestone | `impact/m<M>: <stage>` | `impact/m0: Safe foundations` |
+| Non-code issue | `impact/m<M>-<letter>: <what>` | `impact/m2-b: Update privacy notice` |
+| CHANGELOG | plain description, ID in brackets | `- Add feature flags for impact monitoring (impact/m0-s07)` |
+| Split step | add a letter | `impact/m1-s14a` |
+
+- Keep the description in PR titles. Reviewers need more than the ID.
+- Never nest branches under a step ID (`impact/m0-s07/fix`). Git can't have
+  both that and `impact/m0-s07`. Use a letter suffix instead.
+- Every PR gets the `impact-monitoring` label and its GitHub milestone, and is
+  opened as a **draft** as soon as it has a first commit.
+
+**PR description block**, placed above the repo's usual template sections:
+
+```markdown
+**Step:** impact/m0-s07 · spec 0.7 (docs/impact-monitoring-dev-plan.md)
+**Flag:** `impact_*` flags created, all off
+**Current families:** no change
+**Depends on:** none · **Merge after:** — · **Unblocks:** m0-s09, m1-s13
+**Base branch:** `main`
+```
+
+For a stacked PR:
+
+```markdown
+**Depends on:** #512 (impact/m0-s07) · **Merge after:** #512
+**Base branch:** `impact/m0-s07` (retarget to `main` once #512 merges)
+```
+
+**Parallel lanes, stacked within a lane.** Reviews may be slow, so don't wait.
+Each lane branches from `main` and stacks only within itself:
+
+| Lane | Steps |
+| --- | --- |
+| A. Survey fixes | `m0-s01` → `s02` → `s03` → `s04` |
+| B. Platform | `m0-s07` → `s08` → `s09` → `s10` → `s11` → `s12` |
+| C. Deprivation | `m2-s20` → `s21` (needs `m2-b`) |
+| D. Previews | `m1-s13` → `s14` → `s15`–`s18` (needs `m0-s07`) |
+
+```bash
+git config --global rebase.updateRefs true
+
+git switch impact/m0-s07 && git switch -c impact/m0-s08
+gh pr create --draft --base impact/m0-s07 --title "impact/m0-s08: Add programme timeline"
+
+git switch impact/m0-s09 && git rebase impact/m0-s07
+git push --force-with-lease origin impact/m0-s08 impact/m0-s09
+
+git switch impact/m0-s09 && git rebase --onto main impact/m0-s07
+```
+
+The three groups of commands are:
+
+1. Set-up, run once.
+2. Starting the next step on top of the previous one. The `gh pr create`
+   base is the previous step's branch.
+3. After review changes to a lower branch: rebase from the **top** branch
+   (`updateRefs` moves the middle branches too), then force-push all of them.
+
+The final command is for when the bottom PR merges: rebase the rest of the
+stack onto `main`, then retarget the next PR to `main`.
+
+- **Merge bottom-up only.** Prefer "Create a merge commit" or "Rebase and
+  merge" for stacked PRs. After a squash merge, always use the `--onto` form.
+- **Force-push only your own step branches, with `--force-with-lease`**
+  (`AGENTS.md`: never force-push `main` or shared branches).
+- Turning on the repo setting "Automatically delete head branches" makes GitHub
+  retarget the next PR in a stack for you. Check with the repo owner first.
 
 ---
 
@@ -1563,10 +1646,10 @@ grow?" (version tests plus monitoring).
 - **Order:** follow the [step tracker](#step-tracker). Each step is merged and
   deployed with its flag off, then switched on for internal testers.
 - **Rollout per flag:** internal testers → 25% of new sign-ups → all new
-  sign-ups. Watch the sign-up completion guardrail (§5) for steps 25 and 27.
+  sign-ups. Watch the sign-up completion guardrail (§5) for `m3-s25` and `m3-s27`.
   Each change is logged in `impact_exposures`.
-- **Deadline:** the first sign-ups after step 27 reach week 50 about a year
-  later, so step 33 must be live before then. Test it early with internal
+- **Deadline:** the first sign-ups after `m3-s27` reach week 50 about a year
+  later, so `m5-s33` must be live before then. Test it early with internal
   testers on a shortened schedule.
 - **Ongoing, with each step:** Skadi dashboards and Blazer checks for any new
   metrics, `docs/architecture.md` updates, and flag clean-up once features are
