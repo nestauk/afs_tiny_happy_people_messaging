@@ -22,6 +22,10 @@ class MessageTest < ActiveSupport::TestCase
     assert message.valid?
   end
 
+  test "send_attempts defaults to 0" do
+    assert_equal 0, create(:message).send_attempts
+  end
+
   test "#generate_reply only runs if message status is received" do
     user = create(:user)
     assert_enqueued_jobs 0 do

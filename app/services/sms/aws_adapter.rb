@@ -26,6 +26,8 @@ module Sms
     end
 
     def deliver
+      @message.increment!(:send_attempts)
+
       sms = @client.send_text_message(
         destination_phone_number: @message.user.phone_number,
         origination_identity: ENV.fetch("AWS_SMS_ORIGINATION_ID"),

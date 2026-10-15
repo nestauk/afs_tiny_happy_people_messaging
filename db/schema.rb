@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_06_151252) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_15_135507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -231,6 +231,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_06_151252) do
     t.string "link"
     t.datetime "marked_as_seen_at"
     t.string "message_sid"
+    t.integer "send_attempts", default: 0, null: false
     t.datetime "sent_at"
     t.string "status"
     t.string "token"
