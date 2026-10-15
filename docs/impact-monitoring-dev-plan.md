@@ -64,20 +64,21 @@ step reaches current families but changes nothing they see.
 | `m0-s10` | `impact_measurements` + access tokens | 0.3 | — | m0-s09 | To do |
 | `m0-s11` | scenic + first report views + Skadi schema | 0.4 | — | m0-s09 | To do |
 | `m0-s12` | Click telemetry (+ UTM tags) | 2a | `impact_link_utm` | m0-s11 | To do |
-| **M1** | **Mock-ups for team feedback (admin-only)** | | | | |
-| `m1-s13` | Preview framework, demo families, en/cy toggle | 0.8 | `impact_previews` | m0-s07 | To do |
-| `m1-s14` | `AutoResponseMatch` decide/apply split + SMS simulator | 0.8 | `impact_previews` | m0-s07 | To do |
-| `m1-s15` | Sign-up previews: about-you, child check, signposting result | 0.8, 1a–1c | `impact_previews` | m1-s13 | To do |
-| `m1-s16` | Simulator scenarios: activities-suitable, check-ins, confidence, signpost SMS | 0.8, 2b–2e, 1d | `impact_previews` | m1-s14 | To do |
-| `m1-s17` | End-of-programme check preview (placeholder questionnaire) | 0.8, 3c | `impact_previews` | m1-s13 | To do |
-| `m1-s18` | Draw-round previews | 0.8, E7 | `impact_previews` | m1-s13, m1-s14 | To do |
+| **M1** | **Mock-ups for team feedback (admin-only; can run alongside M0, see §0.d)** | | | | |
+| `m1-s13` | Preview framework, demo families, en/cy toggle | 0.8 | admin role; `impact_previews` once `m0-s07` lands | — | To do |
+| `m1-s14` | Read-only SMS simulator (a matching method added alongside `deliver`; live reply path unchanged) | 0.8 | admin role; `impact_previews` once `m0-s07` lands | — | To do |
+| `m1-s14a` | Full `AutoResponseMatch` decide/apply split | 0.8 | — | m1-s14, m0-s07 | To do |
+| `m1-s15` | Sign-up previews: about-you, child check, signposting result | 0.8, 1a–1c | admin role; `impact_previews` once `m0-s07` lands | m1-s13 | To do |
+| `m1-s16` | Simulator scenarios: activities-suitable, check-ins, confidence, signpost SMS | 0.8, 2b–2e, 1d | admin role; `impact_previews` once `m0-s07` lands | m1-s14 | To do |
+| `m1-s17` | End-of-programme check preview (placeholder questionnaire) | 0.8, 3c | admin role; `impact_previews` once `m0-s07` lands | m1-s13 | To do |
+| `m1-s18` | Draw-round previews | 0.8, E7 | admin role; `impact_previews` once `m0-s07` lands | m1-s13, m1-s14 | To do |
 | `m1-s19` | Team feedback round; revise copy; sign off each preview | — | — | m1-s15–m1-s18 | To do |
 | **M2** | **Deprivation and evaluation plumbing** | | | | |
 | `m2-s20` | Deprivation lookup: versioned areas, latest WIMD, sign-up job, backfill | 0.5 | — (invisible) | m2-b | To do |
 | `m2-s21` | Admin deprivation filter + "Copy user IDs" | 0.5 | — | m2-s20 | To do |
 | `m2-s22` | Allocation fields, content gate, `impact_exposures`, analysis export | 0.6 | — | m0-s09 | To do |
 | `m2-s23` | Import Pre-programme answers | 1e | — (invisible) | m0-s03, m0-s10 | To do |
-| `m2-s24` | Record replies to the activities-suitable text (same texts) | 2b | `impact_record_feedback_replies` | m0-s10, m1-s14 | To do |
+| `m2-s24` | Record replies to the activities-suitable text (same texts) | 2b | `impact_record_feedback_replies` | m0-s10, m1-s14a | To do |
 | **M3** | **Baseline at sign-up (new sign-ups)** | | | | |
 | `m3-s25` | About-you fields + consent columns | 1b | `impact_about_you` | m0-s09, m2-b | To do |
 | `m3-s26` | Child talking, confidence and home-talk instruments | 1a | (used by `m3-s27`) | m0-s10 | To do |
@@ -215,7 +216,7 @@ context.
 **Step:** impact/m0-s07 · spec 0.7 (docs/impact-monitoring-dev-plan.md)
 **Flag:** `impact_*` flags created, all off
 **Current families:** no change
-**Depends on:** none · **Merge after:** — · **Unblocks:** m0-s09, m1-s13
+**Depends on:** none · **Merge after:** — · **Unblocks:** m0-s09, m1-s14a
 **Base branch:** `main`
 ```
 
@@ -227,14 +228,17 @@ For a stacked PR:
 ```
 
 **Parallel lanes, stacked within a lane.** Reviews may be slow, so don't wait.
-Each lane branches from `main` and stacks only within itself:
+Each lane branches from `main` and stacks only within itself. **M1 (lane D)
+can run alongside M0.** The previews are admin-only screens with in-memory
+fake data, so they don't depend on the M0 platform. Their feedback should
+inform `m0-s09` and `m0-s10` before those are built.
 
 | Lane | Steps |
 | --- | --- |
 | A. Survey fixes | `m0-s01` → `s02` → `s03` → `s04` |
 | B. Platform | `m0-s07` → `s08` → `s09` → `s10` → `s11` → `s12` |
 | C. Deprivation | `m2-s20` → `s21` (needs `m2-b`) |
-| D. Previews | `m1-s13` → `s14` → `s15`–`s18` (needs `m0-s07`) |
+| D. Previews | `m1-s13` → `s15`, `s17`, `s18`; `m1-s14` → `s16`; then `s19` (feedback). Starts now, with no M0 dependency. `m1-s14a` waits for `m0-s07`. |
 
 ```bash
 git config --global rebase.updateRefs true
@@ -847,7 +851,9 @@ The full design is in §11 E5. In short:
 ### 0.8 Admin previews and the SMS simulator (the mock-ups)
 
 The team's way to see and comment on each new mechanism **before** any family
-does. Visible only to signed-in admins, with the `impact_previews` flag on.
+does. Visible only to signed-in admins (`check_admin_role`). Once `m0-s07`
+lands, it is also gated by the `impact_previews` flag. It can be built before M0,
+because it needs no new tables, enrolment or `Impact::Feature`.
 
 - **`/admin/impact/previews`**, one page per mechanism, each with an en/cy
   toggle and a choice of demo family (child age band, education, language):
@@ -870,29 +876,43 @@ does. Visible only to signed-in admins, with the `impact_previews` flag on.
 - **How:**
   - Previews render the real views, instruments and i18n with in-memory fake
     objects, following `Admin::SurveysController#preview`.
-  - The simulator uses the real message builders and a **dry-run** mode of
-    `AutoResponseMatch`. This means a small refactor: split "decide the
-    response" from "apply it" (update the user, record the answer, enqueue the
-    reply). Nothing is saved, enqueued or sent.
+  - The simulator uses the real message builders and `AutoResponseMatch`, in
+    two phases:
+    - **Phase 1, read-only (`m1-s14`):** add a public method that returns the
+      auto-response `deliver` *would* use and its reply text, without changing
+      `deliver`. The live reply path for current families stays exactly as it
+      is. A test runs both against the same messages and asserts they pick the
+      same response, including `deliver`'s loop and weekend out-of-hours
+      fallback.
 
-    ```ruby
-    class AutoResponseMatch
-      Decision = Data.define(:auto_response, :answer_key, :reply_text)
-
-      def decision
-        @decision ||= Decision.new(auto_response: matched_response, answer_key: matched_response&.records_answer, reply_text: reply_text)
+      ```ruby
+      class AutoResponseMatch
+        def matched_response
+          @matched_response ||= AutoResponse.where(trigger_phrase: normalized_body).find { |response| conditions_met?(response) }
+        end
       end
+      ```
+
+      ```ruby
+      reply = Message.new(user: demo_family, body: params[:reply], status: "received")
+      @auto_response = AutoResponseMatch.new(message: reply).matched_response
+      ```
+
+    - **Phase 2, full split (`m1-s14a`, after `m0-s07`):** `deliver` becomes
+      "decide" plus "apply" (update the user, record the answer, enqueue the
+      reply), so the simulator can also show the answer that would be recorded
+      (`records_answer`, from `m2-s24`). Do this once the flags-off safety
+      suite exists to protect the live path.
+
+      ```ruby
+      Decision = Data.define(:auto_response, :answer_key, :reply_text)
 
       def deliver
         apply(decision)
       end
-    end
-    ```
+      ```
 
-    ```ruby
-    reply = Message.new(user: demo_family, body: params[:reply], status: "received")
-    @decision = AutoResponseMatch.new(message: reply).decision
-    ```
+    Nothing is saved, enqueued or sent in either phase.
 
 - **Feedback loop:** share preview links with the team, collect comments on the
   PR or an issue, and change copy in i18n. Preview sign-off is the gate before
@@ -902,8 +922,10 @@ does. Visible only to signed-in admins, with the `impact_previews` flag on.
 - Tests:
   - every preview page renders in en and cy for each demo family
   - preview and simulator requests write nothing (`assert_no_difference` on
-    `User`, `Message`, `ImpactMeasurement`; no enqueued jobs; `Sms::Client`
-    never called)
+    `User` and `Message`, plus `ImpactMeasurement` once it exists; no enqueued
+    jobs; `Sms::Client` never called)
+  - phase 1: `matched_response` agrees with what `deliver` sends for each
+    seeded auto-response and the weekend fallback
   - non-admins get a 404
 
 ---
@@ -1644,7 +1666,9 @@ grow?" (version tests plus monitoring).
 ## 12. Rollout notes
 
 - **Order:** follow the [step tracker](#step-tracker). Each step is merged and
-  deployed with its flag off, then switched on for internal testers.
+  deployed with its flag off, then switched on for internal testers. M1
+  previews can run alongside M0 (§0.d). Their feedback should land before
+  `m0-s09` and `m0-s10` are built.
 - **Rollout per flag:** internal testers → 25% of new sign-ups → all new
   sign-ups. Watch the sign-up completion guardrail (§5) for `m3-s25` and `m3-s27`.
   Each change is logged in `impact_exposures`.
