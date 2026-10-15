@@ -1,3 +1,6 @@
+## [2026-10-15]
+- Add send_attempts col on messages, counting each SMS send attempt from today onwards
+
 ## [2026-10-09]
 - Reduce Sms::Client::BATCH_SIZE to avois AWS Pinpoint ThrottlingException errors
 

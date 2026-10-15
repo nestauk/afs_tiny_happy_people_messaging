@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_06_151252) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_15_135507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -208,6 +208,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_06_151252) do
     t.index ["group_id"], name: "index_contents_on_group_id"
   end
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "attempts", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "failed_at"
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "locked_at"
+    t.string "locked_by"
+    t.integer "priority", default: 0, null: false
+    t.string "queue"
+    t.datetime "run_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "language", default: "en", null: false
@@ -231,6 +246,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_06_151252) do
     t.string "link"
     t.datetime "marked_as_seen_at"
     t.string "message_sid"
+    t.integer "send_attempts", default: 0, null: false
     t.datetime "sent_at"
     t.string "status"
     t.string "token"
