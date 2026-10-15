@@ -1,3 +1,6 @@
+## [2026-10-15]
+- Display message send date in users show to help admins eyeball message timings
+
 ## [2026-10-09]
 - Reduce Sms::Client::BATCH_SIZE to avois AWS Pinpoint ThrottlingException errors
 

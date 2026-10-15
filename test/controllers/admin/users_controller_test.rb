@@ -151,4 +151,28 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_see "must be specified"
     assert_nil user.reload.last_content_id
   end
+
+  test "show displays the date that each message was created" do
+    user = create(:user)
+    create(:message, user:, created_at: Time.zone.local(2026, 10, 13, 9, 30))
+    create(:message, user:, created_at: Time.zone.local(2026, 10, 14, 16, 45))
+
+    get admin_user_path(user)
+
+    assert_response :success
+    assert_see "13/10/2026"
+    assert_see "14/10/2026"
+  end
+
+  test "show lists oldest created messages first" do
+    user = create(:user)
+    create(:message, user:, body: "Second message", created_at: Time.zone.local(2026, 10, 14, 16, 45))
+    create(:message, user:, body: "First message", created_at: Time.zone.local(2026, 10, 13, 9, 30))
+
+    get admin_user_path(user)
+
+    assert_response :success
+    assert_select "tbody tr:first-child td:first-child", text: "First message"
+    assert_select "tbody tr:last-child td:first-child", text: "Second message"
+  end
 end
