@@ -54,3 +54,6 @@ AGENTS.local.md
 !.claude/
 .claude/*
 !.claude/settings.json
+
+# Ignore macOS system files
+.DS_Store

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 745" width="800" height="745" role="img" aria-label="Deliver signs and sends a text message request to AWS. If AWS accepts it, the message is marked sent with the AWS message id. If AWS raises a ServiceError, the error is reported to Appsignal and the message is marked failed, then retried hourly. Delivery results arrive later through SNS.">
+  <style>
+    svg { color: #1d2630; --surface: #ffffff; --line: #8a95a1; --fg: #1d2630; --muted: #5b6672;
+          --ok: #0f766e; --ok-bg: #e3f3f1; --err: #b4421f; --err-bg: #fbeae4; }
+    @media (prefers-color-scheme: dark) {
+      svg { color: #e4e9ee; --surface: #1b232b; --line: #6b7783; --fg: #e4e9ee; --muted: #9aa6b2;
+            --ok: #4fd1c1; --ok-bg: #12302d; --err: #ff9a76; --err-bg: #3a2018; }
+    }
+    .node { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+    .ok .node { fill: var(--ok-bg); stroke: var(--ok); }
+    .err .node { fill: var(--err-bg); stroke: var(--err); }
+    .later .node { stroke-dasharray: 5 4; }
+    .t { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; fill: var(--fg); text-anchor: middle; }
+    .h { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-weight: 600; font-size: 13px; fill: var(--fg); text-anchor: middle; }
+    .lbl { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 12px; fill: var(--muted); }
+    .ok .h { fill: var(--ok); }
+    .err .h { fill: var(--err); }
+    .edge { stroke: var(--line); stroke-width: 1.5; fill: none; }
+    .edge.dash { stroke-dasharray: 5 4; }
+    .edge.okc { stroke: var(--ok); }
+    .edge.errc { stroke: var(--err); }
+    .lbl.okc { fill: var(--ok); font-weight: 600; }
+    .lbl.errc { fill: var(--err); font-weight: 600; }
+  </style>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker>
+  </defs>
+
+  <rect class="node" x="270" y="20" width="260" height="44" rx="4"/>
+  <text class="t" x="400" y="47">SendMessageJob → Sms::Client</text>
+  <line class="edge" x1="400" y1="64" x2="400" y2="96" marker-end="url(#ar)"/>
+
+  <rect class="node" x="250" y="96" width="300" height="56" rx="4"/>
+  <text class="h" x="400" y="120">Sms::AwsAdapter#deliver</text>
+  <text class="lbl" x="400" y="139" text-anchor="middle">SDK signs requests with our access key (SigV4)</text>
+  <line class="edge" x1="400" y1="152" x2="400" y2="184" marker-end="url(#ar)"/>
+
+  <rect class="node" x="210" y="184" width="380" height="76" rx="4"/>
+  <text class="h" x="400" y="207">client.send_text_message(…)</text>
+  <text class="t" x="400" y="226">destination_phone_number · origination_identity</text>
+  <text class="t" x="400" y="244">message_body · message_type · configuration_set_name</text>
+  <line class="edge" x1="400" y1="260" x2="400" y2="276" marker-end="url(#ar)"/>
+
+  <polygon class="node" points="400,276 500,310 400,344 300,310"/>
+  <text class="h" x="400" y="315">AWS accepts?</text>
+
+  <polyline class="edge okc" points="300,310 200,310 200,380" marker-end="url(#ar)"/>
+  <text class="lbl okc" x="250" y="302" text-anchor="middle">yes</text>
+  <polyline class="edge errc" points="500,310 600,310 600,380" marker-end="url(#ar)"/>
+  <text class="lbl errc" x="550" y="302" text-anchor="middle">ServiceError</text>
+
+  <g class="ok">
+    <rect class="node" x="70" y="380" width="260" height="56" rx="4"/>
+    <text class="h" x="200" y="404">Returns the result object</text>
+    <text class="t" x="200" y="423">SendTextMessageResult#message_id</text>
+    <line class="edge okc" x1="200" y1="436" x2="200" y2="468" marker-end="url(#ar)"/>
+    <rect class="node" x="70" y="468" width="260" height="70" rx="4"/>
+    <text class="h" x="200" y="492">message.update</text>
+    <text class="t" x="200" y="512">status: "sent"</text>
+    <text class="t" x="200" y="528">message_sid: message_id</text>
+    <line class="edge okc" x1="200" y1="538" x2="200" y2="566" marker-end="url(#ar)"/>
+    <rect class="node" x="70" y="566" width="260" height="40" rx="4"/>
+    <text class="t" x="200" y="591">deliver returns true</text>
+  </g>
+
+  <g class="err">
+    <rect class="node" x="470" y="380" width="260" height="56" rx="4"/>
+    <text class="h" x="600" y="404">rescue ServiceError</text>
+    <text class="t" x="600" y="423">e.code · e.message</text>
+    <line class="edge errc" x1="600" y1="436" x2="600" y2="468" marker-end="url(#ar)"/>
+    <rect class="node" x="470" y="468" width="260" height="70" rx="4"/>
+    <text class="h" x="600" y="488">Appsignal.report_error</text>
+    <text class="t" x="600" y="507">message_id · user_id</text>
+    <text class="t" x="600" y="523">aws_event_type · aws_status_description</text>
+    <line class="edge errc" x1="600" y1="538" x2="600" y2="566" marker-end="url(#ar)"/>
+    <rect class="node" x="470" y="566" width="260" height="40" rx="4"/>
+    <text class="h" x="600" y="582">message.update</text>
+    <text class="t" x="600" y="598">status: "failed"</text>
+  </g>
+
+  <g class="later">
+    <line class="edge dash okc" x1="200" y1="606" x2="200" y2="650" marker-end="url(#ar)"/>
+    <text class="lbl" x="212" y="633">accepted, not yet delivered</text>
+    <rect class="node" x="30" y="650" width="330" height="84" rx="4"/>
+    <text class="h" x="195" y="672">Later: AWS reports the outcome</text>
+    <text class="t" x="195" y="692">config set → SNS → POST /aws_status</text>
+    <text class="t" x="195" y="708">failure events → status "failed"</text>
+    <text class="t" x="195" y="724">TEXT_DELIVERED etc. ignored</text>
+
+    <line class="edge dash errc" x1="600" y1="606" x2="600" y2="650" marker-end="url(#ar)"/>
+    <rect class="node" x="450" y="650" width="320" height="84" rx="4"/>
+    <text class="h" x="610" y="672">RetryFailedMessagesJob</text>
+    <text class="t" x="610" y="692">runs hourly, picks up "failed"</text>
+    <text class="t" x="610" y="708">created &lt; 1 hour ago</text>
+    <text class="t" x="610" y="724">re-sends via Sms::Client</text>
+    <line class="edge dash" x1="360" y1="692" x2="450" y2="692" marker-end="url(#ar)"/>
+    <text class="lbl" x="405" y="684" text-anchor="middle">failed</text>
+  </g>
+</svg>
