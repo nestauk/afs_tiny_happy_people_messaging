@@ -64,6 +64,7 @@ step reaches current families but changes nothing they see.
 | `m0-s10` | `impact_measurements` + access tokens | 0.3 | — | m0-s09 | To do |
 | `m0-s11` | scenic + first report views + Skadi schema | 0.4 | — | m0-s09 | To do |
 | `m0-s12` | Click telemetry (+ UTM tags) | 2a | `impact_link_utm` | m0-s11 | To do |
+| `m0-s12a` | Content topic tags (admin field, team tags existing messages) + topic in engagement reports | 2d | — (admin-only) | m0-s12 | To do |
 | **M1** | **Mock-ups for team feedback (admin-only; can run alongside M0, see §0.d)** | | | | |
 | `m1-s13` | Preview framework, demo families, en/cy toggle | 0.8 | admin role; `impact_previews` once `m0-s07` lands | — | To do |
 | `m1-s14` | Read-only SMS simulator (a matching method added alongside `deliver`; live reply path unchanged) | 0.8 | admin role; `impact_previews` once `m0-s07` lands | — | To do |
@@ -81,12 +82,12 @@ step reaches current families but changes nothing they see.
 | `m2-s24` | Record replies to the activities-suitable text (same texts) | 2b | `impact_record_feedback_replies` | m0-s10, m1-s14a | To do |
 | **M3** | **Baseline at sign-up (new sign-ups)** | | | | |
 | `m3-s25` | About-you fields + consent columns | 1b | `impact_about_you` | m0-s09, m2-b | To do |
-| `m3-s26` | Child talking, confidence and home-talk instruments | 1a | (used by `m3-s27`) | m0-s10 | To do |
+| `m3-s26` | Child talking, confidence (talking + feelings and sharing) and home talk and play instruments | 1a | (used by `m3-s27`) | m0-s10 | To do |
 | `m3-s27` | Child talking check step; retire the Pre-programme link for enrolled sign-ups | 1c | `impact_child_check` | m3-s25, m3-s26, m3-a, m1-s19 | To do |
 | `m3-s28` | Signpost follow-up SMS | 1d | `impact_signpost_sms` | m3-s27 | To do |
 | **M4** | **Monthly check-ins (new sign-ups)** | | | | |
 | `m4-s29` | Monthly check-in + branching replies | 2c | `impact_monthly_check_in` | m2-s24 | To do |
-| `m4-s30` | Strategy tagging and wording (first version test) | 2d, C3 | `impact_strategy_wording` | m4-s29, m2-s22, m4-c, m4-d | To do |
+| `m4-s30` | Strategy tagging and check-in wording (first version test) | 2d, C3 | `impact_strategy_wording` | m4-s29, m2-s22, m4-c, m4-d | To do |
 | `m4-s31` | Month-6 confidence text | 2e | `impact_month6_confidence` | m4-s29 | To do |
 | **M5** | **Primary outcome (new sign-ups)** | | | | |
 | `m5-s32` | Validated language instrument | 3a | (used by `m3-s27`, `m5-s33`) | m5-e | To do |
@@ -236,7 +237,7 @@ inform `m0-s09` and `m0-s10` before those are built.
 | Lane | Steps |
 | --- | --- |
 | A. Survey fixes | `m0-s01` → `s02` → `s03` → `s04` |
-| B. Platform | `m0-s07` → `s08` → `s09` → `s10` → `s11` → `s12` |
+| B. Platform | `m0-s07` → `s08` → `s09` → `s10` → `s11` → `s12` → `s12a` |
 | C. Deprivation | `m2-s20` → `s21` (needs `m2-b`) |
 | D. Previews | `m1-s13` → `s15`, `s17`, `s18`; `m1-s14` → `s16`; then `s19` (feedback). Starts now, with no M0 dependency. `m1-s14a` waits for `m0-s07`. |
 
@@ -308,6 +309,7 @@ left untouched.
 | Tool 1 triage outcome | **Signpost only.** No SLT capacity, so we never promise a call. Worried families get a gentle message pointing to their Health Visitor or GP, or to the Speech and Language UK Progress Checker. |
 | Tool 2 | **Auto-responders that gather feedback.** The existing auto-response system is extended so that replies are recorded as data. It starts with the existing "Are the activities suitable?" text, then adds the monthly check-in. |
 | Tool 3 | **One end-of-programme check** replaces the offboarding survey: primary outcome (validated questionnaire), re-check and service feedback in one flow. The month-6 language check is dropped to fund it. No LanguageScreen. |
+| Social-emotional development | **Tracked lightly; language stays the primary outcome.** About a quarter of production messages are about bonding, feelings and behaviour, rising for toddlers. We add three things: content **topic tags** (`m0-s12a`), the Pre-programme **"Handling feelings and sharing" confidence** item alongside "talking", and an **"enjoying playing together"** item. A child social-emotional questionnaire (ASQ:SE-2 or BITSEA) is **parked**. Parent wellbeing is **out of scope for now**. Signposting stays about **communication only**. |
 | Deprivation | **Key requirement, moved into Phase 0.** Work out a deprivation decile from the sign-up postcode, and let admins filter users by it. |
 | Parent education | **Collect it.** Reuse the Pre-programme survey's 5-level wording so old and new answers line up. It is the trial's key moderator. |
 | Pulse cadence | **Monthly.** |
@@ -947,12 +949,13 @@ because it needs no new tables, enrolment or `Impact::Feature`.
 | Q1 highest education | **Onboarding: `about_service` step** (optional, same 5 levels + "Prefer not to say") | The trial's key moderator; needed for every split |
 | Q2 older children | **Onboarding: `about_service` step** (optional, yes/no) | Siblings were a stated barrier in the trial |
 | Q13 contact consent | **Onboarding: `about_service` step** (checkbox → `can_be_contacted_for_research`) | Consent belongs in a column, not free text (D7) |
-| Q8a confidence: talking and learning words | **Onboarding check step** (same wording and 5-point scale) | Baseline for parent confidence; repeated at month 6 and end |
+| Q8a confidence: talking and learning words; **Q8c confidence: handling feelings and sharing** | **Onboarding check step** (same wording and 5-point scale) | Baseline for parent confidence in language and social-emotional support. Q8a is repeated at month 6 (SMS); both are repeated at the end. |
 | Q9b, 9f, 9g, 9h home talk (talk about what you're doing / what they point at, turn-taking play, babble turn-taking) and 9e books | **Onboarding check step** (same wording and scale) | Baseline for "parent tries strategies"; repeated at month 6 and end |
+| *New:* "In the past 7 days, how often did you and [child] enjoy playing together?" (same 5-point frequency scale as Q9) | **Onboarding check step**, repeated at the end | A simple relationship signal. It echoes Early Insights' "We both enjoyed it". |
 | *New:* age-band communication items, parent concern, home language | **Onboarding check step** | Child baseline and signposting |
 | Q3 why signed up, Q4 information sources | **Ad-hoc "About you" survey** | Service insight, not impact. Partly covered by `referral_sources` |
 | Q5–7 CBeebies awareness, trust, recommend | Recommend → **end-of-programme check**; awareness and trust → **ad-hoc "About you" survey** | Recommend is the trial's headline acceptability figure |
-| Q8b–d confidence in other areas, Q9a/c/d/i other activities | **Ad-hoc "About you" survey** | Not language-focused; keeps onboarding short |
+| Q8b and Q8d confidence in other areas, Q9a/c/d/i other activities | **Ad-hoc "About you" survey** | Neither language nor social-emotional; keeps onboarding short |
 | Q10 relatability, Q11 Welsh importance, Q12 free text | End-of-programme check (Q10, Q12); **ad-hoc "About you" survey** (Q11) | |
 
 **The ad-hoc "About you" survey** is built in the existing survey builder from
@@ -988,8 +991,11 @@ D4 have shipped, its tick-box answers are stored reliably.
   It also asks about parent concern (3 options) and home language (3 options).
   The original mock-up's items are 18–24-month milestones, so they would flag
   almost every family in this cohort.
-- `Confidence` and `HomeTalk`: the Pre-programme wording and scales, with keys
-  matching the Pre-programme options so imported answers map straight across.
+- `Confidence` (Q8a talking, Q8c feelings and sharing) and `HomeTalk` (the Q9
+  items plus the new "enjoying playing together" item): the Pre-programme
+  wording and scales, with keys matching the Pre-programme options so imported
+  answers map straight across. Results are always reported per item, never
+  summed across language and social-emotional items.
 - Outcome rule: `"signpost"` if the parent is worried, or if items fall below an
   SLT-agreed threshold.
 - **Fallback with no SLT:**
@@ -1082,8 +1088,10 @@ D4 have shipped, its tick-box answers are stored reliably.
   - Q1 → `parent_education`
   - Q2 → `has_older_children`
   - Q13 → research consent
-  - Q8a and Q9 items → `impact_measurements` with `channel:
-    "imported_pre_programme"` and `timepoint: "baseline"`
+  - Q8a, Q8c and Q9 items → `impact_measurements` with `channel:
+    "imported_pre_programme"` and `timepoint: "baseline"`. The new enjoyment
+    item has no Pre-programme equivalent, so imported baselines don't include
+    it.
 - Sets `baseline_status: "imported"`. Runs once and can be re-run safely.
 - Invisible to families (§0.a). No texts are sent to fill gaps; families with no
   Pre-programme answer simply have no baseline.
@@ -1200,9 +1208,20 @@ uses.
   - Gate: not sent to current families or to users without the pinned
     feature.
 
-**2d. Strategy-specific check-ins.** `contents.strategy`, editable in the admin
-content form. The check-in names the strategy. The view reports adoption by
-strategy.
+**2d. Topic and strategy tags.**
+
+- **Topic (`m0-s12a`, early):** `contents.domains`, a string array editable in
+  the admin content form. Values: `language`, `bonding`,
+  `feelings_behaviour`, `physical`, `play_exploration`. A message can have more
+  than one. The team tags the existing messages; there are 108 in the default
+  English programme. `reports_weekly_engagement` and `reports_pulse_responses`
+  gain the topic, so engagement and "Did you try it?" replies can be compared
+  by topic and age. That shows, for example, whether toddlers' parents engage
+  more with feelings and behaviour content.
+- **Strategy (`m4-s30`):** `contents.strategy`. The check-in names the
+  strategy, and the view reports adoption by strategy.
+- Tests: the admin form saves topics, validation rejects unknown values, and
+  views group by topic.
 
 **2e. Month-6 confidence by SMS.** Replaces that month's check-in. Uses the
 **same wording and scale as baseline Q8a** ("How confident have you felt
@@ -1218,6 +1237,7 @@ SMS.
 | "Are the activities suitable?" Yes/No rates at messages 2 and 18 | `reports_pulse_responses` |
 | Check-in response rate; tried-easy, tricky and no-time rates over time | `reports_pulse_responses` |
 | Adoption by strategy | `reports_pulse_responses` + content |
+| Engagement and "Did you try it?" replies by content topic and age band | `reports_weekly_engagement`, `reports_pulse_responses` (topic tags, `m0-s12a`) |
 | Confidence change, baseline → month 6 | `reports_confidence` |
 | Opt-outs within 48h of any question (burden alarm) | View + Blazer check |
 
@@ -1270,7 +1290,7 @@ cohesive flow.
   | --- | --- |
   | 1 | **Primary outcome:** validated language questionnaire (3a) |
   | 2 | Child talking re-check (families with a baseline) |
-  | 3 | Confidence + home talk (same wording as baseline) |
+  | 3 | Confidence (talking, feelings and sharing) + home talk and play, incl. enjoying playing together (same wording as baseline) |
   | 4 | Service feedback: one item per trial acceptability theme (enjoyment, effort, fairness, clarity, time and energy, how well it worked, confidence using it), "Would you recommend it?", relatability (Pre-programme Q10), "Anything else?" |
   | 5 | Contact consent |
 
@@ -1292,7 +1312,7 @@ cohesive flow.
 | Primary-outcome completion, by arm, degree, deprivation and language | `reports_language_checks`, `reports_measurement_funnel` |
 | Age-standardised language score distribution | `reports_language_checks` |
 | Score by `has_degree`, deprivation, home language, baseline outcome | `reports_language_checks` + baseline |
-| Confidence and home-talk change, baseline → month 6 → end | `reports_confidence`, `reports_home_talk` |
+| Confidence change per item (talking; feelings and sharing) and home-talk and play change, baseline → month 6 → end | `reports_confidence`, `reports_home_talk` |
 | Service-feedback scores and "would recommend" (comparable with the trial's Tables 7 and 12) | `reports_service_feedback` |
 
 **Caveat:** dashboards show these as monitoring. Causal claims come only from
@@ -1337,7 +1357,7 @@ in one constant, `Impact::Schedule`.
 | View | Grain |
 | --- | --- |
 | `reports_enrolments` | One row per enrolled user (source, baseline status, cohort, language, `has_degree`, deprivation, arm, welcome-text reached) |
-| `reports_weekly_engagement` | One row per content message |
+| `reports_weekly_engagement` | One row per content message (incl. content topics) |
 | `reports_baseline_checks` | One row per child talking check |
 | `reports_pulse_responses` | One row per SMS question sent |
 | `reports_confidence`, `reports_home_talk` | One row per user per timepoint |
@@ -1412,7 +1432,8 @@ the programme? Is the effect larger where the parent doesn't have a degree?
 | **Primary outcome** | Child's **age-standardised language score** from a validated, age-normed parent questionnaire (E2). Words produced; words understood too if the instrument has normed comprehension. | End-of-programme check (week 50). Children are then about 18–30 months. |
 | **Pre-specified moderator** | `has_degree` (arm × degree interaction), as in the trial | Sign-up |
 | Covariates | Child age at measurement, baseline language score where normed (E2), deprivation decile, home language, stratification variables | Sign-up / baseline |
-| Secondary outcomes | Change in parent confidence (talking) and home-talk frequency from baseline; service feedback (acceptability themes, "would recommend") | Baseline, month 6 (confidence), end |
+| Secondary outcomes | Change in parent confidence (talking; feelings and sharing), home-talk frequency and enjoying playing together, from baseline; service feedback (acceptability themes, "would recommend") | Baseline, month 6 (talking confidence), end |
+| Parked / out of scope | A **child social-emotional questionnaire** (ASQ:SE-2 or BITSEA) is parked. If revived, it's a secondary outcome, possibly for a random half of families to limit burden. **Parent wellbeing** is out of scope for now: sensitive, and it needs a safeguarding route. | — |
 | Process measures (not outcomes) | Click-through, check-in replies, signposting, retention | Continuous |
 
 One primary outcome. Everything else is secondary or exploratory, and labelled
@@ -1684,6 +1705,11 @@ grow?" (version tests plus monitoring).
 ## 13. Open questions and risks
 
 **Resolved:**
+
+- Social-emotional development: tracked lightly through topic tags, the
+  "feelings and sharing" confidence item and the "enjoying playing together"
+  item. Child social-emotional questionnaire parked; parent wellbeing out of
+  scope; signposting stays about communication.
 
 - Parent education: collected, using the Pre-programme wording.
 - Monthly check-ins.

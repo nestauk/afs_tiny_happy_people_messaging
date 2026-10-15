@@ -53,7 +53,7 @@ flowchart LR
 | Priority | What we measure | Why it matters | Effort for parents |
 | --- | --- | --- | --- |
 | **1. Engagement** | Share of video links opened each week; how many parents stop the service | Nothing else can happen unless parents open the content. It is also the earliest warning sign. | None: recorded automatically |
-| **2. Parent behaviour** | Whether parents tried the week's idea, and how it went; how often they do everyday "talk" activities; how confident they feel helping their child talk | This is how the service works. The trial's benefit came through changes in how parents talk with their child. | Very low: one text reply a month, plus a few taps at the start, middle and end |
+| **2. Parent behaviour** | Whether parents tried the week's idea, and how it went; how often they do everyday "talk" activities and enjoy playing together; how confident they feel helping their child talk, and handling feelings and sharing | This is how the service works. The trial's benefit came through changes in how parents talk with their child. | Very low: one text reply a month, plus a few taps at the start, middle and end |
 | **3. Child progress (the main outcome)** | The words a child says (and understands), from an established parent questionnaire scored against what's typical for their age, at sign-up (if old enough) and at the end | This is the outcome we ultimately care about | Moderate: about 10 minutes, twice, with a thank-you voucher at the end |
 | **4. Families who may need more help** | Share of parents who are worried about their child's communication; share who follow up on the help we point them to | To spot families who may need more than a weekly text, and point them to the right help early | Low: an optional check at sign-up |
 
@@ -70,6 +70,22 @@ service reaches and helps the families it helps most. Deprivation also lets the
 team **choose who to contact**, for example sending a survey to families in the
 most deprived areas.
 
+### Not just language
+
+About a quarter of the weekly messages are about **bonding, feelings and
+behaviour**, rather than talking. There are more of these as children become
+toddlers: naming emotions, fears, tantrums, sharing. Language stays our main
+outcome, because that's where the trial evidence is. We also keep a light eye
+on the social and emotional side:
+
+- **Each message is tagged by topic** (language, bonding, feelings and
+  behaviour, physical, play), so we can see which kinds of content parents open
+  and try.
+- **Parents' confidence with "handling feelings and sharing"** is asked
+  alongside their confidence with talking.
+- **One question on enjoying playing together** gives a simple sign of the
+  parent–child relationship.
+
 ### What we deliberately don't measure
 
 | Not measuring | Why not |
@@ -78,6 +94,8 @@ most deprived areas.
 | App-based child language tests (e.g. LanguageScreen) | Built for children aged 3 and over, not babies. They also record the child's voice and need a licence. |
 | How long parents watch each video | The videos are on the BBC's website, so we can't see viewing once a parent leaves our link. We may get this from the BBC later. |
 | Bookings for calls with a Speech and Language Therapist | We don't have a therapist service to offer yet. We point families to existing help and measure whether they follow it up. |
+| A questionnaire on children's social and emotional development | Parked for now, to keep the end-of-programme check short. We track this side lightly instead (see "Not just language"). |
+| Parents' own wellbeing or mental health | Out of scope for now. It's sensitive, and asking about it responsibly needs a proper support route. |
 
 ---
 
@@ -318,7 +336,7 @@ on**. Families who joined before carry on exactly as now (see §7).
 
 | Mechanism | What it tells us | When | Status |
 | --- | --- | --- | --- |
-| Tracked video links | Whether each weekly link was opened | Every week | Live, improved: every open is counted, and automatic link previews from phones (which inflate open rates) are excluded |
+| Tracked video links | Whether each weekly link was opened, and by message topic | Every week | Live, improved: every open is counted, and automatic link previews from phones (which inflate open rates) are excluded |
 | Delivery receipts | Whether each text arrived | Every text | Live |
 | Opt-outs and pauses | Who stops, and when | Any time | Live |
 | Nudge after 3 unopened links | Re-engages drifting parents | Once | Live |
@@ -330,7 +348,7 @@ on**. Families who joined before carry on exactly as now (see §7).
 | --- | --- | --- | --- |
 | "Are the activities suitable?" text | Early satisfaction | Weeks 1 and 17 | Live. New: Yes/No replies saved as data |
 | **Monthly check-in text** | Whether parents tried the idea: "1 = Yes, easy. 2 = Tricky. 3 = No time yet." Each reply gets a helpful automatic response. | Monthly | New (new sign-ups) |
-| **Confidence and everyday talk** | How confident parents feel helping their child talk, and how often they do things like taking turns babbling | Sign-up, month 6, end | New. Same questions every time, taken from the old Pre-programme survey so earlier answers still count. |
+| **Confidence, everyday talk and play** | How confident parents feel helping their child talk, and handling feelings and sharing; how often they do things like taking turns babbling; how often they enjoy playing together | Sign-up, month 6, end | New. Same questions every time, taken from the old Pre-programme survey so earlier answers still count. |
 | **Feedback on the service** | Enjoyment, effort, time, fit with family life, and "would you recommend it?". Comparable with the trial. | End | New (part of the end-of-programme check) |
 | Free-text replies | Questions and concerns, read by the team | Any time | Live |
 | Ad-hoc surveys (e.g. Early Insights) | Deeper, exploratory feedback | When the team chooses | Live, unchanged |
@@ -362,7 +380,8 @@ on**. Families who joined before carry on exactly as now (see §7).
 
 Most of the old Pre-programme survey (5–10 minutes, sent after sign-up) moves
 into sign-up itself. Only the questions we use to measure impact move over:
-education, older children, confidence, everyday talk and contact consent.
+education, older children, confidence (talking, and feelings and sharing),
+everyday talk and contact consent.
 The rest, such as why parents signed up and how they heard about CBeebies, move
 to a short ad-hoc "About you" survey that the team can send a few weeks in.
 
