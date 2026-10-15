@@ -12,7 +12,7 @@ class SurveysController < ApplicationController
   end
 
   def update
-    if @survey.update(survey_params)
+    if @survey.update(answers_for_user)
       @survey.survey_sends.where(user: @user).update_all(completed_at: Time.zone.now)
       redirect_to thank_you_survey_path(@survey, token: params[:token], locale: @user.language)
     else
@@ -61,11 +61,26 @@ class SurveysController < ApplicationController
     end
   end
 
+  def answers_for_user
+    questions = survey_params.fetch(:questions_attributes, {}).to_h.values.filter_map do |question|
+      answer = question.fetch(:answers_attributes, {}).values.first
+      next if answer.nil?
+
+      existing = Answer.find_by(question_id: question[:id], user: @user)
+      {
+        id: question[:id],
+        answers_attributes: [answer.merge(id: existing&.id, question_id: question[:id], user_id: @user.id)],
+      }
+    end
+
+    {questions_attributes: questions}
+  end
+
   def survey_params
     params.require(:survey).permit(
       questions_attributes: [
         :id,
-        answers_attributes: [:id, :question_id, :user_id, :response, {response: []}],
+        answers_attributes: [:response, {response: []}],
       ],
     )
   end

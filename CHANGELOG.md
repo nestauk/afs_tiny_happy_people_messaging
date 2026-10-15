@@ -1,3 +1,7 @@
+## [2026-10-15]
+- Survey answers are always saved for the parent whose link was used, so a tampered form can't change or create another parent's answers (impact/m0-s01)
+- Add impact monitoring approach and development plan docs (impact/m0-s01)
+
 ## [2026-10-09]
 - Reduce Sms::Client::BATCH_SIZE to avois AWS Pinpoint ThrottlingException errors
 

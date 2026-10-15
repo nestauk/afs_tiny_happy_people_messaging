@@ -127,4 +127,50 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal "Option A, Option C", answer.reload.response
   end
+
+  test "update saves the answer for the token's user even if another user_id is submitted" do
+    other_user = create(:user)
+
+    submit_answers("0" => {user_id: other_user.id, response: "My answer"})
+
+    assert_equal "My answer", Answer.find_by(question: @question, user: @user).response
+    assert_nil Answer.find_by(question: @question, user: other_user)
+  end
+
+  test "update saves to the token's user even if another user's answer id is submitted" do
+    other_users_answer = create(:answer, question: @question, user: create(:user), response: "Other user's answer")
+
+    submit_answers("0" => {id: other_users_answer.id, response: "My answer"})
+
+    assert_equal "Other user's answer", other_users_answer.reload.response
+    assert_equal "My answer", Answer.find_by(question: @question, user: @user).response
+  end
+
+  test "update creates an answer for the user on their first submission" do
+    submit_answers("0" => {response: "First answer"})
+
+    assert_equal ["First answer"], Answer.where(question: @question, user: @user).pluck(:response)
+  end
+
+  test "update replaces the user's existing answer without being sent its id" do
+    create(:answer, question: @question, user: @user, response: "Old answer")
+
+    submit_answers("0" => {response: "New answer"})
+
+    assert_equal ["New answer"], Answer.where(question: @question, user: @user).pluck(:response)
+  end
+
+  test "update saves only one answer per question" do
+    submit_answers("0" => {response: "First"}, "1" => {response: "Second"})
+
+    assert_equal ["First"], Answer.where(question: @question, user: @user).pluck(:response)
+  end
+
+  private
+
+  def submit_answers(answers_attributes)
+    patch survey_path(@survey, token: @token), params: {
+      survey: {questions_attributes: {"0" => {id: @question.id, answers_attributes:}}},
+    }
+  end
 end
