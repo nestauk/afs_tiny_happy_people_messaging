@@ -52,7 +52,7 @@ step reaches current families but changes nothing they see.
 | ID | What | Spec | Flag | Needs | Status |
 | --- | --- | --- | --- | --- | --- |
 | **M0** | **Safe foundations: nothing changes for parents** | | | | |
-| `m0-s01` | Stop survey answers being written for other users | 0.D D1 | — (fix) | — | To do |
+| `m0-s01` | Stop survey answers being written for other users | 0.D D1 | — (fix) | — | Done |
 | `m0-s02` | Personal-data survey questions: anonymise, no pre-fill | 0.D D6 | — (fix) | — | To do |
 | `m0-s03` | Structured checkbox answers + backfill; lock option edits | 0.D D3, D4 | — (fix) | m0-s01 | To do |
 | `m0-s04` | Unique answer index | 0.D D2 | — | m0-s01, approved duplicate check | To do |
