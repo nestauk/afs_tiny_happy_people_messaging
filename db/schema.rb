@@ -208,21 +208,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_15_135507) do
     t.index ["group_id"], name: "index_contents_on_group_id"
   end
 
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer "attempts", default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "failed_at"
-    t.text "handler", null: false
-    t.text "last_error"
-    t.datetime "locked_at"
-    t.string "locked_by"
-    t.integer "priority", default: 0, null: false
-    t.string "queue"
-    t.datetime "run_at"
-    t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
-
   create_table "groups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "language", default: "en", null: false
