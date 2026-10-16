@@ -94,45 +94,34 @@ Only happens for messages accepted in stage 1. AWS publishes an event for the de
   A TTL failure would therefore never be retried, because it wouldn't meet the
   `created_at < 1.hour.ago` condition.
 
-## Failure Stats
-
-AWS failure events, 90 days to 14.10.26 (CloudWatch):
-
-| Status | Events | `messageStatusDescription` |
-|---|---|---|
-| `UNREACHABLE` | 173 (67%) | "Phone is currently unreachable/unavailable" |
-| `TTL_EXPIRED` | 66 (26%) | "The delivery TTL has expired" |
-| `UNKNOWN` | 19 (7%) | "Unknown error attempting to reach phone" |
-| **Total** | **258** | across 77 numbers |
-
-17 of those numbers have 3+ failures and account for 183 of the 258 events (71%).
-
 ## Retry logic
 
 - An hourly `RetryFailedMessagesJob` re-sends messages where status is `failed` &&
   `created_at < 1.hour.ago`.
-- The retry cap is implicit, from those conditions (not any attempt counter).
+- The retry cap is implicit, from those conditions (not any explicit attempt counter for example).
 - A retry reuses the same `Message` row and goes through stage 1 again:
-  - If AWS accepts it, the status returns to `sent` and `message_sid` is overwritten with the new
-    `message_id`.
-    - then to stage 2, though note that if a delivery failure is then reported to `aws_status` the
-      message's state would get set to `failed` but created_at does not change and it would not
-      get picked up for the next hourly retry run.
-  - If it fails with a `ServiceError`, the status stays `failed` and `message_sid` is unchanged - the
-    `created_at` would not change and this would not get picked up on the next hourly retry job run.
-  then
+  - If the AWS `send_text_message` call succeeds then message status returns to `sent` and `message_sid`
+    is overwritten with the new AWS send attempt `message_id`.
+    - then to stage 2. Note that if a delivery failure then reports to `aws_status` message's state
+      will get set to `failed` but created_at never changes so it will not get picked up by next
+      hourly retry job.
+  - If the AWS `send_text_message` call fails with a `ServiceError`, the status remains as `failed`
+    and `message_sid` is unchanged. The `created_at` would not change and thus the message would not
+    get picked up on the next hourly retry job run.
+- Because `RetryFailedMessages` job runs hourly, with a message filter of `created_at` < 1.hour.ago,
+  failed messages are only retried once (unless created exactly on the hour, then two runs may catch it).
 
 ### Retry 'exceptions'
 
-- **>= 2 error reports** If an `aws_status` failure call were sent after the message was already set
-  to `failed` and an hour had elapsed between its creation - therefore a retry job on it were done,
-  its `message_sid` would have been overwritten so that later `aws_status` call would fail to find the
-  message from the `messageId`, aka `message_sid` that it were carrying.
-  (Carriers' events back to AWS can take up to 72hours)
+- **>= 2 error reports** (a hypothetical) If an `aws_status` failure call were received after the message
+  was already set to `failed` and an hour had elapsed between its creation, a retry job would have been
+  done on it and its `message_sid` would have changed, ∴ the later `aws_status` call would not find the
+  message from the `messageId`, aka our `message_sid`, that it were carrying.
+  (Carriers' event reporting to to AWS can take up to 72hours)
 - **Timing misses:**
-  - created_at 07:00:06 & failed (on send or aws_status callback) - retried 08:00 (~60 min wait). ✅
-  - created_at 07:44 & failed (on send or aws_status callback) - retried 08:00 (16 min). ✅
-  - created_at 07:59:58, failure reported on callback at 08:00:05 - misses the retry run. ❌
+  - ✅ created_at 07:00:06 & failed (on send or aws_status callback) - retried 08:00 (~60 min wait). 
+  - ✅ created_at 07:44 & failed (on send or aws_status callback) - retried 08:00 (16 min).
+  - ❌ created_at 07:59:58, failure reported on callback at 08:00:05 - misses the retry run ∴ gets 0 retries.
 - **Slow failures**
   - `TTL_EXPIRED` and late `UNKNOWN` arrive after the 72 hour TTL - never retried, status remains
     as `sent`.
@@ -151,7 +140,7 @@ All final events, 90 days to 14.10.26 (CloudWatch `cbeebies-sms-logs`, `ByAllSta
 | `UNKNOWN` | 19 | 0.4% |
 | **Total** | **5,165** | **100%** (258 failures, 5.0%) |
 
-The failures:
+Of the failures:
 
 | Status | Events | `messageStatusDescription` |
 |---|---|---|
@@ -178,47 +167,7 @@ Future example of 50k users with 70% completing 52 weeks of messages:
   - 58% of those 91k failures, 52.8k, could be eliminated by:
     - detecting persistant UNREACHABLES and stopping service delivery to them
 
-## Send & retry design - thoughts and conclusions
-
-- **No attempt tracking.** The first `messageId` is lost on a retry. Manual surfacing of failure data.
-- **Persitent `UNREACHABLE`s contiue to be retried** no detection and supression of them.
-- **Implicit cap.** - wider created_at condition window or more frequent retry runs would increase
-  retry attempts.
-- **Failure list may be incomplete.** `FAILED`, `UNROUTABLE` and `PROTECT_BLOCKED` are not in
-  `AWS_FAILED_EVENT_TYPES`; whether they reach this app is unchecked.
-- **`DELIVERED` is not recorded (in app)** - only that a send attempt was made. No delivery rate
-  available in app, no individual DELIVERY / FAILURE visible against each message (for datas sakes, or
-  for manual resend override in case failure fallen outside of retry logic).
-
-## Current work conclusions
-
-### Right now
-
-- Further manual analysis of the 11 persistant UNREACHABLES to understand patterns
-  (see tmp/sms_reports/PersistantUnreachables.json).
-- Add a quick retry count / send attempts count col on Message for quick console viewing - and
-  continue to monitor.
-
-### Future
-
-- If/when scale up confirmed build algo to detect failures and supress on conditions/threshold:
-
-  **Algorithm Ideas**
-
-  Have a messages_supressed boolean on User.
-
-  - **Hard failure** error type from AWS of `INVALID`, `INVALID_MESSAGE`, `BLOCKED`, `SPAM`,
-    `CARRIER_BLOCKED`, `UNROUTABLE` - suppress number straight away.
-  - **Soft failure** error type from AWS of `UNREACHABLE`, `UNKNOWN`, `CARRIER_UNREACHABLE`,
-    `TTL_EXPIRED`
-    - define a suppression threshold from considering
-      - how many failures / how many consecutive failures
-      - how long since last successful delivery
-  - trial a few probe sends to a number after supression:
-    - a successful delivery takes them off supression.
-    - any inbound reply takes them off supression.
-
 ## Reference docs
-
+- See repo issue [#520](https://github.com/nestauk/afs_tiny_happy_people_messaging/issues/520) for enhancement work on these mechanisms.
 - [AWS event format](https://docs.aws.amazon.com/sms-voice/latest/userguide/configuration-sets-event-format.html)
 - [SendTextMessage](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_SendTextMessage.html)
