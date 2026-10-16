@@ -1,3 +1,6 @@
+## [2026-10-15]
+- Document SMS delivery, retry flow and reference issue for improvement ideas & tasks
+
 ## [2026-10-09]
 - Reduce Sms::Client::BATCH_SIZE to avois AWS Pinpoint ThrottlingException errors
 
